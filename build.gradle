@@ -1,0 +1,86 @@
+def SpringVersion = '4.0.1.RELEASE'
+def JettyVersion = '8.1.14.v20131031'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'war'
+
+
+// gradle 自已用的
+buildscript {
+        repositories {
+		    maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+             mavenCentral()
+        }
+        dependencies {
+            // classpath "net.saliman:gradle-cobertura-plugin:2.2.2"
+        }
+}
+
+// JVM 版本号要求
+sourceCompatibility = 1.7
+targetCompatibility = 1.7  
+
+repositories {
+  //  maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+    mavenCentral()
+}
+
+
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+
+configurations {
+     // 所有需要忽略的包定义在此
+	all*.exclude group: 'commons-logging', module: 'commons-logging'
+}
+	
+//最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
+archivesBaseName = "gradle-test-6.6.6.jar"
+	
+dependencies { 
+   testCompile group: 'junit', name: 'junit', version: '4.+'    
+   compile 'org.slf4j:slf4j-api:1.7.5'
+   compile 'org.slf4j:jcl-over-slf4j:1.7.5'
+   compile 'ch.qos.logback:logback-classic:1.0.13'
+   compile 'org.apache.commons:commons-lang3:3.1'
+   compile 'org.apache.httpcomponents:httpclient:4.3.4'
+   compile 'org.apache.httpcomponents:httpmime:4.3.4'
+   compile "org.eclipse.jetty:jetty-jsp:${JettyVersion}"
+   compile "org.eclipse.jetty:jetty-webapp:${JettyVersion}"
+   compile "org.eclipse.jetty:jetty-servlet:${JettyVersion}"
+	compile "javax.servlet:javax.servlet-api:3.1.0"
+	compile "javax.servlet.jsp:jsp-api:2.2.1-b03"
+	compile "javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1" 
+}
+
+//Java 插件已经向项目添加了 compileJava任务和processResources任务，并且配置了这两个任务的destinationDir属性
+// 更改插件的默认设置
+processResources << {
+        file("$destinationDir/version.properties").text = 'version=' + project.version
+    }
+
+task copyLib(type: Sync, dependsOn: jar) {
+		from jar.archivePath
+		from configurations.compile
+		into 'build/deploy'
+	}
+	
+	task copyWebapp(type: Sync) {
+		from 'src/main/webapp'
+		into 'build/deploy/webapp'
+	}
+	
+//task deploy(type: Sync, dependsOn: jar) 
+task deploy(dependsOn: [copyLib,copyWebapp])
+
+
+
+ // 显示当前项目下所有用于 compile 的 jar.
+task listJars(description: 'Display all compile jars.') << {
+    configurations.compile.each { File file -> println file.name }
+}
+
+
+
