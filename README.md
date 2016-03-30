@@ -1,0 +1,2 @@
+# gradleInitProDemo
+gradle初始项目demo,jetty简单main运行项目
