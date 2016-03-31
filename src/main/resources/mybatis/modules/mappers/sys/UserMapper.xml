@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rui.pro1.modules.sys.mapper.UserMapper">
+
+	<!--=========================查询数据返回集合 配置====================================================== -->
+	<resultMap type="com.rui.pro1.modules.sys.entity.User" id="resultMapId">
+		<id property="id" column="id" />
+	</resultMap>
+	
+	<!--=========================根据id ============================================================================= -->
+	<select id="get" resultMap="resultMapId" parameterType="Integer">
+		select * from sys_user where opus_id=#{id}
+	</select>
+
+     <!-- 搜索条件判断 -->
+	<sql id="searchField">
+		<where>
+			<if test="bean.username != null and bean.singerName != ''">AND username LIKE CONCAT('%',#{bean.username},'%') </if>
+		</where>
+	</sql>
+<!--=========================查询搜索 ============================================================================= -->
+	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"	resultMap="resultMapId">
+	select * from sys_user
+	<include refid="searchField" />
+	order by id desc
+	LIMIT
+	#{startRow},#{pageSize}
+	</select>
+
+	
+	<select id="getCount" resultType="long" parameterType="com.rui.pro1.common.bean.page.Query">
+		select	count(*) from sys_user
+		<include refid="searchField" />
+	</select>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <import resource="core/application-core.xml" />
+    
+    
+        <!-- 数据库 -->
+	<bean id="dataSource"  parent="baseDataSource" p:url="${jdbc.url}" />
+	<!-- mybatis映射 配置-->
+	 <import resource="mybatis/application-data-dao.xml"/>
+	 
+	 
+    
+    <!-- 通过配置织入@Aspectj切面  -->
+    <aop:aspectj-autoproxy />
+    
+    <!-- AutowiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor 以及 RequiredAnnotationBeanPostProcessor 这 4 个BeanPostProcessor。 -->
+    <context:annotation-config/>
+
+	
+	
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager" />
+	
+	
+<!-- 简化自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean -->
+<!--当我们需要controller返回一个map的json对象时，可以设定mvc:annotation-driven  同时设定<mvc:message-converters> 标签，设定字符集和json处理类  -->
+<mvc:annotation-driven>
+
+</mvc:annotation-driven>
+<!--     <mvc:annotation-driven> -->
+<!--         <mvc:argument-resolvers> -->
+<!--             <bean class="com.kugou.sing.logic.converter.JSONMessageConverter" /> -->
+<!--         </mvc:argument-resolvers> -->
+<!--     </mvc:annotation-driven> -->
+ 
+     <!-- 处理静态文件 -->
+    <mvc:default-servlet-handler />
+
+<!--     <mvc:interceptors> -->
+<!--         <mvc:interceptor> -->
+<!--             <mvc:mapping path="/**" /> -->
+<!--             <mvc:exclude-mapping path="/json/**" /> -->
+<!--             <mvc:exclude-mapping path="/static/**" /> -->
+<!--             <ref bean="responseAwareInterceptor" /> -->
+<!--         </mvc:interceptor> -->
+<!--         <mvc:interceptor> -->
+<!--             <mvc:mapping path="/json/**"/> -->
+<!--             <mvc:exclude-mapping path="/static/**" /> -->
+<!--             <ref bean="jsonResponseAwareInterceptor" /> -->
+<!--         </mvc:interceptor> -->
+<!--         <mvc:interceptor> -->
+<!--             <mvc:mapping path="/**"/> -->
+<!--             <mvc:exclude-mapping path="/static/**" /> -->
+<!--             <ref bean="blackResponseAwareInterceptor" /> -->
+<!--         </mvc:interceptor> -->
+<!--     </mvc:interceptors> -->
+	
+	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+    <!-- 定时任务 -->
+	<task:annotation-driven  executor="myExecutor" scheduler="myScheduler" />
+    <task:executor id="myExecutor" pool-size="5" />
+    <task:scheduler id="myScheduler" pool-size="2" />
+	
+
+</beans>

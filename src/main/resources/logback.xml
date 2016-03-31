@@ -1,0 +1,59 @@
+<configuration>
+    <property resource="logback.properties" />
+    <property resource="version.properties" />
+    <appender name="FILE"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>   
+        <File>work/log/app.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>work/log/app.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+                <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{HH:mm:ss} %-5level ${version} [%thread]%logger{16} - %msg%n
+                </pattern>
+        </encoder>
+    </appender>
+<!-- 	<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender"> -->
+<!-- 		<smtpHost>oa.kugou.com</smtpHost> -->
+<!-- 		<username>ktv_dev</username> -->
+<!-- 		<password>Kugou001</password> -->
+<!-- 		<to>zchua174@163.com</to> -->
+<!-- 		<from>ktv_dev@kugou.net</from>d -->
+<!-- 		<subject>[LOG] ${HOSTNAME} ${project} ${version} %logger{20} - %m</subject> -->
+<!-- 		<layout class="ch.qos.logback.classic.html.HTMLLayout"> -->
+<!-- 		</layout> -->
+<!-- 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter"> -->
+<!-- 			<level>ERROR</level> -->
+<!-- 		</filter> -->
+<!-- 	</appender> -->
+  
+    <appender name="appender-geci" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <File>work/geci/geci.log</File>
+        <BufferedIO>true</BufferedIO>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>work/geci/geci.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss} %-5level [%thread]%logger{16} - %msg%n</Pattern>
+        </layout>
+    </appender>
+    <logger name="logger-geci" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="appender-geci" />
+    </logger>
+
+    <logger name="com.ibatis">
+        <level value="DEBUG" />
+     </logger>
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource">
+       <level value="DEBUG" />
+     </logger>
+ 
+
+	<root level="WARN">
+		<appender-ref ref="FILE"/>
+<!-- 		<appender-ref ref="EMAIL" /> -->
+	</root>
+</configuration>
