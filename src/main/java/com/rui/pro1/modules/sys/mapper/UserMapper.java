@@ -9,9 +9,15 @@ import com.rui.pro1.modules.sys.entity.User;
 
 public interface UserMapper {
 
+	List<User> queryPages(Query query);
+
+	Long getCount(Query query);
+
 	User get(@Param("id") int id);
 
-	List<User> queryPages(Query query);
-	
-	Long getCount(Query query);
+	int del(int userId);
+
+	int add(User user);
+
+	int update(User user);
 }

@@ -43,6 +43,30 @@ public class UserServiceImpl implements IUserService {
 		return queryResult;
 	}
 
+	@Override
+	public User get(int userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int del(int userId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int add(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int update(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 
 }
