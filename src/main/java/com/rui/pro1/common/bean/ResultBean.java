@@ -10,7 +10,7 @@ public class ResultBean implements Serializable
 {
 	private static final long serialVersionUID = 3475946724048234071L;
 	private boolean success = true;
-	private String messageCode = "";
+	private String messageCode = "001";
 	private String message = "";
 	private Object data = "";
 

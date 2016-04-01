@@ -3,7 +3,6 @@ package com.rui.pro1.modules.sys.entity;
 import java.io.Serializable;
 import java.util.List;
 
-
 /**
  * The persistent class for the sys_role database table.
  * 
@@ -12,7 +11,6 @@ import java.util.List;
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
 	private int id;
 
 	private String name;
@@ -20,9 +18,8 @@ public class Role implements Serializable {
 	private String remake;
 
 	private int status;
-	
-    private List<Integer> menuIds; //拥有的菜单列表
 
+	private List<Integer> menuIds; // 拥有的菜单列表
 
 	public Role() {
 	}
@@ -34,7 +31,6 @@ public class Role implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public List<Integer> getMenuIds() {
 		return menuIds;
@@ -66,6 +62,12 @@ public class Role implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + ", remake=" + remake
+				+ ", status=" + status + ", menuIds=" + menuIds + "]";
 	}
 
 }

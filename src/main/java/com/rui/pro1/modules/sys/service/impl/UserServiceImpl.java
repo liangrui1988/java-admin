@@ -45,26 +45,22 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public User get(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return userMapper.get(userId);
 	}
 
 	@Override
 	public int del(int userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return userMapper.del(userId);
 	}
 
 	@Override
 	public int add(User user) {
-		// TODO Auto-generated method stub
-		return 0;
+		return userMapper.add(user);
 	}
 
 	@Override
 	public int update(User user) {
-		// TODO Auto-generated method stub
-		return 0;
+		return userMapper.update(user);
 	}
 
 

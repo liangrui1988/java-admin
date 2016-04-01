@@ -1,7 +1,6 @@
 package com.rui.pro1.modules.sys.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * The persistent class for the sys_department database table.
@@ -84,6 +83,13 @@ public class Department implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Department [id=" + id + ", name=" + name + ", parentId="
+				+ parentId + ", parentIds=" + parentIds + ", remake=" + remake
+				+ ", sort=" + sort + ", status=" + status + "]";
 	}
 
 }

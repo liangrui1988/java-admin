@@ -95,4 +95,71 @@ public class Menu implements Serializable {
 		this.types = types;
 	}
 
+	@Override
+	public String toString() {
+		return "Menu [id=" + id + ", name=" + name + ", parentId=" + parentId
+				+ ", parentIds=" + parentIds + ", permission=" + permission
+				+ ", sort=" + sort + ", status=" + status + ", types=" + types
+				+ "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + parentId;
+		result = prime * result
+				+ ((parentIds == null) ? 0 : parentIds.hashCode());
+		result = prime * result
+				+ ((permission == null) ? 0 : permission.hashCode());
+		result = prime * result + sort;
+		result = prime * result + status;
+		result = prime * result + ((types == null) ? 0 : types.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Menu other = (Menu) obj;
+		if (id != other.id)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (parentId != other.parentId)
+			return false;
+		if (parentIds == null) {
+			if (other.parentIds != null)
+				return false;
+		} else if (!parentIds.equals(other.parentIds))
+			return false;
+		if (permission == null) {
+			if (other.permission != null)
+				return false;
+		} else if (!permission.equals(other.permission))
+			return false;
+		if (sort != other.sort)
+			return false;
+		if (status != other.status)
+			return false;
+		if (types == null) {
+			if (other.types != null)
+				return false;
+		} else if (!types.equals(other.types))
+			return false;
+		return true;
+	}
+	
+	
+
 }

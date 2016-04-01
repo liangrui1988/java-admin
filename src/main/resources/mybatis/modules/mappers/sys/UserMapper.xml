@@ -5,7 +5,34 @@
 	<!--=========================查询数据返回集合 配置====================================================== -->
 	<resultMap type="com.rui.pro1.modules.sys.entity.User" id="resultMapId">
 		<id property="id" column="id" />
+		<!-- 联合  审请信息 -->
+	   <association property="department" column="departmentId" select="selectDepartment" javaType="com.rui.pro1.modules.sys.entity.Department"/>
+		
+		<!-- 获取角色 -->
+		 <collection property="roles"  ofType="com.rui.pro1.modules.sys.entity.Role"
+                javaType="ArrayList" column="id" select="getRoleList">
+             <id property="id" column="id"/>
+             <result column="id" property="id"/>
+           </collection> 
+           
 	</resultMap>
+	
+	<!-- 查询用户所在部门 -->
+	<resultMap type="com.rui.pro1.modules.sys.entity.Department" id="departmentMapId">
+		<id property="id" column="id" />
+	</resultMap>
+	
+	<select id="selectDepartment" parameterType="Integer" resultMap="departmentMapId">
+		 SELECT * FROM `sys_department` where id=#{departmentId};
+	</select>
+	
+	
+	<!-- 获取角色 -->
+	<select id="getRoleList" parameterType="_int" resultType="com.rui.pro1.modules.sys.entity.Role">
+		select * from sys_role where id in(
+		SELECT roleId FROM `sys_user_role` where userId=#{id}
+		)
+	</select>
 	
 	<!--=========================根据id ============================================================================= -->
 	<select id="get" resultMap="resultMapId" parameterType="Integer">
@@ -15,7 +42,7 @@
      <!-- 搜索条件判断 -->
 	<sql id="searchField">
 		<where>
-			<if test="bean.username != null and bean.singerName != ''">AND username LIKE CONCAT('%',#{bean.username},'%') </if>
+			<if test="bean.userName != null and bean.userName != ''">AND userName LIKE CONCAT('%',#{bean.userName},'%') </if>
 		</where>
 	</sql>
 <!--=========================查询搜索 ============================================================================= -->

@@ -1,3 +1,8 @@
+
+insert into sys_user values(1,'admin','d3c59d25033dbf980d29554025c23a75', '1',now(),now());
+
+
+
 DELIMITER ;
 delete from sys_user;
 delete from sys_role;

@@ -1,7 +1,6 @@
 package com.rui.pro1.modules.sys.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -19,8 +18,10 @@ public class User implements Serializable {
 	private Integer status;
 	private Date createTime;
 	private Date updateTime;
+	private int departmentId;
+	private Department department;
 
-	private List<Integer> roleIds; // 拥有的角色列表
+	private List<Role> roles; // 拥有的角色列表
 
 	public User() {
 	}
@@ -49,12 +50,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public List<Integer> getRoleIds() {
-		return roleIds;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRoleIds(List<Integer> roleIds) {
-		this.roleIds = roleIds;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public Integer getStatus() {
@@ -79,6 +80,22 @@ public class User implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public int getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(int departmentId) {
+		this.departmentId = departmentId;
 	}
 
 }
