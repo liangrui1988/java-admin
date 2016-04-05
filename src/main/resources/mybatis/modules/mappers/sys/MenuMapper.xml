@@ -40,7 +40,7 @@
 
 	<!--=========================添加 ============================================================================= -->
 
-	<insert id="add">
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
 		insert into
 		sys_menu(name,types,sort,parentId,permission)
 		values(#{name},#{types},#{sort},#{parentId},#{permission})

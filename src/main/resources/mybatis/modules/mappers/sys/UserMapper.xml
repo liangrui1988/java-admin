@@ -63,7 +63,7 @@
 	
 	<!--=========================添加 ============================================================================= -->
 
-	<insert id="add">
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
 		insert into
 		sys_user(departmentId,userName,password)
 		values(#{departmentId},#{userName},#{password})

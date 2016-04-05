@@ -52,7 +52,8 @@ public class UserServiceTest extends BaseServiceTest {
 		role.setId(1);
 		user.setRoles(roles);
 		
-		userService.add(user);
+		int userid=userService.add(user);
+		System.out.println(user.getId());
 	}
 
 	@Test
