@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.exception.ErrorCode;
 import com.rui.pro1.modules.sys.vo.UserVo;
-//@Controller
-//@RequestMapping("sys/user")
+
+/**
+ * 
+ * @author ruiliang
+ * @date 2016/04/05
+ */
+// @Controller
+// @RequestMapping("sys/user")
 public class TemplateController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
@@ -22,9 +28,10 @@ public class TemplateController {
 			UserVo user) {
 		ResultBean rb = new ResultBean();
 		try {
-//			QueryResult<User> result = iUserService.getUserList(page, pagesize,
-//					user);
-//			rb.setData(result);
+			// QueryResult<User> result = iUserService.getUserList(page,
+			// pagesize,
+			// user);
+			// rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");

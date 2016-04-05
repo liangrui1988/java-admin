@@ -36,7 +36,7 @@
 	
 	<!--=========================根据id ============================================================================= -->
 	<select id="get" resultMap="resultMapId" parameterType="Integer">
-		select * from sys_user where opus_id=#{id}
+		select * from sys_user where id=#{id}
 	</select>
 
      <!-- 搜索条件判断 -->
@@ -65,8 +65,8 @@
 
 	<insert id="add">
 		insert into
-		sys_user(user_name,password,status,createTime)
-		values(#{userName},#{password},#{status},#{createTime})
+		sys_user(departmentId,userName,password)
+		values(#{departmentId},#{userName},#{password})
 	</insert>
 
 	<!-- 删除 -->
@@ -80,7 +80,7 @@
 		<set>
 			<if test="password != null and password != ''">password=#{password},</if>
 			<if test="status != null">status=#{status},</if>
-			<if test="updateTime != null and updateTime !=''">updateTime=#{updateTime},</if>
+<!-- 			<if test="updateTime != null and updateTime !=''">updateTime=#{updateTime},</if> -->
 		</set>
 	</sql>
 	

@@ -2,7 +2,10 @@ package com.rui.pro1.modules.sys.service.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
@@ -15,11 +18,13 @@ import com.rui.pro1.modules.sys.vo.UserVo;
 @Service
 public class UserServiceImpl implements IUserService {
 
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Autowired
 	private UserMapper userMapper;
 
 	@Override
-	public QueryResult<User> getUserList(int page,int pagesize ,UserVo user) {
+	public QueryResult<User> getUserList(int page, int pagesize, UserVo user) {
 		// User user=new User();
 		// user.setId(1);
 		// user.setName("user001");
@@ -27,11 +32,11 @@ public class UserServiceImpl implements IUserService {
 		//
 		// List<User> list=new ArrayList<User>();
 		// list.add(user);
-		
+
 		Query query = new Query();
 		query.setBean(user);
 		query.setPageIndex(page);
-		
+
 		// 组合分页信息
 		QueryResult<User> queryResult = new QueryResult<User>();
 		Long count = userMapper.getCount(query);
@@ -39,7 +44,7 @@ public class UserServiceImpl implements IUserService {
 		// 总页数 和 取多少条
 		queryResult.setPages(count, pagesize);
 		queryResult.setItems(list);
-		
+
 		return queryResult;
 	}
 
@@ -55,14 +60,26 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public int add(User user) {
-		return userMapper.add(user);
+		// 为速度 不考虑 分离转换
+		// User user=new User();
+		// BeanCopier copier = BeanCopier.create(UserVo.class, User.class,
+		// false);
+		// copier.copy(userVo, user, null);
+
+		int count = userMapper.add(user);
+		if (count > 0) {
+			// FIXME:add role
+			// FIXME:add user_depment
+			// add user_role_
+
+		}
+
+		return count;
 	}
 
 	@Override
 	public int update(User user) {
 		return userMapper.update(user);
 	}
-
-
 
 }

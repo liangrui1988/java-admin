@@ -4,7 +4,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 
 /**
  * 
- * @author Administrator
+ * @author ruiliang
  *
  */
 public class PassUtil {
