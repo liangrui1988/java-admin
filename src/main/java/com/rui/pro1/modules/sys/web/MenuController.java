@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.exception.ErrorCode;
-import com.rui.pro1.modules.sys.entity.User;
-import com.rui.pro1.modules.sys.service.IUserService;
-import com.rui.pro1.modules.sys.vo.UserVo;
+import com.rui.pro1.modules.sys.entity.Menu;
+import com.rui.pro1.modules.sys.service.IMenuService;
+import com.rui.pro1.modules.sys.vo.MenuVo;
 
 /**
  * 用户管理
@@ -26,23 +26,23 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  *
  */
 @Controller
-@RequestMapping("sys/user")
-public class UserController {
+@RequestMapping("sys/menu")
+public class MenuController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private IUserService userService;
+	private IMenuService menuService;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getUserList(
+	public ResultBean getList(
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "page", defaultValue = "20") Integer pagesize,
-			UserVo user) {
+			MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			QueryResult<User> result = userService.getUserList(page, pagesize,
-					user);
+			QueryResult<Menu> result = menuService.getMenuList(page, pagesize,
+					menuVo);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,11 +55,11 @@ public class UserController {
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpRequest request, HttpResponse response,
-			UserVo userVo) {
+			MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			User user = userService.get(userVo.getId());
-			rb.setData(user);
+			Menu menu = menuService.get(menuVo.getId());
+			rb.setData(menu);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
@@ -73,7 +73,7 @@ public class UserController {
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = userService.del(id);
+			int count = menuService.del(id);
 			if (count <= 0) {
 				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
 			}
@@ -86,13 +86,10 @@ public class UserController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpRequest request, HttpResponse response, User user) {
+	public ResultBean add(HttpRequest request, HttpResponse response, Menu role) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = userService.add(user);
-			if (count <= 0) {
-				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
-			}
+			menuService.add(role);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
@@ -103,13 +100,10 @@ public class UserController {
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpRequest request, HttpResponse response,
-			User user) {
+			Menu menu) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = userService.update(user);
-			if (count <= 0) {
-				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
-			}
+			menuService.update(menu);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");

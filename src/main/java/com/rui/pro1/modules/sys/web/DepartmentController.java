@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.exception.ErrorCode;
-import com.rui.pro1.modules.sys.entity.User;
-import com.rui.pro1.modules.sys.service.IUserService;
-import com.rui.pro1.modules.sys.vo.UserVo;
+import com.rui.pro1.modules.sys.entity.Department;
+import com.rui.pro1.modules.sys.service.IDepartmentService;
+import com.rui.pro1.modules.sys.vo.DepartmentVo;
 
 /**
  * 用户管理
@@ -26,23 +26,23 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  *
  */
 @Controller
-@RequestMapping("sys/user")
-public class UserController {
+@RequestMapping("sys/department")
+public class DepartmentController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private IUserService userService;
+	private IDepartmentService departmentService;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getUserList(
+	public ResultBean getList(
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "page", defaultValue = "20") Integer pagesize,
-			UserVo user) {
+			DepartmentVo departmentVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			QueryResult<User> result = userService.getUserList(page, pagesize,
-					user);
+			QueryResult<Department> result = departmentService
+					.getDepartmentList(page, pagesize, departmentVo);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,11 +55,11 @@ public class UserController {
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpRequest request, HttpResponse response,
-			UserVo userVo) {
+			DepartmentVo departmentVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			User user = userService.get(userVo.getId());
-			rb.setData(user);
+			Department department = departmentService.get(departmentVo.getId());
+			rb.setData(department);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
@@ -73,7 +73,7 @@ public class UserController {
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = userService.del(id);
+			int count = departmentService.del(id);
 			if (count <= 0) {
 				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
 			}
@@ -86,10 +86,11 @@ public class UserController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpRequest request, HttpResponse response, User user) {
+	public ResultBean add(HttpRequest request, HttpResponse response,
+			Department department) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = userService.add(user);
+			int count = departmentService.add(department);
 			if (count <= 0) {
 				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
 			}
@@ -103,10 +104,10 @@ public class UserController {
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpRequest request, HttpResponse response,
-			User user) {
+			Department department) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = userService.update(user);
+			int count = departmentService.update(department);
 			if (count <= 0) {
 				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
 			}

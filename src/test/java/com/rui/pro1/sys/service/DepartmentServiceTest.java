@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.rui.pro1.comm.BaseServiceTest;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.modules.sys.entity.Department;
-import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.service.IDepartmentService;
-import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.vo.DepartmentVo;
-import com.rui.pro1.modules.sys.vo.MenuVo;
 
 public class DepartmentServiceTest extends BaseServiceTest {
 

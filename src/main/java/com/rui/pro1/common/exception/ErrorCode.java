@@ -6,5 +6,6 @@ public class ErrorCode {
 	public static final String SYS_ERROR = "002";// 系统异常
 	public static final String SYS_NO_USER = "003";// 用户不存在
 	public static final String SYS_NO_PERMISSE = "004";// 没有权限
+	public static final String SYS_FAILURE = "005";// 操作失败
 
 }
