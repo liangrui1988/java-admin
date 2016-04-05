@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
@@ -16,7 +15,7 @@ import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.vo.UserVo;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserService implements IUserService {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 

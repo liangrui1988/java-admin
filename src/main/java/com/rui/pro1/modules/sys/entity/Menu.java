@@ -24,7 +24,7 @@ public class Menu implements Serializable {
 
 	private int sort;
 
-	private int status;
+	private Integer status;
 
 	private String types;
 
@@ -79,11 +79,11 @@ public class Menu implements Serializable {
 		this.sort = sort;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

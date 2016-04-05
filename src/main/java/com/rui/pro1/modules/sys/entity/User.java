@@ -19,6 +19,7 @@ public class User implements Serializable {
 	private Date createTime;
 	private Date updateTime;
 	private int departmentId;
+	private String remake;
 	private Department department;
 
 	private List<Role> roles; // 拥有的角色列表
@@ -96,6 +97,14 @@ public class User implements Serializable {
 
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
+	}
+
+	public String getRemake() {
+		return remake;
+	}
+
+	public void setRemake(String remake) {
+		this.remake = remake;
 	}
 
 }

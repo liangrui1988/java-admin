@@ -17,7 +17,7 @@ public interface DepartmentMapper {
 
 	int del(int id);
 
-	int add(Department user);
+	int add(Department department);
 
-	int update(Department user);
+	int update(Department department);
 }

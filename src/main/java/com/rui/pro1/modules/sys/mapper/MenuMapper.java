@@ -5,19 +5,19 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.rui.pro1.common.bean.page.Query;
-import com.rui.pro1.modules.sys.entity.Role;
+import com.rui.pro1.modules.sys.entity.Menu;
 
 public interface MenuMapper {
 
-	List<Role> queryPages(Query query);
+	List<Menu> queryPages(Query query);
 
 	Long getCount(Query query);
 
-	Role get(@Param("id") int id);
+	Menu get(@Param("id") int id);
 
 	int del(int id);
 
-	int add(Role user);
+	int add(Menu menu);
 
-	int update(Role user);
+	int update(Menu menu);
 }

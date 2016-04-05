@@ -6,18 +6,19 @@ import org.apache.ibatis.annotations.Param;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.modules.sys.entity.Menu;
+import com.rui.pro1.modules.sys.entity.Role;
 
 public interface RoleMapper {
 
-	List<Menu> queryPages(Query query);
+	List<Role> queryPages(Query query);
 
 	Long getCount(Query query);
 
-	Menu get(@Param("id") int id);
+	Role get(@Param("id") int id);
 
 	int del(int id);
 
-	int add(Menu user);
+	int add(Role role);
 
-	int update(Menu user);
+	int update(Role role);
 }

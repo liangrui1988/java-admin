@@ -17,7 +17,7 @@ public class Role implements Serializable {
 
 	private String remake;
 
-	private int status;
+	private Integer status;
 
 	private List<Integer> menuIds; // 拥有的菜单列表
 
@@ -56,11 +56,11 @@ public class Role implements Serializable {
 		this.remake = remake;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
