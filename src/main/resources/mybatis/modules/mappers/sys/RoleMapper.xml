@@ -70,6 +70,17 @@
 	</update>
 
 
+	<insert id="addRoleMenu">
+	insert into
+	sys_role_menu(roleId,menuId)
+	values(#{roleId},#{menuId})
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="delRoleMenu" parameterType="_int">
+		DELETE from sys_role_menu
+		where roleId=#{roleId}
+	</delete>
 
 </mapper>
 

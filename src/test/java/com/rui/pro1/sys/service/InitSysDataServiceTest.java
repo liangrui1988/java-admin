@@ -3,12 +3,15 @@ package com.rui.pro1.sys.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rui.pro1.comm.BaseServiceTest;
 import com.rui.pro1.modules.sys.entity.Department;
+import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
+import com.rui.pro1.modules.sys.mapper.SystemMapper;
 import com.rui.pro1.modules.sys.service.IDepartmentService;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IRoleService;
@@ -17,7 +20,8 @@ import com.rui.pro1.modules.sys.utils.PassUtil;
 
 public class InitSysDataServiceTest extends BaseServiceTest {
 	
-	boolean isDel=true;
+	boolean isDel=false;
+	
 	@Autowired
 	private IUserService userService;
 	
@@ -31,12 +35,24 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 	@Autowired
 	private IDepartmentService departmentService;
 	
+	@Autowired
+	private SystemMapper systemMapper;
 	
 	
+	@Test
+	public void truncate(){
+		systemMapper.truncateAllRBAC();
+
+	}
+	
+	@Test
 	public void initData(){
-//		if(isDel){ //truncate table
-//		}
+		if(isDel){ //truncate table
+			systemMapper.truncateAllRBAC();
+		}
+
 		
+		//部门
 		Department department = new Department();
 		department.setName("技术部");
 		department.setSort(1);
@@ -46,24 +62,49 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		
 		
 		
+		//分置菜单 
+		Menu menu=new Menu();
+		menu.setName("系统管理");
+		menu.setParentId(0);
+		menu.setPermission("sys:*");
+		menu.setSort(1);
+		menu.setTypes("1");
+		menu.setIcon("a");
+		menu.setHref("/sys/menu/list");
+		menuService.add(menu);
+		
+		
+		//角色
 		Role role=new Role();
-		role.setName("系统管理");
+		role.setName("系统管理员");
 		role.setRemake("remake");
+		
+		List<Integer> menuIds=new ArrayList<Integer>();
+		menuIds.add(menu.getId());
+		role.setMenuIds(menuIds);
+		
 		roleService.add(role);
 		
+	
 		
+		
+		//用户
 		User user=new User();
 		user.setUserName("admin");
-		user.setDepartmentId(2);
 		String password=PassUtil.encryptPassword("123456", "admin");
 		user.setPassword(password);
 		//关联角色
 		List<Role> roles=new ArrayList<Role>();
 		Role role2=new Role();
-		role2.setId(1);
+		role2.setId(role.getId());
+		roles.add(role2);
 		user.setRoles(roles);
 		
+		//部门
+		user.setDepartmentId(department.getId());
 		
+		userService.add(user);
+		System.out.println("userId>>>"+user.getId());
 		
 		
 		

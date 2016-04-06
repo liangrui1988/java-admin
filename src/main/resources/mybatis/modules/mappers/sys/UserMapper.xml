@@ -5,62 +5,69 @@
 	<!--=========================查询数据返回集合 配置====================================================== -->
 	<resultMap type="com.rui.pro1.modules.sys.entity.User" id="resultMapId">
 		<id property="id" column="id" />
-		<!-- 联合  审请信息 -->
-	   <association property="department" column="departmentId" select="selectDepartment" javaType="com.rui.pro1.modules.sys.entity.Department"/>
-		
+		<!-- 联合 审请信息 -->
+		<association property="department" column="departmentId"
+			select="selectDepartment" javaType="com.rui.pro1.modules.sys.entity.Department" />
+
 		<!-- 获取角色 -->
-		 <collection property="roles"  ofType="com.rui.pro1.modules.sys.entity.Role"
-                javaType="ArrayList" column="id" select="getRoleList">
-             <id property="id" column="id"/>
-             <result column="id" property="id"/>
-           </collection> 
-           
+		<collection property="roles" ofType="com.rui.pro1.modules.sys.entity.Role"
+			javaType="ArrayList" column="id" select="getRoleList">
+			<id property="id" column="id" />
+			<result column="id" property="id" />
+		</collection>
+
 	</resultMap>
-	
+
 	<!-- 查询用户所在部门 -->
-	<resultMap type="com.rui.pro1.modules.sys.entity.Department" id="departmentMapId">
+	<resultMap type="com.rui.pro1.modules.sys.entity.Department"
+		id="departmentMapId">
 		<id property="id" column="id" />
 	</resultMap>
-	
+
 	<select id="selectDepartment" parameterType="Integer" resultMap="departmentMapId">
-		 SELECT * FROM `sys_department` where id=#{departmentId};
-	</select>
-	
-	
-	<!-- 获取角色 -->
-	<select id="getRoleList" parameterType="_int" resultType="com.rui.pro1.modules.sys.entity.Role">
-		select * from sys_role where id in(
-		SELECT roleId FROM `sys_user_role` where userId=#{id}
-		)
-	</select>
-	
-	<!--=========================根据id ============================================================================= -->
-	<select id="get" resultMap="resultMapId" parameterType="Integer">
-		select * from sys_user where id=#{id}
+		SELECT * FROM `sys_department` where id=#{departmentId};
 	</select>
 
-     <!-- 搜索条件判断 -->
+
+	<!-- 获取角色 -->
+	<select id="getRoleList" parameterType="_int"
+		resultType="com.rui.pro1.modules.sys.entity.Role">
+		select * from sys_role where id in(
+		SELECT roleId FROM
+		`sys_user_role` where userId=#{id}
+		)
+	</select>
+
+	<!--=========================根据id ============================================================================= -->
+	<select id="get" resultMap="resultMapId" parameterType="Integer">
+		select *
+		from sys_user where id=#{id}
+	</select>
+
+	<!-- 搜索条件判断 -->
 	<sql id="searchField">
 		<where>
 			<if test="bean.userName != null and bean.userName != ''">AND userName LIKE CONCAT('%',#{bean.userName},'%') </if>
 		</where>
 	</sql>
-<!--=========================查询搜索 ============================================================================= -->
-	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"	resultMap="resultMapId">
-	select * from sys_user
-	<include refid="searchField" />
-	order by id desc
-	LIMIT
-	#{startRow},#{pageSize}
+	<!--=========================查询搜索 ============================================================================= -->
+	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"
+		resultMap="resultMapId">
+		select * from sys_user
+		<include refid="searchField" />
+		order by id desc
+		LIMIT
+		#{startRow},#{pageSize}
 	</select>
 
-	
-	<select id="getCount" resultType="long" parameterType="com.rui.pro1.common.bean.page.Query">
-		select	count(*) from sys_user
+
+	<select id="getCount" resultType="long"
+		parameterType="com.rui.pro1.common.bean.page.Query">
+		select count(*) from sys_user
 		<include refid="searchField" />
 	</select>
-	
-	
+
+
 	<!--=========================添加 ============================================================================= -->
 
 	<insert id="add" useGeneratedKeys="true" keyProperty="id">
@@ -71,27 +78,59 @@
 
 	<!-- 删除 -->
 	<delete id="del" parameterType="_int">
-		DELETE from sys_user where id=#{id}
+		DELETE from sys_user where
+		id=#{id}
 	</delete>
-	
-  <!--=========================修改 ============================================================================= -->
-	
+
+	<!--=========================修改 ============================================================================= -->
+
 	<sql id="dbUpdateField">
 		<set>
 			<if test="password != null and password != ''">password=#{password},</if>
 			<if test="status != null">status=#{status},</if>
-<!-- 			<if test="updateTime != null and updateTime !=''">updateTime=#{updateTime},</if> -->
+			<if test="departmentId != null">departmentId=#{departmentId},</if>
+			
+			<!-- <if test="updateTime != null and updateTime !=''">updateTime=#{updateTime},</if> -->
 		</set>
 	</sql>
-	
+
 	<update id="update" parameterType="com.rui.pro1.modules.sys.entity.User">
 		update sys_user
 		<include refid="dbUpdateField" />
 		where id=#{id}
 	</update>
+
+	<!--=========================一个用户关联角色 ============================================================================= -->
+
+	<insert id="addUserRole">
+		insert into
+		sys_user_role(userId,roleId)
+		values(#{userId},#{roleId})
+	</insert>
+
+	<insert id="addUserDepartment">
+		insert into
+		sys_user_department(departmentId,userId)
+		values(#{departmentId},#{userId})
+	</insert>
+
+
+	<!-- 删除 -->
+	<delete id="delUserRole" parameterType="_int">
+		DELETE from sys_user_role
+		where userId=#{userId}
+	</delete>
 	
-	
-	
+		<!-- 删除 -->
+	<delete id="delUserDepartment" parameterType="_int">
+		DELETE from sys_user_department
+		where userId=#{userId}
+	</delete>
+
+	<update id="updateUserDepartment" >
+		update sys_user_department set departmentId=#{departmentId}	where userId=#{userId}
+	</update>
+
 </mapper>
 
 

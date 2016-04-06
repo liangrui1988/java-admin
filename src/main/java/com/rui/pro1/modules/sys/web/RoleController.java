@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.exception.ErrorCode;
+import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.vo.RoleVo;
@@ -58,7 +59,7 @@ public class RoleController {
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			Role role = roleService.get(roleVo.getId());
+			RoleBean role = roleService.get(roleVo.getId());
 			rb.setData(role);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -40,10 +40,40 @@
 
 	<!--=========================添加 ============================================================================= -->
 
+	<!-- 插入字段sql -->
+	<sql id="dbField">
+		<trim suffix="" suffixOverrides=",">
+			<if test="name != null and name != ''">name,</if>
+			<if test="types != null and types != ''">types,</if>
+			<if test="sort != null">sort,</if>
+			<if test="parentId != null">parentId,</if>
+			<if test="permission != null and permission != ''">permission,</if>
+			<if test="icon != null and icon != ''">icon,</if>
+			<if test="href != null and href != ''">href</if>
+		</trim>
+	</sql>
+	<!-- 插入值sql -->
+	<sql id="dbFieldValue">
+		<trim suffix="" suffixOverrides=",">
+			<if test="name != null and name != ''">#{name},</if>
+			<if test="types != null">#{types},</if>
+			<if test="sort != null">#{sort},</if>
+			<if test="parentId != null">#{parentId},</if>
+			<if test="permission != null">#{permission},</if>
+			<if test="icon != null">#{icon},</if>
+			<if test="href != null">#{href}</if>
+		</trim>
+	</sql>
+
+
 	<insert id="add" useGeneratedKeys="true" keyProperty="id">
 		insert into
-		sys_menu(name,types,sort,parentId,permission)
-		values(#{name},#{types},#{sort},#{parentId},#{permission})
+		sys_menu(
+		<include refid="dbField" />
+		)
+		values(
+		<include refid="dbFieldValue" />
+		)
 	</insert>
 
 	<!-- 删除 -->
@@ -70,8 +100,14 @@
 		where id=#{id}
 	</update>
 
+	<!--=========================根据角色获取所有菜单 ============================================================================= -->
 
-
+	<select id="getAllMenuByRoleId" resultMap="resultMapId" parameterType="Integer">
+		select * from sys_menu where id in(
+		SELECT menuId FROM `sys_role_menu` where roleId=#{roleId}
+		)
+	</select>
+	
 </mapper>
 
 

@@ -1,4 +1,4 @@
-package com.rui.pro1.modules.sys.entity;
+package com.rui.pro1.modules.sys.bean;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  */
 
-public class Menu implements Serializable {
+public class MenuBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
@@ -18,7 +18,7 @@ public class Menu implements Serializable {
 
 	private String parentIds;
 
-	private String permission;
+	//private String permission;
 
 	private int sort;
 
@@ -29,7 +29,7 @@ public class Menu implements Serializable {
 	private String icon;
 	private String href;
 
-	public Menu() {
+	public MenuBean() {
 	}
 
 	public int getId() {
@@ -64,13 +64,13 @@ public class Menu implements Serializable {
 		this.parentIds = parentIds;
 	}
 
-	public String getPermission() {
-		return this.permission;
-	}
-
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
+//	public String getPermission() {
+//		return this.permission;
+//	}
+//
+//	public void setPermission(String permission) {
+//		this.permission = permission;
+//	}
 
 	public int getSort() {
 		return this.sort;

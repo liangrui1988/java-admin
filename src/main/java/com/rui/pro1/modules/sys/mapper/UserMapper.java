@@ -20,4 +20,19 @@ public interface UserMapper {
 	int add(User user);
 
 	int update(User user);
+
+	// -------------------------
+	int addUserRole(@Param("userId") int userId, @Param("roleId") int roleId);
+
+	int addUserDepartment(@Param("userId") int userId,
+			@Param("departmentId") int departmentId);
+
+	int delUserRole(@Param("userId") int userId);
+	
+	int delUserDepartment(@Param("userId") int userId);
+
+	
+	int updateUserDepartment(@Param("userId") int userId);
+
+
 }

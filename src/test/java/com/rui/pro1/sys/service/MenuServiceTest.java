@@ -40,6 +40,8 @@ public class MenuServiceTest extends BaseServiceTest {
 		menu.setSort(1);
 		menu.setTypes("2");
 		menu.setParentId(0);
+		menu.setIcon("a");
+		menu.setHref("/sys/menu/list");
 	
 		menuService.add(menu);
 	}

@@ -20,4 +20,6 @@ public interface MenuMapper {
 	int add(Menu menu);
 
 	int update(Menu menu);
+	
+	List<Menu> getAllMenuByRoleId(@Param("roleId") int roleId);
 }

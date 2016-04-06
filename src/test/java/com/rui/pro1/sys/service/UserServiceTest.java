@@ -60,7 +60,7 @@ public class UserServiceTest extends BaseServiceTest {
 	public void update() {
 		
 		User user=new User();
-		user.setId(2);
+		user.setId(1);
 		user.setUserName("adminUpdate");
 		user.setDepartmentId(55);
 		String password=PassUtil.encryptPassword("123456", "adminUpdate");
@@ -68,7 +68,9 @@ public class UserServiceTest extends BaseServiceTest {
 		//关联角色
 		List<Role> roles=new ArrayList<Role>();
 		Role role=new Role();
-		role.setId(1);
+		role.setId(2);
+		roles.add(role);
+		
 		user.setRoles(roles);
 		user.setStatus(1);
 		userService.update(user);

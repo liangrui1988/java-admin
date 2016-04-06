@@ -1,10 +1,14 @@
 package com.rui.pro1.sys.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rui.pro1.comm.BaseServiceTest;
 import com.rui.pro1.common.bean.page.QueryResult;
+import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.vo.RoleVo;
@@ -23,7 +27,7 @@ public class RoleServiceTest extends BaseServiceTest {
 
 	@Test
 	public void get() {
-		Role user=roleService.get(1);
+		RoleBean user=roleService.get(1);
 		printJson(user);
 
 	}
@@ -45,9 +49,15 @@ public class RoleServiceTest extends BaseServiceTest {
 	public void update() {
 		
 		Role role=new Role();
-		role.setId(2);
+		role.setId(1);
 		role.setName("update");
 		role.setStatus(1);
+		
+		List<Integer> menuIds=new ArrayList<Integer>();
+		menuIds.add(6);
+		menuIds.add(7);
+		menuIds.add(8);
+		role.setMenuIds(menuIds);
 		roleService.update(role);
 	}
 
