@@ -27,7 +27,7 @@ import com.rui.pro1.modules.sys.vo.DepartmentVo;
  */
 @Controller
 @RequestMapping("sys/department")
-public class DepartmentController {
+public class DepartmentController extends SysBaseControoler {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired

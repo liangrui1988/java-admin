@@ -39,9 +39,22 @@
 	
 <!-- 简化自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean -->
 <!--当我们需要controller返回一个map的json对象时，可以设定mvc:annotation-driven  同时设定<mvc:message-converters> 标签，设定字符集和json处理类  -->
-<mvc:annotation-driven>
 
+<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="com.rui.pro1.common.utils.converter.JSONConverter" />
+		</mvc:argument-resolvers>
+	<mvc:message-converters>
+		<bean
+			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<property name="objectMapper">
+				<bean class="com.rui.pro1.common.utils.converter.ResponseNullUtil"></bean>
+			</property>
+		</bean>
+	</mvc:message-converters>  
 </mvc:annotation-driven>
+	
+	
 <!--     <mvc:annotation-driven> -->
 <!--         <mvc:argument-resolvers> -->
 <!--             <bean class="com.kugou.sing.logic.converter.JSONMessageConverter" /> -->

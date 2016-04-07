@@ -61,7 +61,6 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		departmentService.add(department);
 		
 		
-		
 		//分置菜单 
 		Menu menu=new Menu();
 		menu.setName("系统管理");

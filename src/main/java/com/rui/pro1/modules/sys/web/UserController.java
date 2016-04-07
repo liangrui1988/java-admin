@@ -1,5 +1,8 @@
 package com.rui.pro1.modules.sys.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
@@ -27,7 +30,7 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  */
 @Controller
 @RequestMapping("sys/user")
-public class UserController {
+public class UserController extends SysBaseControoler {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -54,7 +57,7 @@ public class UserController {
 
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean get(HttpRequest request, HttpResponse response,
+	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
 			UserVo userVo) {
 		ResultBean rb = new ResultBean();
 		try {
@@ -86,7 +89,7 @@ public class UserController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpRequest request, HttpResponse response, User user) {
+	public ResultBean add(HttpServletRequest request, HttpServletResponse response, User user) {
 		ResultBean rb = new ResultBean();
 		try {
 			int count = userService.add(user);
@@ -102,7 +105,7 @@ public class UserController {
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean update(HttpRequest request, HttpResponse response,
+	public ResultBean update(HttpServletRequest request, HttpServletResponse response,
 			User user) {
 		ResultBean rb = new ResultBean();
 		try {

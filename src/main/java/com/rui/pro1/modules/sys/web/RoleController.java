@@ -1,7 +1,8 @@
 package com.rui.pro1.modules.sys.web;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import com.rui.pro1.modules.sys.vo.RoleVo;
  */
 @Controller
 @RequestMapping("sys/role")
-public class RoleController {
+public class RoleController extends SysBaseControoler {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -55,7 +56,7 @@ public class RoleController {
 
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean get(HttpRequest request, HttpResponse response,
+	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
 		try {
@@ -70,7 +71,7 @@ public class RoleController {
 
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean del(HttpRequest request, HttpResponse response,
+	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
 		try {
@@ -87,7 +88,7 @@ public class RoleController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpRequest request, HttpResponse response, Role role) {
+	public ResultBean add(HttpServletRequest request, HttpServletResponse response, Role role) {
 		ResultBean rb = new ResultBean();
 		try {
 			roleService.add(role);
@@ -100,7 +101,7 @@ public class RoleController {
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean update(HttpRequest request, HttpResponse response,
+	public ResultBean update(HttpServletRequest request, HttpServletResponse response,
 			Role role) {
 		ResultBean rb = new ResultBean();
 		try {

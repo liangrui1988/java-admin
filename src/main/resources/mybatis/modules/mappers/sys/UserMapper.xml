@@ -66,6 +66,21 @@
 		select count(*) from sys_user
 		<include refid="searchField" />
 	</select>
+	
+	
+		<!-- 搜索条件判断 -->
+	<sql id="queryField">
+		<where>
+			<if test="userName != null and userName != ''">AND userName=#{userName}</if>
+			<if test="password != null and password != ''">AND password=#{password}</if>
+		</where>
+	</sql>
+	<select id="query" parameterType="com.rui.pro1.modules.sys.vo.UserLoginVo"
+		resultMap="resultMapId">
+		select * from sys_user
+		<include refid="queryField" />
+	</select>
+	
 
 
 	<!--=========================添加 ============================================================================= -->

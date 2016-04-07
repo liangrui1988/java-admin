@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.modules.sys.entity.User;
+import com.rui.pro1.modules.sys.vo.UserLoginVo;
 
 public interface UserMapper {
 
@@ -20,6 +21,9 @@ public interface UserMapper {
 	int add(User user);
 
 	int update(User user);
+	
+	User query(UserLoginVo UserLoginVo);
+
 
 	// -------------------------
 	int addUserRole(@Param("userId") int userId, @Param("roleId") int roleId);
