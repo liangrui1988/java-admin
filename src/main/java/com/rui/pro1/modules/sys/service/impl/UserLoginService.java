@@ -28,6 +28,12 @@ public class UserLoginService implements IUserLoginService {
 			return null;
 		}
 		
+		//sessionId
+		
+		//cokie
+		
+		
+		
 		//处理密码
 		String password=PassUtil.encryptPassword(userLoginVo.getPassword(), userLoginVo.getUserName());
 		userLoginVo.setPassword(password);
