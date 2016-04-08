@@ -92,6 +92,9 @@ dependencies {
 		compile "org.apache.shiro:shiro-web:${ShiroVersion}"
         compile "org.apache.shiro:shiro-quartz:${ShiroVersion}"
 		compile "org.apache.shiro:shiro-spring:${ShiroVersion}"
+		compile 'org.sitemesh:sitemesh:3.0.1'
+		
+
 
 		
 }
