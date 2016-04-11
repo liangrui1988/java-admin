@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rui.pro1.common.annotatiions.MenuAnnot;
+import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
+import com.rui.pro1.common.constants.Modules;
+import com.rui.pro1.common.constants.menu.MenuSys;
+import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.ErrorCode;
 import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Role;
@@ -28,7 +33,9 @@ import com.rui.pro1.modules.sys.vo.RoleVo;
  *
  */
 @Controller
-@RequestMapping("sys/role")
+
+@RequestMapping(SysUri.SYS_ROLE)
+@MenuAnnot(id = MenuSys.SYS_ROLE, name = "角色管理", parentId = Modules.SYS, href = "views/modules/sys/rolelist",sortNo=2)
 public class RoleController extends SysBaseControoler {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -39,7 +46,7 @@ public class RoleController extends SysBaseControoler {
 	@ResponseBody
 	public ResultBean getList(
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "page", defaultValue = "20") Integer pagesize,
+			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
 		try {
@@ -55,6 +62,7 @@ public class RoleController extends SysBaseControoler {
 	}
 
 	@RequestMapping(value = "get", method = RequestMethod.GET)
+	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":get", name = "查询")
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
 			RoleVo roleVo) {
@@ -68,7 +76,7 @@ public class RoleController extends SysBaseControoler {
 		}
 		return rb;
 	}
-
+	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
@@ -86,6 +94,7 @@ public class RoleController extends SysBaseControoler {
 		return rb;
 	}
 
+	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response, Role role) {
@@ -99,6 +108,7 @@ public class RoleController extends SysBaseControoler {
 		return rb;
 	}
 
+	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request, HttpServletResponse response,

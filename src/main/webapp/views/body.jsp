@@ -1,7 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
-<html>
-  <head>
-	<title>Bootstrap Admin Theme v3</title>
+<head>
+	<title>
+	demo系统管理
+<!-- 	<sitemesh:write property='title'/> -->
+	</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -12,16 +15,18 @@
 	 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <!-- 禁止了把数字转化为拨号链接 -->
      <meta name="format-detection" content="telephone=no">
-    <link href="/demo/views/common/all.css" rel="stylesheet">
-    <script src="/demo/views/common/all.js"></script>
     
-   <decorator:head/>
-
-  </head>
-  <body>
-  
+	 <link href="/demo/views/common/all.css" rel="stylesheet">
+	<!-- 	<script src="/demo/views/common/all.js"></script> -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+	<script type="text/javascript" src="/demo/views/common/layout/js/custom.js"></script>
+	<script type="text/javascript" src="/demo/views/common/bootstrap/js/bootstrap.min.js"></script>
+	    
+    	<sitemesh:write property='head'/>
+    
+</head>
+<body>
  <!-- top -->
-  <body>
   	  <div class="header">
 	     <div class="container">
 	        <div class="row">
@@ -77,9 +82,9 @@
                          </a>
                          <!-- Sub menu -->
                          <ul>
-                            <li><a href="login.html">用户管理</a></li>
-                            <li><a href="signup.html">角色管理</a></li>
-							<li><a href="signup.html">菜单管理</a></li>
+                            <li><a href="/demo/views/modules/sys/userlist.html">用户管理</a></li>
+                            <li><a href="/demo/views/modules/sys/rolelist.html">角色管理</a></li>
+							<li><a href="/demo/views/modules/sys/menulist.html">菜单管理</a></li>
                         </ul>
                     </li>
                     
@@ -106,22 +111,14 @@
 		  </div>
 		  <div class="col-md-10">
 
-  		
-bbbbbbbbbbbbbbbbbbbb
          <sitemesh:write property='body'/>
-<!-- 		          <decorator:body /> -->
-
-
-ffffffffffffffffff
-
 
 		  </div>
 		</div>
     </div>
     
-    
-<!-- footer -->
-    <footer>
+    <!--footer -->
+     <footer>
          <div class="container">
             <div class="copy text-center">
                Copyright 2016<a href='#'>demo</a>
@@ -129,7 +126,6 @@ ffffffffffffffffff
             
          </div>
       </footer>
-      
-
-  </body>
+	
+</body>
 </html>

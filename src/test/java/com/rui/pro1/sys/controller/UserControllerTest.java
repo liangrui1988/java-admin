@@ -2,7 +2,7 @@ package com.rui.pro1.sys.controller;
 
 import org.junit.Test;
 
-import com.rui.pro1.comm.BaseControllerTest;
+import com.rui.pro1.comm.BaseConatrollerTest;
 
 /**
  * 
@@ -10,7 +10,7 @@ import com.rui.pro1.comm.BaseControllerTest;
  * @date 2016/04/05
  *
  */
-public class UserControllerTest extends BaseControllerTest {
+public class UserControllerTest extends BaseConatrollerTest {
 
 	String http = "http://localhost:9808/demo/";
 

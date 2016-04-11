@@ -1,4 +1,4 @@
-package com.rui.pro1.modules.sys.annotations;
+package com.rui.pro1.common.annotatiions;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,8 +26,8 @@ public @interface MenuAnnot
 
 	public String imgPath() default "";
 
-	public String uri() default "";
+	public String href() default "";
 
-	public long orderNo() default -1;
+	public int sortNo() default -1;
 
 }

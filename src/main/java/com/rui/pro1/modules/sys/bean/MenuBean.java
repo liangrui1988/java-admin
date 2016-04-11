@@ -20,7 +20,7 @@ public class MenuBean implements Serializable {
 
 	//private String permission;
 
-	private int sort;
+	private int sortNo;
 
 	private Integer status;
 
@@ -72,16 +72,18 @@ public class MenuBean implements Serializable {
 //		this.permission = permission;
 //	}
 
-	public int getSort() {
-		return this.sort;
-	}
 
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
 
 	public Integer getStatus() {
 		return this.status;
+	}
+
+	public int getSortNo() {
+		return sortNo;
+	}
+
+	public void setSortNo(int sortNo) {
+		this.sortNo = sortNo;
 	}
 
 	public void setStatus(Integer status) {

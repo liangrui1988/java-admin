@@ -1,6 +1,9 @@
 package com.rui.pro1.modules.sys.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.common.bean.page.QueryResult;
+import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
+import com.rui.pro1.modules.sys.mapper.MenuMapper;
 import com.rui.pro1.modules.sys.mapper.UserMapper;
 import com.rui.pro1.modules.sys.service.IUserService;
+import com.rui.pro1.modules.sys.vo.UserLoginVo;
 import com.rui.pro1.modules.sys.vo.UserVo;
 
 @Service
@@ -22,6 +28,9 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private MenuMapper menuMapper;
 
 	@Override
 	public QueryResult<User> getUserList(int page, int pagesize, UserVo user) {
@@ -115,9 +124,9 @@ public class UserService implements IUserService {
 			// 用户to部门
 			if (user.getDepartmentId() > 0) {
 				User user2 = userMapper.get(user.getId());
-				
-				if(user2==null||user2.getId()<=0){
-					//FIXME:抛异常 回滚
+
+				if (user2 == null || user2.getId() <= 0) {
+					// FIXME:抛异常 回滚
 				}
 				// 如果部门有改变，才修改
 				if (user2.getDepartmentId() != user.getDepartmentId()) {
@@ -128,6 +137,66 @@ public class UserService implements IUserService {
 			}
 		}
 		return count;
+	}
+
+	@Override
+	public User getUser(String username) {
+
+		UserLoginVo userLoginVo = new UserLoginVo();
+		userLoginVo.setUserName(username);
+
+		User user = userMapper.query(userLoginVo);
+
+		return user;
+	}
+
+	@Override
+	public Set<String> getUserRole(String username) {
+		UserLoginVo userLoginVo = new UserLoginVo();
+		userLoginVo.setUserName(username);
+
+		User user = userMapper.query(userLoginVo);
+		
+		if(user==null){
+			return null;
+		}
+		
+		if(user.getRoles()==null||user.getRoles().size()<=0){
+			return null;
+		}
+		
+		Set<String> roles=new HashSet<String>();
+		for(Role role:user.getRoles()){
+			roles.add(role.getName());
+		}
+		return roles;
+	}
+
+	@Override
+	public Set<String> getUserPermissions(String username) {
+		
+		UserLoginVo userLoginVo = new UserLoginVo();
+		userLoginVo.setUserName(username);
+		User user = userMapper.query(userLoginVo);
+		if(user==null){
+			return null;
+		}
+		
+		if(user.getRoles()==null||user.getRoles().size()<=0){
+			return null;
+		}
+		Set<String> result=new HashSet<String>();
+		for(Role role:user.getRoles()){
+			List<Menu> mes=menuMapper.getAllMenuByRoleId(role.getId());
+			if(mes==null||mes.size()<=0){
+				continue;
+			}
+			for(Menu m:mes){
+				result.add(m.getPermission());
+			}
+		}
+		
+		return result;
 	}
 
 }

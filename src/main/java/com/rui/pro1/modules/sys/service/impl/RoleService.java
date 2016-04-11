@@ -98,7 +98,7 @@ public class RoleService implements IRoleService {
 
 		if (role.getMenuIds() != null && role.getMenuIds().size() > 0) {
 			// 关联菜单
-			for (Integer menuId : role.getMenuIds()) {
+			for (String menuId : role.getMenuIds()) {
 				roleMapper.addRoleMenu(role.getId(), menuId);
 			}
 		}
@@ -118,7 +118,7 @@ public class RoleService implements IRoleService {
 			roleMapper.delRoleMenu(role.getId());
 			if(role.getMenuIds()!=null&&role.getMenuIds().size()>0)
 			{
-				for(int menuId:role.getMenuIds()){
+				for(String menuId:role.getMenuIds()){
 					roleMapper.addRoleMenu(role.getId(), menuId);
 				}
 			}

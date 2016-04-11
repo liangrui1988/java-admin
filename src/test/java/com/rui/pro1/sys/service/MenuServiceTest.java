@@ -37,9 +37,9 @@ public class MenuServiceTest extends BaseServiceTest {
 		Menu menu=new Menu();
 		menu.setName("系统管理");
 		menu.setPermission("user:*");
-		menu.setSort(1);
+		menu.setSortNo(1);
 		menu.setTypes("2");
-		menu.setParentId(0);
+		menu.setParentId("0");
 		menu.setIcon("a");
 		menu.setHref("/sys/menu/list");
 	
@@ -51,12 +51,12 @@ public class MenuServiceTest extends BaseServiceTest {
 		
 		Menu menu=new Menu();
 		
-		menu.setId(2);
+		menu.setId("2");
 		menu.setName("update");
 		menu.setPermission("xx user:*");
-		menu.setSort(2);
+		menu.setSortNo(2);
 		menu.setTypes("3");
-		menu.setParentId(0);
+		menu.setParentId("0");
 		menu.setStatus(1);
 		
 		menuService.update(menu);

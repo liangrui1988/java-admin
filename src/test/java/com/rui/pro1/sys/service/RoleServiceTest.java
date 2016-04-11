@@ -53,10 +53,10 @@ public class RoleServiceTest extends BaseServiceTest {
 		role.setName("update");
 		role.setStatus(1);
 		
-		List<Integer> menuIds=new ArrayList<Integer>();
-		menuIds.add(6);
-		menuIds.add(7);
-		menuIds.add(8);
+		List<String> menuIds=new ArrayList<String>();
+		menuIds.add("6");
+		menuIds.add(7+"");
+		menuIds.add(8+"");
 		role.setMenuIds(menuIds);
 		roleService.update(role);
 	}

@@ -6,23 +6,21 @@
 
 
 
-	<servlet>
-		<servlet-name>pro1</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:application-pro1.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-		<async-supported>true</async-supported>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>pro1</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
+	
+   <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:application-pro1.xml
+        </param-value>
+    </context-param>
+	
+     <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+ 
 
 
+	<!-- alibaba -->
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -52,21 +50,74 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+
+	<!-- 设置servlet编码开始 -->
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- shiro 安全过滤器 -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>request</dispatcher>
+	</filter-mapping>
+
+
+
 	<!-- SiteMesh -->
 	<filter>
 		<filter-name>sitemeshFilter</filter-name>
 		<filter-class>com.rui.pro1.common.web.filter.SiteMeshFilter</filter-class>
-<!-- 		<filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class> -->
+		<!-- <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class> -->
 	</filter>
 	<filter-mapping>
 		<filter-name>sitemeshFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>sitemeshFilter</filter-name> -->
-<!-- 		<url-pattern>/demo/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
 
+
+	<servlet>
+		<servlet-name>pro1</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:application-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>pro1</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+    
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

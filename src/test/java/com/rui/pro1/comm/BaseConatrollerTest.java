@@ -19,7 +19,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BaseControllerTest {
+public class BaseConatrollerTest {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	public String http = "http://localhost:9808";

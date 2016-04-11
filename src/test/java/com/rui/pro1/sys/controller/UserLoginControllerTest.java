@@ -2,9 +2,9 @@ package com.rui.pro1.sys.controller;
 
 import org.junit.Test;
 
-import com.rui.pro1.comm.BaseControllerTest;
+import com.rui.pro1.comm.BaseConatrollerTest;
 
-public class UserLoginControllerTest extends BaseControllerTest  {
+public class UserLoginControllerTest extends BaseConatrollerTest  {
 
 	@Test
 	public void simpleLogin(){

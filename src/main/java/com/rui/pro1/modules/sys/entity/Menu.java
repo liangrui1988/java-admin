@@ -10,17 +10,17 @@ import java.io.Serializable;
 public class Menu implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private String id;
 
 	private String name;
 
-	private int parentId;
+	private String parentId;
 
 	private String parentIds;
 
 	private String permission;
 
-	private int sort;
+	private int sortNo;
 
 	private Integer status;
 
@@ -32,13 +32,19 @@ public class Menu implements Serializable {
 	public Menu() {
 	}
 
-	public int getId() {
-		return this.id;
+
+
+	public String getId() {
+		return id;
 	}
 
-	public void setId(int id) {
+
+
+	public void setId(String id) {
 		this.id = id;
 	}
+
+
 
 	public String getName() {
 		return this.name;
@@ -48,11 +54,11 @@ public class Menu implements Serializable {
 		this.name = name;
 	}
 
-	public int getParentId() {
+	public String getParentId() {
 		return this.parentId;
 	}
 
-	public void setParentId(int parentId) {
+	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
 
@@ -72,12 +78,14 @@ public class Menu implements Serializable {
 		this.permission = permission;
 	}
 
-	public int getSort() {
-		return this.sort;
+
+
+	public int getSortNo() {
+		return sortNo;
 	}
 
-	public void setSort(int sort) {
-		this.sort = sort;
+	public void setSortNo(int sortNo) {
+		this.sortNo = sortNo;
 	}
 
 	public Integer getStatus() {

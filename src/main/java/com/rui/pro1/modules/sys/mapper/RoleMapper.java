@@ -21,7 +21,7 @@ public interface RoleMapper {
 
 	int update(Role role);
 	
-	int addRoleMenu(@Param("roleId")int roleId,@Param("menuId")int menuId);
+	int addRoleMenu(@Param("roleId")int roleId,@Param("menuId")String menuId);
 	
 	int delRoleMenu(@Param("roleId")int roleId);
 }

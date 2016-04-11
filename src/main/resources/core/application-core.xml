@@ -18,7 +18,7 @@
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/task 
 		http://www.springframework.org/schema/task/spring-task.xsd">
-    <context:component-scan base-package="com.rui" />
+    <context:component-scan base-package="com.rui.pro1" />
     <context:property-placeholder location="classpath:pro1.properties,classpath:logback.properties"/>
 
     <bean id="baseDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">

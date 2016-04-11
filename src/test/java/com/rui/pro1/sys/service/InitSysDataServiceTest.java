@@ -64,9 +64,9 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		//分置菜单 
 		Menu menu=new Menu();
 		menu.setName("系统管理");
-		menu.setParentId(0);
+		menu.setParentId("0");
 		menu.setPermission("sys:*");
-		menu.setSort(1);
+		menu.setSortNo(1);
 		menu.setTypes("1");
 		menu.setIcon("a");
 		menu.setHref("/sys/menu/list");
@@ -78,7 +78,7 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		role.setName("系统管理员");
 		role.setRemake("remake");
 		
-		List<Integer> menuIds=new ArrayList<Integer>();
+		List<String> menuIds=new ArrayList<String>();
 		menuIds.add(menu.getId());
 		role.setMenuIds(menuIds);
 		

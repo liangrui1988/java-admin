@@ -55,6 +55,7 @@ dependencies {
         compile 'com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.4.0'
         compile 'com.google.guava:guava:15.0'
 	    compile "org.springframework:spring-context:${SpringVersion}"
+		compile "org.springframework:spring-context-support:${SpringVersion}"
 	   // compile "org.springframework:spring-jdbc:${SpringVersion}"
 		compile "org.eclipse.jetty:jetty-webapp:${JettyVersion}"
 	    compile 'mysql:mysql-connector-java:5.1.28'
@@ -93,6 +94,8 @@ dependencies {
         compile "org.apache.shiro:shiro-quartz:${ShiroVersion}"
 		compile "org.apache.shiro:shiro-spring:${ShiroVersion}"
 		compile 'org.sitemesh:sitemesh:3.0.1'
+		//compile 'net.sf.ehcache:ehcache:2.10.1'
+
 		
 
 

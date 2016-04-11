@@ -12,6 +12,14 @@
 		truncate sys_user_role;
 		truncate sys_user_department;
 	</delete>
+	
+	
+	<delete id="truncateMenus">
+	truncate sys_menu;
+<!-- 	truncate sys_role_menu; -->
+	</delete>
+	
+	
 
 </mapper>
 

@@ -19,7 +19,7 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  */
 // @Controller
 // @RequestMapping("sys/user")
-public class TemplateController {
+public class TemplateConatroller {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getUserList(

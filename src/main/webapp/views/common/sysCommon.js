@@ -1,3 +1,5 @@
-function getWebAppContext(){
-	return "demo";
+
+
+function getWebContext(){
+	return "/demo/";
 }

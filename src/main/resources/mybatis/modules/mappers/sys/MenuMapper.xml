@@ -43,9 +43,10 @@
 	<!-- 插入字段sql -->
 	<sql id="dbField">
 		<trim suffix="" suffixOverrides=",">
+		    id,
 			<if test="name != null and name != ''">name,</if>
 			<if test="types != null and types != ''">types,</if>
-			<if test="sort != null">sort,</if>
+			<if test="sortNo != null">sortNo,</if>
 			<if test="parentId != null">parentId,</if>
 			<if test="permission != null and permission != ''">permission,</if>
 			<if test="icon != null and icon != ''">icon,</if>
@@ -55,9 +56,10 @@
 	<!-- 插入值sql -->
 	<sql id="dbFieldValue">
 		<trim suffix="" suffixOverrides=",">
+		     #{id},
 			<if test="name != null and name != ''">#{name},</if>
 			<if test="types != null">#{types},</if>
-			<if test="sort != null">#{sort},</if>
+			<if test="sortNo != null">#{sortNo},</if>
 			<if test="parentId != null">#{parentId},</if>
 			<if test="permission != null">#{permission},</if>
 			<if test="icon != null">#{icon},</if>
@@ -88,7 +90,7 @@
 		<set>
 			<if test="name != null and name != ''">name=#{name},</if>
 			<if test="types != null and types != ''">types=#{types},</if>
-			<if test="sort != null">sort=#{sort},</if>
+			<if test="sortNo != null">sortNo=#{sortNo},</if>
 			<if test="parentId != null">parentId=#{parentId},</if>
 			<if test="permission != null and permission != ''">permission=#{permission},</if>
 		</set>

@@ -32,8 +32,6 @@ public class UserLoginService implements IUserLoginService {
 		
 		//cokie
 		
-		
-		
 		//处理密码
 		String password=PassUtil.encryptPassword(userLoginVo.getPassword(), userLoginVo.getUserName());
 		userLoginVo.setPassword(password);

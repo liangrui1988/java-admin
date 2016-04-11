@@ -25,6 +25,51 @@
 		<property name="basePackage" value="com.rui.pro1.modules.**.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
+	
+	
+	<!-- ================================ 数据库事物部分 ========================================= -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="insert*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="add*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="do*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="create*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="save*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="del*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="remove*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="update*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="modify*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="tx*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="deal*" />
+			<tx:method propagation="REQUIRED" rollback-for="Throwable"
+				name="record*" />
+				
+			<tx:method read-only="true" name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="allServiceOperation"
+			expression="execution(* com.rui.pro1..service..*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allServiceOperation" />
+	</aop:config>
+	
 
 
 

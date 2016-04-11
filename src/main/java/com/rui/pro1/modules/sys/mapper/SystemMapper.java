@@ -4,4 +4,6 @@ public interface SystemMapper {
 	
 	int truncateAllRBAC();
 
+	int truncateMenus();
+
 }
