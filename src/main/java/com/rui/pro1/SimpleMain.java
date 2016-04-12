@@ -10,7 +10,6 @@ public class SimpleMain {
 	public static void main(String[] args) throws Exception {
 		Server server = new Server();
 		SelectChannelConnector connector = new SelectChannelConnector();
-
 		// 设置线程
 		server.setThreadPool(new ExecutorThreadPool());
 		// 端口
@@ -18,7 +17,8 @@ public class SimpleMain {
 		// 设置handler
 		//项目目录名/src/main/webapp
 		//lib/webapp
-		server.setHandler(new WebAppContext("src/main/webapp", "/demo"));
+		//demo
+		server.setHandler(new WebAppContext("src/main/webapp", "/"));
 		// 连接器
 		server.addConnector(connector);
 		server.start();

@@ -7,6 +7,8 @@ package com.rui.pro1.common.constants;
  *
  */
 public class Modules {
+	public static final String WEB_CONTEXT_PATH = "demo";
+
 	public static final String SYS = "sys";// 系统模块
 	public static final String merchant = "merchant";// 商家模块
 	public static final String gov = "gov";

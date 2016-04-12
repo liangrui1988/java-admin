@@ -13,7 +13,6 @@
 
     <import resource="core/application-core.xml" />
     
-    
         <!-- 数据库 -->
 	<bean id="dataSource"  parent="baseDataSource" p:url="${jdbc.url}" />
 	<!-- mybatis映射 配置-->
@@ -31,8 +30,45 @@
 	<task:annotation-driven  executor="myExecutor" scheduler="myScheduler" />
     <task:executor id="myExecutor" pool-size="5" />
     <task:scheduler id="myScheduler" pool-size="2" />
+    
+       <!-- 通过配置织入@Aspectj切面  -->
+    <aop:aspectj-autoproxy />
+    <!-- AutowiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor 以及 RequiredAnnotationBeanPostProcessor 这 4 个BeanPostProcessor。 -->
+    <context:annotation-config/>
+    
+<!--     <mvc:annotation-driven/> -->
+    
+    <mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="com.rui.pro1.common.utils.converter.JSONConverter" />
+		</mvc:argument-resolvers>
+	<mvc:message-converters>
+		<bean
+			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<property name="objectMapper">
+				<bean class="com.rui.pro1.common.utils.converter.ResponseNullUtil"></bean>
+			</property>
+		</bean>
+	</mvc:message-converters>  
+</mvc:annotation-driven>
+
+    
+       <!-- 处理静态文件 -->
+    <mvc:default-servlet-handler/>
+    
 	
-	<import resource="cache.xml"/>
-	<import resource="shiro.xml"/>
+		
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+		<!-- 获取bean -->
+	<bean id="sysApplicationContext" class="com.rui.pro1.common.utils.spring.SysApplicationContext">
+	</bean>
+<!-- 	<import resource="cache.xml"/> -->
+<!-- 	<import resource="shiro.xml"/> -->
 
 </beans>

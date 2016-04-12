@@ -15,45 +15,77 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.rui.pro1.common.utils.spring.SysApplicationContext;
+import com.rui.pro1.modules.sys.constants.SysComm;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.service.IUserService;
 
+/**
+ * 获取身份验证相关信息 .
+ * 
+ * 用于访问诸如用户、角色、权限这类安全数据的组件
+ * 
+ * @author ruiliang
+ *
+ */
 public class UserRealm extends AuthorizingRealm {
 	@Autowired
 	private IUserService userService;
 	@Autowired
 	private IRoleService roleService;
 
+	/**
+	 * ------------------------------------------------------------------------
+	 * by userName get user info,ok login
+	 * -------------------------------------------------------------------------
+	 */
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
 		String username = (String) principals.getPrimaryPrincipal();
 
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
+		if (userService == null) {
+			userService = (IUserService) SysApplicationContext
+					.getBean("userService");
+		}
+
 		// userService.findRoles(username)
 		Set<String> roles = userService.getUserRole(username);
 		authorizationInfo.setRoles(roles);
-
 		// userService.findPermissions(username)
 		Set<String> permissions = userService.getUserPermissions(username);
 		authorizationInfo.setStringPermissions(permissions);
 		return authorizationInfo;
 	}
 
+	/**
+	 * ------------------------------------------------------------------------
+	 * by token get user info,no login 未进行验证
+	 * -------------------------------------------------------------------------
+	 */
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
 		String username = (String) token.getPrincipal();
+
+		if (userService == null) {
+			userService = (IUserService) SysApplicationContext
+					.getBean("userService");
+
+		}
+
 		User user = userService.getUser(username);
 		if (user == null) {
-			throw new UnknownAccountException();// 没找到帐号
+			throw new UnknownAccountException();// NO ACCOUNT=userName
 		}
-		if (user.getStatus().intValue()==2) {
-			throw new LockedAccountException(); // 帐号锁定
+		if (user.getStatus().intValue() == 2) {
+			throw new LockedAccountException(); // userName Locked
 		}
+		// 简单的身份验证
 		return new SimpleAuthenticationInfo(user.getUserName(), // 用户名
-				user.getPassword(), // 密码
-				ByteSource.Util.bytes("*&^"),// salt=username+salt
+				user.getPassword(), ByteSource.Util.bytes(SysComm.SYS_USER_KEY
+						+ user.getUserName()),// salt=username+salt
 				getName() // realm name
 		);
 	}

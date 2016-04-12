@@ -4,7 +4,7 @@
     <diskStore path="java.io.tmpdir"/>
 
     <!-- 登录记录缓存 锁定10分钟 -->
-    <cache name="passwordRetryCache"
+    <cache name="longinLogCache"
            maxEntriesLocalHeap="2000"
            eternal="false"
            timeToIdleSeconds="3600"

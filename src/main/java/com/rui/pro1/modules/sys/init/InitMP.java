@@ -10,19 +10,15 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.annotatiions.MenuAnnot;
 import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.utils.dir.Directory.TreeInfo;
-import com.rui.pro1.modules.BaseController;
 import com.rui.pro1.modules.sys.entity.Department;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
@@ -49,7 +45,7 @@ public class InitMP {
 	/**
 	 * 初始等级
 	 */
-	@Value("0")
+	@Value("${initLevel}")
 	private String initLevel = "0";
 
 	@Autowired
@@ -101,25 +97,25 @@ public class InitMP {
 		log.info("xxxxxxxxx==== 扫描菜单 权限 开始xxxxxxxxxx");
 		List<String> clzList = new ArrayList<String>();
 		// 获取需扫描的一级目录
-		String baseControllerDir = BaseController.class.getProtectionDomain()
-				.getCodeSource().getLocation().getPath();
-		System.out.println("baseControllerDir:" + baseControllerDir);
+//		String baseControllerDir = BaseController.class.getProtectionDomain()
+//				.getCodeSource().getLocation().getPath();
+//		System.out.println("baseControllerDir:" + baseControllerDir);
 
-		String relativelyPath = System.getProperty("user.dir");
-		System.out.println("relativelyPath:" + relativelyPath);
-		
+	
 		//String pa=BaseController.class.getClass().getResource("/").getPath().substring(1);
-
 		
 		// 获取baseController 的包名
-		String basePackName = BaseController.class.getPackage().getName();
+		//String basePackName = BaseController.class.getPackage().getName();
 
-		int endIndex = baseControllerDir.indexOf("controller");
+		//int endIndex = baseControllerDir.indexOf("controller");
 		// 得到需要扫描的路径
-		String rootDir = baseControllerDir.substring(1, endIndex + 10);
-		log.info("======= 扫描包:========>" + rootDir);
+//		String rootDir = baseControllerDir.substring(1, endIndex + 10);
+		//log.info("======= 扫描包:========>" + rootDir);
 
-		rootDir=relativelyPath;
+		
+		String rootDir = System.getProperty("user.dir");
+		log.info("rootDir:{}" , rootDir);
+		
 		// 开始扫描
 		TreeInfo info = TreeInfo.walk(rootDir, ".*.Controller.*.class");// .*.a.*.jpg
 
@@ -127,14 +123,9 @@ public class InitMP {
 		log.info("=======info.dirs.size():========>" + info.dirs.size());
 
 		for (File f : info.files) {
-
 			String path=f.getPath();
-			
 			int start=path.indexOf("com");
-			System.out.println(start);
-			
 			String clzName = path.substring(start, path.length() - 6);
-			
 			clzName=clzName.replace("\\", ".");
 			clzName=clzName.replace("/", ".");
 

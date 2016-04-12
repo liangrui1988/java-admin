@@ -4,20 +4,39 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
 
-
-
 	
-   <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            classpath:application-pro1.xml
+
+	<servlet>
+		<servlet-name>pro1</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:application-pro1.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>pro1</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+
+
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            classpath:shiro.xml
         </param-value>
-    </context-param>
+	</context-param>
+
+
+<!-- 自动装配ApplicationContext的配置信息 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	
-     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
- 
 
 
 	<!-- alibaba -->
@@ -69,6 +88,7 @@
 		<filter-name>Set Character Encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+		<!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 -->
 
 	<!-- shiro 安全过滤器 -->
 	<filter>
@@ -89,11 +109,9 @@
 
 
 
-	<!-- SiteMesh -->
 	<filter>
 		<filter-name>sitemeshFilter</filter-name>
 		<filter-class>com.rui.pro1.common.web.filter.SiteMeshFilter</filter-class>
-		<!-- <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class> -->
 	</filter>
 	<filter-mapping>
 		<filter-name>sitemeshFilter</filter-name>
@@ -101,24 +119,8 @@
 	</filter-mapping>
 
 
-	<servlet>
-		<servlet-name>pro1</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:application-mvc.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-		<async-supported>true</async-supported>
-	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>pro1</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
-    
-
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>views/index.html</welcome-file>
