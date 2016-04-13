@@ -28,7 +28,7 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private MenuMapper menuMapper;
 
@@ -156,17 +156,17 @@ public class UserService implements IUserService {
 		userLoginVo.setUserName(username);
 
 		User user = userMapper.query(userLoginVo);
-		
-		if(user==null){
+
+		if (user == null) {
 			return null;
 		}
-		
-		if(user.getRoles()==null||user.getRoles().size()<=0){
+
+		if (user.getRoles() == null || user.getRoles().size() <= 0) {
 			return null;
 		}
-		
-		Set<String> roles=new HashSet<String>();
-		for(Role role:user.getRoles()){
+
+		Set<String> roles = new HashSet<String>();
+		for (Role role : user.getRoles()) {
 			roles.add(role.getName());
 		}
 		return roles;
@@ -174,29 +174,56 @@ public class UserService implements IUserService {
 
 	@Override
 	public Set<String> getUserPermissions(String username) {
-		
+
 		UserLoginVo userLoginVo = new UserLoginVo();
 		userLoginVo.setUserName(username);
 		User user = userMapper.query(userLoginVo);
-		if(user==null){
+		if (user == null) {
 			return null;
 		}
-		
-		if(user.getRoles()==null||user.getRoles().size()<=0){
+
+		if (user.getRoles() == null || user.getRoles().size() <= 0) {
 			return null;
 		}
-		Set<String> result=new HashSet<String>();
-		for(Role role:user.getRoles()){
-			List<Menu> mes=menuMapper.getAllMenuByRoleId(role.getId());
-			if(mes==null||mes.size()<=0){
+		Set<String> result = new HashSet<String>();
+		for (Role role : user.getRoles()) {
+			List<Menu> mes = menuMapper.getAllMenuByRoleId(role.getId());
+			if (mes == null || mes.size() <= 0) {
 				continue;
 			}
-			for(Menu m:mes){
+			for (Menu m : mes) {
 				result.add(m.getPermission());
 			}
 		}
-		
+
 		return result;
+	}
+
+	@Override
+	public List<Menu> getUserMenus(String username) {
+
+		UserLoginVo userLoginVo = new UserLoginVo();
+		userLoginVo.setUserName(username);
+		User user = userMapper.query(userLoginVo);
+		if (user == null) {
+			return null;
+		}
+
+		if (user.getRoles() == null || user.getRoles().size() <= 0) {
+			return null;
+		}
+
+		List<Menu> menus = new ArrayList<Menu>();
+		for (Role role : user.getRoles()) {
+			List<Menu> menu = menuMapper.getAllMenuByRoleId(role.getId());
+			if (menu == null || menu.size() <= 0) {
+				continue;
+			}
+			menus.addAll(menu);
+
+		}
+
+		return menus;
 	}
 
 }

@@ -16,11 +16,12 @@
     <!-- 禁止了把数字转化为拨号链接 -->
      <meta name="format-detection" content="telephone=no">
     
-	 <link href="/demo/views/common/all.css" rel="stylesheet">
+	 <link href="/views/common/all.css" rel="stylesheet">
 	<!-- 	<script src="/demo/views/common/all.js"></script> -->
-	<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
-	<script type="text/javascript" src="/demo/views/common/layout/js/custom.js"></script>
-	<script type="text/javascript" src="/demo/views/common/bootstrap/js/bootstrap.min.js"></script>
+<!-- 	<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script> -->
+	<script type="text/javascript" src="/views/common/jquery/jquery-1.12.3.js"></script>
+	<script type="text/javascript" src="/views/common/layout/js/custom.js"></script>
+	<script type="text/javascript" src="/views/common/bootstrap/js/bootstrap.min.js"></script>
 	    
     	<sitemesh:write property='head'/>
     

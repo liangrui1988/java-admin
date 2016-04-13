@@ -38,9 +38,14 @@
     
 <!--     <mvc:annotation-driven/> -->
     
+    
+ 
+  
+  
     <mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean class="com.rui.pro1.common.utils.converter.JSONConverter" />
+			 <bean class="com.rui.pro1.modules.sys.shiro.CurrentUserMethodArgumentResolver"/> 
 		</mvc:argument-resolvers>
 	<mvc:message-converters>
 		<bean

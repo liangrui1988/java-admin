@@ -118,15 +118,8 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-		  /views/** = anon
-		 /demo/sys/user/login = anon
-		  login = anon
-		 /login = anon
-		 /login** = anon
-		 /logout = logout
-		 /user/** = authc
-	
-
+	/views/** = anon
+   /**=anon
             </value>
         </property>
     </bean>
