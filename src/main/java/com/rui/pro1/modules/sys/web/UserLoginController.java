@@ -59,11 +59,7 @@ public class UserLoginController extends SysBaseControoler {
 	public ResultBean login(HttpServletRequest request,
 			HttpServletResponse response, UserLoginVo userLoginVo) {
 		
-		
-		
         Map<String, String[]> param=request.getParameterMap();
-
-		
 		
 		ResultBean rb = new ResultBean();
 		try {
@@ -113,23 +109,17 @@ public class UserLoginController extends SysBaseControoler {
 	@ResponseBody
 	 @RequestMapping(value="login") //, method=RequestMethod.POST
 	public ResultBean login2(HttpServletRequest request, HttpServletResponse req, User loginUser) {
-		 
 	     ResultBean rb = new ResultBean();
 		 boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM); 
-		 rememberMe=false;
 	     String host = request.getRemoteHost();  
-			host="127.0.0.1";
-
 	        //构造登陆令牌环  
 	        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
-	  
 	        try{  
 	            //发出登陆请求  
 	        	SecurityUtils.getSubject().login(token);  
 	            //登陆成功  
 	            HttpSession session = request.getSession(true);  
 	            try {  
-	           
 	            	User user=	userService.getUser(loginUser.getUserName());
 	        		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
 	        		if(menus!=null){

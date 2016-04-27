@@ -76,20 +76,15 @@ public class FormsAuthenticationFilter extends FormAuthenticationFilter {
 	}
 
 	/**
-	 * 生成token
+	 * 生成token   这里和登登陆对应
 	 */
 	@Override
 	public AuthenticationToken createToken(ServletRequest request,
 			ServletResponse response) {
 		String username = getUsername(request);
 		String password = getPassword(request);
-
-		//FIXME:
 		boolean rememberMe = isRememberMe(request);
-		rememberMe=false;
 		String host = getHost(request);
-		host="127.0.0.1";
-
 		return createTokenBuild(username, password, rememberMe, host);
 	}
 
