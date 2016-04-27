@@ -40,6 +40,9 @@ public class CredentialsMatcher extends HashedCredentialsMatcher {
 		if (loginCount.incrementAndGet() > 3) {
 			throw new ExcessiveAttemptsException();
 		}
+		
+		System.out.println(token);
+		System.out.println(info);
 		// importance 关键点
 		boolean matches = super.doCredentialsMatch(token, info);
 		if (matches) {

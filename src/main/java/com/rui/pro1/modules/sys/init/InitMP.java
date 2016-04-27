@@ -62,6 +62,8 @@ public class InitMP {
 
 	@Autowired
 	private IUserService userService;
+	
+
 
 	// -------------------------------------------------------------------------------
 	// 系统初始化 initLevel=0 执行全部操作 删除用户 角色。。。
@@ -249,7 +251,7 @@ public class InitMP {
 		// 用户
 		User user = new User();
 		user.setUserName("admin");
-		String password = PassUtil.encryptPassword("123456", "admin");
+		String password = PassUtil.encryptPassword("admin", "admin");
 		user.setPassword(password);
 		// 关联角色
 		List<Role> roles = new ArrayList<Role>();

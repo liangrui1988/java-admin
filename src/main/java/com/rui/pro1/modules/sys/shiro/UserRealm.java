@@ -20,6 +20,7 @@ import com.rui.pro1.modules.sys.constants.SysComm;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.service.IUserService;
+import com.rui.pro1.modules.sys.utils.PassUtil;
 
 /**
  * 获取身份验证相关信息 .
@@ -34,6 +35,9 @@ public class UserRealm extends AuthorizingRealm {
 	private IUserService userService;
 	@Autowired
 	private IRoleService roleService;
+	
+//	@Autowired
+	private PassUtil PassUtil;
 
 	/**
 	 * ------------------------------------------------------------------------
@@ -82,11 +86,16 @@ public class UserRealm extends AuthorizingRealm {
 		if (user.getStatus().intValue() == 2) {
 			throw new LockedAccountException(); // userName Locked
 		}
-		// 简单的身份验证
-		return new SimpleAuthenticationInfo(user.getUserName(), // 用户名
-				user.getPassword(), ByteSource.Util.bytes(SysComm.SYS_USER_KEY
-						+ user.getUserName()),// salt=username+salt
-				getName() // realm name
-		);
+		// 简单的身份验证  // salt=username+salt  // 用户名
+		ByteSource bs=ByteSource.Util.bytes(PassUtil.salt	+ user.getUserName());
+		
+		System.out.println(user.getUserName()+"=="+user.getPassword());
+		System.out.println("bs:"+bs);
+
+		System.out.println(getName());
+		SimpleAuthenticationInfo info=new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), bs,getName());
+		
+		System.out.println(info);
+		return info;
 	}
 }

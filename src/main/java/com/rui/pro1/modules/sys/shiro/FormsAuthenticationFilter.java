@@ -84,8 +84,11 @@ public class FormsAuthenticationFilter extends FormAuthenticationFilter {
 		String username = getUsername(request);
 		String password = getPassword(request);
 
+		//FIXME:
 		boolean rememberMe = isRememberMe(request);
+		rememberMe=false;
 		String host = getHost(request);
+		host="127.0.0.1";
 
 		return createTokenBuild(username, password, rememberMe, host);
 	}

@@ -21,6 +21,9 @@ public class Role implements Serializable  {
 	private Integer status;
 
 	private List<String> menuIds; // 拥有的菜单列表
+	
+	private List<Menu> menus; // 拥有的菜单列表
+
 
 	public Role() {
 	}
@@ -64,5 +67,15 @@ public class Role implements Serializable  {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
+	}
+	
+	
 
 }

@@ -23,6 +23,8 @@ public class User implements Serializable {
 	private Department department;
 
 	private List<Role> roles; // 拥有的角色列表
+	
+	private List<Menu> menus; // 拥有的菜单列表
 
 	public User() {
 	}
@@ -106,5 +108,15 @@ public class User implements Serializable {
 	public void setRemake(String remake) {
 		this.remake = remake;
 	}
+
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
+	}
+	
+	
 
 }

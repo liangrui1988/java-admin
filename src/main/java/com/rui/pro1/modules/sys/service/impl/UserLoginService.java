@@ -20,6 +20,8 @@ public class UserLoginService implements IUserLoginService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	
 
 	@Override
 	public UserBean login(UserLoginVo userLoginVo) {

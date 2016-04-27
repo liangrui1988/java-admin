@@ -37,6 +37,8 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 	
 	@Autowired
 	private SystemMapper systemMapper;
+//	@Autowired
+//	private PassUtil PassUtil;
 	
 	
 	@Test

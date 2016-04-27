@@ -66,8 +66,8 @@
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/" />
-		<property name="suffix" value=".jsp" />
+		<property name="prefix" value="/views/" />
+		<property name="suffix" value=".html" />
 	</bean>
 	
 		<!-- 获取bean -->

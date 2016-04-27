@@ -18,6 +18,8 @@ public class UserServiceTest extends BaseServiceTest {
 
 	@Autowired
 	private IUserService userService;
+	
+
 
 	@Test
 	public void getPage() {

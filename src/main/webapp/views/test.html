@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bootstrap Admin Theme v3</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/views/common/jquery/jquery-1.12.3.js"></script>
+    
+    <link href="/views/common/all.css" rel="stylesheet">
+	<!-- 	<script src="/demo/views/common/all.js"></script> -->
+	<script type="text/javascript" src="/views/common/layout/js/custom.js"></script>
+	<script type="text/javascript" src="/views/common/bootstrap/js/bootstrap.min.js"></script>
+	 <script type="text/javascript" src="/views/common/sysCommon.js"></script>
+</head>
+
+<body class="">
+
+	
+ <input type="button" id="_loginxx" value="登录"  >
+	
+<script type="text/javascript">
+		$("#_loginxx").click(function() {
+			
+			
+			//String dataj=JSON.stringify({"Employees":{ "firstName": "Bill", "lastName": "Gates" }})
+// 			String dataj=JSON.stringify({"payOrderVo":{ "asynReturnUrl": "http://www.baidu.com", "orderIp": "1.0.0.0" ,"delFlag" : "1"}});
+
+// 			alert(dataj);
+			
+			var username = $("#_username").val();
+			var password = $("#_password").val();
+			var rememberme = $("#_rememberme").val();
+			$.ajax({
+				url : "http://localhost:8080/v1/order/add",
+				data: JSON.stringify();
+				data : {
+					'asynReturnUrl' : 'http://www.baidu.com',
+					'orderIp' : "1.0.0.0",
+					'delFlag' : "1"
+				},
+				type : 'post',
+				cache : false,
+				dataType : 'json',
+				success : function(data,success) {
+					alert(success);
+					alert(JSON.stringify(data));
+
+				},
+				error : function() {
+					alert("异常！");
+				}
+			});
+		});
+</script>
+</body>
+</html>

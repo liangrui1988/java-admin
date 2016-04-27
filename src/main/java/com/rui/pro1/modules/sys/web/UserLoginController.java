@@ -1,24 +1,24 @@
 package com.rui.pro1.modules.sys.web;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,13 +32,11 @@ import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.exception.ErrorCode;
 import com.rui.pro1.modules.sys.annotations.CurrentUser;
 import com.rui.pro1.modules.sys.bean.UserBean;
-import com.rui.pro1.modules.sys.constants.SysComm;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IUserLoginService;
 import com.rui.pro1.modules.sys.service.IUserService;
-import com.rui.pro1.modules.sys.shiro.FormsAuthenticationFilter;
 import com.rui.pro1.modules.sys.shiro.TokenBuild;
 import com.rui.pro1.modules.sys.vo.UserLoginVo;
 
@@ -60,6 +58,13 @@ public class UserLoginController extends SysBaseControoler {
 	@ResponseBody
 	public ResultBean login(HttpServletRequest request,
 			HttpServletResponse response, UserLoginVo userLoginVo) {
+		
+		
+		
+        Map<String, String[]> param=request.getParameterMap();
+
+		
+		
 		ResultBean rb = new ResultBean();
 		try {
 			logger.debug("message:{}", userLoginVo);
@@ -100,83 +105,62 @@ public class UserLoginController extends SysBaseControoler {
 		return rb;
 	}
 
+//	@Autowired
+//	com.rui.pro1.modules.sys.shiro.CredentialsMatcher  cmatcher;
 	/**
-	 * 用户登录
+	 * 用户登录  代码登陆方式 测试
 	 */
-	// @RequestMapping(value="login") //, method=RequestMethod.POST
-	public String login2(HttpServletRequest request, HttpServletResponse req) {
-		String resultPageURL = InternalResourceViewResolver.FORWARD_URL_PREFIX
-				+ "/";
-		String username = request.getParameter("userName");
-		String password = request.getParameter("password");
-		String rememberMe = WebUtils.getCleanParam(request, "rememberMe");
+	@ResponseBody
+	 @RequestMapping(value="login") //, method=RequestMethod.POST
+	public ResultBean login2(HttpServletRequest request, HttpServletResponse req, User loginUser) {
+		 
+	     ResultBean rb = new ResultBean();
+		 boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM); 
+		 rememberMe=false;
+	     String host = request.getRemoteHost();  
+			host="127.0.0.1";
 
-		String host = request.getRemoteHost();
-
-		// 获取HttpSession中的验证码
-		// String verifyCode =
-		// (String)request.getSession().getAttribute("verifyCode");
-		// //获取用户请求表单中输入的验证码
-		// String submitCode = WebUtils.getCleanParam(request, "verifyCode");
-		// System.out.println("用户[" + username + "]登录时输入的验证码为[" + submitCode +
-		// "],HttpSession中的验证码为[" + verifyCode + "]");
-		// if (StringUtils.isEmpty(submitCode) ||
-		// !StringUtils.equals(verifyCode, submitCode.toLowerCase())){
-		// request.setAttribute("message_login", "验证码不正确");
-		// return resultPageURL;
-		// }
-
-		boolean remeber = false;
-		if ("true".equals(rememberMe)) {
-			remeber = true;
-		}
-		// token
-		UsernamePasswordToken token = new UsernamePasswordToken(username,
-				password, remeber, host);
-
-		// token.setRememberMe(true);
-		System.out.println("为了验证登录用户而封装的token为"
-				+ ReflectionToStringBuilder.toString(token,
-						ToStringStyle.MULTI_LINE_STYLE));
-		// 获取当前的Subject
-		Subject currentUser = SecurityUtils.getSubject();
-		try {
-			// 在调用了login方法后,SecurityManager会收到AuthenticationToken,并将其发送给已配置的Realm执行必须的认证检查
-			// 每个Realm都能在必要时对提交的AuthenticationTokens作出反应
-			// 所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
-			System.out.println("对用户[" + username + "]进行登录验证..验证开始");
-			currentUser.login(token);
-			System.out.println("对用户[" + username + "]进行登录验证..验证通过");
-			resultPageURL = "main";
-		} catch (UnknownAccountException uae) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,未知账户");
-			request.setAttribute("message_login", "未知账户");
-		} catch (IncorrectCredentialsException ice) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,错误的凭证");
-			request.setAttribute("message_login", "密码不正确");
-		} catch (LockedAccountException lae) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,账户已锁定");
-			request.setAttribute("message_login", "账户已锁定");
-		} catch (ExcessiveAttemptsException eae) {
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,错误次数过多");
-			request.setAttribute("message_login", "用户名或密码错误次数过多");
-		} catch (AuthenticationException ae) {
-			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
-			System.out.println("对用户[" + username + "]进行登录验证..验证未通过,堆栈轨迹如下");
-			ae.printStackTrace();
-			request.setAttribute("message_login", "用户名或密码不正确");
-		}
-		// 验证是否登录成功
-		if (currentUser.isAuthenticated()) {
-			System.out.println("用户[" + username
-					+ "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
-		} else {
-			token.clear();
-		}
-		return resultPageURL;
+	        //构造登陆令牌环  
+	        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
+	  
+	        try{  
+	            //发出登陆请求  
+	        	SecurityUtils.getSubject().login(token);  
+	            //登陆成功  
+	            HttpSession session = request.getSession(true);  
+	            try {  
+	           
+	            	User user=	userService.getUser(loginUser.getUserName());
+	        		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
+	        		if(menus!=null){
+		        		user.setMenus(menus);
+	        		}
+	        		rb.setData(user);
+//	                if (null != menus) {  
+//	                	System.out.println(user);
+//	                    //根据输入的用户名和密码确实查到了用户信息  
+//	                    session.removeAttribute("rand");  
+//	                    session.setAttribute("current_login_user", user);  
+//	                }  
+	            } catch (Exception e) {  
+	                logger.error(e.getMessage(), e);  
+	            }  
+	            return  rb;  
+	        }catch (UnknownAccountException e){  
+	            rb = new ResultBean(false,"账号不存在!");
+	        }catch (IncorrectCredentialsException e){  
+	            rb = new ResultBean(false,"用户名/密码错误");
+	        }catch (ExcessiveAttemptsException e) {  
+	            rb = new ResultBean(false,"账户错误次数过多,暂时禁止登录!");
+//	        }catch (ValidCodeException e){  
+//	            result.put("msg", "验证码输入错误!");  
+	        }catch (Exception e){  
+	            rb = new ResultBean(false,"未知错误!");
+	        }  
+	        return rb;  
 	}
 
-	@RequestMapping(value = "/login")
+	//@RequestMapping(value = "/login")
 	public String showLoginForm(HttpServletRequest req, Model model) {
 		String exceptionClassName = (String) req
 				.getAttribute("shiroLoginFailure");
@@ -195,15 +179,21 @@ public class UserLoginController extends SysBaseControoler {
 
 	@RequestMapping("/")
 	public String index(@CurrentUser User loginUser) {
+		
+		System.out.println(loginUser);
+		if(loginUser==null){
+			System.out.println(loginUser);
+			return "index";
+		}
 		System.out.println(loginUser);
 		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
 		//model.addAttribute("menus", menus);
 		System.out.println(menus);
-		return "/views/index.html";
+		return "index";
 	}
 
 	@RequestMapping("/welcome")
 	public String welcome() {
-		return "welcome.html";
+		return "welcome";
 	}
 }
