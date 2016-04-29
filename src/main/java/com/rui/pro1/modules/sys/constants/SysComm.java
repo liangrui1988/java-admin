@@ -1,6 +1,5 @@
 package com.rui.pro1.modules.sys.constants;
 
-import org.springframework.beans.factory.annotation.Value;
 
 public class SysComm {
 	public static final String SYS_USER="user";

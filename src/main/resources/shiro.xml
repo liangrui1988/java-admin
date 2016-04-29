@@ -54,7 +54,7 @@
     <!-- rememberMe管理器 -->
     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
         <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）    -->
-        <property name="cipherKey"     value="abcd" />
+        <property name="cipherKey"     value="abcdefg" />
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 
@@ -108,7 +108,8 @@
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/views/login.html"/>
+<!--         <property name="loginUrl" value="/views/login.html"/> -->
+ <property name="loginUrl" value="/login"/>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formsAuthenticationFilter"/>
@@ -118,10 +119,10 @@
         <property name="filterChainDefinitions">
             <value>
 	/views/** = anon
-    /login* = anon  
-    /logout = logout  
-    /authenticated = authc  
-    /** = user,sysUser 
+     /login = authc
+    /logout = logout
+    /authenticated = authc
+    /** = user,sysUser  
             </value>
         </property>
     </bean>

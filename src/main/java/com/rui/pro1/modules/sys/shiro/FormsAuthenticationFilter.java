@@ -12,7 +12,11 @@ import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * 表单验证
+ * @author ruiliang
+ *
+ */
 public class FormsAuthenticationFilter extends FormAuthenticationFilter {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -65,6 +69,7 @@ public class FormsAuthenticationFilter extends FormAuthenticationFilter {
 			throws Exception {
 		issueSuccessRedirect(request, response);
 		// return super.onLoginSuccess(token, subject, request, response);
+		System.out.println("登陆成功");
 		logger.debug("登陆成功！");
 
 		return false;
