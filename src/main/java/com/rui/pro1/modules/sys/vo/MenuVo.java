@@ -1,14 +1,15 @@
 package com.rui.pro1.modules.sys.vo;
 
 public class MenuVo {
-	private int id;
+	private String id;
+	private String parentId;
 	private String name;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -19,4 +20,14 @@ public class MenuVo {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+	
+	
 }

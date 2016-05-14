@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+
+div.top_loading{width:32px;height:32px;top:100px;left:100px;background-color:transparent;position:fixed;z-index:10000;}
+div.top_loaded{width:1px;height:1px;background-color:transparent;display:none;}
+
+.placeholder{color:#4121285}

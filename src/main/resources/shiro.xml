@@ -119,10 +119,12 @@
         <property name="filterChainDefinitions">
             <value>
 	/views/** = anon
-     /login = authc
+     /login = anon
     /logout = logout
-    /authenticated = authc
-    /** = user,sysUser  
+<!--     /authenticated = authc -->
+<!--     /** = user,sysUser   -->
+        /** =anon 
+    
             </value>
         </property>
     </bean>

@@ -1,0 +1,31 @@
+.prompt { padding: 14px 25px; position: fixed; border: 1px solid #D5D5D5; background-color: #FFF; display: none; _position: absolute; z-index: 137206; /* _position: absolute;
+	_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight)); */ /* _margin-top:expression(eval(this.offsetHeight+document.documentElement.scrollTop));
+	_bottom:auto; */ }
+
+    .prompt i { background: url(../images/public/icenter-delay-wei140122102000.png); display: block; position: absolute; height: 22px; width: 22px; float: left; top: 16px; left: 26px; }
+
+    .prompt .success { background-position: -493px -111px; }
+
+    .prompt .error { background-position: -516px -88px; }
+
+    .prompt .information { background-position: -518px -31px; }
+
+    .prompt .warning { background-position: -516px -111px; }
+
+    .prompt span { font-style: normal; font-size: 14px; font-family: "Helvetica Neue",\5FAE\8F6F\96C5\9ED1,Tohoma; float: left; padding-left: 30px; line-height: 26px; }
+.prompt-backdrop { opacity: 0.5; width: 100%; height: 100%; filter: alpha(opacity=50); background-color: #333 !important; position: fixed; top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 137105; }
+.msgdialog-backdrop{ z-index: 137205; }
+
+
+.modal { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1040; display: none; overflow: auto; overflow-y: scroll; }
+.modal-dialog { z-index: 1050; width: auto; padding: 10px; margin-right: auto; margin-left: auto; }
+.modal-content { position: relative; background-color: #fff; outline: 0; -webkit-box-shadow: 0 3px 9px rgba(0,0,0,0.5); box-shadow: 0 3px 9px rgba(0,0,0,0.5); background-clip: padding-box; }
+.modal-header { min-height: 16.428571429px; padding: 15px; border-top: 1px solid #004826; background-position: 0px -235px; background-repeat: repeat-x; }
+.modal-title span{ color:#FFF; font-size:14px; }
+.modal-body { position: relative; padding: 20px; }
+.modal-footer { padding: 5px; margin-top: 15px; text-align: right; border-top: 1px solid #e5e5e5; }
+.fade.in { opacity: 1; z-index: 137107;overflow: hidden;}
+.close { display: inline-block; margin-top: 0px; margin-right: 0px; width: 29px; height: 29px; background-repeat: no-repeat !important; background-position: 0px -312px; }
+    .close:hover, .close:focus { color: #000; text-decoration: none; cursor: pointer; opacity: .9; filter: alpha(opacity=90); }
+button.close { padding: 0; cursor: pointer; border: 0; -webkit-appearance: none; position: absolute; top: 10px; right: 10px; }
+.close { float: right; font-size: 21px; font-weight: bold; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; }

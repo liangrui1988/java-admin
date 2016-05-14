@@ -1,0 +1,107 @@
+/*
+ | --------------------------------------------------------
+ | File        : public-style.css
+ | Project     : Html
+ | Version     : 1.1 |
+ | Description : Public stylesheet.
+ | Author      : Liu FuChang
+ | Author URL  : 
+ | Plugin URL  : 
+ | Copyright (C) 2011-2012  Liu FuChang
+ | --------------------------------------------------------
+ */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+body { line-height: 1; font-family: ËÎÌå,'Microsoft YaHei'; font-size: 13px; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+    blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+a { text-decoration: none; }
+
+.xyt-minW { min-width: 1000px; }
+.xyt-minH { min-height: 520px; }
+
+.fn-left { float: left; }
+.fn-right { float: right; }
+.fn-clear { clear: both; }
+.fn-pos-relative { position: relative; }
+.fn-pos-absolute { position: absolute; }
+
+.margin_auto { margin: 0 auto; width: 1200px; }
+.main_min_width{ min-width: 1200px; _width:1200px;}
+.margin_1000_auto { margin: 0 auto; width: 1000px; }
+
+.margin_t5 { margin-top: 5px; }
+.margin_t10 { margin-top: 10px; }
+.margin_t15 { margin-top: 5px; }
+.margin_t20 { margin-top: 20px; }
+
+.m-big-main { background: #f2f2f2; }
+
+.m-common-bg { background:url(../images/public/c-scp.png) no-repeat;}
+
+.m-header { background: #f2f2f2; height: 90px; }
+.m-header-inner { position: relative; z-index: 3; height: 100%; }
+/**[.m-header-inner]*/
+.m-header-i-logo { height: 100%; width: 590px; }
+    .m-header-i-logo .logo { padding-top: 13px; }
+    .m-header-i-logo .headerfont { padding: 30px 0px 0px 25px; }
+.m-header-i-font { height: 100%; width: 410px; }
+.m-header-i-fontnum { height: 100%; width: 100%; }
+    .m-header-i-fontnum .headerfont { padding-top: 23px; text-align: right; }
+    .m-header-i-fontnum .headerfontnum { padding-top: 8px; text-align: right; }
+/***[End .m-header-inner]*/
+
+/***[.m-header-t-nav]*/
+
+.m-header-t-nav { height: 39px; background: #084126 url(../images/public/c-nav-bar-bg.jpg) repeat-x; border-top: 1px solid #084126; }
+.m-header-nav-inner { height: 100%; }
+    .m-header-nav-inner .nav-ul { list-style: none; height: 100%; }
+        .m-header-nav-inner .nav-ul li { height: 100%; width: 90px; float: left; text-align: center; margin-right:24px;}
+        .m-header-nav-inner .nav-ul li .nav-list { height: 100%; width: 90px;line-height:39px; color:#ffffff;}
+        .m-header-nav-inner .nav-ul .selected {  background:url(../images/public/c-nav-hover.jpg) no-repeat; }
+        .m-header-nav-inner .nav-ul .selected a{ color:#10603b; }
+/***[End.m-header-t-nav]*/
+
+/***[.xyt-m-footer ]*/
+.xyt-m-footer { height: 95px; width: 100%; background: #323232; color: #999999; }
+.xyt-m-footer-bg { height: 70px; width: 100%; background: #323232; color: #999999; padding-top: 25px; }
+.footer { width: 980px; margin: 0 auto 5px auto; text-align: center; }
+    .footer span { margin: 0px 10px 0px 10px; line-height: 23px; }
+        .footer span img { vertical-align: text-top; }
+    .footer a { color: #919292; margin: 0px 5px 0px 5px; }
+/***[End.xyt-m-footer ]*/
+
+/***min-tree**/
+#min-pa-ztree{width: 200px;}
+#min-ztree {width: 182px;  }
+    #min-ztree a { color: #f6f5fa; }
+    #min-ztree li { position: relative; margin-bottom: 3px; }
+        #min-ztree li a { height: 26px; padding-left:20px; text-decoration: none; line-height: 26px; width: 182px; background: url(../images/public/min-ztree.gif) no-repeat;  color: #000000; }
+        #min-ztree li span{ line-height: 23px;}
+        #min-ztree li span.button.ico_docu{display: none;}
+            #min-ztree li span.button.switch { position: absolute; top: 8px;left: 4px; width: 13px; height: 11px; }
+            #min-ztree li span.noline_open { background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: 0px 0px; }
+            #min-ztree li span.noline_close { background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: -13px 0px; line-height: inherit; }
+        #min-ztree li ul { padding-left: 10px; }
+            #min-ztree li ul li { width: 168px; position: relative; margin-bottom:0px; }
+            #min-ztree li ul li a.curSelectedNode { border:0px;margin-left:0px; color:#d8ff8c;z-index: 9; line-height:28px; background: url(../images/public/min-ztree.gif) no-repeat; background-position: 6px -25px;}
+            #min-ztree li ul li span { color:#000000; padding-left: 0em; margin-right:2px; font-size:1em; font-weight:100;line-height: 28px; }
+                #min-ztree li ul li span.button.switch { position: absolute; left: 10px;right: 0px; margin:0px; background: url(../images/public/c-scp.png) no-repeat; background-position: -75px -147px;z-index: 10; }
+                #min-ztree li ul li span.button.noline_open {background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: 0px 0px; margin-right: 4px;margin-top: 2px;}
+                #min-ztree li ul li span.button.noline_close {background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: -13px 0px;margin-right: 4px;margin-top: 2px;}
+                #min-ztree li ul li a { background: none; width: 168px; padding-left: 26px;}
+                #min-ztree li ul li span.button.ico_close{ display: none;}
+                #min-ztree li ul li span.button.ico_open{ display: none;}
+#min-ztree li ul li ul{ padding-left:15px;}
+ 
+
+ 
+
+.dialogcontent { text-align: center; font-family: "Î¢ÈíÑÅºÚ"; padding:20px; color: #F26E0A; font-size: 22px; }
+.butt {  overflow: hidden; _zoom: 1; padding-top: 20px; }
+.butt:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+    .butt .but { width: 80px; height: 30px; margin-right: 20px; background: url(../images/dailog-img/anniu.png) no-repeat; color: white; font-family: "Î¢ÈíÑÅºÚ"; line-height: 30px; text-align: center; cursor: pointer; border: 0px; }
+    .butt .cancel { background: url(../images/dailog-img/anniu2.png) no-repeat; }

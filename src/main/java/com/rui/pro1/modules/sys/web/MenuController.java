@@ -1,5 +1,8 @@
 package com.rui.pro1.modules.sys.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,6 +61,65 @@ public class MenuController extends SysBaseControoler {
 		return rb;
 
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "listAll")
+	@ResponseBody
+	public ResultBean getlistAll() {
+		ResultBean rb = new ResultBean();
+		try {
+			
+			List<MenuVo> mvo=new ArrayList<MenuVo>();
+			
+			MenuVo menuVo=new MenuVo();
+			menuVo.setId("1");
+			menuVo.setParentId("");
+			menuVo.setName("系统管理");
+			mvo.add(menuVo);
+			
+			MenuVo menuVox =new MenuVo();
+			menuVox.setId("10");
+			menuVox.setParentId("1");
+			menuVox.setName("用户管理 ");
+			mvo.add(menuVox);
+			
+			MenuVo menuVoa  =new MenuVo();
+			menuVoa.setId("11");
+			menuVoa.setParentId("1");
+			menuVoa.setName("菜单管理 ");
+			mvo.add(menuVoa);
+			
+			
+			//--------------------------------
+			
+			MenuVo menuVo2=new MenuVo();
+			menuVo2.setId("2");
+			menuVo2.setParentId("");
+			menuVo2.setName("财务管理");
+			mvo.add(menuVo2);
+			
+			
+		
+			
+			
+			MenuVo menuVo3=new MenuVo();
+			menuVo3.setId("3");
+			menuVo3.setParentId("");
+			menuVo3.setName("采购管理");
+			mvo.add(menuVo3);
+			
+			
+			rb.setData(mvo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+		}
+		return rb;
+
+	}
+	
 	@PermissionAnnot(id =  MenuSys.SYS_MENU + ":get", name = "查询")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
@@ -65,7 +127,7 @@ public class MenuController extends SysBaseControoler {
 			MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			Menu menu = menuService.get(menuVo.getId());
+			Menu menu = menuService.get(Integer.valueOf(menuVo.getId()));
 			rb.setData(menu);
 		} catch (Exception e) {
 			e.printStackTrace();
