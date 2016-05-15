@@ -199,7 +199,7 @@ public class InitMP {
 					// menuthree.setHref(menu.href());
 					// FIXME:href
 					menuthree.setSortNo(menu.sortNo());
-					menuthree.setStatus(0);
+					menuthree.setStatus(1);//不显示
 					menuList.add(menuthree);
 
 				}

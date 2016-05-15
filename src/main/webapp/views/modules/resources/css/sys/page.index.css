@@ -31,7 +31,7 @@ body { }
 .xyt-m-middle { background: #f2f2f2; padding-bottom: 25px; padding-top:10px; min-height: 600px; }
 .xyt-m-middle-inner { background:#ffffff; background:#ffffff url(../images/public/wrapper-middle-bg.png) repeat-y left;  }
 .m-middle-layout-west { width: 200px; min-height: 500px; background: #003c20; }
-/**Ê÷**/
+/**ï¿½ï¿½**/
 #nav-tree {width: 182px; margin:5px auto; }
     #nav-tree a { color: #f6f5fa; }
     #nav-tree li { position: relative; }
@@ -66,4 +66,5 @@ body { }
 #ui-nav-ztree li a.curSelectedNode { background: #74c02e; border: 0px; }
     */
 .m-middle-layout-east { min-height: 500px; background: #ffffff; }
+
 .m-middle-layout-east,.m-middle-layout-east iframe {overflow:hidden; }

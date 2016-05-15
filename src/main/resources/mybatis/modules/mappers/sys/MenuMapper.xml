@@ -47,10 +47,12 @@
 			<if test="name != null and name != ''">name,</if>
 			<if test="types != null and types != ''">types,</if>
 			<if test="sortNo != null">sortNo,</if>
-			<if test="parentId != null">parentId,</if>
+			<if test="parentId != null and parentId != ''">parentId,</if>
 			<if test="permission != null and permission != ''">permission,</if>
 			<if test="icon != null and icon != ''">icon,</if>
-			<if test="href != null and href != ''">href</if>
+			<if test="href != null and href != ''">href,</if>
+			<if test="status != null ">status,</if>
+			
 		</trim>
 	</sql>
 	<!-- 插入值sql -->
@@ -58,12 +60,14 @@
 		<trim suffix="" suffixOverrides=",">
 		     #{id},
 			<if test="name != null and name != ''">#{name},</if>
-			<if test="types != null">#{types},</if>
+			<if test="types != null and types != ''">#{types},</if>
 			<if test="sortNo != null">#{sortNo},</if>
-			<if test="parentId != null">#{parentId},</if>
-			<if test="permission != null">#{permission},</if>
-			<if test="icon != null">#{icon},</if>
-			<if test="href != null">#{href}</if>
+			<if test="parentId != null and parentId != ''">#{parentId},</if>
+			<if test="permission != null and permission != ''">#{permission},</if>
+			<if test="icon != null and icon != ''">#{icon},</if>
+			<if test="href != null and href != ''">#{href},</if>
+			<if test="status != null ">#{status},</if>
+			
 		</trim>
 	</sql>
 
@@ -93,6 +97,7 @@
 			<if test="sortNo != null">sortNo=#{sortNo},</if>
 			<if test="parentId != null">parentId=#{parentId},</if>
 			<if test="permission != null and permission != ''">permission=#{permission},</if>
+			<if test="status != null ">status=#{status},</if>
 		</set>
 	</sql>
 

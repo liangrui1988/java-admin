@@ -34,7 +34,7 @@ import com.rui.pro1.modules.sys.vo.UserLoginVo;
 
 @Controller
 // @RequestMapping("sys/user/")
-public class UserLoginController extends SysBaseControoler {
+public class UserLoginController extends SysBaseController {
 	// protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired

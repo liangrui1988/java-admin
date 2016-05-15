@@ -33,7 +33,7 @@ import com.rui.pro1.modules.sys.vo.DepartmentVo;
 @Controller
 @RequestMapping(SysUri.SYS_DEPARTMENT)
 @MenuAnnot(id = MenuSys.SYS_DEPARTMENT, name = "部门管理", parentId = Modules.SYS, href = "views/modules/sys/departmentlist", sortNo = 4)
-public class DepartmentController extends SysBaseControoler {
+public class DepartmentController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired

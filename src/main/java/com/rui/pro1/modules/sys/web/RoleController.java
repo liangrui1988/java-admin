@@ -35,8 +35,8 @@ import com.rui.pro1.modules.sys.vo.RoleVo;
 @Controller
 
 @RequestMapping(SysUri.SYS_ROLE)
-@MenuAnnot(id = MenuSys.SYS_ROLE, name = "角色管理", parentId = Modules.SYS, href = "views/modules/sys/rolelist",sortNo=2)
-public class RoleController extends SysBaseControoler {
+@MenuAnnot(id = MenuSys.SYS_ROLE, name = "角色管理", parentId = Modules.SYS, href = "/views/modules/sys/role/rolelist",sortNo=2)
+public class RoleController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired

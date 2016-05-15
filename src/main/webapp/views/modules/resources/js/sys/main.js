@@ -88,16 +88,16 @@ var setting = {
                 return false;
             } else {
             	var randomNum = Math.floor(Math.random() * (182014 + 1));
-            	if(typeof(treeNode.uri) == 'undefined' || !treeNode.uri){
+            	if(typeof(treeNode.href) == 'undefined' || !treeNode.href){
             		demoIframe.attr("src", getContextPath() + "/front/sys/home.html?vNum=" + randomNum);
             		return;
             	}
-            	if(treeNode.uri.lastIndexOf(".html")>0)
+            	if(treeNode.href.lastIndexOf(".html")>0)
             	{
-            		demoIframe.attr("src", getContextPath() + treeNode.uri+"?vNum=" + randomNum);
+            		demoIframe.attr("src", getContextPath() + treeNode.href+"?vNum=" + randomNum);
             	}else
         		{
-            		demoIframe.attr("src", getContextPath() + treeNode.uri + ".html?vNum=" + randomNum);
+            		demoIframe.attr("src", getContextPath() + treeNode.href + ".html?vNum=" + randomNum);
         		}
                 return true;
             }

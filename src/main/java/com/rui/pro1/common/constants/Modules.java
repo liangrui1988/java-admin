@@ -10,7 +10,9 @@ public class Modules {
 	public static final String WEB_CONTEXT_PATH = "demo";
 
 	public static final String SYS = "sys";// 系统模块
-	public static final String merchant = "merchant";// 商家模块
-	public static final String gov = "gov";
+	public static final String MERCHANT = "merchant";// 商家模块
+	public static final String GOV = "gov";//政府
+	public static final String PRO = "pro";//商家
+
 
 }

@@ -25,6 +25,7 @@ import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.ErrorCode;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.service.IMenuService;
+import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.vo.MenuVo;
 
 /**
@@ -36,12 +37,16 @@ import com.rui.pro1.modules.sys.vo.MenuVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_MENU)
-@MenuAnnot(id = MenuSys.SYS_MENU, name = "菜单管理", parentId = Modules.SYS, href = "views/modules/sys/menulist",sortNo=3)
-public class MenuController extends SysBaseControoler {
+@MenuAnnot(id = MenuSys.SYS_MENU, name = "菜单管理", parentId = Modules.SYS, href = "/views/modules/sys/menu/menulist",sortNo=3)
+public class MenuController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private IMenuService menuService;
+	
+
+	@Autowired
+	private IUserService userService;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
@@ -71,24 +76,29 @@ public class MenuController extends SysBaseControoler {
 		ResultBean rb = new ResultBean();
 		try {
 			
+			
 			List<MenuVo> mvo=new ArrayList<MenuVo>();
 			
 			MenuVo menuVo=new MenuVo();
 			menuVo.setId("1");
 			menuVo.setParentId("");
 			menuVo.setName("系统管理");
+			menuVo.setIcon("glyphicon glyphicon-user");
 			mvo.add(menuVo);
 			
 			MenuVo menuVox =new MenuVo();
 			menuVox.setId("10");
 			menuVox.setParentId("1");
 			menuVox.setName("用户管理 ");
+			menuVox.setHref("/views/modules/sys/user/userlist");
+
 			mvo.add(menuVox);
 			
 			MenuVo menuVoa  =new MenuVo();
 			menuVoa.setId("11");
 			menuVoa.setParentId("1");
 			menuVoa.setName("菜单管理 ");
+			menuVoa.setHref("/views/modules/sys/menu/menulist");
 			mvo.add(menuVoa);
 			
 			
@@ -110,8 +120,9 @@ public class MenuController extends SysBaseControoler {
 			menuVo3.setName("采购管理");
 			mvo.add(menuVo3);
 			
-			
-			rb.setData(mvo);
+    		List<Menu> menus = userService.getUserMenus("admin");
+
+			rb.setData(menus);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");

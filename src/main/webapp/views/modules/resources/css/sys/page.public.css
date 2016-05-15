@@ -13,7 +13,7 @@
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
-body { line-height: 1; font-family: ËÎÌå,'Microsoft YaHei'; font-size: 13px; }
+body { line-height: 1; font-family: "å®‹ä½“",'Microsoft YaHei'; font-size: 13px; }
 ol, ul { list-style: none; }
 blockquote, q { quotes: none; }
     blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
@@ -100,8 +100,8 @@ a { text-decoration: none; }
 
  
 
-.dialogcontent { text-align: center; font-family: "Î¢ÈíÑÅºÚ"; padding:20px; color: #F26E0A; font-size: 22px; }
+.dialogcontent { text-align: center; font-family: "å®‹ä½“"; padding:20px; color: #F26E0A; font-size: 22px; }
 .butt {  overflow: hidden; _zoom: 1; padding-top: 20px; }
 .butt:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-    .butt .but { width: 80px; height: 30px; margin-right: 20px; background: url(../images/dailog-img/anniu.png) no-repeat; color: white; font-family: "Î¢ÈíÑÅºÚ"; line-height: 30px; text-align: center; cursor: pointer; border: 0px; }
+    .butt .but { width: 80px; height: 30px; margin-right: 20px; background: url(../images/dailog-img/anniu.png) no-repeat; color: white; font-family: "Î¢ï¿½ï¿½ï¿½Åºï¿½"; line-height: 30px; text-align: center; cursor: pointer; border: 0px; }
     .butt .cancel { background: url(../images/dailog-img/anniu2.png) no-repeat; }

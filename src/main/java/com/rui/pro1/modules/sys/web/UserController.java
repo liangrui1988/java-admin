@@ -35,8 +35,8 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_USER)
-@MenuAnnot(id = MenuSys.SYS_USER, name = "用户管理", parentId = Modules.SYS, href = "views/modules/sys/userlist",sortNo=1)
-public class UserController extends SysBaseControoler {
+@MenuAnnot(id = MenuSys.SYS_USER, name = "用户管理", parentId = Modules.SYS, href = "/views/modules/sys/user/userlist",sortNo=1)
+public class UserController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired

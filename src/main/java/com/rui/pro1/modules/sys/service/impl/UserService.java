@@ -219,7 +219,14 @@ public class UserService implements IUserService {
 			if (menu == null || menu.size() <= 0) {
 				continue;
 			}
-			menus.addAll(menu);
+			
+			for(Menu m:menu){
+				if(m==null||m.getStatus()!=0){
+					continue;
+				}
+				menus.add(m);
+			}
+			//menus.addAll(menu);
 
 		}
 
