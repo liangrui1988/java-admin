@@ -1,22 +1,62 @@
 <!DOCTYPE html>
 <html>
-  <head>
-<!-- 	<title>用户管理</title> -->
-  </head>
-  <body style="overflow-x:hidden;overflow-y:hidden;">
-  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-  	
-  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br/>
-  	  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br/>
-  	
-  	  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br/>
-  	
-  	  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br/>
-  	
-  	  	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br/>
-  	
-  	
-  </body>
+<head>
+<title>用户管理</title>
+<!-- 引入 Bootstrap -->
+<link href="../../../common/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="../../../common/jquery/jquery-1.12.3.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+
+</head>
+<!-- <div style="padding: 15px 10px;font: 9px" > -->
+<!-- 系统管理>用户管理 -->
+<!-- </div> -->
+<body style="overflow-x: hidden; overflow-y: hidden;">
+	<div>
+		<a href="#" class="btn btn-primary">新增用户</a>
+	</div>
+
+	<div class="panel panel-default">
+<!-- 		<div class="panel-body">用户列表</div> table-bordered table-hover -->
+
+		<table id="user_table" class="table table-striped">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>城市</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>Tanmay</td>
+					<td>Bangalore</td>
+				</tr>
+				<tr>
+					<td>Sachin</td>
+					<td>Mumbai</td>
+				</tr>
+			</tbody>
+
+		</table>
+
+	</div>
+<script type="text/javascript">
+initUserList();
+
+function initUserList(){
+	//crm user_table
+	
+	
+	
+	
+}
+
+
+</script>
+
+</body>
 </html>
