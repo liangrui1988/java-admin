@@ -1,5 +1,0 @@
-
-
-function getWebContext(){
-	return "/demo/";
-}

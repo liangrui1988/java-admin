@@ -56,6 +56,254 @@ function initUserList(){
 }
 
 
+
+
+
+
+$(function() {
+	
+	var param=new Object();	
+	   param.status="1";
+	//初始化数据	
+	pageFn("${pagecontext.request.contextpath}/audit/enterprise/getlist.do",param);
+})
+
+
+
+//查询
+$("#_search_id").click(
+	function(){
+	   var param=getParam();
+	   sendReq("${pagecontext.request.contextpath}/audit/enterprise/getlist.do",param);
+});
+
+//获取参数处理
+function getParam()
+{				
+	  var param=new Object();	
+	  //时间处理
+	  var dateVar= $("#_search_date_id").val();					 
+	  var startDt=$("#d12").val();
+	  var endDt=$("#d13").val();
+		
+	 if(dateVar==1)
+	 {
+	   
+		if(startDt!=""&&endDt!="")
+		{
+		   param.applyStartDt=startDt;
+		   param.applyEndDt=endDt;
+		}
+	   
+	 }else if(dateVar==2)
+	 {
+	 
+		if(startDt!=""&&endDt!="")
+		{
+		   param.inStartDt=startDt;
+		   param.inEndDate=endDt;
+		}
+	 
+	 }
+	 //状态
+	 var statusVar=$("#search_status_id").val();	
+	 if(statusVar!=0)
+	 {
+		param.status=statusVar;
+	 }				 
+	
+	 //内容查询
+	 var contextVar= $("#search_context_id").val();			
+	 if(contextVar!="")
+	 { 
+		  var contextName=$("#search_project_id").val();
+		  if(contextName==1)
+		  {
+			param.companyName=contextVar;
+		  }else if(contextName==2)
+		  {
+			param.loginName=contextVar;
+		  }
+	
+	 }
+	 
+	 //地区
+	var areaCode= $("#areaCodeV").val();
+	 if(areaCode!=""){
+		 param.area=areaCode;
+	 }
+	 
+	 //支付方式
+	 var  payManner= $("#payWay").val();
+	 if(payManner!=0){
+		 param.payManner=payManner;
+	 }
+	 
+	 
+	return param;			 
+}
+
+
+
+/**分页回调处理**/
+function callbak_page(returnDatas)
+{
+	
+	var tableHTML = "";
+	var trContext = $("#_in_apply_table");
+	$("#_in_apply_table tbody tr").eq(0).nextAll().remove();
+	var returnData = returnDatas.mItems;
+	
+	if(returnData==null){
+	  return;
+	}
+	for (var i = 0; i < returnData.length; i++) {
+	var j=i;
+	//状态处理
+	var sta=returnData[i].status;
+	var staName="";
+	var operation='<a href="${pagecontext.request.contextpath}/audit/enterprise/getDetails.do?id='+returnData[i].id+'">查看</a>'
+				   +'&nbsp;&nbsp;<a href="javascript:updateStatus('+returnData[i].id+',2'+')">通过</a>'
+				   +'&nbsp;&nbsp;<a href="javascript:updateStatus('+returnData[i].id+',3'+')">不通过</a>'
+				   +'&nbsp;&nbsp;<a href="javascript:updateStatus('+returnData[i].id+',4'+')">加入黑名单</a>';
+				   
+	var tName="";
+	if(sta==1)
+	{
+	  staName="待审核";
+	}else if(sta==2)
+	{
+	  staName="通过";
+	}else if(sta==3)
+	{
+	  staName="不通过";
+	}else if(sta==4)
+	{
+	  staName="黑名单";	
+	}
+	
+	var payMannerName="";
+	var payManner=returnData[i].storeApply.payManner;
+	if(payManner==1)
+	{
+		payMannerName="在线支付";
+	}else if(payManner==2)
+	{
+		payMannerName="银行汇款";
+	}else{
+		payMannerName="未支付";
+	}
+	
+	tableHTML += "<tr>" + "<td>"
+				+ (j + 1)
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].storeApply.loginName
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].storeApply.companyName
+				+ "</td>"										
+				+ "<td>"
+				+ (returnData[i].storeApply.domain==null ? "" : returnData[i].storeApply.domain)
+				+ "</td>"
+				+ "<td>"
+				+ (returnData[i].storeApply.industry==null ? "" : returnData[i].storeApply.industry)
+				+ "</td>"
+				+ "<td>"
+				+ (returnData[i].storeApply.manageType==null ? "" : returnData[i].storeApply.manageType)
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].storeApply.area
+				+ "</td>"
+				+ "<td>"
+				+ staName										
+				+ "</td>"	
+	//				+ "<td>"
+	//				+ payMannerName								
+	//				+ "</td>"
+				+ "<td>"
+				+ returnData[i].storeApply.applyDate
+				+ "</td>"										
+				+ "<td>"
+				+operation									
+				+"</td>" 
+				+ "</tr>"
+	
+	}
+	trContext.append(tableHTML);
+
+}
+  
+  
+  
+  /**操作*/
+  function updateStatus(id,status)
+  {
+	  
+	  yb.dialog({title: "系统提示", content: "确定吗？", btn: {"确定": {"updateStatusEnter":[id,status]}, "取消": ""}});
+
+  
+  }
+  
+  function updateStatusEnter(id,status)
+  {
+	  // alert(id+"=="+status);
+	    $.post("${pagecontext.request.contextpath}/audit/enterprise/updateStatus.do",
+		  {"id":id,"status":status},
+		  function(returnDatas,status)
+		  {
+			   if(status=="success")
+			   { 
+			     yb.alert("操作成功");
+				 //初始化数据	
+		        // pageFn("${pagecontext.request.contextpath}/audit/enterprise/getlist.do");
+		           var param=getParam();
+	               sendReq("${pagecontext.request.contextpath}/audit/enterprise/getlist.do",param);
+			
+			   }else
+			   {
+				  alert("系统异常!");
+			   }
+		  });
+	  
+  }
+		
+
+
+
+
+/***加入服务**/
+function addService(userid)
+{
+
+    //取值
+  $.ajax({
+			type : "POST",
+			url : "${pagecontext.request.contextpath}/audit/interact/addService.do",
+			//dataType:"json",
+			data : "userId="+userid,
+			//contentType : "application/json",
+			success : function(returnDatas,status) 
+			{
+			   if(resolveResultBeanIsOk(returnDatas,status))
+			   {
+			     var param=getParam();
+				 sendReq("${pagecontext.request.contextpath}/audit/interact/getlist.do",param);
+			   }
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {							
+				 yb.alert('系统异常;');
+			}
+		});	
+	 
+	 
+}
+
+
+
+
+
+
 </script>
 
 </body>
