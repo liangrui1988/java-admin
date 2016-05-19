@@ -1,64 +1,85 @@
-/**分页***/
+
+/**获取根目录**/
+function getRootPath(){
+	
+	 //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+    var curWwwPath=window.document.location.href;
+    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    var localhostPaht=curWwwPath.substring(0,pos);
+    //获取带"/"的项目名，如：/uimcardprj
+    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+    
+    alert(curWwwPath);
+    alert(pathName);
+    alert(pos);
+    alert(localhostPaht);
+    alert(projectName);
+    
+    return(localhostPaht+projectName);
+}
+
+function getRootPath2(){
+	
+	 //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+   var curWwwPath=window.document.location.href;
+   //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+   var pathName=window.document.location.pathname;
+   var pos=curWwwPath.indexOf(pathName);
+   //获取主机地址，如： http://localhost:8083
+   var localhostPaht=curWwwPath.substring(0,pos);
+ 
+   return(localhostPaht);
+}
+
+function resolveResultBeanIsOk(data,status)
+{
+  if(status=="success")
+  {
+    if(data.isOk==true||data.isOk=='true'||data.message=="SUCCESS")
+	{
+	  alert("操作成功!");
+	  return true;
+	
+	}else
+	{
+	    alert("操作失败："+data.message);
+	  return false;
+	}
+  
+  }else
+  {
+   // alert(JSON.stringify(data));
+     alert("操作失败："+data.message);
+	 return false;
+  }
+  
+}
 
 
+
+/**显示 信息**/
+function getQueryString(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null)
+		return unescape(r[2]);
+	return "";
+}
+
+
+
+/**分页js start***/
 
 //init
 function pageFn(_url,_param)
 {
-	 //init
-   sendReq(_url,_param);
-	   //首页
-//	   $("#_firstPage").click(function(){			 
-//			var param=getParam();		  
-//			 param.mPageIndex=1;
-//			 sendReq(_url,param);
-//	    });
-	   //尾页
-//	   $("#_lastPage").click(function(){
-//	   
-//	        var param=getParam();
-//	        var lastPageVar= $("#_sizePage").html();
-//	         param.mPageIndex=parseInt(lastPageVar,10);
-//			 sendReq(_url,param);
-//	    });
-	   //上一页
-//	    $("#_pageUp").click(function(){
-//		
-//	        var param=getParam();
-//			 var currentPageVar=$("#_currentPage").html();
-//			 param.mPageIndex=parseInt(currentPageVar,10)-1;
-//			 sendReq(_url,param);
-//	 
-//	    });
-	    
-	   
-	   //下一页
-//	    $("#_nextPage").click(function(){
-//		
-//		     var param=getParam();														
-//		  	//当前页
-//			 var currentPageVar=$("#_currentPage").html();
-//			 param.mPageIndex=parseInt(currentPageVar,10)+1;										
-//			 sendReq(_url,param);
-//	   
-//	    });
-	    
-	   //跳转
-//	    $("#_jumpPage").click(function(){
-//	         var jumpPageVar=$("#jumpPageText").val();
-//	        
-//			  if(checkStr(jumpPageVar))
-//			  {
-//			   alert("跳转页请输入有效数字！");
-//			   return;
-//			  }
-//			  
-//			   var param=getParam();
-//			   param.mPageIndex=jumpPageVar;
-//			   sendReq(_url,param);
-//	    });
-	    
-	   
+//	if(moethd==""||(moethd!="get"&&moethd!="post")){
+//		moethd="get";
+//	}
+    sendGetReq(_url,_param);
 		
 }
 
@@ -66,7 +87,7 @@ function pageFn(_url,_param)
 function clickNumFn(i,url){
 	  var param=getParam();
 	   param.mPageIndex=i;
-	   sendReq(url,param);
+	   sendGetReq(url,param);
 	
 }
 
@@ -102,17 +123,17 @@ function pagecClickEnv(url,P)
 		   param.mPageIndex=jumpPageVar;
 		
 	}
-	 sendReq(url,param);
+	sendGetReq(url,param);
 	
 }
 
 /**
- * 发送请求
- * **/
-function sendReq(_url,obj)
+* 发送请求
+* **/
+function sendGetReq(_url,obj)
 {
-   				  
-	  $.post(_url,obj,function(returnDatas,status)
+ 				  
+	  $.get(_url,obj,function(returnDatas,status)
 	  {
 	       if(status=="success")
 		   { 
@@ -164,7 +185,7 @@ function sendReq(_url,obj)
 
 /**验证数字 true 有 false 没有**/ 
 function checkStr(varStr) { 
-  var included = "1234567890"; 
+var included = "1234567890"; 
 	//var i; 
 	var c; 
 	for( var i = 0; i < varStr.length; i ++ )   
@@ -188,5 +209,8 @@ function addPageClass(){
 }
 
 
+/**分页js end***/
 
 
+	
+	

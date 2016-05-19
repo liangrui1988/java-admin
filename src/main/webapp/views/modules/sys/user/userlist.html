@@ -2,13 +2,17 @@
 <html>
 <head>
 <title>用户管理</title>
-<!-- 引入 Bootstrap -->
+
 <link href="../../../common/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
-<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
 <script src="../../../common/jquery/jquery-1.12.3.js"></script>
-<!-- 包括所有已编译的插件 -->
 <script src="../../../common/bootstrap/js/bootstrap.js"></script>
+
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+
+
+<script type="text/javascript"  src="../../../common/sys.js"></script>
+<script type="text/javascript"  src="../../../common/util/common.js"></script>
 
 </head>
 <!-- <div style="padding: 15px 10px;font: 9px" > -->
@@ -20,9 +24,7 @@
 	</div>
 
 	<div class="panel panel-default">
-<!-- 		<div class="panel-body">用户列表</div> table-bordered table-hover -->
-
-		<table id="user_table" class="table table-striped">
+		<table id="_user_table" class="table table-striped">
 			<thead>
 				<tr>
 					<th>名称</th>
@@ -43,12 +45,17 @@
 
 		</table>
 
-	</div>
+    <div class="pagination" id="_pagination">
+    
+</div>
+	
+	
+	
 <script type="text/javascript">
 initUserList();
 
 function initUserList(){
-	//crm user_table
+	
 	
 	
 	
@@ -63,9 +70,9 @@ function initUserList(){
 $(function() {
 	
 	var param=new Object();	
-	   param.status="1";
+	   param.status="0";
 	//初始化数据	
-	pageFn("${pagecontext.request.contextpath}/audit/enterprise/getlist.do",param);
+	pageFn(getContextPath()+"/sys/user/list",param);
 })
 
 
@@ -150,8 +157,8 @@ function callbak_page(returnDatas)
 {
 	
 	var tableHTML = "";
-	var trContext = $("#_in_apply_table");
-	$("#_in_apply_table tbody tr").eq(0).nextAll().remove();
+	var trContext = $("#_user_table");
+	$("#_user_table tbody tr").eq(0).nextAll().remove();
 	var returnData = returnDatas.mItems;
 	
 	if(returnData==null){
@@ -168,31 +175,8 @@ function callbak_page(returnDatas)
 				   +'&nbsp;&nbsp;<a href="javascript:updateStatus('+returnData[i].id+',4'+')">加入黑名单</a>';
 				   
 	var tName="";
-	if(sta==1)
-	{
-	  staName="待审核";
-	}else if(sta==2)
-	{
-	  staName="通过";
-	}else if(sta==3)
-	{
-	  staName="不通过";
-	}else if(sta==4)
-	{
-	  staName="黑名单";	
-	}
-	
 	var payMannerName="";
-	var payManner=returnData[i].storeApply.payManner;
-	if(payManner==1)
-	{
-		payMannerName="在线支付";
-	}else if(payManner==2)
-	{
-		payMannerName="银行汇款";
-	}else{
-		payMannerName="未支付";
-	}
+	
 	
 	tableHTML += "<tr>" + "<td>"
 				+ (j + 1)
@@ -218,9 +202,6 @@ function callbak_page(returnDatas)
 				+ "<td>"
 				+ staName										
 				+ "</td>"	
-	//				+ "<td>"
-	//				+ payMannerName								
-	//				+ "</td>"
 				+ "<td>"
 				+ returnData[i].storeApply.applyDate
 				+ "</td>"										

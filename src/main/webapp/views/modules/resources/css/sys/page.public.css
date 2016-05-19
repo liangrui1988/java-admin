@@ -29,9 +29,15 @@ a { text-decoration: none; }
 .fn-pos-relative { position: relative; }
 .fn-pos-absolute { position: absolute; }
 
-.margin_auto { margin: 0 auto; width: 1200px; }
-.main_min_width{ min-width: 1200px; _width:1200px;}
+/* .margin_auto { margin: 0 auto; width: 1200px; } */
+/* .main_min_width{ min-width: 1200px; _width:1200px;} */
+/* .margin_1000_auto { margin: 0 auto; width: 1000px; } */
+
+/**update layout width size**/
+.margin_auto { margin: 0 auto; width: 80%; }
+.main_min_width{ min-width:  80%; _width: 80%;}
 .margin_1000_auto { margin: 0 auto; width: 1000px; }
+
 
 .margin_t5 { margin-top: 5px; }
 .margin_t10 { margin-top: 10px; }
