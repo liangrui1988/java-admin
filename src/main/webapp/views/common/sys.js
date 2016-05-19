@@ -1,5 +1,6 @@
 function getContextPath()
 {
+	
 	if(document.location.href.indexOf("x-eyess.com/")!=-1)
 	{
 		return "";

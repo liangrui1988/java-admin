@@ -138,13 +138,17 @@ function sendGetReq(_url,obj)
 	       if(status=="success")
 		   { 
 		       var jsonData=JSON.stringify(returnDatas);
+
 	    	   eval('callbak_page('+jsonData+')');
+	    	   
+	    	   returnDatas=returnDatas.data;
 				//分页信息
-				var pageinfoHTML = "共 <sapn id='_countPage'>" + returnDatas.mRecords
+				var pageinfoHTML = "共 <sapn id='_countPage'>" + returnDatas.count
 						+ "</sapn>条&nbsp;第<font color='#FF0000' id='_currentPage'>"
-						+ returnDatas.mCurrentPage + "</font>/<sapn id='_sizePage'>"
-						+ returnDatas.mPages + "</sapn>页";
+						+ returnDatas.currentPage + "</font>/<sapn id='_sizePage'>"
+						+ returnDatas.pages + "</sapn>页";
 						
+			
 				
 				//$("#_pageInfos").html(pageinfoHTML);
 				
@@ -154,10 +158,10 @@ function sendGetReq(_url,obj)
 				//alert(returnDatas.showNum);
 				for(var i=returnDatas.startNo;i<(returnDatas.startNo+returnDatas.showNum);i++)
 				{
-					if(returnDatas.mPages<i){
+					if(returnDatas.pages<i){
 						break;
 					}
-					if(returnDatas.mCurrentPage==i)
+					if(returnDatas.currentPage==i)
 					{
 						paginationNum+="<a class='pageSelected' onclick=clickNumFn('"+i+"','"+_url+"')>"+i+" </a>";
 					}else{

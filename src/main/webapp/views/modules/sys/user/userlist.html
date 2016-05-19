@@ -5,6 +5,9 @@
 
 <link href="../../../common/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
+<link href="../../resources/css/sys/pager.css"
+	rel="stylesheet">
+	
 <script src="../../../common/jquery/jquery-1.12.3.js"></script>
 <script src="../../../common/bootstrap/js/bootstrap.js"></script>
 
@@ -13,34 +16,52 @@
 
 <script type="text/javascript"  src="../../../common/sys.js"></script>
 <script type="text/javascript"  src="../../../common/util/common.js"></script>
+<script type="text/javascript">
 
+</script>
 </head>
 <!-- <div style="padding: 15px 10px;font: 9px" > -->
 <!-- 系统管理>用户管理 -->
 <!-- </div> -->
 <body style="overflow-x: hidden; overflow-y: hidden;">
-	<div>
-		<a href="#" class="btn btn-primary">新增用户</a>
-	</div>
+<!-- 	<div> -->
+<!-- 		<a href="#" class="btn btn-primary">新增用户</a> -->
+<!-- 	</div> -->
+	
+<!-- 	<ul class="nav nav-tabs"> -->
+<!-- 		<li class="active"> -->
+<!-- 			<a href="javascript:aHref('/sys/user/list');">用户列表</a> -->
+<!-- 		</li> -->
+<!-- 		<li> -->
+<!-- 			<a href="javascript:aHref('/views/sys/user/userAdd.html');">新增用户</a> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+
+
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="userlist.html">用户列表</a>
+		</li>
+		<li>
+			<a href="userAdd.html">新增用户</a>
+		</li>
+	</ul>
 
 	<div class="panel panel-default">
 		<table id="_user_table" class="table table-striped">
 			<thead>
 				<tr>
-					<th>名称</th>
-					<th>城市</th>
+					<th>序号</th>
+					<th>id</th>
+					<th>用户名</th>
+					<th>状态</th>
+					<th>创建时间</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 
 			<tbody>
-				<tr>
-					<td>Tanmay</td>
-					<td>Bangalore</td>
-				</tr>
-				<tr>
-					<td>Sachin</td>
-					<td>Mumbai</td>
-				</tr>
+				
 			</tbody>
 
 		</table>
@@ -52,30 +73,63 @@
 	
 	
 <script type="text/javascript">
-initUserList();
 
-function initUserList(){
-	
-	
-	
-	
-	
-}
-
-
-
-
-
-
+//初始化
 $(function() {
-	
 	var param=new Object();	
-	   param.status="0";
+	    param.status="0";
 	//初始化数据	
 	pageFn(getContextPath()+"/sys/user/list",param);
 })
 
 
+/**分页回调处理**/
+function callbak_page(returnDatas)
+{
+	//alert(JSON.stringify(returnDatas));
+	
+	var tableHTML = "";
+	var trContext = $("#_user_table");
+	//$("#_user_table tbody tr").eq(0).nextAll().remove();
+	$("#_user_table tbody tr").remove();
+	var returnData = returnDatas.data.items;
+	
+	if(returnData==null){
+	  return;
+	}
+	for (var i = 0; i < returnData.length; i++) {
+	var j=i;
+	//状态处理
+	//var sta=returnData[i].status;
+	var staName="";
+	var operation='<a href="#">查看</a>'
+				   +'&nbsp;&nbsp;<a href="#">修改</a>'
+				   +'&nbsp;&nbsp;<a href="#">删除</a>';
+				   
+	tableHTML += "<tr>" + "<td>"
+				+ (j + 1)
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].id
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].userName
+				+ "</td>"										
+				+ "<td>"
+				+ returnData[i].status
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].departmentId
+				+ "</td>"						
+				+ "<td>"
+				+operation									
+				+"</td>" 
+				+ "</tr>"
+	
+	}
+	trContext.append(tableHTML);
+
+}
 
 //查询
 $("#_search_id").click(
@@ -152,68 +206,6 @@ function getParam()
 
 
 
-/**分页回调处理**/
-function callbak_page(returnDatas)
-{
-	
-	var tableHTML = "";
-	var trContext = $("#_user_table");
-	$("#_user_table tbody tr").eq(0).nextAll().remove();
-	var returnData = returnDatas.mItems;
-	
-	if(returnData==null){
-	  return;
-	}
-	for (var i = 0; i < returnData.length; i++) {
-	var j=i;
-	//状态处理
-	var sta=returnData[i].status;
-	var staName="";
-	var operation='<a href="${pagecontext.request.contextpath}/audit/enterprise/getDetails.do?id='+returnData[i].id+'">查看</a>'
-				   +'&nbsp;&nbsp;<a href="javascript:updateStatus('+returnData[i].id+',2'+')">通过</a>'
-				   +'&nbsp;&nbsp;<a href="javascript:updateStatus('+returnData[i].id+',3'+')">不通过</a>'
-				   +'&nbsp;&nbsp;<a href="javascript:updateStatus('+returnData[i].id+',4'+')">加入黑名单</a>';
-				   
-	var tName="";
-	var payMannerName="";
-	
-	
-	tableHTML += "<tr>" + "<td>"
-				+ (j + 1)
-				+ "</td>"
-				+ "<td>"
-				+ returnData[i].storeApply.loginName
-				+ "</td>"
-				+ "<td>"
-				+ returnData[i].storeApply.companyName
-				+ "</td>"										
-				+ "<td>"
-				+ (returnData[i].storeApply.domain==null ? "" : returnData[i].storeApply.domain)
-				+ "</td>"
-				+ "<td>"
-				+ (returnData[i].storeApply.industry==null ? "" : returnData[i].storeApply.industry)
-				+ "</td>"
-				+ "<td>"
-				+ (returnData[i].storeApply.manageType==null ? "" : returnData[i].storeApply.manageType)
-				+ "</td>"
-				+ "<td>"
-				+ returnData[i].storeApply.area
-				+ "</td>"
-				+ "<td>"
-				+ staName										
-				+ "</td>"	
-				+ "<td>"
-				+ returnData[i].storeApply.applyDate
-				+ "</td>"										
-				+ "<td>"
-				+operation									
-				+"</td>" 
-				+ "</tr>"
-	
-	}
-	trContext.append(tableHTML);
-
-}
   
   
   

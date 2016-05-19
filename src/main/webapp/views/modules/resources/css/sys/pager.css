@@ -1,0 +1,9 @@
+
+/****分页****/
+.pagination{padding:20px 0;width:888px;margin:0 auto;color:#adadad;font-size:14px;font-family:"宋体";}
+.pagination a,.pagination span{padding:6px 10px;color:#adadad;display:inline-block;margin-left:3px;background:#fff;}
+.pagination .pageSelected,.pagination .current{background:#468FCB;color:#fff;text-decoration:none;cursor: pointer;}
+.pagination .pageFl{color:#DCDCDC !important; background:#fff !important;}
+.pagination span,.pagination a{ vertical-align:middle}
+.pagination a{font-family:Arial;}
+.pagination span{font-weight:bold;}

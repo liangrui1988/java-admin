@@ -18,8 +18,8 @@ public class QueryResult<T> implements Serializable {
 	private List<T> items;// 数据
 	private int currentPage = 1;// 当前页
 
-	// private int startNo;// 起始号
-	// private int showNum = 10;// 显示号的数量
+	private int startNo;// 起始号
+	private int showNum = 10;// 显示号的数量
 
 	public int getPages() {
 		return pages;
@@ -78,6 +78,80 @@ public class QueryResult<T> implements Serializable {
 
 	public void setCurrentPage(int mCurrentPage) {
 		this.currentPage = mCurrentPage;
+	}
+
+	public int getStartNo() {
+		if (startNo <= 0) {
+			return 1;
+		}
+		return startNo;
+	}
+
+	public static int getStartNo2(int pages, int showNum, int cIndex) {
+
+		// 根据当前页计算起如行
+		if (pages < cIndex) {
+			cIndex = pages;
+		} else if (cIndex <= 0) {
+		}
+
+		if (cIndex % showNum == 0) {
+			return cIndex - showNum + 1;
+		} else {
+			if (cIndex < showNum) {
+				return 1;
+			} else {
+				return cIndex - (cIndex % showNum) + 1;
+			}
+
+		}
+
+	}
+
+	/**
+	 * 12 3 45
+	 * 
+	 * @param pages
+	 * @param showNum
+	 * @param cIndex
+	 * @return
+	 */
+	public static int getStartNo3(int pages, int showNum, int cIndex) {
+		int starti = 1;
+
+		if (cIndex < pages) {
+
+			if (pages > cIndex + showNum) {
+				starti = pages - showNum + 1;
+			} else {
+				// 当前页-显示行数/2
+				starti = cIndex - (showNum / 2);
+			}
+
+		}
+
+		// 当前页大于(行数/2)
+		if (cIndex > showNum / 2) {
+			// 当前页-显示行数/2
+			starti = cIndex - (showNum / 2);
+		}
+		if (cIndex < 5 || cIndex < 0) {
+			starti = 1;
+		}
+
+		return starti;
+	}
+
+	public void setStartNo(int startNo) {
+		this.startNo = startNo;
+	}
+
+	public int getShowNum() {
+		return showNum;
+	}
+
+	public void setShowNum(int showNum) {
+		this.showNum = showNum;
 	}
 
 	@Override
