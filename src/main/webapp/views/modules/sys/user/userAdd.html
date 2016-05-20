@@ -9,20 +9,106 @@
 	rel="stylesheet">
 	
 <script src="../../../common/jquery/jquery-1.12.3.js"></script>
-<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script>
 
 <script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/sys.js"></script>
+<script src="../../../common/util/common.js"></script>
 
 
-<script type="text/javascript"  src="../../../common/sys.js"></script>
-<script type="text/javascript"  src="../../../common/util/common.js"></script>
+<style type="text/css">
+
+.form-actions{
+     padding-right: 1000px;
+}
+#messageBox{
+ color: red;
+}
+</style>
+
 
 <script type="text/javascript">
-
-// function aHref(uri){
-// 	location.href=getContextPath()+uri;
+	$(document).ready(function() {
+		$("#inputForm").validate({
+			submitHandler: function(form){
+				alert("xx");
+				loading('正在提交，请稍等...');
+					//form.submit();
+			},
+		
+			rules: {
+                  maxNumber: '999999999.99'
+			},	
+			onkeyup:true,
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
 	
-// }
+	
+	
+ jQuery.validator.addMethod("maxNumber",function(value, element){  
+         var returnVal = true; 
+			inputZ=value;
+			 var ArrMen= inputZ.split(".");
+			 if(ArrMen.length==2){
+				if(ArrMen[1].length>2){
+					returnVal = false; 
+					return false;
+				}
+			 }
+        	 var vzNum=parseFloat(inputZ).toFixed(2);
+       	     // alert(vzNum);
+    		  if(isNaN(vzNum)){
+				   returnVal = false; 
+    		       return false;
+    		  }
+			  
+			 var ele= parseFloat('999999999.99');
+			
+        	  if(ele<parseFloat(vzNum)){  
+                  returnVal = false; 
+                  return false;					  
+              }  
+       // } for end
+      return returnVal;  
+    },"请填写前面9位数字，小数为2位的金额");
+	
+ 
+	 jQuery.validator.addMethod("furoNumber",function(value, element){  
+	     var returnVal = true; 
+		 var bb=value+"";
+		
+			  if(isNaN(value)){
+				   returnVal = false; 
+			       return false;
+			  }
+			
+		    if(bb.indexOf('.')>=0){
+				   returnVal = false; 
+			       return false;
+			  }
+			
+	    	  if(value.length!=4){  
+	              returnVal = false; 
+	              return false;					  
+	          }  
+	   // } for end
+	  return returnVal;  
+	},"请输入4位长度的数字");
+
+	 
+	 
+
 </script>
 
 </head>
@@ -37,12 +123,79 @@
 			<a href="userAdd.html">新增用户</a>
 		</li>
 	</ul>
+	
+             <br/>
+ <div class="userAddClz">
+             
+      <form id="inputForm" class="form-horizontal" role="form">
+<!--             <div class="form-group"> -->
+<!--                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：    -->
+<!--                </label> -->
+<!--                <div class="col-sm-1"> -->
+<!--                   <input class="input-xlarge" name="userName" type="text" placeholder="192.168.1.161"/> -->
+<!--                </div> -->
+<!--                <label class="col-sm-4 control-label" ><span class="help-inline"><font color="red">*</font> </span>密码：        -->
+<!--                </label> -->
+<!--                <div class="col-sm-1"> -->
+<!--                   <input class="input-xlarge"  type="password" placeholder="msh"/> -->
+<!--                </div> -->
+<!--             </div> -->
 
-	xxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-	
-	xxx
-	xxxxxxxxxxxxxx
+
+            <div class="form-group">
+               <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：   
+               </label>
+               <div class="col-sd-1">
+                  <input class="required number input-xlarge" name="userName" type="text" />
+               </div>
+         
+            </div>
+            
+            
+            <div class="form-group">
+               <label class="col-sm-1 control-label" ><span class="help-inline"><font color="red">*</font> </span>密码：       
+               </label>
+               <div class="col-sd-1">
+                  <input class="required"  type="password" />
+               </div>
+            </div>
+            
+            
+            <div class="form-group">
+               <label class="col-sm-1 control-label "> <span class="help-inline"><font color="red">*</font>姓名：</label>
+               <div class="col-sd-1">
+                  <input class="required" type="text"  name="fullName"/>
+               </div>
+           
+            </div>
+            
+            
+              <div class="form-group">
+               <label class="col-sm-1 control-label " >
+               <span class="help-inline"><font color="red">*</font>状态：</label>
+               <div class="col-sd-1">
+			      &nbsp;  &nbsp;&nbsp;启用 <input type="radio" name="status" value="0" checked="checked"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="status" value="1"/>
+               </div>
+            </div>
+            
+            
+            <div class="form-group">
+               <label class="col-sm-1 control-label " >
+                                            备注：</label>
+               <div class="col-sm-1">
+               <textarea rows="6" cols="60"></textarea>
+               </div>
+            </div>
+            
+         
+            <div class="form-actions">
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		    </div>    
+         </form>
+         
+    </div>
+		
 
 </body>
 </html>
