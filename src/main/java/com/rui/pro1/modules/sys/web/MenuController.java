@@ -1,6 +1,7 @@
 package com.rui.pro1.modules.sys.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import com.rui.pro1.common.exception.ErrorCode;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IUserService;
+import com.rui.pro1.modules.sys.utils.MenuComparator;
 import com.rui.pro1.modules.sys.vo.MenuVo;
 
 /**
@@ -72,57 +74,21 @@ public class MenuController extends SysBaseController {
 	
 	@RequestMapping(value = "listAll")
 	@ResponseBody
-	public ResultBean getlistAll() {
+	public ResultBean getlistAll(Integer userId) {
 		ResultBean rb = new ResultBean();
 		try {
 			
-			
-			List<MenuVo> mvo=new ArrayList<MenuVo>();
-			
-			MenuVo menuVo=new MenuVo();
-			menuVo.setId("1");
-			menuVo.setParentId("");
-			menuVo.setName("系统管理");
-			menuVo.setIcon("glyphicon glyphicon-user");
-			mvo.add(menuVo);
-			
-			MenuVo menuVox =new MenuVo();
-			menuVox.setId("10");
-			menuVox.setParentId("1");
-			menuVox.setName("用户管理 ");
-			menuVox.setHref("/views/modules/sys/user/userlist");
-
-			mvo.add(menuVox);
-			
-			MenuVo menuVoa  =new MenuVo();
-			menuVoa.setId("11");
-			menuVoa.setParentId("1");
-			menuVoa.setName("菜单管理 ");
-			menuVoa.setHref("/views/modules/sys/menu/menulist");
-			mvo.add(menuVoa);
-			
-			
-			//--------------------------------
-			
-			MenuVo menuVo2=new MenuVo();
-			menuVo2.setId("2");
-			menuVo2.setParentId("");
-			menuVo2.setName("财务管理");
-			mvo.add(menuVo2);
-			
-			
-		
-			
-			
-			MenuVo menuVo3=new MenuVo();
-			menuVo3.setId("3");
-			menuVo3.setParentId("");
-			menuVo3.setName("采购管理");
-			mvo.add(menuVo3);
-			
     		List<Menu> menus = userService.getUserMenus("admin");
 
-			rb.setData(menus);
+    		Menu[] ocAr = new Menu[menus.size()];
+			for (int i = 0; i < menus.size(); i++) {
+				ocAr[i] = menus.get(i);
+			}
+			Arrays.sort(ocAr, new MenuComparator());
+			List<Menu> menusNew = Arrays.asList(ocAr);
+			
+    		
+			rb.setData(menusNew);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");

@@ -44,6 +44,13 @@
 		from sys_user where id=#{id}
 	</select>
 
+	<!--=========================根据登际名查询 ============================================================================= -->
+	<select id="queryByUserName" resultMap="resultMapId" parameterType="String">
+		select *
+		from sys_user where userName=#{userName}
+	</select>
+
+
 	<!-- 搜索条件判断 -->
 	<sql id="searchField">
 		<where>

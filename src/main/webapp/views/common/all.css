@@ -1,3 +1,4 @@
-
+@CHARSET "UTF-8";
 @import "/views/common/bootstrap/css/bootstrap.min.css"; 
-@import "/views/common/layout/css/styles.css"; 
+@import "/views/common/style/pager.css"; 
+

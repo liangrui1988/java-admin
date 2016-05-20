@@ -3,20 +3,24 @@
 <head>
 <title>用户管理</title>
 
-<link href="../../../common/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="../../resources/css/sys/pager.css"
-	rel="stylesheet">
+<!-- <link href="../../../common/bootstrap/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet"> -->
+<!-- <link href="../../resources/css/sys/pager.css" -->
+<!-- 	rel="stylesheet"> -->
 	
-<script src="../../../common/jquery/jquery-1.12.3.js"></script>
-<script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script>
-<script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script>
 
-<script src="../../../common/bootstrap/js/bootstrap.js"></script>
-<script src="../../../common/bootstrap/js/bootstrap.js"></script>
-<script src="../../../common/sys.js"></script>
-<script src="../../../common/util/common.js"></script>
+	
+<!-- <script src="../../../common/jquery/jquery-1.12.3.js"></script> -->
+<!-- <script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script> -->
+<!-- <script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script> -->
 
+<!-- <script src="../../../common/bootstrap/js/bootstrap.js"></script> -->
+<!-- <script src="../../../common/bootstrap/js/bootstrap.js"></script> -->
+<!-- <script src="../../../common/sys.js"></script> -->
+<!-- <script src="../../../common/util/common.js"></script> -->
+
+<link href="../../../common/all.css" rel="stylesheet">
+<script type="text/javascript" src="../../../common/all.js"></script>
 
 <style type="text/css">
 
@@ -37,10 +41,14 @@
 				loading('正在提交，请稍等...');
 					//form.submit();
 			},
-		
-			rules: {
-                  maxNumber: '999999999.99'
-			},	
+// 			rules: {
+//                   test: '999999999.99'
+// 			},
+// 			messages: {
+// 	   	 		userName: {
+// 					required: "必填信息"
+// 				}
+// 			},
 			onkeyup:true,
 			errorContainer: "#messageBox",
 			errorPlacement: function(error, element) {

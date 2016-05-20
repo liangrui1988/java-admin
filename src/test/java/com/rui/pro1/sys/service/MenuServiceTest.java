@@ -1,5 +1,8 @@
 package com.rui.pro1.sys.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -61,5 +64,37 @@ public class MenuServiceTest extends BaseServiceTest {
 		
 		menuService.update(menu);
 	}
+	
+	
+//	List<MenuVo> mvo=new ArrayList<MenuVo>();
+//	MenuVo menuVo=new MenuVo();
+//	menuVo.setId("1");
+//	menuVo.setParentId("");
+//	menuVo.setName("系统管理");
+//	menuVo.setIcon("glyphicon glyphicon-user");
+//	mvo.add(menuVo);
+//	MenuVo menuVox =new MenuVo();
+//	menuVox.setId("10");
+//	menuVox.setParentId("1");
+//	menuVox.setName("用户管理 ");
+//	menuVox.setHref("/views/modules/sys/user/userlist");
+//	mvo.add(menuVox);
+//	MenuVo menuVoa  =new MenuVo();
+//	menuVoa.setId("11");
+//	menuVoa.setParentId("1");
+//	menuVoa.setName("菜单管理 ");
+//	menuVoa.setHref("/views/modules/sys/menu/menulist");
+//	mvo.add(menuVoa);
+//	//--------------------------------
+//	MenuVo menuVo2=new MenuVo();
+//	menuVo2.setId("2");
+//	menuVo2.setParentId("");
+//	menuVo2.setName("财务管理");
+//	mvo.add(menuVo2);
+//	MenuVo menuVo3=new MenuVo();
+//	menuVo3.setId("3");
+//	menuVo3.setParentId("");
+//	menuVo3.setName("采购管理");
+//	mvo.add(menuVo3);
 
 }

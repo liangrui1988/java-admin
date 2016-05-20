@@ -38,5 +38,7 @@ public interface UserMapper {
 	
 	int updateUserDepartment(@Param("userId") int userId);
 
+	User queryByUserName(@Param("userName") String username);
+
 
 }

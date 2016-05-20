@@ -202,9 +202,12 @@ public class UserService implements IUserService {
 	@Override
 	public List<Menu> getUserMenus(String username) {
 
-		UserLoginVo userLoginVo = new UserLoginVo();
-		userLoginVo.setUserName(username);
-		User user = userMapper.query(userLoginVo);
+//		UserLoginVo userLoginVo = new UserLoginVo();
+//		userLoginVo.setUserName(username);
+		//User user = userMapper.query(userLoginVo);
+		
+		User user = userMapper.queryByUserName(username);
+		
 		if (user == null) {
 			return null;
 		}
