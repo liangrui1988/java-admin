@@ -1,56 +1,163 @@
 package com.rui.pro1.modules.sys.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-/**
- * The persistent class for the sys_user database table.
- * 
- */
+public class User {
+    private Integer id;
 
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private Integer departmentId;
 
-	private int id;
-	private String userName;
-	private String password;
-	private Integer status;
-	private Date createTime;
-	private Date updateTime;
-	private int departmentId;
-	private String remake;
-	private Department department;
+    private String userName;
+
+    private String password;
+
+    private String fullName;
+
+    private String type;
+
+    private String email;
+
+    private Integer status;
+
+    private Integer createById;
+
+    private Integer updateById;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    private String remake;
+
+    private Date lastLoginTime;
+    
+    
+    private Department department;
 
 	private List<Role> roles; // 拥有的角色列表
 	
 	private List<Menu> menus; // 拥有的菜单列表
+	
 
-	public User() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName == null ? null : fullName.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getCreateById() {
+        return createById;
+    }
+
+    public void setCreateById(Integer createById) {
+        this.createById = createById;
+    }
+
+    public Integer getUpdateById() {
+        return updateById;
+    }
+
+    public void setUpdateById(Integer updateById) {
+        this.updateById = updateById;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getRemake() {
+        return remake;
+    }
+
+    public void setRemake(String remake) {
+        this.remake = remake == null ? null : remake.trim();
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+	public Department getDepartment() {
+		return department;
 	}
 
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Date getCreateTime() {
-		return this.createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 
 	public List<Role> getRoles() {
@@ -61,54 +168,6 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
-	public Integer getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Date getUpdateTime() {
-		return this.updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public String getUserName() {
-		return this.userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	public int getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(int departmentId) {
-		this.departmentId = departmentId;
-	}
-
-	public String getRemake() {
-		return remake;
-	}
-
-	public void setRemake(String remake) {
-		this.remake = remake;
-	}
-
 	public List<Menu> getMenus() {
 		return menus;
 	}
@@ -116,7 +175,7 @@ public class User implements Serializable {
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
-	
-	
-
+    
+    
+    
 }

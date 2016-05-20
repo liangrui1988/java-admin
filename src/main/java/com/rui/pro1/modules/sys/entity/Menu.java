@@ -1,123 +1,145 @@
 package com.rui.pro1.modules.sys.entity;
 
-import java.io.Serializable;
+import java.util.Date;
 
-/**
- * The persistent class for the sys_menu database table.
- * 
- */
+public class Menu {
+    private String id;
 
-public class Menu implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private String name;
 
-	private String id;
+    private String types;
 
-	private String name;
+    private Integer sortNo;
 
-	private String parentId;
+    private String parentId;
 
-	private String parentIds;
+    private String parentIds;
 
-	private String permission;
+    private String permission;
 
-	private int sortNo;
+    private Integer status;
 
-	private Integer status;
+    private String icon;
 
-	private String types;
+    private String href;
 
-	private String icon;
-	private String href;
+    private Date createTime;
 
-	public Menu() {
-	}
+    private Date updateTime;
 
+    private Integer createById;
 
+    private Integer updateById;
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
 
+    public String getName() {
+        return name;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
+    public String getTypes() {
+        return types;
+    }
 
+    public void setTypes(String types) {
+        this.types = types == null ? null : types.trim();
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public Integer getSortNo() {
+        return sortNo;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setSortNo(Integer sortNo) {
+        this.sortNo = sortNo;
+    }
 
-	public String getParentId() {
-		return this.parentId;
-	}
+    public String getParentId() {
+        return parentId;
+    }
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
+    public void setParentId(String parentId) {
+        this.parentId = parentId == null ? null : parentId.trim();
+    }
 
-	public String getParentIds() {
-		return this.parentIds;
-	}
+    public String getParentIds() {
+        return parentIds;
+    }
 
-	public void setParentIds(String parentIds) {
-		this.parentIds = parentIds;
-	}
+    public void setParentIds(String parentIds) {
+        this.parentIds = parentIds == null ? null : parentIds.trim();
+    }
 
-	public String getPermission() {
-		return this.permission;
-	}
+    public String getPermission() {
+        return permission;
+    }
 
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
+    public void setPermission(String permission) {
+        this.permission = permission == null ? null : permission.trim();
+    }
 
+    public Integer getStatus() {
+        return status;
+    }
 
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public int getSortNo() {
-		return sortNo;
-	}
+    public String getIcon() {
+        return icon;
+    }
 
-	public void setSortNo(int sortNo) {
-		this.sortNo = sortNo;
-	}
+    public void setIcon(String icon) {
+        this.icon = icon == null ? null : icon.trim();
+    }
 
-	public Integer getStatus() {
-		return this.status;
-	}
+    public String getHref() {
+        return href;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setHref(String href) {
+        this.href = href == null ? null : href.trim();
+    }
 
-	public String getTypes() {
-		return this.types;
-	}
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	public void setTypes(String types) {
-		this.types = types;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	public String getIcon() {
-		return icon;
-	}
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
-	public String getHref() {
-		return href;
-	}
+    public Integer getCreateById() {
+        return createById;
+    }
 
-	public void setHref(String href) {
-		this.href = href;
-	}
+    public void setCreateById(Integer createById) {
+        this.createById = createById;
+    }
 
+    public Integer getUpdateById() {
+        return updateById;
+    }
+
+    public void setUpdateById(Integer updateById) {
+        this.updateById = updateById;
+    }
 }

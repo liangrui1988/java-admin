@@ -1,95 +1,115 @@
 package com.rui.pro1.modules.sys.entity;
 
-import java.io.Serializable;
+import java.util.Date;
 
-/**
- * The persistent class for the sys_department database table.
- * 
- */
+public class Department {
+    private Integer id;
 
-public class Department implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private String name;
 
-	private int id;
+    private Integer sort;
 
-	private String name;
+    private Integer parentId;
 
-	private int parentId;
+    private String parentIds;
 
-	private String parentIds;
+    private Integer status;
 
-	private String remake;
+    private Date createTime;
 
-	private int sort;
+    private Date updateTime;
 
-	private Integer status;
-	
+    private Integer createById;
 
+    private Integer updateById;
 
-	public Department() {
-	}
+    private String remake;
 
-	public int getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-	public int getParentId() {
-		return this.parentId;
-	}
+    public Integer getSort() {
+        return sort;
+    }
 
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
-	}
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
-	public String getParentIds() {
-		return this.parentIds;
-	}
+    public Integer getParentId() {
+        return parentId;
+    }
 
-	public void setParentIds(String parentIds) {
-		this.parentIds = parentIds;
-	}
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
 
-	public String getRemake() {
-		return this.remake;
-	}
+    public String getParentIds() {
+        return parentIds;
+    }
 
-	public void setRemake(String remake) {
-		this.remake = remake;
-	}
+    public void setParentIds(String parentIds) {
+        this.parentIds = parentIds == null ? null : parentIds.trim();
+    }
 
-	public int getSort() {
-		return this.sort;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public Integer getStatus() {
-		return this.status;
-	}
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", name=" + name + ", parentId="
-				+ parentId + ", parentIds=" + parentIds + ", remake=" + remake
-				+ ", sort=" + sort + ", status=" + status + "]";
-	}
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Integer getCreateById() {
+        return createById;
+    }
+
+    public void setCreateById(Integer createById) {
+        this.createById = createById;
+    }
+
+    public Integer getUpdateById() {
+        return updateById;
+    }
+
+    public void setUpdateById(Integer updateById) {
+        this.updateById = updateById;
+    }
+
+    public String getRemake() {
+        return remake;
+    }
+
+    public void setRemake(String remake) {
+        this.remake = remake == null ? null : remake.trim();
+    }
 }
