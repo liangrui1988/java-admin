@@ -4,7 +4,17 @@
 
 	<!--=========================查询数据返回集合 配置====================================================== -->
 	<resultMap type="com.rui.pro1.modules.sys.entity.Role" id="resultMapId">
-		<id property="id" column="id" />
+		    <id column="id" jdbcType="INTEGER" property="id" />
+		    <result column="name" jdbcType="VARCHAR" property="name" />
+		    <result column="status" jdbcType="INTEGER" property="status" />
+		    <result column="types" jdbcType="VARCHAR" property="types" />
+		    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		    <result column="create_by_id" jdbcType="INTEGER" property="createById" />
+		    <result column="update_by_id" jdbcType="INTEGER" property="updateById" />
+		    <result column="office_id" jdbcType="INTEGER" property="officeId" />
+		    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    
 	</resultMap>
 
 
@@ -40,11 +50,92 @@
 
 	<!--=========================添加 ============================================================================= -->
 
-	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-		insert into
-		sys_role(name,remake)
-		values(#{name},#{remake})
-	</insert>
+<!-- 	<insert id="add" useGeneratedKeys="true" keyProperty="id"> -->
+<!-- 		insert into -->
+<!-- 		sys_role(name,remake) -->
+<!-- 		values(#{name},#{remake}) -->
+<!-- 	</insert> -->
+
+
+
+<insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Role" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_role (id, name, status, 
+      types, create_time, update_time, 
+      create_by_id, update_by_id, office_id, 
+      remake)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{types,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createById,jdbcType=INTEGER}, #{updateById,jdbcType=INTEGER}, #{officeId,jdbcType=INTEGER}, 
+      #{remake,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.Role" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="types != null">
+        types,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createById != null">
+        create_by_id,
+      </if>
+      <if test="updateById != null">
+        update_by_id,
+      </if>
+      <if test="officeId != null">
+        office_id,
+      </if>
+      <if test="remake != null">
+        remake,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="types != null">
+        #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createById != null">
+        #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null">
+        #{updateById,jdbcType=INTEGER},
+      </if>
+      <if test="officeId != null">
+        #{officeId,jdbcType=INTEGER},
+      </if>
+      <if test="remake != null">
+        #{remake,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
 
 	<!-- 删除 -->
 	<delete id="del" parameterType="_int">
@@ -54,32 +145,81 @@
 
 	<!--=========================修改 ============================================================================= -->
 
-	<sql id="dbUpdateField">
-		<set>
-			<if test="name != null and name != ''">name=#{name},</if>
-			<if test="remake != null and remake != ''">remake=#{remake},</if>
-			<if test="status != null">status=#{status},</if>
+<!-- 	<sql id="dbUpdateField"> -->
+<!-- 		<set> -->
+<!-- 			<if test="name != null and name != ''">name=#{name},</if> -->
+<!-- 			<if test="remake != null and remake != ''">remake=#{remake},</if> -->
+<!-- 			<if test="status != null">status=#{status},</if> -->
 
-		</set>
-	</sql>
+<!-- 		</set> -->
+<!-- 	</sql> -->
 
-	<update id="update" parameterType="com.rui.pro1.modules.sys.entity.Role">
-		update sys_role
-		<include refid="dbUpdateField" />
-		where id=#{id}
-	</update>
+<!-- 	<update id="update" parameterType="com.rui.pro1.modules.sys.entity.Role"> -->
+<!-- 		update sys_role -->
+<!-- 		<include refid="dbUpdateField" /> -->
+<!-- 		where id=#{id} -->
+<!-- 	</update> -->
+
+
+
+<update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.Role">
+    update sys_role
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="types != null">
+        types = #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createById != null">
+        create_by_id = #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null">
+        update_by_id = #{updateById,jdbcType=INTEGER},
+      </if>
+      <if test="officeId != null">
+        office_id = #{officeId,jdbcType=INTEGER},
+      </if>
+      <if test="remake != null">
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.Role">
+    update sys_role
+    set name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      types = #{types,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by_id = #{createById,jdbcType=INTEGER},
+      update_by_id = #{updateById,jdbcType=INTEGER},
+      office_id = #{officeId,jdbcType=INTEGER},
+      remake = #{remake,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
 
 	<insert id="addRoleMenu">
 	insert into
-	sys_role_menu(roleId,menuId)
+	sys_role_menu(role_id,menu_id)
 	values(#{roleId},#{menuId})
 	</insert>
 
 	<!-- 删除 -->
 	<delete id="delRoleMenu" parameterType="_int">
 		DELETE from sys_role_menu
-		where roleId=#{roleId}
+		where role_id=#{roleId}
 	</delete>
 
 </mapper>

@@ -91,7 +91,7 @@ public class RoleService implements IRoleService {
 	@Override
 	public int add(Role role) {
 
-		int count = roleMapper.add(role);
+		int count = roleMapper.insertSelective(role);
 		if (count <= 0) {
 			return 0;
 		}
@@ -112,7 +112,7 @@ public class RoleService implements IRoleService {
 			return 0;
 		}
 		
-		int count=roleMapper.update(role);
+		int count=roleMapper.updateByPrimaryKeySelective(role);
 		if(count>0){
 			//更改菜单
 			roleMapper.delRoleMenu(role.getId());

@@ -4,7 +4,20 @@
 
 	<!--=========================查询数据返回集合 配置====================================================== -->
 	<resultMap type="com.rui.pro1.modules.sys.entity.Menu" id="resultMapId">
-		<id property="id" column="id" />
+		  <id column="id" jdbcType="VARCHAR" property="id" />
+		    <result column="name" jdbcType="VARCHAR" property="name" />
+		    <result column="types" jdbcType="VARCHAR" property="types" />
+		    <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+		    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+		    <result column="parent_ids" jdbcType="VARCHAR" property="parentIds" />
+		    <result column="permission" jdbcType="VARCHAR" property="permission" />
+		    <result column="status" jdbcType="INTEGER" property="status" />
+		    <result column="icon" jdbcType="VARCHAR" property="icon" />
+		    <result column="href" jdbcType="VARCHAR" property="href" />
+		    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		    <result column="create_by_id" jdbcType="INTEGER" property="createById" />
+		    <result column="update_by_id" jdbcType="INTEGER" property="updateById" />
 	</resultMap>
 
 
@@ -40,47 +53,110 @@
 
 	<!--=========================添加 ============================================================================= -->
 
-	<!-- 插入字段sql -->
-	<sql id="dbField">
-		<trim suffix="" suffixOverrides=",">
-		    id,
-			<if test="name != null and name != ''">name,</if>
-			<if test="types != null and types != ''">types,</if>
-			<if test="sortNo != null">sortNo,</if>
-			<if test="parentId != null and parentId != ''">parentId,</if>
-			<if test="permission != null and permission != ''">permission,</if>
-			<if test="icon != null and icon != ''">icon,</if>
-			<if test="href != null and href != ''">href,</if>
-			<if test="status != null ">status,</if>
-			
-		</trim>
-	</sql>
-	<!-- 插入值sql -->
-	<sql id="dbFieldValue">
-		<trim suffix="" suffixOverrides=",">
-		     #{id},
-			<if test="name != null and name != ''">#{name},</if>
-			<if test="types != null and types != ''">#{types},</if>
-			<if test="sortNo != null">#{sortNo},</if>
-			<if test="parentId != null and parentId != ''">#{parentId},</if>
-			<if test="permission != null and permission != ''">#{permission},</if>
-			<if test="icon != null and icon != ''">#{icon},</if>
-			<if test="href != null and href != ''">#{href},</if>
-			<if test="status != null ">#{status},</if>
-			
-		</trim>
-	</sql>
-
-
-	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-		insert into
-		sys_menu(
-		<include refid="dbField" />
-		)
-		values(
-		<include refid="dbFieldValue" />
-		)
-	</insert>
+	<insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Menu" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_menu (id, name, types, 
+      sort_no, parent_id, parent_ids, 
+      permission, status, icon, 
+      href, create_time, update_time, 
+      create_by_id, update_by_id)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{types,jdbcType=VARCHAR}, 
+      #{sortNo,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR}, #{parentIds,jdbcType=VARCHAR}, 
+      #{permission,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
+      #{href,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createById,jdbcType=INTEGER}, #{updateById,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.Menu" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="types != null">
+        types,
+      </if>
+      <if test="sortNo != null">
+        sort_no,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="parentIds != null">
+        parent_ids,
+      </if>
+      <if test="permission != null">
+        permission,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="href != null">
+        href,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createById != null">
+        create_by_id,
+      </if>
+      <if test="updateById != null">
+        update_by_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="types != null">
+        #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentIds != null">
+        #{parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createById != null">
+        #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null">
+        #{updateById,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
 
 	<!-- 删除 -->
 	<delete id="del" parameterType="_int">
@@ -90,28 +166,76 @@
 
 	<!--=========================修改 ============================================================================= -->
 
-	<sql id="dbUpdateField">
-		<set>
-			<if test="name != null and name != ''">name=#{name},</if>
-			<if test="types != null and types != ''">types=#{types},</if>
-			<if test="sortNo != null">sortNo=#{sortNo},</if>
-			<if test="parentId != null">parentId=#{parentId},</if>
-			<if test="permission != null and permission != ''">permission=#{permission},</if>
-			<if test="status != null ">status=#{status},</if>
-		</set>
-	</sql>
 
-	<update id="update" parameterType="com.rui.pro1.modules.sys.entity.Menu">
-		update sys_menu
-		<include refid="dbUpdateField" />
-		where id=#{id}
-	</update>
+<update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.Menu">
+    update sys_menu
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="types != null">
+        types = #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentIds != null">
+        parent_ids = #{parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createById != null">
+        create_by_id = #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null">
+        update_by_id = #{updateById,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.Menu">
+    update sys_menu
+    set name = #{name,jdbcType=VARCHAR},
+      types = #{types,jdbcType=VARCHAR},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      parent_ids = #{parentIds,jdbcType=VARCHAR},
+      permission = #{permission,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      href = #{href,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by_id = #{createById,jdbcType=INTEGER},
+      update_by_id = #{updateById,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 
 	<!--=========================根据角色获取所有菜单 ============================================================================= -->
 
 	<select id="getAllMenuByRoleId" resultMap="resultMapId" parameterType="Integer">
 		select * from sys_menu where id in(
-		SELECT menuId FROM `sys_role_menu` where roleId=#{roleId}
+		SELECT menu_id FROM `sys_role_menu` where role_id=#{roleId}
 		)
 	</select>
 	

@@ -46,7 +46,7 @@ public class MenuService implements IMenuService {
 
 	@Override
 	public int add(Menu menu) {
-		return menuMapper.add(menu);
+		return menuMapper.insertSelective(menu);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.modules.sys.entity.Menu;
+import com.rui.pro1.modules.sys.entity.User;
 
 public interface MenuMapper {
 
@@ -17,9 +18,15 @@ public interface MenuMapper {
 
 	int del(int id);
 
-	int add(Menu menu);
+	//int add(Menu menu);
 
-	int update(Menu menu);
+	//int update(Menu menu);
 	
 	List<Menu> getAllMenuByRoleId(@Param("roleId") int roleId);
+	
+	
+	int insert(Menu menu);
+	int insertSelective(Menu menu);
+	int update(Menu menu);
+	int updateByPrimaryKeySelective(Menu menu);
 }

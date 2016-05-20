@@ -4,7 +4,17 @@
 
 	<!--=========================查询数据返回集合 配置====================================================== -->
 	<resultMap type="com.rui.pro1.modules.sys.entity.Department" id="resultMapId">
-		<id property="id" column="id" />
+		  <id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="sort" property="sort" jdbcType="INTEGER" />
+	    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+	    <result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="create_by_id" property="createById" jdbcType="INTEGER" />
+	    <result column="update_by_id" property="updateById" jdbcType="INTEGER" />
+	    <result column="remake" property="remake" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!--=========================根据id ============================================================================= -->
@@ -35,12 +45,90 @@
 	
 	
 	<!--=========================添加 ============================================================================= -->
-
-	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-		insert into
-		sys_department(name,sort,parentId,remake)
-		values(#{name},#{sort},#{parentId},#{remake})
-	</insert>
+<insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Department"  useGeneratedKeys="true" keyProperty="id">
+    insert into sys_department (id, name, sort, 
+      parent_id, parent_ids, status, 
+      create_time, update_time, create_by_id, 
+      update_by_id, remake)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createById,jdbcType=INTEGER}, 
+      #{updateById,jdbcType=INTEGER}, #{remake,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.Department" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="parentIds != null" >
+        parent_ids,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createById != null" >
+        create_by_id,
+      </if>
+      <if test="updateById != null" >
+        update_by_id,
+      </if>
+      <if test="remake != null" >
+        remake,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="parentIds != null" >
+        #{parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createById != null" >
+        #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null" >
+        #{updateById,jdbcType=INTEGER},
+      </if>
+      <if test="remake != null" >
+        #{remake,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+	
 
 	<!-- 删除 -->
 	<delete id="del" parameterType="_int">
@@ -49,23 +137,56 @@
 	
   <!--=========================修改 ============================================================================= -->
 	
-	<sql id="dbUpdateField">
-		<set>
-			<if test="name != null and name != ''">name=#{name},</if>
-			<if test="sort != null">sort=#{sort},</if>
-			<if test="parentId != null">parentId=#{parentId},</if>
-			<if test="remake != null and remake != ''">remake=#{remake},</if>
-			<if test="status != null ">status=#{status},</if>
-			
-		</set>
-	</sql>
-	
-	<update id="update" parameterType="com.rui.pro1.modules.sys.entity.Department">
-		update sys_department
-		<include refid="dbUpdateField" />
-		where id=#{id}
-	</update>
-	
+	<update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.Department" >
+    update sys_department
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="parentIds != null" >
+        parent_ids = #{parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createById != null" >
+        create_by_id = #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null" >
+        update_by_id = #{updateById,jdbcType=INTEGER},
+      </if>
+      <if test="remake != null" >
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.Department" >
+    update sys_department
+    set name = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      parent_ids = #{parentIds,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by_id = #{createById,jdbcType=INTEGER},
+      update_by_id = #{updateById,jdbcType=INTEGER},
+      remake = #{remake,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 	
 	
 </mapper>

@@ -47,12 +47,12 @@ public class DepartmentService implements IDepartmentService {
 
 	@Override
 	public int add(Department department) {
-		return departmentMapper.add(department);
+		return departmentMapper.insertSelective(department);
 	}
 
 	@Override
 	public int update(Department department) {
-		return departmentMapper.update(department);
+		return departmentMapper.updateByPrimaryKeySelective(department);
 	}
 
 }

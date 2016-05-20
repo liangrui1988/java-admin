@@ -4,7 +4,22 @@
 
 	<!--=========================查询数据返回集合 配置====================================================== -->
 	<resultMap type="com.rui.pro1.modules.sys.entity.User" id="resultMapId">
-		<id property="id" column="id" />
+		
+	<id column="id" jdbcType="INTEGER" property="id" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="full_name" jdbcType="VARCHAR" property="fullName" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="email" jdbcType="CHAR" property="email" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_by_id" jdbcType="INTEGER" property="createById" />
+    <result column="update_by_id" jdbcType="INTEGER" property="updateById" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+		
 		<!-- 联合 审请信息 -->
 		<association property="department" column="departmentId"
 			select="selectDepartment" javaType="com.rui.pro1.modules.sys.entity.Department" />
@@ -33,8 +48,8 @@
 	<select id="getRoleList" parameterType="_int"
 		resultType="com.rui.pro1.modules.sys.entity.Role">
 		select * from sys_role where id in(
-		SELECT roleId FROM
-		`sys_user_role` where userId=#{id}
+		SELECT role_id FROM
+		`sys_user_role` where user_id=#{id}
 		)
 	</select>
 
@@ -47,14 +62,14 @@
 	<!--=========================根据登际名查询 ============================================================================= -->
 	<select id="queryByUserName" resultMap="resultMapId" parameterType="String">
 		select *
-		from sys_user where userName=#{userName}
+		from sys_user where user_name=#{userName}
 	</select>
 
 
 	<!-- 搜索条件判断 -->
 	<sql id="searchField">
 		<where>
-			<if test="bean.userName != null and bean.userName != ''">AND userName LIKE CONCAT('%',#{bean.userName},'%') </if>
+			<if test="bean.userName != null and bean.userName != ''">AND user_name LIKE CONCAT('%',#{bean.userName},'%') </if>
 		</where>
 	</sql>
 	<!--=========================查询搜索 ============================================================================= -->
@@ -94,9 +109,117 @@
 
 	<insert id="add" useGeneratedKeys="true" keyProperty="id">
 		insert into
-		sys_user(departmentId,userName,password)
+		sys_user(department_id,user_name,password)
 		values(#{departmentId},#{userName},#{password})
 	</insert>
+
+
+
+
+	 <insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.User" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_user (id, department_id, user_name, 
+      password, full_name, type, 
+      email, status, create_by_id, 
+      update_by_id, create_time, update_time, 
+      remake, last_login_time)
+    values (#{id,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{email,jdbcType=CHAR}, #{status,jdbcType=INTEGER}, #{createById,jdbcType=INTEGER}, 
+      #{updateById,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remake,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.User" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="fullName != null">
+        full_name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createById != null">
+        create_by_id,
+      </if>
+      <if test="updateById != null">
+        update_by_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remake != null">
+        remake,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null">
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createById != null">
+        #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null">
+        #{updateById,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remake != null">
+        #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
 
 	<!-- 删除 -->
 	<delete id="del" parameterType="_int">
@@ -106,33 +229,82 @@
 
 	<!--=========================修改 ============================================================================= -->
 
-	<sql id="dbUpdateField">
-		<set>
-			<if test="password != null and password != ''">password=#{password},</if>
-			<if test="status != null">status=#{status},</if>
-			<if test="departmentId != null">departmentId=#{departmentId},</if>
-			
-			<!-- <if test="updateTime != null and updateTime !=''">updateTime=#{updateTime},</if> -->
-		</set>
-	</sql>
-
-	<update id="update" parameterType="com.rui.pro1.modules.sys.entity.User">
-		update sys_user
-		<include refid="dbUpdateField" />
-		where id=#{id}
-	</update>
+	
+  <update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.User">
+    update sys_user
+    <set>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null">
+        full_name = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createById != null">
+        create_by_id = #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="updateById != null">
+        update_by_id = #{updateById,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remake != null">
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.User">
+    update sys_user
+    set department_id = #{departmentId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      full_name = #{fullName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      email = #{email,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_by_id = #{createById,jdbcType=INTEGER},
+      update_by_id = #{updateById,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remake = #{remake,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
 
 	<!--=========================一个用户关联角色 ============================================================================= -->
 
 	<insert id="addUserRole">
 		insert into
-		sys_user_role(userId,roleId)
+		sys_user_role(user_id,role_id)
 		values(#{userId},#{roleId})
 	</insert>
 
 	<insert id="addUserDepartment">
 		insert into
-		sys_user_department(departmentId,userId)
+		sys_user_department(department_id,user_id)
 		values(#{departmentId},#{userId})
 	</insert>
 
@@ -140,17 +312,17 @@
 	<!-- 删除 -->
 	<delete id="delUserRole" parameterType="_int">
 		DELETE from sys_user_role
-		where userId=#{userId}
+		where user_id=#{userId}
 	</delete>
 	
 		<!-- 删除 -->
 	<delete id="delUserDepartment" parameterType="_int">
 		DELETE from sys_user_department
-		where userId=#{userId}
+		where user_id=#{userId}
 	</delete>
 
 	<update id="updateUserDepartment" >
-		update sys_user_department set departmentId=#{departmentId}	where userId=#{userId}
+		update sys_user_department set department_id=#{departmentId}	where user_id=#{userId}
 	</update>
 
 </mapper>

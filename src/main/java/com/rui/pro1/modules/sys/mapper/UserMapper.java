@@ -19,8 +19,11 @@ public interface UserMapper {
 	int del(int userId);
 
 	int add(User user);
-
+	
+	int insert(User user);
+	int insertSelective(User user);
 	int update(User user);
+	int updateByPrimaryKeySelective(User user);
 	
 	User query(UserLoginVo UserLoginVo);
 

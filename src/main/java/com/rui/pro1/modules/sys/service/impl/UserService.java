@@ -104,7 +104,7 @@ public class UserService implements IUserService {
 			return 0;
 		}
 
-		int count = userMapper.update(user);
+		int count = userMapper.updateByPrimaryKeySelective(user);
 
 		// 用户拥有的角色
 		if (count > 0) {
