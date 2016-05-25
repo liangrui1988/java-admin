@@ -126,4 +126,9 @@ public class RoleService implements IRoleService {
 		return count;
 	}
 
+	@Override
+	public List<Role> getRoleListAll() {
+		return roleMapper.getRoleListAll();
+	}
+
 }

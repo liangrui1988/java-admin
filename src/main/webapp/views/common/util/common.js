@@ -34,29 +34,6 @@ function getRootPath2(){
    return(localhostPaht);
 }
 
-function resolveResultBeanIsOk(data,status)
-{
-  if(status=="success")
-  {
-    if(data.isOk==true||data.isOk=='true'||data.message=="SUCCESS")
-	{
-	  alert("操作成功!");
-	  return true;
-	
-	}else
-	{
-	    alert("操作失败："+data.message);
-	  return false;
-	}
-  
-  }else
-  {
-   // alert(JSON.stringify(data));
-     alert("操作失败："+data.message);
-	 return false;
-  }
-  
-}
 
 
 
@@ -214,6 +191,28 @@ function addPageClass(){
 
 
 /**分页js end***/
+
+/**
+ * 序列话表单为对象
+ */
+$.fn.serializeObject = function()
+{
+  var o = {};
+  var a = this.serializeArray();
+  $.each(a, function() {
+    if (o[this.name] !== undefined) {
+      if (!o[this.name].push) {
+        o[this.name] = [o[this.name]];
+      }
+      o[this.name].push(this.value || '');
+    } else {
+      o[this.name] = this.value || '';
+    }
+  });
+  return o;
+};
+
+
 
 
 	

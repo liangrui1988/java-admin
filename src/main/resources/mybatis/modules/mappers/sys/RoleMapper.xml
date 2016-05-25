@@ -46,6 +46,13 @@
 		select count(*) from sys_role
 		<include refid="searchField" />
 	</select>
+	
+	
+	<select id="getRoleListAll"	resultMap="resultMapId">
+		select * from sys_role where status=0	order by id desc
+	</select>
+	
+	
 
 
 	<!--=========================添加 ============================================================================= -->

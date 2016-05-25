@@ -107,11 +107,11 @@
 
 	<!--=========================添加 ============================================================================= -->
 
-	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-		insert into
-		sys_user(department_id,user_name,password)
-		values(#{departmentId},#{userName},#{password})
-	</insert>
+<!-- 	<insert id="add" useGeneratedKeys="true" keyProperty="id"> -->
+<!-- 		insert into -->
+<!-- 		sys_user(department_id,user_name,password) -->
+<!-- 		values(#{departmentId},#{userName},#{password}) -->
+<!-- 	</insert> -->
 
 
 

@@ -6,11 +6,13 @@ import org.apache.ibatis.annotations.Param;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.modules.sys.entity.Role;
-import com.rui.pro1.modules.sys.entity.User;
 
 public interface RoleMapper {
 
 	List<Role> queryPages(Query query);
+	
+	
+	List<Role> getRoleListAll();
 
 	Long getCount(Query query);
 

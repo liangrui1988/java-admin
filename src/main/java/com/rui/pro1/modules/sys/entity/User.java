@@ -175,6 +175,20 @@ public class User {
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", departmentId=" + departmentId
+				+ ", userName=" + userName + ", password=" + password
+				+ ", fullName=" + fullName + ", type=" + type + ", email="
+				+ email + ", status=" + status + ", createById=" + createById
+				+ ", updateById=" + updateById + ", createTime=" + createTime
+				+ ", updateTime=" + updateTime + ", remake=" + remake
+				+ ", lastLoginTime=" + lastLoginTime + ", department="
+				+ department + ", roles=" + roles + ", menus=" + menus + "]";
+	}
+	
+	
     
     
     

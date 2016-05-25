@@ -1,5 +1,7 @@
 package com.rui.pro1.modules.sys.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,6 +54,23 @@ public class RoleController extends SysBaseController {
 		try {
 			QueryResult<Role> result = roleService.getRoleList(page, pagesize,
 					roleVo);
+			rb.setData(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+		}
+		return rb;
+
+	}
+	
+	
+	
+	@RequestMapping(value = "listAll", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean getListAll() {
+		ResultBean rb = new ResultBean();
+		try {
+			List<Role> result = roleService.getRoleListAll();
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();

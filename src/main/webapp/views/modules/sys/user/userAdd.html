@@ -34,11 +34,21 @@
 
 
 <script type="text/javascript">
+
+
+
+
+
 	$(document).ready(function() {
+		
+		initAddUser();
+		
 		$("#inputForm").validate({
 			submitHandler: function(form){
-				alert("xx");
-				loading('正在提交，请稍等...');
+				//loading('正在提交，请稍等...');
+				
+				addUser();
+				
 					//form.submit();
 			},
 // 			rules: {
@@ -49,7 +59,7 @@
 // 					required: "必填信息"
 // 				}
 // 			},
-			onkeyup:true,
+			//onkeyup:true,
 			errorContainer: "#messageBox",
 			errorPlacement: function(error, element) {
 				$("#messageBox").text("输入有误，请先更正。");
@@ -63,59 +73,57 @@
 	});
 	
 	
-	
- jQuery.validator.addMethod("maxNumber",function(value, element){  
-         var returnVal = true; 
-			inputZ=value;
-			 var ArrMen= inputZ.split(".");
-			 if(ArrMen.length==2){
-				if(ArrMen[1].length>2){
-					returnVal = false; 
-					return false;
-				}
-			 }
-        	 var vzNum=parseFloat(inputZ).toFixed(2);
-       	     // alert(vzNum);
-    		  if(isNaN(vzNum)){
-				   returnVal = false; 
-    		       return false;
-    		  }
-			  
-			 var ele= parseFloat('999999999.99');
-			
-        	  if(ele<parseFloat(vzNum)){  
-                  returnVal = false; 
-                  return false;					  
-              }  
-       // } for end
-      return returnVal;  
-    },"请填写前面9位数字，小数为2位的金额");
-	
- 
-	 jQuery.validator.addMethod("furoNumber",function(value, element){  
-	     var returnVal = true; 
-		 var bb=value+"";
-		
-			  if(isNaN(value)){
-				   returnVal = false; 
-			       return false;
-			  }
-			
-		    if(bb.indexOf('.')>=0){
-				   returnVal = false; 
-			       return false;
-			  }
-			
-	    	  if(value.length!=4){  
-	              returnVal = false; 
-	              return false;					  
-	          }  
-	   // } for end
-	  return returnVal;  
-	},"请输入4位长度的数字");
+	function initAddUser()
+	{
+		//获取角色
+		$.ajax({
+			url : getContextPath()+"/sys/role/listAll",
+			type : "GET",
+			//contentType: "application/json; charset=utf-8",
+			dataType : "json",
+			//data :{productVoJson:JSON.stringify(objVo)},
+			data :'',
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				console.log(returnData);
+				if(resolveResultBeanIsError(returnData,status))
+				{
+					var rolelist=returnData.data;
+					var roleHtml='';
 
+					for(var i=0;i<rolelist.length;i++)
+					{
+						var roleObj=rolelist[i];
+						roleHtml+=' <input value="'+roleObj.id+'" type="checkbox"  name="roles[0].id"/>';
+						roleHtml+=roleObj.name;
+						roleHtml+='&nbsp;&nbsp;';
+					}
+					$("#_role_plan_div").html(roleHtml);
+				}
+					
+			}
+		});
+	}
 	 
-	 
+
+	function addUser(){
+		
+		var jobj=$("#inputForm").serialize();
+		$.ajax({
+			url : getContextPath()+"/sys/user/add",
+			type : "POST",
+			//contentType: "application/json; charset=utf-8",
+			dataType : "json",
+			//data :{productVoJson:JSON.stringify(objVo)},
+			data :jobj,
+			success : function(returnData,status,XMLHttpRequest)
+			{	console.log(returnData);
+			    resolveResultBeanIsOk(returnData,status);
+			}
+		});
+		
+	}
+			
 
 </script>
 
@@ -135,7 +143,7 @@
              <br/>
  <div class="userAddClz">
              
-      <form id="inputForm" class="form-horizontal" role="form">
+      <form id="inputForm" action="" class="form-horizontal" role="form">
 <!--             <div class="form-group"> -->
 <!--                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：    -->
 <!--                </label> -->
@@ -154,7 +162,7 @@
                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：   
                </label>
                <div class="col-sd-1">
-                  <input class="required number input-xlarge" name="userName" type="text" />
+                  <input class="required input-xlarge" name="userName"  id="_userName" type="text" />
                </div>
          
             </div>
@@ -164,7 +172,7 @@
                <label class="col-sm-1 control-label" ><span class="help-inline"><font color="red">*</font> </span>密码：       
                </label>
                <div class="col-sd-1">
-                  <input class="required"  type="password" />
+                  <input class="required"  name="password" type="password" id="_password"/>
                </div>
             </div>
             
@@ -172,7 +180,7 @@
             <div class="form-group">
                <label class="col-sm-1 control-label "> <span class="help-inline"><font color="red">*</font>姓名：</label>
                <div class="col-sd-1">
-                  <input class="required" type="text"  name="fullName"/>
+                  <input class="required" type="text"  name="fullName" id="_fullName"/>
                </div>
            
             </div>
@@ -186,12 +194,47 @@
                </div>
             </div>
             
+            <div class="form-group">
+               <label class="col-sm-1 control-label ">邮箱：</label>
+               <div class="col-sd-1">
+                  <input  type="text"  name="email" id="_email"/>
+               </div>
+            </div>
+            
+            <div class="form-group">
+               <label class="col-sm-1 control-label ">用户类型：</label>
+               <div class="col-sd-1">
+                  
+                  <select name="type" id="_type">
+                  <option value="1">系统管理员</option>
+                  <option value="2">财务管理</option>
+                  <option value="3">普通用户</option>
+                  </select>
+               </div>
+            </div>
+            
+<!--           <div class="form-group"> -->
+<!--                <label class="col-sm-1 control-label ">部门：</label> -->
+<!--                <div class="col-sd-1"> -->
+<!--                   <input value="1"  type="checkbox"  name="department.id"/> -->
+<!--                </div> -->
+<!--             </div> -->
+            
+             
+            
+             <div class="form-group">
+               <label class="col-sm-1 control-label ">角色：</label>
+               <div class="col-sd-1" id="_role_plan_div">
+                  <input value="1" type="checkbox"  name="roles[0].id"/>
+               </div>
+            </div>
+            
             
             <div class="form-group">
                <label class="col-sm-1 control-label " >
                                             备注：</label>
                <div class="col-sm-1">
-               <textarea rows="6" cols="60"></textarea>
+               <textarea rows="6" cols="60" name="remake" id="_remake"></textarea>
                </div>
             </div>
             
@@ -204,6 +247,72 @@
          
     </div>
 		
+		
+		
+<script type="text/javascript">
+
+
+function addUserTest(){
+	
+	var jobj=$("#inputForm").serialize();
+	console.log(jobj);
+// 	var jsonObjjj=$("#inputForm").serializeObject();
+// 	console.log(jsonObjjj);
+
+// 	var jsonObj=$("#inputForm").serializeArray();
+// 	console.log(jsonObj);
+	
+	//获取值
+// 	   var _userName=$("#_userName").val();
+// 	    var  _passowrd=$("#_passowrd").val();
+	
+// 		var  status=$("input[name='status']:checked").val(); //状态   编号 		
+
+		
+		//var TProProductPhotos = new Array();  //商品图片
+		
+// 		$(".imgUrl").each(function(){
+// 			 var ProductPhoto=new Object();
+// 			 ProductPhoto.url=$(this).val();
+// 			 TProProductPhotos.push(ProductPhoto);
+// 		 });
+	
+		 
+		 //""处理
+// 		 if(""==price) price=null;
+// 		 if(""==normWeight)   normWeight=null;
+// 		 if(""==actual_price) actual_price=null;
+		 
+// 		var productVo={
+// 			id:mer_pro_id,
+// 			typeId:typeId,
+// 			status:status,
+// 			unit:unit,
+// 			name:name,
+// 			price:price,
+		
+// 	};
+		
+	
+	$.ajax({
+		url : getContextPath()+"/sys/user/add",
+		type : "POST",
+		//contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+		data :jobj,
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			alert("xx");
+			console.log(returnData);
+		}
+	});
+	
+}
+		
+		
+		
+</script>
 
 </body>
 </html>

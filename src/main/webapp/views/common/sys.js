@@ -18,6 +18,56 @@ function isPos(s)
 	return !(p.exec(s)==null);
 }
 
+
+
+function resolveResultBeanIsError(data,status)
+{
+	  if(status!="success")
+	  {
+		  alert("请求系统异常");
+	       return false;
+	  }
+	
+	 if(!data.success){
+		alert(data.message);
+	    return false; 	 
+	 }
+
+  return true;
+  
+}
+
+
+function resolveResultBeanIsOk(data,status)
+{
+  if(status=="success")
+  {
+    if(data.success)
+	{
+	  alert("操作成功");
+	  return true;
+	}else
+	{
+	  alert("操作失败："+data.message);
+	  return false;
+	}
+  
+  }else
+  {
+   // alert(JSON.stringify(data));
+     alert("请求失败："+data.message);
+	 return false;
+  }
+  
+}
+
+
+
+
+
+
+
+
 function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 {
 	if(!resultBean.success)

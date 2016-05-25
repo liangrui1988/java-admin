@@ -80,7 +80,7 @@ public class UserService implements IUserService {
 			return 0;
 		}
 
-		int count = userMapper.add(user);
+		int count = userMapper.insertSelective(user);
 		if (count > 0) {
 			// 用户拥有的角色
 			for (Role role : user.getRoles()) {
@@ -90,7 +90,7 @@ public class UserService implements IUserService {
 				}
 			}
 			// 用户to部门
-			if (user.getDepartmentId() > 0) {
+			if (user.getDepartmentId()!=null&&user.getDepartmentId() > 0) {
 				userMapper.addUserDepartment(user.getId(),
 						user.getDepartmentId());
 			}

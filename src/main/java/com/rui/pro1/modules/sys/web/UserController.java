@@ -102,6 +102,7 @@ public class UserController extends SysBaseController {
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response, User user) {
 		ResultBean rb = new ResultBean();
 		try {
+			System.out.println(user);
 			int count = userService.add(user);
 			if (count <= 0) {
 				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");

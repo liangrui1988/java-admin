@@ -124,6 +124,16 @@ public class Role {
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + ", status=" + status
+				+ ", types=" + types + ", createTime=" + createTime
+				+ ", updateTime=" + updateTime + ", createById=" + createById
+				+ ", updateById=" + updateById + ", officeId=" + officeId
+				+ ", remake=" + remake + ", menuIds=" + menuIds + ", menus="
+				+ menus + "]";
+	}
     
     
 }
