@@ -35,6 +35,14 @@ public class ResultBean implements Serializable
 		this.messageCode=messageCode;
 		this.message = message;
 	}
+	
+	public ResultBean(boolean sucess, String messageCode,String message, Object data)
+	{
+		this.success = sucess;
+		this.messageCode=messageCode;
+		this.message = message;
+		this.data=data;
+	}
 
 	public boolean getSuccess()
 	{

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.mapper.MenuMapper;
 import com.rui.pro1.modules.sys.mapper.UserMapper;
 import com.rui.pro1.modules.sys.service.IUserService;
+import com.rui.pro1.modules.sys.utils.PassUtil;
 import com.rui.pro1.modules.sys.vo.UserLoginVo;
 import com.rui.pro1.modules.sys.vo.UserVo;
 
@@ -69,17 +71,18 @@ public class UserService implements IUserService {
 
 	@Override
 	public int add(User user) {
-		// 为速度 不考虑 分离转换
+		// 为开发速度 不考虑 分离转换
 		// User user=new User();
 		// BeanCopier copier = BeanCopier.create(UserVo.class, User.class,
 		// false);
 		// copier.copy(userVo, user, null);
 
-		if (user == null || user.getRoles() == null
+		if (user == null ||StringUtils.isBlank(user.getUserName())||StringUtils.isBlank(user.getPassword())|| user.getRoles() == null
 				|| user.getRoles().size() <= 0) {
 			return 0;
 		}
-
+		user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
+		
 		int count = userMapper.insertSelective(user);
 		if (count > 0) {
 			// 用户拥有的角色

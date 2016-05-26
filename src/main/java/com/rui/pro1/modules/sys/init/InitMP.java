@@ -245,8 +245,18 @@ public class InitMP {
 			menuIds.add(m.getId());
 		}
 		role.setMenuIds(menuIds);
-
 		roleService.add(role);
+		
+		Role roleB = new Role();
+		roleB.setName("普通用户");
+		roleB.setRemake("普通用户");
+//		List<String> menuIds2 = new ArrayList<String>();
+//		for (Menu m : menus) {
+//			menuIds2.add(m.getId());
+//		}
+		roleB.setMenuIds(menuIds);
+
+		roleService.add(roleB);
 
 		// 用户
 		User user = new User();

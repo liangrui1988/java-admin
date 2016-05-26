@@ -15,6 +15,7 @@
 <!--    <script type="text/javascript" src="common/all.js"></script> -->
 
 	<script type="text/javascript" src="common/jquery/jquery-1.12.3.js"></script>
+	<script src="common/sys.js"></script>
 <!-- 	<script src="common/bootstrap/js/bootstrap.js"></script> -->
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -74,25 +75,28 @@
 					<div class="control-group">
 						<label class="control-label" for="username">登录名</label>
 						<div class="controls">
-							<input type="text" class="" id="username" />
+							<input type="text" class="" id=_username />
+							<span id="_username_sapn" style="color: red;"></span>
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="password">密码</label>
 						<div class="controls">
-							<input type="password" class="" id="password" />
+							<input type="password" class="" id="_password" />
+							<span id="_password_sapn" style="color: red;"></span>
+							
 						</div>
 					</div>
 				</fieldset>
 				
 				<div id="remember-me" class="pull-left">
-					<input type="checkbox" name="remember" id="remember" />
-					<label id="remember-label" for="remember">Remember Me</label>
+					<input type="checkbox" name="remember" id="_rememberme" />
+					<label id="remember-label" for="remember">记往登录</label>
 				</div>
 				
 				<div class="pull-right">
-					<button type="submit" class="btn btn-warning btn-large">
-						Login
+					<button type="button" id="_login" class="btn btn-warning btn-large">
+						登录
 					</button>
 				</div>
 			</form>
@@ -101,10 +105,10 @@
 		
 		
 		<div id="login-extra">
+				<p>	Copyright © 2016-2017 v1.2 </p>
+<!-- 			<p>Don't have an account? <a href="javascript:;">Sign Up.</a></p> -->
 			
-			<p>Don't have an account? <a href="javascript:;">Sign Up.</a></p>
-			
-			<p>Remind Password? <a href="forgot_password.html">Retrieve.</a></p>
+<!-- 			<p>Remind Password? <a href="forgot_password.html">Retrieve.</a></p> -->
 			
 		</div> <!-- /login-extra -->
 	
@@ -119,12 +123,33 @@
 
 
 <script type="text/javascript">
-		$("#_loginxx").click(function() {
+		$("#_login").click(function() {
 			var username = $("#_username").val();
 			var password = $("#_password").val();
 			var rememberme = $("#_rememberme").val();
+			
+			alert(rememberme);
+			if(username=="")
+			{
+				$("#_username_sapn").html('请输入用户名');
+				return;
+			}else
+			{
+				$("#_username_sapn").html('');
+			}
+			
+			if(password=="")
+			{
+				$("#_password_sapn").html('请输入密码');
+				return;
+			}else
+			{
+				$("#_password_sapn").html('');
+			}
+			
+			
 			$.ajax({
-				url : getWebContext()+'sys/user/login',
+				url : getContextPath()+'/login',
 				data : {
 					'userName' : username,
 					'password' : password,
@@ -134,8 +159,11 @@
 				cache : false,
 				dataType : 'json',
 				success : function(data,success) {
-					alert(success);
-					alert(JSON.stringify(data));
+					//alert(success);
+					//alert(JSON.stringify(data));
+					if(resolveResultBeanIsError()){
+						window.location.href = getContextPath()+"/views/main.html";
+					}
 
 				},
 				error : function() {

@@ -93,7 +93,7 @@
 		<!-- 搜索条件判断 -->
 	<sql id="queryField">
 		<where>
-			<if test="userName != null and userName != ''">AND userName=#{userName}</if>
+			<if test="userName != null and userName != ''">AND user_name=#{userName}</if>
 			<if test="password != null and password != ''">AND password=#{password}</if>
 		</where>
 	</sql>

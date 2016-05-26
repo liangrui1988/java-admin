@@ -28,12 +28,19 @@ function resolveResultBeanIsError(data,status)
 	       return false;
 	  }
 	
-	 if(!data.success){
+	 if(!data.success)
+	 {
+		alert(data.message);
+	    return false; 	 
+	 }
+	 
+	 if(data.messageCode != "001")
+	 {
 		alert(data.message);
 	    return false; 	 
 	 }
 
-  return true;
+    return true;
   
 }
 

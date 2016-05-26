@@ -106,11 +106,11 @@ public class UserLoginController extends SysBaseController {
 	     String host = request.getRemoteHost();  
 	        //构造登陆令牌环  
 	        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
-	        try{  
-	            //发出登陆请求  
-	        	SecurityUtils.getSubject().login(token);  
+	        //发出登陆请求  
+        	SecurityUtils.getSubject().login(token);  
+	        try{ 
 	            //登陆成功  
-	            HttpSession session = request.getSession(true);  
+	           // HttpSession session = request.getSession(true);  
 	            try {  
 	            	User user=	userService.getUser(loginUser.getUserName());
 	        		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
@@ -118,26 +118,22 @@ public class UserLoginController extends SysBaseController {
 		        		user.setMenus(menus);
 	        		}
 	        		rb.setData(user);
-//	                if (null != menus) {  
-//	                	System.out.println(user);
-//	                    //根据输入的用户名和密码确实查到了用户信息  
-//	                    session.removeAttribute("rand");  
-//	                    session.setAttribute("current_login_user", user);  
-//	                }  
 	            } catch (Exception e) {  
 	                logger.error(e.getMessage(), e);  
+	                throw new Exception(e);
 	            }  
-	            return  rb;  
+	        
 	        }catch (UnknownAccountException e){  
-	            rb = new ResultBean(false,"账号不存在!");
+	            rb = new ResultBean(false,ErrorCode.SYS_NO_USER,"账号不存在!","");
 	        }catch (IncorrectCredentialsException e){  
-	            rb = new ResultBean(false,"用户名/密码错误");
+	            rb = new ResultBean(false,ErrorCode.SYS_NO_USER_AND_PASSWORD,"用户或密码错误","");
 	        }catch (ExcessiveAttemptsException e) {  
-	            rb = new ResultBean(false,"账户错误次数过多,暂时禁止登录!");
+	            rb = new ResultBean(false,ErrorCode.SYS_LOG_IN_TOO_MANY,"账户错误次数过多,暂时禁止登录!","");
 //	        }catch (ValidCodeException e){  
-//	            result.put("msg", "验证码输入错误!");  
+	      //      rb = new ResultBean(false,ErrorCode.SYS_VERIFICATION_CODE_ERROR,"验证码输入错误","");
+
 	        }catch (Exception e){  
-	            rb = new ResultBean(false,"未知错误!");
+	            rb = new ResultBean(false,ErrorCode.SYS_ERROR,"系统异常!");
 	        }  
 	        return rb;  
 	}
