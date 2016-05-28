@@ -121,9 +121,9 @@
 	/views/** = anon
      /login = anon
     /logout = logout
-<!--     /authenticated = authc -->
-<!--     /** = user,sysUser   -->
-        /** =anon 
+    /authenticated = authc
+    /** = user,sysUser  
+<!--         /** =anon  -->
     
             </value>
         </property>

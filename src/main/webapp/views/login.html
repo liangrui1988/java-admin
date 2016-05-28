@@ -126,7 +126,7 @@
 		$("#_login").click(function() {
 			var username = $("#_username").val();
 			var password = $("#_password").val();
-			var rememberme = $("#_rememberme").val();
+			var rememberme = $("#_rememberme").is(':checked');
 			
 			alert(rememberme);
 			if(username=="")
@@ -161,7 +161,7 @@
 				success : function(data,success) {
 					//alert(success);
 					//alert(JSON.stringify(data));
-					if(resolveResultBeanIsError()){
+					if(resolveResultBeanIsError(data,success)){
 						window.location.href = getContextPath()+"/views/main.html";
 					}
 

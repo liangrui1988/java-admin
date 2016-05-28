@@ -10,6 +10,7 @@ public class ErrorCode {
 	public static final String SYS_NO_USER_AND_PASSWORD = "006";// 用户或密码错误
 	public static final String SYS_LOG_IN_TOO_MANY = "007";//账户错误次数过多,暂时禁止登录!
 	public static final String SYS_VERIFICATION_CODE_ERROR = "008";//验证码错误
+	public static final String ARGUMENT_ILLEGAL = "009";//系统参数不合法
 
 
 

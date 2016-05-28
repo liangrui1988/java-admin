@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ import com.rui.pro1.modules.sys.service.IUserLoginService;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.shiro.TokenBuild;
 import com.rui.pro1.modules.sys.vo.UserLoginVo;
+
+import freemarker.template.utility.StringUtil;
 
 @Controller
 // @RequestMapping("sys/user/")
@@ -102,13 +106,26 @@ public class UserLoginController extends SysBaseController {
 	 @RequestMapping(value="login") //, method=RequestMethod.POST
 	public ResultBean login2(HttpServletRequest request, HttpServletResponse req, User loginUser) {
 	     ResultBean rb = new ResultBean();
+	     
+	     if(loginUser==null||StringUtils.isBlank(loginUser.getUserName())||StringUtils.isBlank(loginUser.getPassword()))
+	     {
+	        rb = new ResultBean(false,ErrorCode.ARGUMENT_ILLEGAL,"系统参数不合法","");
+	        return rb;
+	     }
+	     
+	     
 		 boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM); 
 	     String host = request.getRemoteHost();  
-	        //构造登陆令牌环  
-	        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
-	        //发出登陆请求  
-        	SecurityUtils.getSubject().login(token);  
+	       
+	    
 	        try{ 
+	        	 //构造登陆令牌环  
+		        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
+	        	
+	            //发出登陆请求  
+		        Subject sbuject=SecurityUtils.getSubject();
+		        sbuject.login(token);  
+		        
 	            //登陆成功  
 	           // HttpSession session = request.getSession(true);  
 	            try {  
