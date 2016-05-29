@@ -18,7 +18,7 @@ import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
 import com.rui.pro1.common.constants.menu.MenuSys;
 import com.rui.pro1.common.constants.uri.SysUri;
-import com.rui.pro1.common.exception.ErrorCode;
+import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.entity.Department;
 import com.rui.pro1.modules.sys.service.IDepartmentService;
 import com.rui.pro1.modules.sys.vo.DepartmentVo;
@@ -52,7 +52,7 @@ public class DepartmentController extends SysBaseController {
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 
@@ -69,7 +69,7 @@ public class DepartmentController extends SysBaseController {
 			rb.setData(department);
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 	}
@@ -83,11 +83,11 @@ public class DepartmentController extends SysBaseController {
 		try {
 			int count = departmentService.del(id);
 			if (count <= 0) {
-				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
+				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 	}
@@ -101,11 +101,11 @@ public class DepartmentController extends SysBaseController {
 		try {
 			int count = departmentService.add(department);
 			if (count <= 0) {
-				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
+				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 	}
@@ -119,11 +119,11 @@ public class DepartmentController extends SysBaseController {
 		try {
 			int count = departmentService.update(department);
 			if (count <= 0) {
-				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
+				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 	}

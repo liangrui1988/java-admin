@@ -8,17 +8,46 @@ var loginUser;
 //初始化加载
 $(function(){
 
-	topLoading();
-	$.post(getContextPath()+"/sys/menu/listAll",{"t":12645313},function(resultBean, status, xhRequest)
-	{	  
-		topLoaded();    
-		//if(!handleAjaxRequest(resultBean, status,xhRequest))return;
-		//loginUser=resultBean.data;
-		$("#userNameLabel").html("adminhh");
-		//buildTreeMenu(resultBean.data.user.menuList);
-		buildTreeMenu(resultBean.data);
-
-	},'json');
+	//topLoading();
+//	$.post(getContextPath()+"/sys/menu/listAll",{"t":12645313},function(resultBean, status, xhRequest)
+//	{	  
+//		alert("xx");
+//		//alert(resultBean);
+//		//topLoaded();    
+//		//if(!handleAjaxRequest(resultBean, status,xhRequest))return;
+//		//loginUser=resultBean.data;
+//		$("#userNameLabel").html("adminhh");
+//		//buildTreeMenu(resultBean.data.user.menuList);
+//		buildTreeMenu(resultBean.data);
+//
+//	},'json');
+	
+	
+	
+	
+	$.ajax({
+		url : getContextPath()+"/sys/menu/listAll",
+		data : {"t":12645313},
+		type : 'post',
+		cache : false,
+		dataType : 'json',
+		success : function(resultBean,status,xhRequest) {
+			topLoaded();    
+			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
+			
+			//loginUser=resultBean.data;
+			$("#userNameLabel").html("adminhh");
+			//buildTreeMenu(resultBean.data.user.menuList);
+			buildTreeMenu(resultBean.data);
+		},
+		complete: function (XMLHttpRequest, textStatus) {
+			 //alert(alert("textStatus》》"+textStatus));
+        },
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+	
 	
 	 /*$.ajax({
          async: false,

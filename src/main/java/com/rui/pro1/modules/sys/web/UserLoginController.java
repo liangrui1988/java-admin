@@ -1,11 +1,13 @@
 package com.rui.pro1.modules.sys.web;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -22,8 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.rui.pro1.common.bean.ResultBean;
-import com.rui.pro1.common.exception.ErrorCode;
+import com.rui.pro1.common.constants.RespHeaderConstans;
+import com.rui.pro1.common.exception.MessageCode;
+import com.rui.pro1.common.exception.MessageCode;
+import com.rui.pro1.common.utils.http.WebHelp;
 import com.rui.pro1.modules.sys.annotations.CurrentUser;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
@@ -33,8 +39,6 @@ import com.rui.pro1.modules.sys.service.IUserLoginService;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.shiro.TokenBuild;
 import com.rui.pro1.modules.sys.vo.UserLoginVo;
-
-import freemarker.template.utility.StringUtil;
 
 @Controller
 // @RequestMapping("sys/user/")
@@ -63,7 +67,7 @@ public class UserLoginController extends SysBaseController {
 			UserBean userBean = userLoginService.login(userLoginVo);
 
 			if (userBean == null || userBean.getId() <= 0) {
-				rb = new ResultBean(false, ErrorCode.SYS_NO_USER, "用户不存在");
+				rb = new ResultBean(false, MessageCode.SYS_NO_USER, "用户不存在");
 				logger.warn("用户名登陆失败！userLoginVo:{}", userLoginVo);
 				return rb;
 			}
@@ -73,7 +77,7 @@ public class UserLoginController extends SysBaseController {
 			logger.error("用户登陆异常:UserName:{} ,Message>>>{}",
 					userLoginVo.getUserName(), e.getMessage());
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 	}
@@ -86,13 +90,13 @@ public class UserLoginController extends SysBaseController {
 		try {
 			int result = userLoginService.logout(userLoginVo);
 			if (result <= 0) {
-				rb = new ResultBean(false, ErrorCode.SYS_FAILURE, "操作失败");
+				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
 		} catch (Exception e) {
 			logger.error("用户登陆异常:UserName:{} ,Message>>>{}",
 					userLoginVo.getUserName(), e.getMessage());
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 	}
@@ -109,7 +113,9 @@ public class UserLoginController extends SysBaseController {
 	     
 	     if(loginUser==null||StringUtils.isBlank(loginUser.getUserName())||StringUtils.isBlank(loginUser.getPassword()))
 	     {
-	        rb = new ResultBean(false,ErrorCode.ARGUMENT_ILLEGAL,"系统参数不合法","");
+	    	 
+
+	        rb = new ResultBean(false,MessageCode.PLASS_LOGIN,"请登陆系统","");
 	        return rb;
 	     }
 	     
@@ -141,18 +147,54 @@ public class UserLoginController extends SysBaseController {
 	            }  
 	        
 	        }catch (UnknownAccountException e){  
-	            rb = new ResultBean(false,ErrorCode.SYS_NO_USER,"账号不存在!","");
+	            rb = new ResultBean(false,MessageCode.SYS_NO_USER,"账号不存在!","");
 	        }catch (IncorrectCredentialsException e){  
-	            rb = new ResultBean(false,ErrorCode.SYS_NO_USER_AND_PASSWORD,"用户或密码错误","");
+	            rb = new ResultBean(false,MessageCode.SYS_NO_USER_AND_PASSWORD,"用户或密码错误","");
 	        }catch (ExcessiveAttemptsException e) {  
-	            rb = new ResultBean(false,ErrorCode.SYS_LOG_IN_TOO_MANY,"账户错误次数过多,暂时禁止登录!","");
+	            rb = new ResultBean(false,MessageCode.SYS_LOG_IN_TOO_MANY,"账户错误次数过多,暂时禁止登录!","");
 //	        }catch (ValidCodeException e){  
 	      //      rb = new ResultBean(false,ErrorCode.SYS_VERIFICATION_CODE_ERROR,"验证码输入错误","");
 
 	        }catch (Exception e){  
-	            rb = new ResultBean(false,ErrorCode.SYS_ERROR,"系统异常!");
+	            rb = new ResultBean(false,MessageCode.SYS_ERROR,"系统异常!");
 	        }  
 	        return rb;  
+	}
+	
+	/**
+	 * 跳转登陆页
+	 * @param request
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="loginPage") //, method=RequestMethod.POST
+	public void loginPage(HttpServletRequest request, HttpServletResponse response) {
+
+//		System.out.println("xxxx");
+//		System.out.println(request);
+		// ModelAndView mv = new ModelAndView("/user/save/result");//默认为forward模式  
+        // ModelAndView mv = new ModelAndView("redirect:/user/save/result");//redirect模式  
+
+        
+        if (WebHelp.isAjAxRequest(request))
+		{
+			response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_001);
+			ResultBean rb = new ResultBean();
+			rb.setSuccess(false);
+			rb.setMessageCode(MessageCode.PLASS_LOGIN);
+			rb.setMessage("请登陆系统");
+			responseResultBean(request, response, rb);
+		} else
+		{
+			try {
+				response.sendRedirect(request.getContextPath()+"/views/sysLogin.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+        
+        // return "redirect:/views/sysLogin.html";
+
 	}
 
 	//@RequestMapping(value = "/login")
@@ -190,5 +232,27 @@ public class UserLoginController extends SysBaseController {
 	@RequestMapping("/welcome")
 	public String welcome() {
 		return "welcome";
+	}
+	
+	private void responseResultBean(HttpServletRequest request, HttpServletResponse response, ResultBean rb)
+	{
+		if (WebHelp.isCrossDomainRequest(request))
+		{
+			WebHelp.handleCrossDomainRequest(request, response, rb);
+		} else
+		{
+			try
+			{
+				response.getOutputStream().write(new Gson().toJson(rb).getBytes("UTF-8"));
+			} catch (Exception e)
+			{
+				logger.error(e.getMessage());
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+        TokenBuild token = new TokenBuild("admin", "admin".toCharArray(), true,"0:0:0:1");  
+
 	}
 }

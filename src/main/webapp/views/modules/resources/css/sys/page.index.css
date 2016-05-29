@@ -29,25 +29,25 @@ body { }
         .content { margin-left: 200px; background: #ffc; }
 
 .xyt-m-middle { background: #f2f2f2; padding-bottom: 25px; padding-top:10px; min-height: 600px; }
-.xyt-m-middle-inner { background:#ffffff; background:#ffffff url(../images/public/wrapper-middle-bg.png) repeat-y left;  }
+.xyt-m-middle-inner { background:#ffffff; background:#ffffff url(../../images/public/wrapper-middle-bg.png) repeat-y left;  }
 .m-middle-layout-west { width: 200px; min-height: 500px; background: #003c20; }
 /**��**/
 #nav-tree {width: 182px; margin:5px auto; }
     #nav-tree a { color: #f6f5fa; }
     #nav-tree li { position: relative; }
-        #nav-tree li a { height: 36px; text-decoration: none; line-height: 30px; width: 163px;padding-left: 19px; background: url(../images/public/c-scp.png) no-repeat; background-position: 0px -35px; color: #10603b; z-index: 13;}
+        #nav-tree li a { height: 36px; text-decoration: none; line-height: 30px; width: 163px;padding-left: 19px; background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -35px; color: #10603b; z-index: 13;}
         #nav-tree li span { margin-left: 5px; font-size:14px; font-weight: bold;line-height:28px;}
             #nav-tree li span.button.switch { position: absolute; right: 8px; top: 5px; }
-            #nav-tree li span.button.noline_open { background: url(../images/public/c-scp.png) no-repeat; background-position: 0px -80px; }
-            #nav-tree li span.button.noline_close { background: url(../images/public/c-scp.png) no-repeat; background-position: 0px -114px; }
+            #nav-tree li span.button.noline_open { background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -80px; }
+            #nav-tree li span.button.noline_close { background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -114px; }
         #nav-tree li ul { padding: 0px; }
             #nav-tree li ul li { height: 36px; width: 182px; position: relative; margin-bottom:5px; }
-            #nav-tree li ul li a.curSelectedNode { background: url(../images/public/c-scp.png) no-repeat; background-position: 0px 2px; border:0px; color:#d8ff8c;z-index: 9; line-height:32px; }
+            #nav-tree li ul li a.curSelectedNode { background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px 2px; border:0px; color:#d8ff8c;z-index: 9; line-height:32px; }
             #nav-tree li ul li span { color:#ffffff; padding-left: 0.5em;font-size:1.2em; font-weight:100; line-height:31px;}
-                #nav-tree li ul li span.button.switch { position: absolute; left: 28px;width:2px; right: 0px; margin:0px; background: url(../images/public/c-scp.png) no-repeat; background-position: 2px -143px;z-index: 13; }
-                #nav-tree li ul li span.button.noline_open { background: url(../images/public/c-scp.png) no-repeat; background-position: 0px -146px; }
-                #nav-tree li ul li span.button.noline_close { background: url(../images/public/c-scp.png) no-repeat; background-position: 0px -146px; }
-                #nav-tree li ul li a { background: url(../images/public/nav-aline.jpg) no-repeat bottom; position: absolute;}
+                #nav-tree li ul li span.button.switch { position: absolute; left: 28px;width:20px; right: 0px; margin:0px; background: url(../../images/public/c-scp.png) no-repeat; background-position: 2px -143px;z-index: 13; }
+                #nav-tree li ul li span.button.noline_open { background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -146px; }
+                #nav-tree li ul li span.button.noline_close { background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -146px; }
+                #nav-tree li ul li a { background: url(../../images/public/nav-aline.jpg) no-repeat bottom; position: absolute;}
                 #nav-tree li ul li span.button.ico_close{ display: none;}
                 #nav-tree li ul li span.button.ico_open{ display: none;}
 

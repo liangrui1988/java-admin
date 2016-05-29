@@ -46,7 +46,7 @@ a { text-decoration: none; }
 
 .m-big-main { background: #f2f2f2; }
 
-.m-common-bg { background:url(../images/public/c-scp.png) no-repeat;}
+.m-common-bg { background:url(../../images/public/c-scp.png) no-repeat;}
 
 .m-header { background: #f2f2f2; height: 90px; }
 .m-header-inner { position: relative; z-index: 3; height: 100%; }
@@ -62,12 +62,12 @@ a { text-decoration: none; }
 
 /***[.m-header-t-nav]*/
 
-.m-header-t-nav { height: 39px; background: #084126 url(../images/public/c-nav-bar-bg.jpg) repeat-x; border-top: 1px solid #084126; }
+.m-header-t-nav { height: 39px; background: #084126 url(../../images/public/c-nav-bar-bg.jpg) repeat-x; border-top: 1px solid #084126; }
 .m-header-nav-inner { height: 100%; }
     .m-header-nav-inner .nav-ul { list-style: none; height: 100%; }
         .m-header-nav-inner .nav-ul li { height: 100%; width: 90px; float: left; text-align: center; margin-right:24px;}
         .m-header-nav-inner .nav-ul li .nav-list { height: 100%; width: 90px;line-height:39px; color:#ffffff;}
-        .m-header-nav-inner .nav-ul .selected {  background:url(../images/public/c-nav-hover.jpg) no-repeat; }
+        .m-header-nav-inner .nav-ul .selected {  background:url(../../images/public/c-nav-hover.jpg) no-repeat; }
         .m-header-nav-inner .nav-ul .selected a{ color:#10603b; }
 /***[End.m-header-t-nav]*/
 
@@ -85,19 +85,19 @@ a { text-decoration: none; }
 #min-ztree {width: 182px;  }
     #min-ztree a { color: #f6f5fa; }
     #min-ztree li { position: relative; margin-bottom: 3px; }
-        #min-ztree li a { height: 26px; padding-left:20px; text-decoration: none; line-height: 26px; width: 182px; background: url(../images/public/min-ztree.gif) no-repeat;  color: #000000; }
+        #min-ztree li a { height: 26px; padding-left:20px; text-decoration: none; line-height: 26px; width: 182px; background: url(../../images/public/min-ztree.gif) no-repeat;  color: #000000; }
         #min-ztree li span{ line-height: 23px;}
         #min-ztree li span.button.ico_docu{display: none;}
             #min-ztree li span.button.switch { position: absolute; top: 8px;left: 4px; width: 13px; height: 11px; }
-            #min-ztree li span.noline_open { background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: 0px 0px; }
-            #min-ztree li span.noline_close { background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: -13px 0px; line-height: inherit; }
+            #min-ztree li span.noline_open { background: url(../../images/public/min-ztree-icon.gif) no-repeat; background-position: 0px 0px; }
+            #min-ztree li span.noline_close { background: url(../../images/public/min-ztree-icon.gif) no-repeat; background-position: -13px 0px; line-height: inherit; }
         #min-ztree li ul { padding-left: 10px; }
             #min-ztree li ul li { width: 168px; position: relative; margin-bottom:0px; }
-            #min-ztree li ul li a.curSelectedNode { border:0px;margin-left:0px; color:#d8ff8c;z-index: 9; line-height:28px; background: url(../images/public/min-ztree.gif) no-repeat; background-position: 6px -25px;}
+            #min-ztree li ul li a.curSelectedNode { border:0px;margin-left:0px; color:#d8ff8c;z-index: 9; line-height:28px; background: url(../../images/public/min-ztree.gif) no-repeat; background-position: 6px -25px;}
             #min-ztree li ul li span { color:#000000; padding-left: 0em; margin-right:2px; font-size:1em; font-weight:100;line-height: 28px; }
-                #min-ztree li ul li span.button.switch { position: absolute; left: 10px;right: 0px; margin:0px; background: url(../images/public/c-scp.png) no-repeat; background-position: -75px -147px;z-index: 10; }
-                #min-ztree li ul li span.button.noline_open {background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: 0px 0px; margin-right: 4px;margin-top: 2px;}
-                #min-ztree li ul li span.button.noline_close {background: url(../images/public/min-ztree-icon.gif) no-repeat; background-position: -13px 0px;margin-right: 4px;margin-top: 2px;}
+                #min-ztree li ul li span.button.switch { position: absolute; left: 10px;right: 0px; margin:0px; background: url(../../images/public/c-scp.png) no-repeat; background-position: -75px -147px;z-index: 10; }
+                #min-ztree li ul li span.button.noline_open {background: url(../../images/public/min-ztree-icon.gif) no-repeat; background-position: 0px 0px; margin-right: 4px;margin-top: 2px;}
+                #min-ztree li ul li span.button.noline_close {background: url(../../images/public/min-ztree-icon.gif) no-repeat; background-position: -13px 0px;margin-right: 4px;margin-top: 2px;}
                 #min-ztree li ul li a { background: none; width: 168px; padding-left: 26px;}
                 #min-ztree li ul li span.button.ico_close{ display: none;}
                 #min-ztree li ul li span.button.ico_open{ display: none;}
@@ -109,5 +109,5 @@ a { text-decoration: none; }
 .dialogcontent { text-align: center; font-family: "宋体"; padding:20px; color: #F26E0A; font-size: 22px; }
 .butt {  overflow: hidden; _zoom: 1; padding-top: 20px; }
 .butt:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-    .butt .but { width: 80px; height: 30px; margin-right: 20px; background: url(../images/dailog-img/anniu.png) no-repeat; color: white; font-family: "΢���ź�"; line-height: 30px; text-align: center; cursor: pointer; border: 0px; }
-    .butt .cancel { background: url(../images/dailog-img/anniu2.png) no-repeat; }
+    .butt .but { width: 80px; height: 30px; margin-right: 20px; background: url(../../images/dailog-img/anniu.png) no-repeat; color: white; font-family: "΢���ź�"; line-height: 30px; text-align: center; cursor: pointer; border: 0px; }
+    .butt .cancel { background: url(../../images/dailog-img/anniu2.png) no-repeat; }

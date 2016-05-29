@@ -77,36 +77,33 @@ function resolveResultBeanIsOk(data,status)
 
 function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 {
-	if(!resultBean.success)
+	console.log(XMLHttpRequest);
+	//console.log(resultBean);
+	//alert(resultBean.success);
+//	if(!resultBean.success)
+//	{
+//		if(resultBean.messageCode=="010"||resultBean.messageCode=="002"||resultBean.messageCode=="003")
+//		{
+//			alert(resultBean.message);
+//			window.top.location.href=getContextPath()+"/views/login.html";
+//			return false;
+//		}
+//		alert(resultBean.message);
+//	}
+	
+	var ajaxRequestHeader = XMLHttpRequest.getResponseHeader("AJAX_REQUEST_HEADER");
+	alert("ajaxRequestHeader:"+ajaxRequestHeader);
+	if(ajaxRequestHeader!=null)
 	{
-		if(resultBean.messageCode=="01")
-		{
-			alert(resultBean.message);
-			window.top.location.href=getContextPath()+"/front/";
-			return false;
-		}else if(resultBean.messageCode=="02")
-		{
-			alert(resultBean.message);
-			return false;
-		}else if(resultBean.messageCode=="03")
-		{
-			alert(resultBean.message);
-			return false;
-		}
-		alert(resultBean.message);
-	}
-	var ajaxRequestChecking = XMLHttpRequest.getResponseHeader("AJAX_REQUEST_CHECKING");
-	if(ajaxRequestChecking!=null)
-	{
-		if(ajaxRequestChecking=="01")
+		if(ajaxRequestHeader=="001")
 		{
 			alert('您未登录或会话已过期');
-			window.top.location.href=getContentPath()+"/front/";
+			window.location.href=getContextPath()+"/views/login.html";
 			return false;
-		}else if(ajaxRequestChecking=="02"){
+		}else if(ajaxRequestHeader=="002"){
 			alert('您没有此模块的访问权限');
 			return false;
-		}else if(ajaxRequestChecking=="03"){
+		}else if(ajaxRequestHeader=="003"){
 			alert('系统出错');
 			return false;
 		}

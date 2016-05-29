@@ -37,7 +37,7 @@ public class CredentialsMatcher extends HashedCredentialsMatcher {
 			userLonginLogCache.put(username, loginCount);
 		}
 		// 登陆限制
-		if (loginCount.incrementAndGet() > 3) {
+		if (loginCount.incrementAndGet() > 10) {
 			throw new ExcessiveAttemptsException();
 		}
 		

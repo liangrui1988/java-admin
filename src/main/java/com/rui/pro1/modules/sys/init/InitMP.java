@@ -261,8 +261,10 @@ public class InitMP {
 		// 用户
 		User user = new User();
 		user.setUserName("admin");
-		String password = PassUtil.encryptPassword("admin", "admin");
-		user.setPassword(password);
+		user.setPassword("admin");
+//		String password = PassUtil.encryptPassword("admin", "admin");
+//		System.out.println(password);
+		//user.setPassword(password);
 	
 		// 关联角色
 		List<Role> roles = new ArrayList<Role>();

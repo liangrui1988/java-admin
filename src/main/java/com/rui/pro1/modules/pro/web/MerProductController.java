@@ -12,7 +12,7 @@ import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.constants.Modules;
 import com.rui.pro1.common.constants.menu.MenuPro;
 import com.rui.pro1.common.constants.uri.ProUri;
-import com.rui.pro1.common.exception.ErrorCode;
+import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.vo.UserVo;
 
 @Controller
@@ -36,7 +36,7 @@ public class MerProductController extends ProBaseController {
 			rb.setData("");
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb = new ResultBean(false, ErrorCode.SYS_ERROR, "异统异常");
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
 		return rb;
 
