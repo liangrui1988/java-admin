@@ -41,7 +41,7 @@ public class UserServiceTest extends BaseServiceTest {
 		System.out.println(count);
 	}
 	@Test
-	public void add() {
+	public void add() throws Exception {
 		
 		User user=new User();
 		user.setUserName("admin");

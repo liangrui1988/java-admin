@@ -48,7 +48,7 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 	}
 	
 	@Test
-	public void initData(){
+	public void initData() throws Exception{
 		if(isDel){ //truncate table
 			systemMapper.truncateAllRBAC();
 		}

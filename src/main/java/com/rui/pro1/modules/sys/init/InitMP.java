@@ -71,7 +71,7 @@ public class InitMP {
 	// esle 什么都不做
 	// -------------------------------------------------------------------------------
 	@PostConstruct
-	public void init() throws IOException {
+	public void init() throws Exception {
 		log.info("init>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>initLevel={}",
 				initLevel);
 
@@ -224,7 +224,7 @@ public class InitMP {
 	}
 
 	// 初始用户
-	public void initUser(Set<Menu> menus) {
+	public void initUser(Set<Menu> menus) throws Exception {
 
 		// 部门
 		Department department = new Department();

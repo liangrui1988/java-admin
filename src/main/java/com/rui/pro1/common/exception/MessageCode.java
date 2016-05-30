@@ -1,24 +1,27 @@
 package com.rui.pro1.common.exception;
 
 public class MessageCode {
-
+	// ---------------------------------------
+	// ----------------系统操作消息码--------
+	// ---------------------------------------
 	public static final String SYS_SUCCESS = "001";// 成功
 	public static final String SYS_NO_USER = "002";// 用户不存在
 	public static final String SYS_NO_USER_AND_PASSWORD = "003";// 用户或密码错误
 	public static final String SYS_NO_PERMISSE = "004";// 没有权限
 
-	
 	public static final String SYS_ERROR = "005";// 系统异常
 	public static final String SYS_FAILURE = "006";// 操作失败
-	public static final String SYS_LOG_IN_TOO_MANY = "007";//账户错误次数过多,暂时禁止登录!
-	public static final String SYS_VERIFICATION_CODE_ERROR = "008";//验证码错误
-	
-	public static final String ARGUMENT_ILLEGAL = "009";//系统参数不合法
-	
-	public static final String PLASS_LOGIN = "010";//请登陆系统
+	public static final String SYS_LOG_IN_TOO_MANY = "007";// 账户错误次数过多,暂时禁止登录!
+	public static final String SYS_VERIFICATION_CODE_ERROR = "008";// 验证码错误
+
+	public static final String ARGUMENT_ILLEGAL = "009";// 系统参数不合法
+
+	public static final String PLASS_LOGIN = "010";// 请登陆系统
 
 
-
-
+	// ---------------------------------------
+	// ----------------用户操作消息码--------
+	// ---------------------------------------
+	public static final String USER_EXISTS = "100";//用户已存在
 
 }

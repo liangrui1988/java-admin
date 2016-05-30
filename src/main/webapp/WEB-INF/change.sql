@@ -1,18 +1,26 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/5/20 17:27:35                           */
+/* Created on:     2016/5/30 14:15:54                           */
 /*==============================================================*/
 
 
+drop index dep_name_unique on sys_department;
+
 drop table if exists sys_department;
+
+drop index dict_type_unique on sys_dict;
 
 drop table if exists sys_dict;
 
 drop table if exists sys_menu;
 
+drop index role_name_unique on sys_role;
+
 drop table if exists sys_role;
 
 drop table if exists sys_role_menu;
+
+drop index user_name_unique on sys_user;
 
 drop table if exists sys_user;
 
@@ -44,6 +52,14 @@ create table sys_department
 alter table sys_department comment '部门';
 
 /*==============================================================*/
+/* Index: dep_name_unique                                       */
+/*==============================================================*/
+create unique index dep_name_unique on sys_department
+(
+   name
+);
+
+/*==============================================================*/
 /* Table: sys_dict                                              */
 /*==============================================================*/
 create table sys_dict
@@ -64,6 +80,14 @@ create table sys_dict
 );
 
 alter table sys_dict comment '部门';
+
+/*==============================================================*/
+/* Index: dict_type_unique                                      */
+/*==============================================================*/
+create unique index dict_type_unique on sys_dict
+(
+   type
+);
 
 /*==============================================================*/
 /* Table: sys_menu                                              */
@@ -110,6 +134,14 @@ create table sys_role
 alter table sys_role comment '角色';
 
 /*==============================================================*/
+/* Index: role_name_unique                                      */
+/*==============================================================*/
+create unique index role_name_unique on sys_role
+(
+   name
+);
+
+/*==============================================================*/
 /* Table: sys_role_menu                                         */
 /*==============================================================*/
 create table sys_role_menu
@@ -143,6 +175,14 @@ create table sys_user
 );
 
 alter table sys_user comment '用户';
+
+/*==============================================================*/
+/* Index: user_name_unique                                      */
+/*==============================================================*/
+create unique index user_name_unique on sys_user
+(
+   user_name
+);
 
 /*==============================================================*/
 /* Table: sys_user_department                                   */

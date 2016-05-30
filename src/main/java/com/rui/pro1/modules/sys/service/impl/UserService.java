@@ -18,6 +18,7 @@ import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
+import com.rui.pro1.modules.sys.exception.UserExistException;
 import com.rui.pro1.modules.sys.mapper.MenuMapper;
 import com.rui.pro1.modules.sys.mapper.UserMapper;
 import com.rui.pro1.modules.sys.service.IUserService;
@@ -91,7 +92,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public int add(User user) {
+	public int add(User user) throws UserExistException {
 		// 为开发速度 不考虑 分离转换
 		// User user=new User();
 		// BeanCopier copier = BeanCopier.create(UserVo.class, User.class,
@@ -102,6 +103,18 @@ public class UserService implements IUserService {
 				|| user.getRoles().size() <= 0) {
 			return 0;
 		}
+		
+		//登录名是否存在
+		UserLoginVo vo=new UserLoginVo();
+		vo.setUserName(user.getUserName());
+		User isExistsUser=userMapper.query(vo);
+		if(isExistsUser!=null&&isExistsUser.getId()>0){
+			throw new UserExistException("用户已存在");
+		}
+	
+
+		
+		
 		user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
 		
 		int count = userMapper.insertSelective(user);

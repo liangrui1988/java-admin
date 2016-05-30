@@ -23,7 +23,7 @@ public interface IUserService {
 
 	int del(int userId);
 
-	int add(User user);
+	int add(User user) throws Exception;
 
 	int update(User user);
 	

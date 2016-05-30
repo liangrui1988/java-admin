@@ -24,6 +24,7 @@ import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.User;
+import com.rui.pro1.modules.sys.exception.UserExistException;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.vo.UserVo;
 
@@ -103,11 +104,12 @@ public class UserController extends SysBaseController {
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response, User user) {
 		ResultBean rb = new ResultBean();
 		try {
-			System.out.println(user);
 			int count = userService.add(user);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
+		} catch (UserExistException e) {
+			rb = new ResultBean(false, MessageCode.USER_EXISTS, "用户已存在");
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
