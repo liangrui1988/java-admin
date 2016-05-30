@@ -50,25 +50,26 @@ function getQueryString(name) {
 
 /**分页js start***/
 
+
 //init
-function pageFn(_url,_param)
+function pageFn(_url,_param,reqMothd)
 {
 //	if(moethd==""||(moethd!="get"&&moethd!="post")){
 //		moethd="get";
 //	}
-    sendGetReq(_url,_param);
+	sendPageRequst(_url,_param,reqMothd);
 		
 }
 
 //点击
-function clickNumFn(i,url){
+function clickNumFn(i,url,reqMothd){
 	  var param=getParam();
 	   param.mPageIndex=i;
-	   sendGetReq(url,param);
+	   sendPageRequst(url,param,reqMothd);
 	
 }
 
-function pagecClickEnv(url,P)
+function pagecClickEnv(url,P,reqMothd)
 {
 	var param=getParam();
 	//当前页
@@ -100,68 +101,94 @@ function pagecClickEnv(url,P)
 		   param.mPageIndex=jumpPageVar;
 		
 	}
-	sendGetReq(url,param);
+	sendPageRequst(url,param,reqMothd);
 	
 }
 
-/**
-* 发送请求
-* **/
-function sendGetReq(_url,obj)
-{
- 				  
-	  $.get(_url,obj,function(returnDatas,status)
-	  {
-	       if(status=="success")
-		   { 
-		       var jsonData=JSON.stringify(returnDatas);
 
-	    	   eval('callbak_page('+jsonData+')');
-	    	   
-	    	   returnDatas=returnDatas.data;
-				//分页信息
-				var pageinfoHTML = "共 <sapn id='_countPage'>" + returnDatas.count
-						+ "</sapn>条&nbsp;第<font color='#FF0000' id='_currentPage'>"
-						+ returnDatas.currentPage + "</font>/<sapn id='_sizePage'>"
-						+ returnDatas.pages + "</sapn>页";
-						
+
+
+/**
+* 发送请求 
+* _url=
+* obj=查询参数
+* getOrPost=请求类型
+* **/
+function sendPageRequst(_url,obj,requestMeothd)
+{
+	//alert(getOrPost);
+	if(requestMeothd==undefined||requestMeothd==null||requestMeothd=="")
+	{
+		requestMeothd="get";
+	}
+	
+	$.ajax({
+		url : _url,
+		data : obj,
+		type : requestMeothd,
+		cache : false,
+		dataType : 'json',
+		success : function(returnDatas,status,xhRequest) {
+			//topLoaded();    
+			if(!handleAjaxRequest(returnDatas, status,xhRequest))return;
 			
+			//----处理分页数据
+				  var jsonData=JSON.stringify(returnDatas);
+	
+		    	   eval('callbak_page('+jsonData+')');
+		    	   
+		    	   returnDatas=returnDatas.data;
+					//分页信息
+					var pageinfoHTML = "共 <sapn id='_countPage'>" + returnDatas.count
+							+ "</sapn>条&nbsp;第<font color='#FF0000' id='_currentPage'>"
+							+ returnDatas.currentPage + "</font>/<sapn id='_sizePage'>"
+							+ returnDatas.pages + "</sapn>页";
+							
 				
-				//$("#_pageInfos").html(pageinfoHTML);
-				
-				//页码显示
-				var paginationNum="<div>"+pageinfoHTML+"</div><span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','T')\">首页 </span>";
-				paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','U')\">&lt; </span>";
-				//alert(returnDatas.showNum);
-				for(var i=returnDatas.startNo;i<(returnDatas.startNo+returnDatas.showNum);i++)
-				{
-					if(returnDatas.pages<i){
-						break;
-					}
-					if(returnDatas.currentPage==i)
+					
+					//$("#_pageInfos").html(pageinfoHTML);
+					
+					//页码显示
+					var paginationNum="<div>"+pageinfoHTML+"</div><span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','T','"+requestMeothd+"')\">首页 </span>";
+					paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','U','"+requestMeothd+"')\">&lt; </span>";
+					//alert(returnDatas.showNum);
+					for(var i=returnDatas.startNo;i<(returnDatas.startNo+returnDatas.showNum);i++)
 					{
-						paginationNum+="<a class='pageSelected' onclick=clickNumFn('"+i+"','"+_url+"')>"+i+" </a>";
-					}else{
-						paginationNum+="<a onclick=clickNumFn('"+i+"','"+_url+"')>"+i+" </a>";
+						if(returnDatas.pages<i){
+							break;
+						}
+						if(returnDatas.currentPage==i)
+						{
+							paginationNum+="<a class='pageSelected' onclick=clickNumFn('"+i+"','"+_url+"','"+requestMeothd+"')>"+i+" </a>";
+						}else{
+							paginationNum+="<a onclick=clickNumFn('"+i+"','"+_url+"','"+requestMeothd+"')>"+i+" </a>";
+						}
+						
 					}
 					
-				}
+					paginationNum+="<span class=\"next\" rel=\"prev\" onclick=\"pagecClickEnv('"+_url+"','N','"+requestMeothd+"')\">&gt; </span>";
+					paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','L','"+requestMeothd+"')\">尾页 </span>";
+					paginationNum+="&nbsp;&nbsp;&nbsp;&nbsp;"
+					+"跳到第&nbsp;&nbsp;<input type=\"text\" size=\"4\" id=\"jumpPageText\"> 页&nbsp;  <a onclick=pagecClickEnv('"+_url+"','J','"+requestMeothd+"')>确定 </a>";
+	
+					//alert(paginationNum);
+					$("#_pagination").html(paginationNum);
 				
-				paginationNum+="<span class=\"next\" rel=\"prev\" onclick=\"pagecClickEnv('"+_url+"','N')\">&gt; </span>";
-				paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','L')\">尾页 </span>";
-				paginationNum+="&nbsp;&nbsp;&nbsp;&nbsp;"
-				+"跳到第&nbsp;&nbsp;<input type=\"text\" size=\"4\" id=\"jumpPageText\"> 页&nbsp;  <a onclick=pagecClickEnv('"+_url+"','J')>确定 </a>";
-
-				//alert(paginationNum);
-				$("#_pagination").html(paginationNum);
+					addPageClass();
+			//----处理分页数据
 			
-				addPageClass();
-		    }else
-			{
-			  alert("系统异常!");
-			}
-		
-	  });
+			
+		},
+		complete: function (XMLHttpRequest, textStatus) {
+			 //alert(alert("textStatus》》"+textStatus));
+        },
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+	
+	//ajax end
+
 }
 
 /**验证数字 true 有 false 没有**/ 
@@ -213,7 +240,60 @@ $.fn.serializeObject = function()
 };
 
 
-
-
-	
-	
+//
+//function sendGetReq(_url,obj)
+//{
+// 				  
+//	  $.get(_url,obj,function(returnDatas,status)
+//	  {
+//	       if(status=="success")
+//		   { 
+//		       var jsonData=JSON.stringify(returnDatas);
+//
+//	    	   eval('callbak_page('+jsonData+')');
+//	    	   
+//	    	   returnDatas=returnDatas.data;
+//				//分页信息
+//				var pageinfoHTML = "共 <sapn id='_countPage'>" + returnDatas.count
+//						+ "</sapn>条&nbsp;第<font color='#FF0000' id='_currentPage'>"
+//						+ returnDatas.currentPage + "</font>/<sapn id='_sizePage'>"
+//						+ returnDatas.pages + "</sapn>页";
+//						
+//			
+//				
+//				//$("#_pageInfos").html(pageinfoHTML);
+//				
+//				//页码显示
+//				var paginationNum="<div>"+pageinfoHTML+"</div><span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','T')\">首页 </span>";
+//				paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','U')\">&lt; </span>";
+//				//alert(returnDatas.showNum);
+//				for(var i=returnDatas.startNo;i<(returnDatas.startNo+returnDatas.showNum);i++)
+//				{
+//					if(returnDatas.pages<i){
+//						break;
+//					}
+//					if(returnDatas.currentPage==i)
+//					{
+//						paginationNum+="<a class='pageSelected' onclick=clickNumFn('"+i+"','"+_url+"')>"+i+" </a>";
+//					}else{
+//						paginationNum+="<a onclick=clickNumFn('"+i+"','"+_url+"')>"+i+" </a>";
+//					}
+//					
+//				}
+//				
+//				paginationNum+="<span class=\"next\" rel=\"prev\" onclick=\"pagecClickEnv('"+_url+"','N')\">&gt; </span>";
+//				paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','L')\">尾页 </span>";
+//				paginationNum+="&nbsp;&nbsp;&nbsp;&nbsp;"
+//				+"跳到第&nbsp;&nbsp;<input type=\"text\" size=\"4\" id=\"jumpPageText\"> 页&nbsp;  <a onclick=pagecClickEnv('"+_url+"','J')>确定 </a>";
+//
+//				//alert(paginationNum);
+//				$("#_pagination").html(paginationNum);
+//			
+//				addPageClass();
+//		    }else
+//			{
+//			  alert("系统异常!");
+//			}
+//		
+//	  });
+//}

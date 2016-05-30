@@ -39,6 +39,18 @@
 <!-- 	</ul> -->
 
 
+
+      
+        
+        <form action="" class="breadcrumb form-search " id="_search_form">
+        
+             &nbsp;登陆名: <input class="input-xlarge" name="userName"  id="_userName" type="text" />
+			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
+			
+		</form>
+		
+		
+		
 	<ul class="nav nav-tabs">
 		<li class="active">
 			<a href="userlist.html">用户列表</a>
@@ -47,6 +59,8 @@
 			<a href="userAdd.html">新增用户</a>
 		</li>
 	</ul>
+	
+		
 
 	<div class="panel panel-default">
 		<table id="_user_table" class="table table-striped">
@@ -80,7 +94,7 @@ $(function() {
 	var param=new Object();	
 	    param.status="0";
 	//初始化数据	
-	pageFn(getContextPath()+"/sys/user/list",param);
+	pageFn(getContextPath()+"/sys/user/list",param,"get");
 })
 
 
@@ -133,147 +147,26 @@ function callbak_page(returnDatas)
 }
 
 //查询
-$("#_search_id").click(
+$("#_search_submit").click(
 	function(){
-	   var param=getParam();
-	   sendReq("${pagecontext.request.contextpath}/audit/enterprise/getlist.do",param);
+	 var param=getParam();
+	 sendPageRequst(getContextPath()+"/sys/user/list",param);
+	   
+	  // sendGetReq(getContextPath()+"/sys/user/list",param,"");
 });
 
 //获取参数处理
 function getParam()
 {				
-	  var param=new Object();	
-	  //时间处理
-	  var dateVar= $("#_search_date_id").val();					 
-	  var startDt=$("#d12").val();
-	  var endDt=$("#d13").val();
-		
-	 if(dateVar==1)
-	 {
-	   
-		if(startDt!=""&&endDt!="")
-		{
-		   param.applyStartDt=startDt;
-		   param.applyEndDt=endDt;
-		}
-	   
-	 }else if(dateVar==2)
-	 {
-	 
-		if(startDt!=""&&endDt!="")
-		{
-		   param.inStartDt=startDt;
-		   param.inEndDate=endDt;
-		}
-	 
-	 }
-	 //状态
-	 var statusVar=$("#search_status_id").val();	
-	 if(statusVar!=0)
-	 {
-		param.status=statusVar;
-	 }				 
+	 var param=new Object();	
 	
-	 //内容查询
-	 var contextVar= $("#search_context_id").val();			
-	 if(contextVar!="")
-	 { 
-		  var contextName=$("#search_project_id").val();
-		  if(contextName==1)
-		  {
-			param.companyName=contextVar;
-		  }else if(contextName==2)
-		  {
-			param.loginName=contextVar;
-		  }
-	
+	 var _userName=$("#_userName").val();
+	 if(_userName!=""){
+		 param.userName=_userName;
 	 }
-	 
-	 //地区
-	var areaCode= $("#areaCodeV").val();
-	 if(areaCode!=""){
-		 param.area=areaCode;
-	 }
-	 
-	 //支付方式
-	 var  payManner= $("#payWay").val();
-	 if(payManner!=0){
-		 param.payManner=payManner;
-	 }
-	 
 	 
 	return param;			 
 }
-
-
-
-  
-  
-  
-  /**操作*/
-  function updateStatus(id,status)
-  {
-	  
-	  yb.dialog({title: "系统提示", content: "确定吗？", btn: {"确定": {"updateStatusEnter":[id,status]}, "取消": ""}});
-
-  
-  }
-  
-  function updateStatusEnter(id,status)
-  {
-	  // alert(id+"=="+status);
-	    $.post("${pagecontext.request.contextpath}/audit/enterprise/updateStatus.do",
-		  {"id":id,"status":status},
-		  function(returnDatas,status)
-		  {
-			   if(status=="success")
-			   { 
-			     yb.alert("操作成功");
-				 //初始化数据	
-		        // pageFn("${pagecontext.request.contextpath}/audit/enterprise/getlist.do");
-		           var param=getParam();
-	               sendReq("${pagecontext.request.contextpath}/audit/enterprise/getlist.do",param);
-			
-			   }else
-			   {
-				  alert("系统异常!");
-			   }
-		  });
-	  
-  }
-		
-
-
-
-
-/***加入服务**/
-function addService(userid)
-{
-
-    //取值
-  $.ajax({
-			type : "POST",
-			url : "${pagecontext.request.contextpath}/audit/interact/addService.do",
-			//dataType:"json",
-			data : "userId="+userid,
-			//contentType : "application/json",
-			success : function(returnDatas,status) 
-			{
-			   if(resolveResultBeanIsOk(returnDatas,status))
-			   {
-			     var param=getParam();
-				 sendReq("${pagecontext.request.contextpath}/audit/interact/getlist.do",param);
-			   }
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {							
-				 yb.alert('系统异常;');
-			}
-		});	
-	 
-	 
-}
-
-
 
 
 
