@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.constants.RespHeaderConstans;
-import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.common.utils.http.WebHelp;
 import com.rui.pro1.modules.sys.annotations.CurrentUser;
@@ -88,10 +85,13 @@ public class UserLoginController extends SysBaseController {
 			HttpServletResponse response, UserLoginVo userLoginVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			int result = userLoginService.logout(userLoginVo);
-			if (result <= 0) {
-				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
-			}
+//			int result = userLoginService.logout(userLoginVo);
+//			if (result <= 0) {
+//				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
+//			}
+			Subject subject = SecurityUtils.getSubject();
+			subject.logout();
+
 		} catch (Exception e) {
 			logger.error("用户登陆异常:UserName:{} ,Message>>>{}",
 					userLoginVo.getUserName(), e.getMessage());
@@ -101,20 +101,17 @@ public class UserLoginController extends SysBaseController {
 		return rb;
 	}
 
-//	@Autowired
-//	com.rui.pro1.modules.sys.shiro.CredentialsMatcher  cmatcher;
+
 	/**
 	 * 用户登录  代码登陆方式 测试
 	 */
 	@ResponseBody
-	 @RequestMapping(value="login") //, method=RequestMethod.POST
+	@RequestMapping(value="login") //, method=RequestMethod.POST
 	public ResultBean login2(HttpServletRequest request, HttpServletResponse req, User loginUser) {
 	     ResultBean rb = new ResultBean();
 	     
 	     if(loginUser==null||StringUtils.isBlank(loginUser.getUserName())||StringUtils.isBlank(loginUser.getPassword()))
 	     {
-	    	 
-
 	        rb = new ResultBean(false,MessageCode.PLASS_LOGIN,"请登陆系统","");
 	        return rb;
 	     }
@@ -135,7 +132,7 @@ public class UserLoginController extends SysBaseController {
 	            //登陆成功  
 	           // HttpSession session = request.getSession(true);  
 	            try {  
-	            	User user=	userService.getUser(loginUser.getUserName());
+	            	UserBean user=	userService.getUser(loginUser.getUserName());
 	        		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
 	        		if(menus!=null){
 		        		user.setMenus(menus);
@@ -169,13 +166,8 @@ public class UserLoginController extends SysBaseController {
 	 */
 	@RequestMapping(value="loginPage") //, method=RequestMethod.POST
 	public void loginPage(HttpServletRequest request, HttpServletResponse response) {
-
-//		System.out.println("xxxx");
-//		System.out.println(request);
 		// ModelAndView mv = new ModelAndView("/user/save/result");//默认为forward模式  
         // ModelAndView mv = new ModelAndView("redirect:/user/save/result");//redirect模式  
-
-        
         if (WebHelp.isAjAxRequest(request))
 		{
 			response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_001);
@@ -192,7 +184,6 @@ public class UserLoginController extends SysBaseController {
 				e.printStackTrace();
 			}
 		}
-        
         // return "redirect:/views/sysLogin.html";
 
 	}

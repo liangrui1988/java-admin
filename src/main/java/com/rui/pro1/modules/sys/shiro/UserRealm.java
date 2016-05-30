@@ -19,6 +19,7 @@ import com.rui.pro1.common.utils.spring.SysApplicationContext;
 import com.rui.pro1.modules.sys.constants.SysComm;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IRoleService;
+import com.rui.pro1.modules.sys.service.IUserLoginService;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.utils.PassUtil;
 
@@ -31,6 +32,9 @@ import com.rui.pro1.modules.sys.utils.PassUtil;
  *
  */
 public class UserRealm extends AuthorizingRealm {
+	@Autowired
+	private IUserLoginService userLoginService;
+	
 	@Autowired
 	private IUserService userService;
 	@Autowired
@@ -50,9 +54,9 @@ public class UserRealm extends AuthorizingRealm {
 
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
-		if (userService == null) {
-			userService = (IUserService) SysApplicationContext
-					.getBean("userService");
+		if (userLoginService == null) {
+			userLoginService = (IUserLoginService) SysApplicationContext
+					.getBean("userLoginService");
 		}
 
 		// userService.findRoles(username)
@@ -73,13 +77,13 @@ public class UserRealm extends AuthorizingRealm {
 			AuthenticationToken token) throws AuthenticationException {
 		String username = (String) token.getPrincipal();
 
-		if (userService == null) {
-			userService = (IUserService) SysApplicationContext
-					.getBean("userService");
+		if (userLoginService == null) {
+			userLoginService = (IUserLoginService) SysApplicationContext
+					.getBean("userLoginService");
 
 		}
 
-		User user = userService.getUser(username);
+		User user = userLoginService.getUser(username);
 		if (user == null) {
 			throw new UnknownAccountException();// NO ACCOUNT=userName
 		}

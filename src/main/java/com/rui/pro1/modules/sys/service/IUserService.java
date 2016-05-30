@@ -17,9 +17,9 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  */
 public interface IUserService {
 
-	QueryResult<User> getUserList(int page, int pagesize, UserVo user);
+	QueryResult<UserBean> getUserList(int page, int pagesize, UserVo user);
 
-	User get(int userId);
+	UserBean get(int userId);
 
 	int del(int userId);
 
@@ -27,7 +27,7 @@ public interface IUserService {
 
 	int update(User user);
 	
-	User getUser(String username);
+	UserBean getUser(String username);
 	
 	Set<String> getUserRole(String username);
 

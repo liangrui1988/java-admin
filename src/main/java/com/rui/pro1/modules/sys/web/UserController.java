@@ -22,6 +22,7 @@ import com.rui.pro1.common.constants.Modules;
 import com.rui.pro1.common.constants.menu.MenuSys;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.vo.UserVo;
@@ -51,7 +52,7 @@ public class UserController extends SysBaseController {
 			UserVo user) {
 		ResultBean rb = new ResultBean();
 		try {
-			QueryResult<User> result = userService.getUserList(page, pagesize,
+			QueryResult<UserBean> result = userService.getUserList(page, pagesize,
 					user);
 			rb.setData(result);
 		} catch (Exception e) {
@@ -70,7 +71,7 @@ public class UserController extends SysBaseController {
 			UserVo userVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			User user = userService.get(userVo.getId());
+			UserBean user = userService.get(userVo.getId());
 			rb.setData(user);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -77,7 +77,7 @@ function resolveResultBeanIsOk(data,status)
 
 function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 {
-	console.log(XMLHttpRequest);
+	//console.log(XMLHttpRequest);
 	//console.log(resultBean);
 	//alert(resultBean.success);
 //	if(!resultBean.success)
@@ -92,7 +92,7 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 //	}
 	
 	var ajaxRequestHeader = XMLHttpRequest.getResponseHeader("AJAX_REQUEST_HEADER");
-	alert("ajaxRequestHeader:"+ajaxRequestHeader);
+	//alert("ajaxRequestHeader:"+ajaxRequestHeader);
 	if(ajaxRequestHeader!=null)
 	{
 		if(ajaxRequestHeader=="001")

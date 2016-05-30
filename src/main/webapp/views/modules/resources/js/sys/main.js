@@ -26,7 +26,7 @@ $(function(){
 	
 	
 	$.ajax({
-		url : getContextPath()+"/sys/menu/listAll",
+		url : getContextPath()+"/sys/menu/getlistByCurentUser",
 		data : {"t":12645313},
 		type : 'post',
 		cache : false,
@@ -36,7 +36,7 @@ $(function(){
 			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
 			
 			//loginUser=resultBean.data;
-			$("#userNameLabel").html("adminhh");
+			$("#userNameLabel").html(resultBean.data.userName);
 			//buildTreeMenu(resultBean.data.user.menuList);
 			buildTreeMenu(resultBean.data);
 		},

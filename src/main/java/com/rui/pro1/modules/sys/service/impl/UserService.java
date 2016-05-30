@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.common.bean.page.QueryResult;
+import com.rui.pro1.common.utils.copyo.BeanCopierUtils;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
@@ -35,7 +37,7 @@ public class UserService implements IUserService {
 	private MenuMapper menuMapper;
 
 	@Override
-	public QueryResult<User> getUserList(int page, int pagesize, UserVo user) {
+	public QueryResult<UserBean> getUserList(int page, int pagesize, UserVo userVo) {
 		// User user=new User();
 		// user.setId(1);
 		// user.setName("user001");
@@ -45,23 +47,42 @@ public class UserService implements IUserService {
 		// list.add(user);
 
 		Query query = new Query();
-		query.setBean(user);
+		query.setBean(userVo);
 		query.setPageIndex(page);
 
 		// 组合分页信息
-		QueryResult<User> queryResult = new QueryResult<User>();
+		QueryResult<UserBean> queryResult = new QueryResult<UserBean>();
 		Long count = userMapper.getCount(query);
 		List<User> list = userMapper.queryPages(query);
+		
+		List<UserBean> listBean =new ArrayList<UserBean>();
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++)
+			{
+				User user=list.get(i);
+				if(user!=null&&user.getId()>0)
+				{
+					UserBean userBean=new UserBean();
+					BeanCopierUtils.copyProperties(user, userBean);
+					listBean.add(userBean);
+				}
+				
+				
+			}
+		}
 		// 总页数 和 取多少条
 		queryResult.setPages(count, pagesize);
-		queryResult.setItems(list);
+		queryResult.setItems(listBean);
 
 		return queryResult;
 	}
 
 	@Override
-	public User get(int userId) {
-		return userMapper.get(userId);
+	public UserBean get(int userId) {
+		User user= userMapper.get(userId);
+		UserBean userBean=new UserBean();
+		BeanCopierUtils.copyProperties(user, userBean);
+		return userBean;
 	}
 
 	@Override
@@ -143,14 +164,19 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User getUser(String username) {
+	public UserBean getUser(String username) {
 
 		UserLoginVo userLoginVo = new UserLoginVo();
 		userLoginVo.setUserName(username);
 
 		User user = userMapper.query(userLoginVo);
+		UserBean userBean=new UserBean();
+		
+		BeanCopierUtils.copyProperties(user, userBean);
+	
+		
 
-		return user;
+		return userBean;
 	}
 
 	@Override

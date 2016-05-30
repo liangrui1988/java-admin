@@ -55,4 +55,12 @@ public class UserLoginService implements IUserLoginService {
 		return 0;
 	}
 
+	@Override
+	public User getUser(String username) {
+		UserLoginVo userLoginVo = new UserLoginVo();
+		userLoginVo.setUserName(username);
+		User user = userMapper.query(userLoginVo);
+		return user;
+	}
+
 }

@@ -25,9 +25,11 @@ import com.rui.pro1.common.constants.menu.MenuSys;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.entity.Menu;
+import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.utils.MenuComparator;
+import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.vo.MenuVo;
 
 /**
@@ -49,6 +51,9 @@ public class MenuController extends SysBaseController {
 
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private UserUtils userUtils;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
@@ -72,13 +77,46 @@ public class MenuController extends SysBaseController {
 	
 	
 	
-	@RequestMapping(value = "listAll")
+//	@RequestMapping(value = "listAll")
+//	@ResponseBody
+//	public ResultBean getlistAll(Integer userId) {
+//		ResultBean rb = new ResultBean();
+//		try {
+//			
+//    		List<Menu> menus = userService.getUserMenus("admin");
+//
+//    		Menu[] ocAr = new Menu[menus.size()];
+//			for (int i = 0; i < menus.size(); i++) {
+//				ocAr[i] = menus.get(i);
+//			}
+//			Arrays.sort(ocAr, new MenuComparator());
+//			List<Menu> menusNew = Arrays.asList(ocAr);
+//			
+//    		
+//			rb.setData(menusNew);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
+//		}
+//		return rb;
+//
+//	}
+	
+	
+	
+
+	@RequestMapping(value = "getlistByCurentUser")
 	@ResponseBody
-	public ResultBean getlistAll(Integer userId) {
+	public ResultBean getlistByCurentUser() {
 		ResultBean rb = new ResultBean();
 		try {
 			
-    		List<Menu> menus = userService.getUserMenus("admin");
+			String userName=userUtils.getCurrentName();
+			
+			User user=userUtils.getUser();
+			System.out.println(user);
+			
+    		List<Menu> menus = userService.getUserMenus(userName);
 
     		Menu[] ocAr = new Menu[menus.size()];
 			for (int i = 0; i < menus.size(); i++) {
@@ -96,6 +134,10 @@ public class MenuController extends SysBaseController {
 		return rb;
 
 	}
+	
+	
+	
+	
 	
 	@PermissionAnnot(id =  MenuSys.SYS_MENU + ":get", name = "查询")
 	@RequestMapping(value = "get", method = RequestMethod.GET)

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rui.pro1.comm.BaseServiceTest;
 import com.rui.pro1.common.bean.page.QueryResult;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IUserService;
@@ -23,14 +24,14 @@ public class UserServiceTest extends BaseServiceTest {
 
 	@Test
 	public void getPage() {
-		QueryResult<User> result = userService
+		QueryResult<UserBean> result = userService
 				.getUserList(1, 20, new UserVo());
 		printJson(result);
 	}
 
 	@Test
 	public void get() {
-		User user=userService.get(1);
+		UserBean user=userService.get(1);
 		printJson(user);
 
 	}
