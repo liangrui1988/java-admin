@@ -35,7 +35,7 @@ body { }
 #nav-tree {width: 182px; margin:5px auto; }
     #nav-tree a { color: #f6f5fa; }
     #nav-tree li { position: relative; }
-        #nav-tree li a { height: 36px; text-decoration: none; line-height: 30px; width: 163px;padding-left: 19px; background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -35px; color: #10603b; z-index: 13;}
+        #nav-tree li a { height: 36px; text-decoration: none; line-height: 30px; width: 182px;padding-left: 19px; background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -35px; color: #10603b; z-index: 13;}
         #nav-tree li span { margin-left: 5px; font-size:14px; font-weight: bold;line-height:28px;}
             #nav-tree li span.button.switch { position: absolute; right: 8px; top: 5px; }
             #nav-tree li span.button.noline_open { background: url(../../images/public/c-scp.png) no-repeat; background-position: 0px -80px; }
