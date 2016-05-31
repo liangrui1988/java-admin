@@ -34,4 +34,7 @@ public interface RoleMapper {
 	int insertSelective(Role role);
 	int update(Role role);
 	int updateByPrimaryKeySelective(Role role);
+
+
+	Role getByName(@Param("name")String name);
 }

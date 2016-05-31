@@ -98,7 +98,7 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 		if(ajaxRequestHeader=="001")
 		{
 			alert('您未登录或会话已过期');
-			window.location.href=getContextPath()+"/views/login.html";
+			window.top.location.href=getContextPath()+"/views/login.html";
 			return false;
 		}else if(ajaxRequestHeader=="002"){
 			alert('您没有此模块的访问权限');

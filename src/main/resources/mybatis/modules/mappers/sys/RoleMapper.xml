@@ -23,6 +23,12 @@
 		select *
 		from sys_role where id=#{id}
 	</select>
+	
+	<select id="getByName" resultMap="resultMapId" >
+		select *
+		from sys_role where name=#{name}
+	</select>
+	
 
 	<!-- 搜索条件判断 -->
 	<sql id="searchField">

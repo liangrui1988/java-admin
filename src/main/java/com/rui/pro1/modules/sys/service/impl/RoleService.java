@@ -3,6 +3,7 @@ package com.rui.pro1.modules.sys.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.rui.pro1.modules.sys.bean.MenuBean;
 import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
+import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.mapper.MenuMapper;
 import com.rui.pro1.modules.sys.mapper.RoleMapper;
 import com.rui.pro1.modules.sys.service.IRoleService;
@@ -90,18 +92,64 @@ public class RoleService implements IRoleService {
 
 	@Override
 	public int add(Role role) {
-
-		int count = roleMapper.insertSelective(role);
-		if (count <= 0) {
+		
+		if(role==null||StringUtils.isBlank(role.getName())){
 			return 0;
 		}
-
-		if (role.getMenuIds() != null && role.getMenuIds().size() > 0) {
-			// 关联菜单
-			for (String menuId : role.getMenuIds()) {
-				roleMapper.addRoleMenu(role.getId(), menuId);
-			}
+		
+		
+		int count =0;
+		//角色名称是否存在
+		Role roleExists=roleMapper.getByName(role.getName());
+		if(roleExists!=null)
+		{
+			
+			throw new ObjectExistException("角色已存在");
+			
+			//如是没有id 但对象又存在，可能是传的名字修改
+//			if(roleExists.getId()==null||roleExists.getId()<=0){
+//				role.setId(roleExists.getId());
+//			}
+//			//修改
+//			count=	roleMapper.updateByPrimaryKeySelective(role);
+//			if (count <= 0) 
+//			{
+//				return 0;
+//			}
+//			
+//			//先删除菜单
+//		    roleMapper.delRoleMenu(roleExists.getId());
+//			
+//			if (role.getMenuIds() != null && role.getMenuIds().size() > 0) 
+//			{
+//				// 关联菜单
+//				for (String menuId : role.getMenuIds()) {
+//					roleMapper.addRoleMenu(role.getId(), menuId);
+//				}
+//			}
+			
+			
+		}else
+		{
+			
+			 roleMapper.insertSelective(role);
+				if (count <= 0) 
+				{
+					return 0;
+				}
+	
+				if (role.getMenuIds() != null && role.getMenuIds().size() > 0) 
+				{
+					// 关联菜单
+					for (String menuId : role.getMenuIds()) {
+						roleMapper.addRoleMenu(role.getId(), menuId);
+					}
+				}
+			
 		}
+		
+
+		
 
 		return count;
 	}

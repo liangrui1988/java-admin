@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户管理</title>
+<link href="../../../common/all.css" rel="stylesheet">
+<script type="text/javascript" src="../../../common/all.js"></script>
+
+<style type="text/css">
+
+.form-actions{
+     padding-right: 1000px;
+}
+#messageBox{
+ color: red;
+}
+</style>
+
+
+<script type="text/javascript">
+
+
+	$(document).ready(function() {
+		
+		//initAddUser();
+		$("#inputForm").validate({
+			submitHandler: function(form){
+				
+				//loading('正在提交，请稍等...');
+				addRole();
+				
+				//form.submit();
+			},
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+	
+	
+	function initAddUser()
+	{
+		//获取角色
+		$.ajax({
+			url : getContextPath()+"/sys/role/listAll",
+			type : "GET",
+			//contentType: "application/json; charset=utf-8",
+			dataType : "json",
+			//data :{productVoJson:JSON.stringify(objVo)},
+			data :'',
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				console.log(returnData);
+				if(resolveResultBeanIsError(returnData,status))
+				{
+					var rolelist=returnData.data;
+					var roleHtml='';
+
+					for(var i=0;i<rolelist.length;i++)
+					{
+						var roleObj=rolelist[i];
+						roleHtml+=' <input value="'+roleObj.id+'" type="checkbox"  name="roles[0].id"/>';
+						roleHtml+=roleObj.name;
+						roleHtml+='&nbsp;&nbsp;';
+					}
+					//$("#_permission_plan_div").html(roleHtml);
+				}
+					
+			}
+		});
+	}
+	 
+
+		
+
+</script>
+
+</head>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+	
+	<ul class="nav nav-tabs">
+		<li >
+			<a href="rolelist.html">角色列表</a>
+		</li>
+		<li class="active">
+			<a href="roleAdd.html">添加角色</a>
+		</li>
+	</ul>
+	
+             <br/>
+ <div class="addClz">
+             
+      <form id="inputForm" action="" class="form-horizontal" role="form">
+
+            <div class="form-group">
+               <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>角色名称： 
+               </label>
+               <div class="col-sd-1">
+                  <input class="required input-xlarge" name="name"  id="_roleName" type="text" />
+               </div>
+         
+            </div>
+            
+             <div class="form-group">
+               <label class="col-sm-1 control-label " >
+               <span class="help-inline"><font color="red">*</font>状态：</label>
+               <div class="col-sd-1">
+			      &nbsp;  &nbsp;&nbsp;启用 <input type="radio" name="status" value="0" checked="checked"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="status" value="1"/>
+               </div>
+            </div>
+            
+                 
+            <div class="form-group">
+               <label class="col-sm-1 control-label ">角色类型：</label>
+               <div class="col-sd-1">
+                  <select name="types" id="_type">
+                  <option value="1">系统管理角色</option>
+                  <option value="2">普通角色</option>
+                  </select>
+               </div>
+            </div>
+            
+            
+    
+            
+              <div class="form-group">
+               <label class="col-sm-1 control-label ">权限分配：</label>
+               <div class="col-sd-1" id="_permission_plan_div">
+               
+               
+               </div>
+            </div>
+            
+            
+<!--           <div class="form-group"> -->
+<!--                <label class="col-sm-1 control-label ">部门：</label> -->
+<!--                <div class="col-sd-1"> -->
+<!--                   <input value="1"  type="checkbox"  name="department.id"/> -->
+<!--                </div> -->
+<!--             </div> -->
+           
+            
+            <div class="form-group">
+               <label class="col-sm-1 control-label " >
+                                            备注：</label>
+               <div class="col-sm-1">
+               <textarea rows="6" cols="60" name="remake" id="_remake"></textarea>
+               </div>
+            </div>
+            
+         
+            <div class="form-actions">
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		    </div>    
+         </form>
+         
+    </div>
+		
+	<script type="text/javascript">
+	
+	
+	function addRole(){
+			var jobj=$("#inputForm").serialize();
+			$.ajax({
+				url : getContextPath()+"/sys/role/add",
+				type : "POST",
+				//contentType: "application/json; charset=utf-8",
+				dataType : "json",
+				data :jobj,
+				success : function(returnData,status,XMLHttpRequest)
+				{	
+				    resolveResultBeanIsOk(returnData,status);
+				},
+				error : function() {
+					alert("请求异常！");
+				}
+			});
+			
+		}
+		
+	</script>	
+
+</body>
+</html>

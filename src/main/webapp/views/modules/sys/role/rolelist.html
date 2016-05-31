@@ -1,8 +1,144 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  </head>
-  <body>
-  	role ---------
-  </body>
+<head>
+<title>角色管理</title>
+
+<link href="../../../common/all.css" rel="stylesheet">
+<script type="text/javascript" src="../../../common/all.js"></script>
+
+</script>
+</head>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+
+        
+        <form action="" class="breadcrumb form-search " id="_search_form">
+             &nbsp;角色名称: <input class="input-xlarge" name="roleName"  id="_roleName" type="text" />
+			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
+		</form>
+		
+		
+		
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="rolelist.html">角色列表</a>
+		</li>
+		<li>
+			<a href="roleAdd.html">添加角色</a>
+		</li>
+	</ul>
+	
+		
+
+	<div class="panel panel-default">
+		<table id="_role_table" class="table table-striped">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>id</th>
+					<th>角色名称</th>
+					<th>类型</th>
+					<th>状态</th>
+<!-- 					归属机构 -->
+					<th>创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				
+			</tbody>
+
+		</table>
+
+    <div class="pagination" id="_pagination">
+    
+</div>
+	
+	
+	
+<script type="text/javascript">
+
+//初始化
+$(function() {
+	var param=new Object();	
+	    param.status="0";
+	//初始化数据	
+	pageFn(getContextPath()+"/sys/role/list",param,"get");
+})
+
+
+/**分页回调处理**/
+function callbak_page(returnDatas)
+{
+	var tableHTML = "";
+	var trContext = $("#_role_table");
+	$("#_role_table tbody tr").remove();
+	var returnData = returnDatas.data.items;
+	
+	if(returnData==null){
+	  return;
+	}
+	for (var i = 0; i < returnData.length; i++) {
+	var j=i;
+	//状态处理
+	//var sta=returnData[i].status;
+	var staName="";
+	var operation='<a href="#">查看</a>'
+				   +'&nbsp;&nbsp;<a href="#">修改</a>'
+				   +'&nbsp;&nbsp;<a href="#">删除</a>';
+				   
+	tableHTML += "<tr>" + "<td>"
+				+ (j + 1)
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].id
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].name
+				+ "</td>"										
+				+ "<td>"
+				+ returnData[i].status
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].createTime
+				+ "</td>"						
+				+ "<td>"
+				+operation									
+				+"</td>" 
+				+ "</tr>"
+	
+	}
+	trContext.append(tableHTML);
+
+}
+
+//查询
+$("#_search_submit").click(
+	function(){
+	 var param=getParam();
+	 sendPageRequst(getContextPath()+"/sys/user/list",param);
+	   
+	  // sendGetReq(getContextPath()+"/sys/user/list",param,"");
+});
+
+//获取参数处理
+function getParam()
+{				
+	 var param=new Object();	
+	
+	 var _roleName=$("#_roleName").val();
+	 if(_userName!=""){
+		 param.roleName=_roleName;
+	 }
+	 
+	return param;			 
+}
+
+
+
+
+</script>
+
+</body>
 </html>
