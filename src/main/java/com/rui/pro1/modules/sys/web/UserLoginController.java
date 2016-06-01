@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +13,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -122,8 +124,14 @@ public class UserLoginController extends SysBaseController {
 	       
 	    
 	        try{ 
+	        	
+	        	
+//	        	return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()), 
+//						user.getPassword().substring(16), ByteSource.Util.bytes(salt), getName());
+	        	
 	        	 //构造登陆令牌环  
 		        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
+		        token.setRememberMe(true);
 	        	
 	            //发出登陆请求  
 		        Subject sbuject=SecurityUtils.getSubject();
@@ -168,10 +176,40 @@ public class UserLoginController extends SysBaseController {
 	public void loginPage(HttpServletRequest request, HttpServletResponse response) {
 		// ModelAndView mv = new ModelAndView("/user/save/result");//默认为forward模式  
         // ModelAndView mv = new ModelAndView("redirect:/user/save/result");//redirect模式  
+		
+		
+        Subject sbuject=SecurityUtils.getSubject();
+
+		
+		UsernamePasswordToken token = null;
+		if (!sbuject.isAuthenticated() && sbuject.isRemembered()) 
+		{
+			Object principal = sbuject.getPrincipal();
+			if (null != principal) {
+			String userName = (String) principal;
+//			token = new UsernamePasswordToken(userName,	mem.getLoginPassword());
+//			token.setRememberMe(true);
+//			subject.login(token);// 登录
+			}
+		} else {
+
+		               //省略代码-里面是一个新的token 生成
+		}
+		
+		
+		
         if (WebHelp.isAjAxRequest(request))
 		{
 			response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_001);
 			ResultBean rb = new ResultBean();
+			
+			Cookie[] coi=request.getCookies();
+			for(Cookie c:coi){
+				System.out.println(c);
+				System.out.println("k:"+c.getName()+",age:"+c.getMaxAge()+",v:"+c.getValue()+",p:"+c.getPath()+",Domain："+c.getDomain()+",Version:"+c.getVersion()+",Secure:"+c.getSecure()+",Comment:"+c.getComment());
+
+			}
+			
 			rb.setSuccess(false);
 			rb.setMessageCode(MessageCode.PLASS_LOGIN);
 			rb.setMessage("请登陆系统");

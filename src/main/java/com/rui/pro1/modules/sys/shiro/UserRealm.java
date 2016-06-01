@@ -16,7 +16,6 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rui.pro1.common.utils.spring.SysApplicationContext;
-import com.rui.pro1.modules.sys.constants.SysComm;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.service.IUserLoginService;
@@ -47,7 +46,7 @@ public class UserRealm extends AuthorizingRealm {
 	 * ------------------------------------------------------------------------
 	 * by userName get user info,ok login
 	 * -------------------------------------------------------------------------
-	 */
+	 */                         
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
 		String username = (String) principals.getPrimaryPrincipal();
@@ -70,7 +69,7 @@ public class UserRealm extends AuthorizingRealm {
 
 	/**
 	 * ------------------------------------------------------------------------
-	 * by token get user info,no login 未进行验证
+	 * by token get user info,no login 未进行验证  db user info
 	 * -------------------------------------------------------------------------
 	 */
 	protected AuthenticationInfo doGetAuthenticationInfo(
@@ -100,6 +99,10 @@ public class UserRealm extends AuthorizingRealm {
 		SimpleAuthenticationInfo info=new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), bs,getName());
 		
 		System.out.println(info);
+		
+//		return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()), 
+//				user.getPassword().substring(16), ByteSource.Util.bytes(salt), getName());
+		
 		return info;
 	}
 }

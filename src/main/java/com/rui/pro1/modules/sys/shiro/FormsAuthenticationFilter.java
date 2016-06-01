@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
  * 表单验证
+ * auto  进行处理
  * @author ruiliang
  *
  */

@@ -38,25 +38,33 @@
     <!-- 会话ID生成器 -->
     <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
 
-    <!-- 会话Cookie模板 -->
+    <!-- 会话Cookie模板 秒为单位  默认值是-1，表示关闭浏览器-->
+   <!-- 则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；此特性需要实现了Servlet 2.5 MR6及以上版本的规范的Servlet容器支持； -->
+   <!-- sessionManager.sessionIdCookieEnabled：是否启用/禁用Session Id Cookie，默认是启用的；如果禁用后将不会设置Session Id Cookie，即默认使用了Servlet容器的JSESSIONID，且通过URL重写（URL中的“;JSESSIONID=id”部分）保存Session Id -->
     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="sid"/>
         <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="-1"/>
+        <property name="maxAge" value="60000"/>
     </bean>
 
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="rememberMe"/>
+        <constructor-arg value="rememberMexxxxxx"/>
         <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="2592000"/><!-- 30天 -->
+      <!--   <property name="maxAge" value="2592000"/>30天=2592000 -->
     </bean>
 
     <!-- rememberMe管理器 -->
-    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-        <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）    -->
-        <property name="cipherKey"     value="abcdefgx" />
-        <property name="cookie" ref="rememberMeCookie"/>
-    </bean>
+<!--     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager"> -->
+<!--         <property name="cipherKey"     value="abcdefgx" /> -->
+<!--         <property name="cookie" ref="rememberMeCookie"/> -->
+<!--     </bean> -->
+    
+    <!-- rememberMe管理器 -->  
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cipherKey"
+			value="#{T(org.apache.shiro.codec.Base64).decode('YWJjZGU=')}" />
+		<property name="cookie" ref="rememberMeCookie" />
+	</bean>  
 
     <!-- 会话DAO -->
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
@@ -64,13 +72,13 @@
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
 
-    <!-- 会话验证调度器 -->
+    <!-- 会话验证调度器  milliseconds  30分钟-->
     <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
         <property name="sessionValidationInterval" value="1800000"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
-    <!-- 会话管理器 -->
+    <!-- 会话管理器    30分钟 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="deleteInvalidSessions" value="true"/>
@@ -85,8 +93,8 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="userRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
-        <property name="cacheManager" ref="cacheManager"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
     <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
@@ -106,6 +114,8 @@
     <bean id="sysUserFilter" class="com.rui.pro1.modules.sys.shiro.SysUserFilter"/>
 
     <!-- Shiro的Web过滤器 -->
+    <!-- 访问一般网页，如个人在主页之类的，我们使用user拦截器即可，user拦截器只要用户登录(isRemembered()==true or isAuthenticated()==true)过即可访问成功；
+                    访问特殊网页，如我的订单，提交订单页面，我们使用authc拦截器即可，authc拦截器会判断用户是否是通过Subject.login（isAuthenticated()==true）登录的，如果是才放行，否则会跳转到登录页面叫你重新登录。 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
          <property name="loginUrl" value="/loginPage"/>
@@ -117,15 +127,13 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-	/views/** = anon
-     /login = anon
-     /loginPage = anon
-     
-    /logout = logout
-    /authenticated = authc
-    /** = user,sysUser  
-<!--         /** =anon  -->
-    
+			   /views/** = anon
+		      /login = anon
+		      /loginPage = anon
+		     /logout = logout
+		     /authenticated = authc
+		    /** = user,sysUser  
+		<!--         /** =anon  -->
             </value>
         </property>
     </bean>
