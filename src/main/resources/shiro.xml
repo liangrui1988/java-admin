@@ -44,27 +44,26 @@
     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="sid"/>
         <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="60000"/>
+        <property name="maxAge" value="-1"/>
     </bean>
 
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMexxxxxx"/>
         <property name="httpOnly" value="true"/>
-      <!--   <property name="maxAge" value="2592000"/>30天=2592000 -->
+      <property name="maxAge" value="60"/> <!--  30天=2592000 -->
     </bean>
 
-    <!-- rememberMe管理器 -->
-<!--     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager"> -->
-<!--         <property name="cipherKey"     value="abcdefgx" /> -->
-<!--         <property name="cookie" ref="rememberMeCookie"/> -->
-<!--     </bean> -->
+    <!-- rememberMe管理器 -->    
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
     
     <!-- rememberMe管理器 -->  
-	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-		<property name="cipherKey"
-			value="#{T(org.apache.shiro.codec.Base64).decode('YWJjZGU=')}" />
-		<property name="cookie" ref="rememberMeCookie" />
-	</bean>  
+<!-- 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager"> -->
+<!-- 	        密码索引对称密码密钥用于加密和解密 -->
+<!-- 		<property name="cipherKey"	value="#{T(org.apache.shiro.codec.Base64).decode('YWJjZGVm')}" /> -->
+<!-- 		<property name="cookie" ref="rememberMeCookie" /> -->
+<!-- 	</bean>   -->
 
     <!-- 会话DAO -->
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">

@@ -131,7 +131,7 @@ public class UserLoginController extends SysBaseController {
 	        	
 	        	 //构造登陆令牌环  
 		        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
-		        token.setRememberMe(true);
+		       // token.setRememberMe(true);
 	        	
 	            //发出登陆请求  
 		        Subject sbuject=SecurityUtils.getSubject();
@@ -178,23 +178,26 @@ public class UserLoginController extends SysBaseController {
         // ModelAndView mv = new ModelAndView("redirect:/user/save/result");//redirect模式  
 		
 		
-        Subject sbuject=SecurityUtils.getSubject();
+      //  Subject sbuject=SecurityUtils.getSubject();
 
-		
-		UsernamePasswordToken token = null;
-		if (!sbuject.isAuthenticated() && sbuject.isRemembered()) 
-		{
-			Object principal = sbuject.getPrincipal();
-			if (null != principal) {
-			String userName = (String) principal;
-//			token = new UsernamePasswordToken(userName,	mem.getLoginPassword());
-//			token.setRememberMe(true);
-//			subject.login(token);// 登录
-			}
-		} else {
-
-		               //省略代码-里面是一个新的token 生成
-		}
+       // subject.isAuthenticated()表示用户进行了身份验证登录的，即使有Subject.login进行了登录；
+        //subject.isRemembered()：表示用户是通过记住我登录的，此时可能并不是真正的你（如你的朋友使用你的电脑，或者你的cookie被窃取）在访问的；且两者二选一，即subject.isAuthenticated()==true，则subject.isRemembered()==false；反之一样。
+//		UsernamePasswordToken token = null;
+//		if (!sbuject.isAuthenticated() && sbuject.isRemembered()) 
+//		{
+//			Object principal = sbuject.getPrincipal();
+//			if (null != principal) {
+//			String userName = (String) principal;
+//			System.out.println(userName);
+//			//刷新用户
+////			token = new UsernamePasswordToken(userName,	mem.getLoginPassword());
+////			token.setRememberMe(true);
+////			subject.login(token);// 登录
+//			}
+//		} else {
+//
+//		               //省略代码-里面是一个新的token 生成
+//		}
 		
 		
 		
@@ -217,7 +220,7 @@ public class UserLoginController extends SysBaseController {
 		} else
 		{
 			try {
-				response.sendRedirect(request.getContextPath()+"/views/sysLogin.html");
+				response.sendRedirect(request.getContextPath()+"/views/login.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
