@@ -93,7 +93,8 @@ public class UserLoginController extends SysBaseController {
 //			}
 			Subject subject = SecurityUtils.getSubject();
 			subject.logout();
-
+			 rb.setMessageCode(MessageCode.USER_LOGOUT);
+			 rb.setMessage("退出系统成功");
 		} catch (Exception e) {
 			logger.error("用户登陆异常:UserName:{} ,Message>>>{}",
 					userLoginVo.getUserName(), e.getMessage());

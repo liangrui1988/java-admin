@@ -50,7 +50,7 @@
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMexxxxxx"/>
         <property name="httpOnly" value="true"/>
-      <property name="maxAge" value="60"/> <!--  30天=2592000 -->
+      <property name="maxAge" value="60"/> <!--604800=7  30天=2592000 -->
     </bean>
 
     <!-- rememberMe管理器 -->    
@@ -127,12 +127,13 @@
         <property name="filterChainDefinitions">
             <value>
 			   /views/** = anon
+			   /logout = anon
 		      /login = anon
 		      /loginPage = anon
-		     /logout = logout
 		     /authenticated = authc
-		    /** = user,sysUser  
-		<!--         /** =anon  -->
+		     /sys/** = user,sysUser
+		     /** = user
+<!-- 		    /** = user,sysUser   -->
             </value>
         </property>
     </bean>

@@ -80,16 +80,16 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 	//console.log(XMLHttpRequest);
 	//console.log(resultBean);
 	//alert(resultBean.success);
-//	if(!resultBean.success)
-//	{
-//		if(resultBean.messageCode=="010"||resultBean.messageCode=="002"||resultBean.messageCode=="003")
-//		{
-//			alert(resultBean.message);
-//			window.top.location.href=getContextPath()+"/views/login.html";
-//			return false;
-//		}
-//		alert(resultBean.message);
-//	}
+	if(!resultBean.success)
+	{
+		if(resultBean.messageCode=="010"||resultBean.messageCode=="002"||resultBean.messageCode=="003")
+		{
+			alert(resultBean.message);
+			window.top.location.href=getContextPath()+"/views/login.html";
+			return false;
+		}
+		alert(resultBean.message);
+	}
 	
 	var ajaxRequestHeader = XMLHttpRequest.getResponseHeader("AJAX_REQUEST_HEADER");
 	//alert("ajaxRequestHeader:"+ajaxRequestHeader);

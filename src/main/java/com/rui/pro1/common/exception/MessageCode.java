@@ -17,6 +17,7 @@ public class MessageCode {
 	public static final String ARGUMENT_ILLEGAL = "009";// 系统参数不合法
 
 	public static final String PLASS_LOGIN = "010";// 请登陆系统
+	public static final String USER_LOGOUT = "011";// 退出系统成功
 
 
 	// ---------------------------------------

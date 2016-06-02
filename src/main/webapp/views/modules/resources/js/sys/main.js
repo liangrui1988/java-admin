@@ -75,12 +75,40 @@ $(function(){
 });
 
 function goLogout() {
-    topLoading();
-    $.getJSON(getContextPath() + "/api/authx/logout", {}, function (resultBean, status, xhRequest) {
-        topLoaded();
-        if (!handleAjaxRequest(resultBean, status, xhRequest)) return;
-        top.document.location.href = getContextPath() + "/front/sys/index.html";
-    });
+
+	var result=confirm("确定要退出系统吗？");
+	if(result){
+	    topLoading();
+	    $.post(getContextPath() + "/logout", {}, function (resultBean, status, xhRequest) {
+	        topLoaded();
+	        //alert(JSON.stringify(resultBean));
+	       // alert(resultBean.message);
+	        if(resultBean.success)
+	    	{
+	        	if(resultBean.messageCode=="011"){
+	        		 top.document.location.href = getContextPath() + "/views/login.html";
+	        	}
+	    	}
+	    });
+		
+	}else{
+		
+	}
+	
+	
+//	$.confrim({
+//			title: '确定',
+//			content: '确定要退出系统吗？',
+//			confirm: function(){
+//			           alert('the user clicked confirm');
+//			},
+//			cancel: function(){
+//			   alert('the user clicked cancel')
+//			}
+//		});
+	
+	
+
 }
 
 //构建菜单树
@@ -118,7 +146,7 @@ var setting = {
             } else {
             	var randomNum = Math.floor(Math.random() * (182014 + 1));
             	if(typeof(treeNode.href) == 'undefined' || !treeNode.href){
-            		demoIframe.attr("src", getContextPath() + "/front/sys/home.html?vNum=" + randomNum);
+            		demoIframe.attr("src", getContextPath() + "/views/home.html?vNum=" + randomNum);
             		return;
             	}
             	if(treeNode.href.lastIndexOf(".html")>0)
