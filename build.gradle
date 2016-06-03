@@ -95,12 +95,24 @@ dependencies {
 		compile "org.apache.shiro:shiro-spring:${ShiroVersion}"
 		compile 'org.sitemesh:sitemesh:3.0.1'
 		//compile 'net.sf.ehcache:ehcache:2.10.1'
+		//compile group: 'com.octo.captcha', name: 'jcaptcha', version: '1.0'
+		compile group: 'com.octo.captcha', name: 'jcaptcha-all', version: '1.0-RC6'
+		//compile 'com.octo.captcha:jcaptcha:2.0-alpha-1'
+		//compile 'com.octo.captcha:jcaptcha-integration-simple-servlet:2.0-alpha-1'
+	
 
 		
 
 
 		
 }
+
+//dependencies {
+	//cargo('org.codehaus.cargo:cargo-ant:1.3.1') {
+	//transitive = false
+	//}
+	// 选择性的声明一些需要的库
+//}
 
 //Java 插件已经向项目添加了 compileJava任务和processResources任务，并且配置了这两个任务的destinationDir属性
 // 更改插件的默认设置

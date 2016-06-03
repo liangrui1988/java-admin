@@ -1,0 +1,44 @@
+排除传递依赖
+
+Gradle允许你完全控制传递依赖，你可以选择排除全部的传递依赖也可以排除指定的依赖，假设你不想使用UberJar传递的xml-api的版本而想声明一个不同版本，你可以使用exclude方法来排除它：
+
+dependencies {
+	cargo('org.codehaus.cargo:cargo-ant:1.3.1') {
+		exclude group: 'xml-apis', module: 'xml-apis'
+	}
+	cargo 'xml-apis:xml-apis:2.0.2'
+}
+exclude属性值和正常的依赖声明不太一样，你只需要声明group和(或)module，Gradle不允许你只排除指定版本的依赖。
+
+有时候仓库中找不到项目依赖的传递依赖，这会导致构建失败，Gradle允许你使用transitive属性来排除所有的传递依赖：
+
+dependencies {
+	cargo('org.codehaus.cargo:cargo-ant:1.3.1') {
+	transitive = false
+	}
+	// 选择性的声明一些需要的库
+}
+动态版本声明
+
+如果你想使用一个依赖的最新版本，你可以使用latest.integration，比如声明 Cargo Ant tasks的最新版本，你可以这样写org.codehaus .cargo:cargo-ant:latest-integration，你也可以用一个+号来动态的声明：
+
+dependencies {
+	//依赖最新的1.x版本
+	cargo 'org.codehaus.cargo:cargo-ant:1.+'
+}
+Gradle的dependencies任务可以清晰的看到选择了哪个版本，这里选择了1.3.1版本：
+
+$ gradle –q dependencies
+------------------------------------------------------------
+Root project
+------------------------------------------------------------
+Listing 5.4 Excluding a single dependency
+Listing 5.5 Excluding all transitive dependencies
+Listing 5.6 Declaring a dependency on the latest Cargo 1.x version
+Exclusions can be
+declared in a shortcut
+or map notation.
+120 CHAPTER 5 Dependency management
+cargo - Classpath for Cargo Ant tasks.
+\--- org.codehaus.cargo:cargo-ant:1.+ -> 1.3.1
+\--- ...
