@@ -9,6 +9,12 @@ import org.springframework.cache.support.SimpleValueWrapper;
 
 import java.util.*;
 
+/**
+ * spring 配置已注入
+ * 
+ * @author ruiliang
+ *
+ */
 public class SpringCacheManagerWrapper implements CacheManager {
 
 	private org.springframework.cache.CacheManager cacheManager;
@@ -18,12 +24,21 @@ public class SpringCacheManagerWrapper implements CacheManager {
 		this.cacheManager = cacheManager;
 	}
 
+	/***
+	 * 获取cache 缓存
+	 */
 	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
 		org.springframework.cache.Cache springCache = cacheManager
 				.getCache(name);
 		return new SpringCacheWrapper(springCache);
 	}
 
+	/**
+	 * 用srping cache接口进行 包装
+	 * 
+	 * @author ruiliang
+	 *
+	 */
 	static class SpringCacheWrapper implements Cache {
 		private org.springframework.cache.Cache springCache;
 

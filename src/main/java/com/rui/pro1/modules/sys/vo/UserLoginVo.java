@@ -4,6 +4,7 @@ public class UserLoginVo {
 	private String userName;
 	private String password;
 	private String rememberMe;
+	private String captcha;
 	
 
 	public String getUserName() {
@@ -30,6 +31,17 @@ public class UserLoginVo {
 
 	public void setRememberMe(String rememberMe) {
 		this.rememberMe = rememberMe;
+	}
+	
+	
+	
+
+	public String getCaptcha() {
+		return captcha;
+	}
+
+	public void setCaptcha(String captcha) {
+		this.captcha = captcha;
 	}
 
 	@Override

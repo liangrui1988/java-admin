@@ -1,10 +1,11 @@
 package com.rui.pro1.modules.sys.web;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,7 +14,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -26,17 +27,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.rui.pro1.common.bean.ResultBean;
+import com.rui.pro1.common.cache.EhCacheKeys;
+import com.rui.pro1.common.cache.SpringCacheManagerWrapper;
 import com.rui.pro1.common.constants.RespHeaderConstans;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.common.utils.http.WebHelp;
+import com.rui.pro1.common.utils.spring.SysApplicationContext;
 import com.rui.pro1.modules.sys.annotations.CurrentUser;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.User;
+import com.rui.pro1.modules.sys.exception.CaptchaErrorException;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IUserLoginService;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.shiro.TokenBuild;
+import com.rui.pro1.modules.sys.shiro.jcaptcha.JCaptcha;
 import com.rui.pro1.modules.sys.vo.UserLoginVo;
 
 @Controller
@@ -110,7 +116,7 @@ public class UserLoginController extends SysBaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="login") //, method=RequestMethod.POST
-	public ResultBean login2(HttpServletRequest request, HttpServletResponse req, User loginUser) {
+	public ResultBean login2(HttpServletRequest request, HttpServletResponse req, UserLoginVo loginUser) {
 	     ResultBean rb = new ResultBean();
 	     
 	     if(loginUser==null||StringUtils.isBlank(loginUser.getUserName())||StringUtils.isBlank(loginUser.getPassword()))
@@ -119,13 +125,32 @@ public class UserLoginController extends SysBaseController {
 	        return rb;
 	     }
 	     
+	     //是否需要验证码
+	      //or springCacheManager
+	     SpringCacheManagerWrapper cacheManager= (SpringCacheManagerWrapper) SysApplicationContext.getBean("cacheManager");
+	     Cache<String, AtomicInteger> cache= cacheManager.getCache(EhCacheKeys.LONGIN_LOG_CACHE);
+	     AtomicInteger loginCount=cache.get(loginUser.getUserName());
+	     if(loginCount.get()>=5)
+	     {
+	    	 if(StringUtils.isBlank(loginUser.getCaptcha())){
+		    	 rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA,"请输入验证码","");
+		    	 return rb;
+		     }
+		 
+		 	 boolean captchaResult=JCaptcha.validateResponse(request,loginUser.getCaptcha());
+		     if(!captchaResult)
+		     {
+		    	 System.out.println(captchaResult);
+		    	 rb = new ResultBean(false,MessageCode.CAPTCHA_ERROR,"验证码不正确","");
+		    	 return rb;
+		     }
+	     }
 	     
 		 boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM); 
 	     String host = request.getRemoteHost();  
-	       
 	    
 	        try{ 
-	        	
+	        
 	        	
 //	        	return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()), 
 //						user.getPassword().substring(16), ByteSource.Util.bytes(salt), getName());
@@ -156,11 +181,10 @@ public class UserLoginController extends SysBaseController {
 	            rb = new ResultBean(false,MessageCode.SYS_NO_USER,"账号不存在!","");
 	        }catch (IncorrectCredentialsException e){  
 	            rb = new ResultBean(false,MessageCode.SYS_NO_USER_AND_PASSWORD,"用户或密码错误","");
+	        }catch (CaptchaErrorException e){  
+	            rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA," 请输入验证码","");
 	        }catch (ExcessiveAttemptsException e) {  
 	            rb = new ResultBean(false,MessageCode.SYS_LOG_IN_TOO_MANY,"账户错误次数过多,暂时禁止登录!","");
-//	        }catch (ValidCodeException e){  
-	      //      rb = new ResultBean(false,ErrorCode.SYS_VERIFICATION_CODE_ERROR,"验证码输入错误","");
-
 	        }catch (Exception e){  
 	            rb = new ResultBean(false,MessageCode.SYS_ERROR,"系统异常!");
 	        }  
@@ -200,20 +224,28 @@ public class UserLoginController extends SysBaseController {
 //		               //省略代码-里面是一个新的token 生成
 //		}
 		
+		//获取用户信息
+	    Subject sbuject=SecurityUtils.getSubject();
+		Object principal = sbuject.getPrincipal();
+		System.out.println(principal);
 		
+		//1、设置验证码是否开启属性，页面可以根据该属性来决定是否显示验证码  
+       // request.setAttribute("jcaptchaEbabled", jcaptchaEbabled);  
 		
         if (WebHelp.isAjAxRequest(request))
 		{
 			response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_001);
 			ResultBean rb = new ResultBean();
 			
-			Cookie[] coi=request.getCookies();
-			for(Cookie c:coi){
-				System.out.println(c);
-				System.out.println("k:"+c.getName()+",age:"+c.getMaxAge()+",v:"+c.getValue()+",p:"+c.getPath()+",Domain："+c.getDomain()+",Version:"+c.getVersion()+",Secure:"+c.getSecure()+",Comment:"+c.getComment());
-
-			}
-			
+//	     Cookie[] coi=request.getCookies();
+//			for(Cookie c:coi){
+//				System.out.println(c);
+//				System.out.println("k:"+c.getName()+",age:"+c.getMaxAge()+",v:"+c.getValue()+",p:"+c.getPath()+",Domain："+c.getDomain()+",Version:"+c.getVersion()+",Secure:"+c.getSecure()+",Comment:"+c.getComment());
+//
+//			}
+			//是否显示验证码
+			Map<String,String> map=new HashMap<String,String>();
+			map.put("isCaptcha", "true");
 			rb.setSuccess(false);
 			rb.setMessageCode(MessageCode.PLASS_LOGIN);
 			rb.setMessage("请登陆系统");

@@ -18,11 +18,18 @@ public class MessageCode {
 
 	public static final String PLASS_LOGIN = "010";// 请登陆系统
 	public static final String USER_LOGOUT = "011";// 退出系统成功
+	
+	public static final String PLASS_CAPTCHA = "012";// 请输入验证码
+	public static final String CAPTCHA_ERROR = "013";// 验证码不正确
 
 
 	// ---------------------------------------
 	// ----------------用户操作消息码--------
 	// ---------------------------------------
-	public static final String USER_EXISTS = "100";//用户已存在
+	public static final String USER_EXISTS = "100";// 用户已存在
+
+	// ---------------------------------------
+	// ----------------xx业务操作消息码--------
+	// ---------------------------------------
 
 }

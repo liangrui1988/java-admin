@@ -107,6 +107,14 @@
 		<dispatcher>request</dispatcher>
 	</filter-mapping>
 
+	<filter>  
+		  <filter-name>JCaptchaFilter</filter-name>  
+		  <filter-class>com.rui.pro1.modules.sys.shiro.jcaptcha.JCaptchaFilter</filter-class>  
+	 </filter>
+	<filter-mapping>  
+	    <filter-name>JCaptchaFilter</filter-name>  
+	    <url-pattern>/jcaptcha.jpg</url-pattern>  
+	</filter-mapping>  
 
 
 <!-- 	<filter> -->

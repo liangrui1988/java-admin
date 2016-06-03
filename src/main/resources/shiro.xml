@@ -12,7 +12,7 @@
    
 	<import resource="cache.xml"/>
 
-    <!-- 缓存管理器 -->
+    <!-- 缓存管理器  封装到shiro-->
     <bean id="cacheManager" class="com.rui.pro1.common.cache.SpringCacheManagerWrapper">
         <property name="cacheManager" ref="springCacheManager"/>
     </bean>
@@ -129,6 +129,7 @@
 			   /views/** = anon
 			   /logout = anon
 		      /login = anon
+		      /jcaptcha.jpg=anon
 		      /loginPage = anon
 		     /authenticated = authc
 		     /sys/** = user,sysUser
