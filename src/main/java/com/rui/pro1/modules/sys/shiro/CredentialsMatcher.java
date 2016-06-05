@@ -8,6 +8,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 
 import com.rui.pro1.common.cache.EhCacheKeys;
+import com.rui.pro1.modules.sys.constants.SysComm;
 import com.rui.pro1.modules.sys.exception.CaptchaErrorException;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,10 +39,10 @@ public class CredentialsMatcher extends HashedCredentialsMatcher {
 			userLonginLogCache.put(username, loginCount);
 		}
 		// 登陆限制
-		if (loginCount.incrementAndGet() >=5) {
+		if (loginCount.incrementAndGet() >=SysComm.USER_LOGIN_COUNT) {
 			throw new CaptchaErrorException();
 		}
-		if (loginCount.incrementAndGet() >=100) {
+		if (loginCount.incrementAndGet() >=SysComm.USER_LOGIN_MAX_COUNT_LOCK) {
 			throw new ExcessiveAttemptsException();
 		}
 		//

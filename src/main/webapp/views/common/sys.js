@@ -85,6 +85,10 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 		if(resultBean.messageCode=="010"||resultBean.messageCode=="002"||resultBean.messageCode=="003")
 		{
 			alert(resultBean.message);
+//			if(resultBean.data!=""&&resultBean.data.isCaptcha=="1"){
+//				//需要验证码
+//			}
+			
 			window.top.location.href=getContextPath()+"/views/login.html";
 			return false;
 		}
@@ -99,6 +103,10 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 		{
 			alert('您未登录或会话已过期');
 			window.top.location.href=getContextPath()+"/views/login.html";
+			return false;
+		}else if(ajaxRequestHeader=="002"){
+			alert('请输入验证码');
+			window.top.location.href=getContextPath()+"/views/login.html?isCaptcha=1";
 			return false;
 		}else if(ajaxRequestHeader=="002"){
 			alert('您没有此模块的访问权限');
@@ -290,7 +298,7 @@ function initXytItem()
  * 例子：http://abc.com?action=update&id=987654321789
  * var action = getUrlParam("action"); //返回action的值为"update"
  * 
- * Author: 许继俊
+ * Author: 
  * 
  * Param: name: 要获取的参数名字
  * return：返回参数的值

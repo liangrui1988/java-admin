@@ -35,6 +35,7 @@ import com.rui.pro1.common.utils.http.WebHelp;
 import com.rui.pro1.common.utils.spring.SysApplicationContext;
 import com.rui.pro1.modules.sys.annotations.CurrentUser;
 import com.rui.pro1.modules.sys.bean.UserBean;
+import com.rui.pro1.modules.sys.constants.SysComm;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.exception.CaptchaErrorException;
@@ -112,7 +113,7 @@ public class UserLoginController extends SysBaseController {
 
 
 	/**
-	 * 用户登录  代码登陆方式 测试
+	 * 用户登录  代码登陆方式
 	 */
 	@ResponseBody
 	@RequestMapping(value="login") //, method=RequestMethod.POST
@@ -125,69 +126,57 @@ public class UserLoginController extends SysBaseController {
 	        return rb;
 	     }
 	     
-	     //是否需要验证码
-	      //or springCacheManager
-	     SpringCacheManagerWrapper cacheManager= (SpringCacheManagerWrapper) SysApplicationContext.getBean("cacheManager");
-	     Cache<String, AtomicInteger> cache= cacheManager.getCache(EhCacheKeys.LONGIN_LOG_CACHE);
-	     AtomicInteger loginCount=cache.get(loginUser.getUserName());
-	     if(loginCount.get()>=5)
-	     {
-	    	 if(StringUtils.isBlank(loginUser.getCaptcha())){
-		    	 rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA,"请输入验证码","");
-		    	 return rb;
-		     }
-		 
-		 	 boolean captchaResult=JCaptcha.validateResponse(request,loginUser.getCaptcha());
-		     if(!captchaResult)
-		     {
-		    	 System.out.println(captchaResult);
-		    	 rb = new ResultBean(false,MessageCode.CAPTCHA_ERROR,"验证码不正确","");
-		    	 return rb;
-		     }
+	     //验证码处理
+	     ResultBean rbBean=capthchaProcess(request,loginUser.getUserName(),loginUser.getCaptcha());
+	     if(rbBean!=null){
+	    	 return rbBean;
 	     }
 	     
 		 boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM); 
 	     String host = request.getRemoteHost();  
 	    
-	        try{ 
-	        
-	        	
-//	        	return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()), 
-//						user.getPassword().substring(16), ByteSource.Util.bytes(salt), getName());
-	        	
-	        	 //构造登陆令牌环  
-		        TokenBuild token = new TokenBuild(loginUser.getUserName(), loginUser.getPassword().toCharArray(), rememberMe,host);  
-		       // token.setRememberMe(true);
-	        	
-	            //发出登陆请求  
-		        Subject sbuject=SecurityUtils.getSubject();
-		        sbuject.login(token);  
-		        
-	            //登陆成功  
-	           // HttpSession session = request.getSession(true);  
-	            try {  
-	            	UserBean user=	userService.getUser(loginUser.getUserName());
-	        		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
-	        		if(menus!=null){
-		        		user.setMenus(menus);
-	        		}
-	        		rb.setData(user);
-	            } catch (Exception e) {  
-	                logger.error(e.getMessage(), e);  
-	                throw new Exception(e);
-	            }  
-	        
-	        }catch (UnknownAccountException e){  
-	            rb = new ResultBean(false,MessageCode.SYS_NO_USER,"账号不存在!","");
-	        }catch (IncorrectCredentialsException e){  
-	            rb = new ResultBean(false,MessageCode.SYS_NO_USER_AND_PASSWORD,"用户或密码错误","");
-	        }catch (CaptchaErrorException e){  
-	            rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA," 请输入验证码","");
-	        }catch (ExcessiveAttemptsException e) {  
-	            rb = new ResultBean(false,MessageCode.SYS_LOG_IN_TOO_MANY,"账户错误次数过多,暂时禁止登录!","");
-	        }catch (Exception e){  
-	            rb = new ResultBean(false,MessageCode.SYS_ERROR,"系统异常!");
-	        }  
+		try {
+			// return new SimpleAuthenticationInfo(new Principal(user,
+			// token.isMobileLogin()),
+			// user.getPassword().substring(16), ByteSource.Util.bytes(salt),
+			// getName());
+
+			// 构造登陆令牌环
+			TokenBuild token = new TokenBuild(loginUser.getUserName(),
+					loginUser.getPassword().toCharArray(), rememberMe, host);
+
+			// 发出登陆请求
+			Subject sbuject = SecurityUtils.getSubject();
+			sbuject.login(token);
+
+			// 登陆成功
+			// HttpSession session = request.getSession(true);
+			try {
+				UserBean user = userService.getUser(loginUser.getUserName());
+				List<Menu> menus = userService.getUserMenus(loginUser
+						.getUserName());
+				if (menus != null) {
+					user.setMenus(menus);
+				}
+				rb.setData(user);
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+				throw new Exception(e);
+			}
+
+		} catch (UnknownAccountException e) {
+			rb = new ResultBean(false, MessageCode.SYS_NO_USER, "账号不存在!", "");
+		} catch (IncorrectCredentialsException e) {
+			rb = new ResultBean(false, MessageCode.SYS_NO_USER_AND_PASSWORD,
+					"用户或密码错误", "");
+		} catch (CaptchaErrorException e) {
+			rb = new ResultBean(false, MessageCode.PLASS_CAPTCHA, " 请输入验证码", "");
+		} catch (ExcessiveAttemptsException e) {
+			rb = new ResultBean(false, MessageCode.SYS_LOG_IN_TOO_MANY,
+					"账户错误次数过多,暂时禁止登录!", "");
+		} catch (Exception e) {
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "系统异常!");
+		}
 	        return rb;  
 	}
 	
@@ -199,67 +188,91 @@ public class UserLoginController extends SysBaseController {
 	 */
 	@RequestMapping(value="loginPage") //, method=RequestMethod.POST
 	public void loginPage(HttpServletRequest request, HttpServletResponse response) {
-		// ModelAndView mv = new ModelAndView("/user/save/result");//默认为forward模式  
-        // ModelAndView mv = new ModelAndView("redirect:/user/save/result");//redirect模式  
-		
-		
-      //  Subject sbuject=SecurityUtils.getSubject();
+		// ModelAndView mv = new
+		// ModelAndView("/user/save/result");//默认为forward模式
+		// ModelAndView mv = new
+		// ModelAndView("redirect:/user/save/result");//redirect模式
+		// Subject sbuject=SecurityUtils.getSubject();
+		// subject.isAuthenticated()表示用户进行了身份验证登录的，即使有Subject.login进行了登录；
+		// subject.isRemembered()：表示用户是通过记住我登录的，此时可能并不是真正的你（如你的朋友使用你的电脑，或者你的cookie被窃取）在访问的；且两者二选一，即subject.isAuthenticated()==true，则subject.isRemembered()==false；反之一样。
+		// UsernamePasswordToken token = null;
+		// if (!sbuject.isAuthenticated() && sbuject.isRemembered())
+		// {
+		// Object principal = sbuject.getPrincipal();
+		// if (null != principal) {
+		// String userName = (String) principal;
+		// System.out.println(userName);
+		// //刷新用户
+		// token = new UsernamePasswordToken(userName, mem.getLoginPassword());
+		// token.setRememberMe(true);
+		// subject.login(token);// 登录
+		// }
+		// } else {
+		//
+		// //省略代码-里面是一个新的token 生成
+		// }
 
-       // subject.isAuthenticated()表示用户进行了身份验证登录的，即使有Subject.login进行了登录；
-        //subject.isRemembered()：表示用户是通过记住我登录的，此时可能并不是真正的你（如你的朋友使用你的电脑，或者你的cookie被窃取）在访问的；且两者二选一，即subject.isAuthenticated()==true，则subject.isRemembered()==false；反之一样。
-//		UsernamePasswordToken token = null;
-//		if (!sbuject.isAuthenticated() && sbuject.isRemembered()) 
-//		{
-//			Object principal = sbuject.getPrincipal();
-//			if (null != principal) {
-//			String userName = (String) principal;
-//			System.out.println(userName);
-//			//刷新用户
-////			token = new UsernamePasswordToken(userName,	mem.getLoginPassword());
-////			token.setRememberMe(true);
-////			subject.login(token);// 登录
-//			}
-//		} else {
-//
-//		               //省略代码-里面是一个新的token 生成
-//		}
-		
 		//获取用户信息
 	    Subject sbuject=SecurityUtils.getSubject();
 		Object principal = sbuject.getPrincipal();
-		System.out.println(principal);
+		//System.out.println(principal);
 		
-		//1、设置验证码是否开启属性，页面可以根据该属性来决定是否显示验证码  
-       // request.setAttribute("jcaptchaEbabled", jcaptchaEbabled);  
+		  Map<String,String> map=new HashMap<String,String>();
+	     SpringCacheManagerWrapper cacheManager= (SpringCacheManagerWrapper) SysApplicationContext.getBean("cacheManager");
+	     Cache<String, AtomicInteger> cache= cacheManager.getCache(EhCacheKeys.LONGIN_LOG_CACHE);
+	     AtomicInteger loginCount=cache.get(principal.toString());
+	     if(loginCount.get()>=SysComm.USER_LOGIN_COUNT)
+	     {
+	    	// rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA,"请输入验证码","");
+    		//是否显示验证码
+			map.put("isCaptcha", "1");
+					
+	     }
+	     
+	     
 		
+	
         if (WebHelp.isAjAxRequest(request))
 		{
-			response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_001);
-			ResultBean rb = new ResultBean();
+        	
+			// Cookie[] coi=request.getCookies();
+			// for(Cookie c:coi){
+			// System.out.println(c);
+			// System.out.println("k:"+c.getName()+",age:"+c.getMaxAge()+",v:"+c.getValue()+",p:"+c.getPath()+",Domain："+c.getDomain()+",Version:"+c.getVersion()+",Secure:"+c.getSecure()+",Comment:"+c.getComment());
+			// }
+        	
+        	
+        	ResultBean rb = new ResultBean();
+        	
+        	if(map.containsKey("isCaptcha")){
+        		response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_004);
+    			rb.setSuccess(false);
+    			rb.setMessageCode(MessageCode.PLASS_CAPTCHA);
+    			rb.setMessage("请输入验证码");
+			}else{
+				response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_001);
+				rb.setSuccess(false);
+				rb.setMessageCode(MessageCode.PLASS_LOGIN);
+				rb.setMessage("请登陆系统");
+			}
+        	
 			
-//	     Cookie[] coi=request.getCookies();
-//			for(Cookie c:coi){
-//				System.out.println(c);
-//				System.out.println("k:"+c.getName()+",age:"+c.getMaxAge()+",v:"+c.getValue()+",p:"+c.getPath()+",Domain："+c.getDomain()+",Version:"+c.getVersion()+",Secure:"+c.getSecure()+",Comment:"+c.getComment());
-//
-//			}
-			//是否显示验证码
-			Map<String,String> map=new HashMap<String,String>();
-			map.put("isCaptcha", "true");
-			rb.setSuccess(false);
-			rb.setMessageCode(MessageCode.PLASS_LOGIN);
-			rb.setMessage("请登陆系统");
 			responseResultBean(request, response, rb);
 		} else
 		{
 			try {
-				response.sendRedirect(request.getContextPath()+"/views/login.html");
+				if(map.containsKey("isCaptcha")){
+					response.sendRedirect(request.getContextPath()+"/views/login.html?isCaptcha=1");
+				}else{
+					response.sendRedirect(request.getContextPath()+"/views/login.html");
+
+				}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-        // return "redirect:/views/sysLogin.html";
-
+        
 	}
 
 	//@RequestMapping(value = "/login")
@@ -291,12 +304,43 @@ public class UserLoginController extends SysBaseController {
 		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
 		//model.addAttribute("menus", menus);
 		System.out.println(menus);
-		return "index";
+		return "/views/main.html";
 	}
 
 	@RequestMapping("/welcome")
 	public String welcome() {
 		return "welcome";
+	}
+	
+	
+	
+	private ResultBean capthchaProcess(HttpServletRequest request,String userName,String captcha)
+	
+	{
+		ResultBean rb=null;
+		
+	     //是否需要验证码
+	      //or springCacheManager
+	     SpringCacheManagerWrapper cacheManager= (SpringCacheManagerWrapper) SysApplicationContext.getBean("cacheManager");
+	     Cache<String, AtomicInteger> cache= cacheManager.getCache(EhCacheKeys.LONGIN_LOG_CACHE);
+	     AtomicInteger loginCount=cache.get(userName);
+	     if(loginCount.get()>=SysComm.USER_LOGIN_COUNT)
+	     {
+	    	 if(StringUtils.isBlank(captcha)){
+		    	 rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA,"请输入验证码","");
+		    	 return rb;
+		     }
+		 
+		 	 boolean captchaResult=JCaptcha.validateResponse(request,captcha);
+		     if(!captchaResult)
+		     {
+		    	 System.out.println(captchaResult);
+		    	 rb = new ResultBean(false,MessageCode.CAPTCHA_ERROR,"验证码不正确","");
+		    	 return rb;
+		     }
+	     }
+	     
+	     return rb;
 	}
 	
 	private void responseResultBean(HttpServletRequest request, HttpServletResponse response, ResultBean rb)

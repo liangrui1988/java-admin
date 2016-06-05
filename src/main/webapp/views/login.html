@@ -99,7 +99,7 @@
 				</div>
 				
 				<br/><br/>
-				<div class="control-group">
+				<div class="control-group" id="_captcha_div" style="display: none;">
 					 <label id="control-label" for="captcha"><span id="captcha_sapn" style="color: red;">请输入验证码：</span></label>
 					 <input  type="text" name="captcha" id="_captchaCode" style="width: 100px"/>  
 				    <img  class="jcaptcha-btn jcaptcha-img" id="_captchaCode_img" src="/jcaptcha.jpg" onclick="this.src='/jcaptcha.jpg?d='+new Date()*1" title="点击更换验证码"/>  
@@ -134,86 +134,113 @@
 
 
 <script type="text/javascript">
-		$("#_login").click(function() {
-			var username = $("#_username").val();
-			var password = $("#_password").val();
-			var rememberme = $("#_rememberme").is(':checked');
-			var captcha = $("#_captchaCode").val();
 
-			
-			//alert(rememberme);
-			if(username=="")
-			{
-				$("#_username_sapn").html('请输入用户名');
-				return;
-			}else
-			{
-				$("#_username_sapn").html('');
-			}
-			
-			if(password=="")
-			{
-				$("#_password_sapn").html('请输入密码');
-				return;
-			}else
-			{
-				$("#_password_sapn").html('');
-			}
-			
-			
-			$.ajax({
-				url : getContextPath()+'/login',
-				data : {
-					'userName' : username,
-					'password' : password,
-					'rememberMe' : rememberme,
-					'captcha':captcha
-				},
-				type : 'post',
-				cache : false,
-				dataType : 'json',
-				success : function(data,success) {
-					//alert(success);
-					//alert(JSON.stringify(data));
-					
-					
-					 if(success!="success")
-					  {
-						   alert("请求系统异常");
-					       return ;
-					  }
-					
-					 
-					 if(data.success && data.messageCode == "001")
-					 {
-						 window.location.href = getContextPath()+"/views/main.html";
-						 return;
-					 }
-					 
-					
-					 if(data.messageCode == "012" || data.messageCode == "013")
-					 {//验证码不正确
-						 $('#_captchaCode_img').trigger("click");
-						 $("#captcha_sapn").text(data.message);
-					     return;
-					 }else{
-						 alert(data.message);
-					 }
-					
-					
-						
-					
-					
-// 					if(resolveResultBeanIsError(data,success)){
-// 						window.location.href = getContextPath()+"/views/main.html";
-// 					}
 
-				},
-				error : function() {
-					alert("异常！");
-				}
-			});
+	$(function(){
+		initLogin();
+		
+	})
+
+
+
+	function initLogin(){
+		var isCaptcha=getUrlParam('isCaptcha');
+		if(isCaptcha=="1"){
+			$("#_captcha_div").css("display","block");
+		}
+		//$("#_captcha_div").css("display","none");
+		//$("#_captcha_div").hide(); block
+	}
+
+	$("#_login").click(function() {
+		var username = $("#_username").val();
+		var password = $("#_password").val();
+		var rememberme = $("#_rememberme").is(':checked');
+		
+		
+		//验证码处理
+		var capthcaDisplay=$("#_captcha_div").attr("display");
+     	alert(capthcaDisplay);
+     	var captcha = $("#_captchaCode").val();
+     	if(capthcaDisplay=="block")
+     	{
+     	   if(captcha==""){
+     		   alert("请输入验证码");
+     		   return;
+     	   }	
+     	}else{
+     		captcha="";
+     	}
+		
+		
+
+		
+		//alert(rememberme);
+		if(username=="")
+		{
+			$("#_username_sapn").html('请输入用户名');
+			return;
+		}else
+		{
+			$("#_username_sapn").html('');
+		}
+		
+		if(password=="")
+		{
+			$("#_password_sapn").html('请输入密码');
+			return;
+		}else
+		{
+			$("#_password_sapn").html('');
+		}
+		
+		
+		$.ajax({
+			url : getContextPath()+'/login',
+			data : {
+				'userName' : username,
+				'password' : password,
+				'rememberMe' : rememberme,
+				'captcha':captcha
+			},
+			type : 'post',
+			cache : false,
+			dataType : 'json',
+			success : function(data,success) {
+				//alert(success);
+				//alert(JSON.stringify(data));
+				
+				
+				 if(success!="success")
+				  {
+					   alert("请求系统异常");
+				       return ;
+				  }
+				
+				 
+				 if(data.success && data.messageCode == "001")
+				 {
+					 window.location.href = getContextPath()+"/views/main.html";
+					 return;
+				 }
+				 
+				
+				 if(data.messageCode == "012" || data.messageCode == "013")
+				 {    //验证码处理
+					 $("#_captcha_div").css("display","block");
+					 $('#_captchaCode_img').trigger("click");
+					 $("#captcha_sapn").text(data.message);
+				     return;
+				 }else{
+					 alert(data.message);
+				 }
+
+			},
+			error : function() {
+				alert("异常！");
+			}
 		});
+	});
 </script>
 
 
