@@ -85,10 +85,6 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 		if(resultBean.messageCode=="010"||resultBean.messageCode=="002"||resultBean.messageCode=="003")
 		{
 			alert(resultBean.message);
-//			if(resultBean.data!=""&&resultBean.data.isCaptcha=="1"){
-//				//需要验证码
-//			}
-			
 			window.top.location.href=getContextPath()+"/views/login.html";
 			return false;
 		}
@@ -104,7 +100,7 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 			alert('您未登录或会话已过期');
 			window.top.location.href=getContextPath()+"/views/login.html";
 			return false;
-		}else if(ajaxRequestHeader=="002"){
+		}else if(ajaxRequestHeader=="004"){
 			alert('请输入验证码');
 			window.top.location.href=getContextPath()+"/views/login.html?isCaptcha=1";
 			return false;

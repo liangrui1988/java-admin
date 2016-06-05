@@ -39,9 +39,9 @@ public class CredentialsMatcher extends HashedCredentialsMatcher {
 			userLonginLogCache.put(username, loginCount);
 		}
 		// 登陆限制
-		if (loginCount.incrementAndGet() >=SysComm.USER_LOGIN_COUNT) {
-			throw new CaptchaErrorException();
-		}
+//		if (loginCount.incrementAndGet() >=SysComm.USER_LOGIN_COUNT) {
+//			throw new CaptchaErrorException();
+//		}
 		if (loginCount.incrementAndGet() >=SysComm.USER_LOGIN_MAX_COUNT_LOCK) {
 			throw new ExcessiveAttemptsException();
 		}

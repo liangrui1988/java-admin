@@ -212,24 +212,26 @@ public class UserLoginController extends SysBaseController {
 		// //省略代码-里面是一个新的token 生成
 		// }
 
-		//获取用户信息
+		//获取用户信息 好像没必要 null?
 	    Subject sbuject=SecurityUtils.getSubject();
 		Object principal = sbuject.getPrincipal();
-		//System.out.println(principal);
+//		System.out.println(principal);
+		Map<String,String> map=new HashMap<String,String>();
+		if (principal!=null&&!"".equals(principal))
+		{
+		     SpringCacheManagerWrapper cacheManager= (SpringCacheManagerWrapper) SysApplicationContext.getBean("cacheManager");
+		     Cache<String, AtomicInteger> cache= cacheManager.getCache(EhCacheKeys.LONGIN_LOG_CACHE);
+		     AtomicInteger loginCount=cache.get(principal.toString());
+		     if(loginCount!=null&&loginCount.get()>=SysComm.USER_LOGIN_COUNT)
+		     {
+		    	// rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA,"请输入验证码","");
+	    		//是否显示验证码
+				map.put("isCaptcha", "1");
+						
+		     }
+			
+		}
 		
-		  Map<String,String> map=new HashMap<String,String>();
-	     SpringCacheManagerWrapper cacheManager= (SpringCacheManagerWrapper) SysApplicationContext.getBean("cacheManager");
-	     Cache<String, AtomicInteger> cache= cacheManager.getCache(EhCacheKeys.LONGIN_LOG_CACHE);
-	     AtomicInteger loginCount=cache.get(principal.toString());
-	     if(loginCount.get()>=SysComm.USER_LOGIN_COUNT)
-	     {
-	    	// rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA,"请输入验证码","");
-    		//是否显示验证码
-			map.put("isCaptcha", "1");
-					
-	     }
-	     
-	     
 		
 	
         if (WebHelp.isAjAxRequest(request))
@@ -324,7 +326,7 @@ public class UserLoginController extends SysBaseController {
 	     SpringCacheManagerWrapper cacheManager= (SpringCacheManagerWrapper) SysApplicationContext.getBean("cacheManager");
 	     Cache<String, AtomicInteger> cache= cacheManager.getCache(EhCacheKeys.LONGIN_LOG_CACHE);
 	     AtomicInteger loginCount=cache.get(userName);
-	     if(loginCount.get()>=SysComm.USER_LOGIN_COUNT)
+	     if(loginCount!=null&&loginCount.get()>=SysComm.USER_LOGIN_COUNT)
 	     {
 	    	 if(StringUtils.isBlank(captcha)){
 		    	 rb = new ResultBean(false,MessageCode.PLASS_CAPTCHA,"请输入验证码","");

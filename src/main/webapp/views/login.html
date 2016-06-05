@@ -141,35 +141,30 @@
 		
 	})
 
-
-
 	function initLogin(){
 		var isCaptcha=getUrlParam('isCaptcha');
+		//alert(isCaptcha);
 		if(isCaptcha=="1"){
 			$("#_captcha_div").css("display","block");
 		}
 		//$("#_captcha_div").css("display","none");
-		//$("#_captcha_div").hide(); block
 	}
 
 	$("#_login").click(function() {
 		var username = $("#_username").val();
 		var password = $("#_password").val();
 		var rememberme = $("#_rememberme").is(':checked');
-		
+		var captcha = $("#_captchaCode").val();
 		
 		//验证码处理
-		var capthcaDisplay=$("#_captcha_div").attr("display");
-     	alert(capthcaDisplay);
-     	var captcha = $("#_captchaCode").val();
+		var capthcaDisplay=$('#_captcha_div').css('display');
+		//alert(capthcaDisplay);
      	if(capthcaDisplay=="block")
      	{
      	   if(captcha==""){
      		   alert("请输入验证码");
      		   return;
      	   }	
-     	}else{
-     		captcha="";
      	}
 		
 		
