@@ -1,6 +1,5 @@
 package com.rui.pro1.modules.sys.web;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +32,7 @@ import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.vo.MenuVo;
 
 /**
- * 用户管理
+ * 菜单管理
  * 
  * @author ruiliang
  * @date 2016/04/05
@@ -77,30 +76,31 @@ public class MenuController extends SysBaseController {
 	
 	
 	
-//	@RequestMapping(value = "listAll")
-//	@ResponseBody
-//	public ResultBean getlistAll(Integer userId) {
-//		ResultBean rb = new ResultBean();
-//		try {
-//			
-//    		List<Menu> menus = userService.getUserMenus("admin");
-//
-//    		Menu[] ocAr = new Menu[menus.size()];
+	@RequestMapping(value = "listAll")
+	@ResponseBody
+	public ResultBean getlistAll(String level) {
+		ResultBean rb = new ResultBean();
+		try {
+			
+			List<Menu> menus = menuService.getMenuListAll();
+
+			//List<Menu> menus = menuService.getMenuListAll(level);
+			
+//			Menu[] ocAr = new Menu[menus.size()];
 //			for (int i = 0; i < menus.size(); i++) {
 //				ocAr[i] = menus.get(i);
 //			}
 //			Arrays.sort(ocAr, new MenuComparator());
 //			List<Menu> menusNew = Arrays.asList(ocAr);
-//			
-//    		
-//			rb.setData(menusNew);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-//		}
-//		return rb;
-//
-//	}
+
+			rb.setData(menus);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
+		}
+		return rb;
+
+	}
 	
 	
 	

@@ -4,6 +4,12 @@
 <title>用户管理</title>
 <link href="../../../common/all.css" rel="stylesheet">
 <script type="text/javascript" src="../../../common/all.js"></script>
+<script type="text/javascript" src="../../../common/util/menuAuthorization.js"></script>
+
+<link rel="stylesheet" href="../../../common/style/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="../../../common/jquery/jquery.ztree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="../../../common/jquery/jquery.ztree/jquery.ztree.excheck-3.5.js"></script>
+	
 
 <style type="text/css">
 
@@ -26,7 +32,7 @@
 			submitHandler: function(form){
 				
 				//loading('正在提交，请稍等...');
-				addRole();
+				//addRole();
 				
 				//form.submit();
 			},
@@ -133,8 +139,19 @@
                <label class="col-sm-1 control-label ">权限分配：</label>
                <div class="col-sd-1" id="_permission_plan_div">
                
+				&nbsp;
+				<input id="citySel" type="text" readonly value="" style="width:120px;" onclick="showMenu(); return false;"/>
+				<input id="areaCodeV" type="hidden" >
+				<div id="menuContent" class="menuContent" style="display:none; width:600px; height:500px;z-index:9999, position: absolute; background:rgb(242, 242, 242);OVERFLOW-Y: auto; OVERFLOW-X:hidden; ">
+<!-- 			      <a href="javascript:claclArea()">清空</a> -->
+			       <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+		        </div>
+				&nbsp;
                
                </div>
+
+               
+               
             </div>
             
             

@@ -49,8 +49,27 @@
 		select count(*) from sys_menu
 		<include refid="searchField" />
 	</select>
-
-
+	
+	
+	
+	
+	
+	<select id="queryAll" parameterType="com.rui.pro1.modules.sys.entity.Menu"
+		resultMap="resultMapId">
+		select * from sys_menu where status in(0,1)	order by sort_no asc
+	</select>
+	
+	<select id="queryAllByLevel" parameterType="com.rui.pro1.modules.sys.entity.Menu"
+		resultMap="resultMapId">
+		select * from sys_menu 
+		<where>
+		     status in(0,1)
+			<if test="level != null">AND parent_id=#{level} </if>
+		</where>
+		order by sort_no asc
+	</select>
+	
+	
 	<!--=========================添加 ============================================================================= -->
 
 	<insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Menu" useGeneratedKeys="true" keyProperty="id">

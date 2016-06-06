@@ -11,12 +11,13 @@ import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.mapper.MenuMapper;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.vo.MenuVo;
+
 @Service
 public class MenuService implements IMenuService {
 
 	@Autowired
 	private MenuMapper menuMapper;
-	
+
 	@Override
 	public QueryResult<Menu> getMenuList(int page, int pagesize, MenuVo menu) {
 		Query query = new Query();
@@ -52,6 +53,18 @@ public class MenuService implements IMenuService {
 	@Override
 	public int update(Menu menu) {
 		return menuMapper.update(menu);
+	}
+
+	@Override
+	public List<Menu> getMenuListAll(String level) {
+		List<Menu> list = menuMapper.queryAllByLevel(level);
+		return list;
+	}
+
+	@Override
+	public List<Menu> getMenuListAll() {
+		List<Menu> list = menuMapper.queryAll();
+		return list;
 	}
 
 }

@@ -13,7 +13,7 @@
 
         
         <form action="" class="breadcrumb form-search " id="_search_form">
-             &nbsp;菜单名称: <input class="input-xlarge" name="roleName"  id="_roleName" type="text" />
+             &nbsp;菜单名称: <input class="input-xlarge" name="name"  id="_menuName" type="text" />
 			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
 		</form>
 		
@@ -31,13 +31,13 @@
 		
 
 	<div class="panel panel-default">
-		<table id="_role_table" class="table table-striped">
+		<table id="_menu_table" class="table table-striped">
 			<thead>
 				<tr>
 					<th>序号</th>
 					<th>id</th>
-					<th>角色名称</th>
-					<th>类型</th>
+					<th>菜单名称</th>
+<!-- 					<th>类型</th> -->
 					<th>状态</th>
 <!-- 					归属机构 -->
 					<th>创建时间</th>
@@ -64,7 +64,7 @@ $(function() {
 	var param=new Object();	
 	    param.status="0";
 	//初始化数据	
-	pageFn(getContextPath()+"/sys/role/list",param,"get");
+	pageFn(getContextPath()+"/sys/menu/list",param,"get");
 })
 
 
@@ -72,8 +72,8 @@ $(function() {
 function callbak_page(returnDatas)
 {
 	var tableHTML = "";
-	var trContext = $("#_role_table");
-	$("#_role_table tbody tr").remove();
+	var trContext = $("#_menu_table");
+	$("#_menu_table tbody tr").remove();
 	var returnData = returnDatas.data.items;
 	
 	if(returnData==null){
@@ -127,7 +127,7 @@ function getParam()
 {				
 	 var param=new Object();	
 	
-	 var _roleName=$("#_roleName").val();
+	 var _roleName=$("#_menuName").val();
 	 if(_userName!=""){
 		 param.roleName=_roleName;
 	 }

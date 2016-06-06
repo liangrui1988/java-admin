@@ -44,7 +44,7 @@ public class UserController extends SysBaseController {
 	@Autowired
 	private IUserService userService;
 
-	@PermissionAnnot(id =  MenuSys.SYS_USER + ":list")
+	@PermissionAnnot(id =  MenuSys.SYS_USER + ":list",name="查询列表")
 	@RequestMapping(value = {"list",""}, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getUserList(
@@ -65,7 +65,7 @@ public class UserController extends SysBaseController {
 	}
 	
 	
-	@PermissionAnnot(id =  MenuSys.SYS_USER + ":get", name = "查询")
+	@PermissionAnnot(id =  MenuSys.SYS_USER + ":get", name = "查看详情")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,

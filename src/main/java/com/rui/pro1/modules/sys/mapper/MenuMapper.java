@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.modules.sys.entity.Menu;
-import com.rui.pro1.modules.sys.entity.User;
 
 public interface MenuMapper {
 
@@ -29,4 +28,7 @@ public interface MenuMapper {
 	int insertSelective(Menu menu);
 	int update(Menu menu);
 	int updateByPrimaryKeySelective(Menu menu);
+
+	List<Menu> queryAll();
+	List<Menu> queryAllByLevel(@Param("level") String level);
 }
