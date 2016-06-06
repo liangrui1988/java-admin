@@ -23,8 +23,9 @@
 
 
 <script type="text/javascript">
+
 	$(document).ready(function() {
-		//initAddUser();
+		
 		$("#inputForm").validate({
 			submitHandler: function(form){
 				//loading('正在提交，请稍等...');
@@ -43,26 +44,28 @@
 		});
 	});
 	
+	
 </script>
 
 </head>
 
 <body style="overflow-x: hidden; overflow-y: hidden;">
 	
-	<ul class="nav nav-tabs">
-		<li >
-			<a href="rolelist.html">角色列表</a>
-		</li>
-		<li class="active">
-			<a href="roleAdd.html">添加角色</a>
-		</li>
-	</ul>
-	
-             <br/>
+<!-- 	<ul class="nav nav-tabs"> -->
+<!-- 		<li > -->
+<!-- 			<a href="rolelist.html">角色列表</a> -->
+<!-- 		</li> -->
+<!-- 		<li class="active"> -->
+<!-- 			<a href="roleAdd.html">修改角色</a> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+           
  <div class="addClz">
              
       <form id="inputForm" action="" class="form-horizontal" role="form">
 
+             <input  name="id"  id="_roleid" type="hidden" />
+  
             <div class="form-group">
                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>角色名称： 
                </label>
@@ -112,19 +115,7 @@
 		        </div>
 			
                </div>
-
-               
-               
             </div>
-            
-            
-<!--           <div class="form-group"> -->
-<!--                <label class="col-sm-1 control-label ">部门：</label> -->
-<!--                <div class="col-sd-1"> -->
-<!--                   <input value="1"  type="checkbox"  name="department.id"/> -->
-<!--                </div> -->
-<!--             </div> -->
-           
             
             <div class="form-group">
                <label class="col-sm-1 control-label " >
@@ -144,10 +135,11 @@
     </div>
 		
 	<script type="text/javascript">
+
+	
 	
 	
 	function addRole(){
-		
 			var roleObj=$("#inputForm").serialize();
 			var menuIds=getCheckedAll();
 		   // alert(JSON.stringify(menuIds))
@@ -160,9 +152,9 @@
 			}
 			//menuStr=encodeURI(menuStr);
 			roleObj+=menuStr;
-// 			console.log(roleObj);
+// 	    	console.log(roleObj);
 			$.ajax({
-				url : getContextPath()+"/sys/role/add",
+				url : getContextPath()+"/sys/role/update",
 				type : "POST",
 				//contentType: "application/json; charset=utf-8",
 				dataType : "json",
@@ -177,8 +169,133 @@
 			});
 			
 		}
+	
+	
+	
+	//初始化
+	$(function(){
+		initUpdate();
+	})
+	
+
+	
+
+	function initUpdate(){
+		var id=getUrlParam("id");
+		//alert(id);
+		if(id==null||id==""){
+			alert("参数异常，无法修改！");
+			return;
+		}
+		$("#_roleid").val(id);
+		//请求数据
+		$.ajax({
+			url : getContextPath()+"/sys/role/get",
+			type : "get",
+			//contentType: "application/json; charset=utf-8",
+			dataType : "json",
+			data :{"id":id},
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+			   if(resolveResultBeanIsError(returnData,status))
+			   {
+				  var data=returnData.data;
+				  $("#_roleName").val(data.name);
+				  
+				  //状态redio
+				  var status=data.status;
+				  if(status==0){
+					  $("input[name=status]:eq(0)").attr("checked",'checked'); 
+				  }else if(status==1)
+				  {
+					  $("input[name=status]:eq(1)").attr("checked",'checked'); 
+ 
+				  }
+				  
+				  //角色类型
+				  $("#_type").attr("value",data.types);
+
+				  //权限
+			      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			      if(treeObj==null){
+			    	  //延迟
+			    	  setTimeout(function () { 
+			    		  checkZTree(null,data.menus);
+			    	    }, 1000);
+			      }else{
+			    	  checkZTree(treeObj,data.menus);
+			      }
+				  //权限 end
+				  
+				  $("#_remake").val(data.remake);
+				   
+			   }
+			},
+			error : function() {
+				alert("请求异常！");
+			}
+		});
 		
+	}
+	
+
+	function checkZTree(treeObj,menus){
+		
+		if(treeObj==null){
+			 treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+		}
+	      
+
+	      var nodes= treeObj.getNodes();
+//	      console.log(nodes);
+//	      console.log(menus);
+	      
+	      if(menus!=""&&menus.length>0)
+	      {
+	    	  for (var i=0, l=nodes.length; i < l; i++) 
+		      {//for ztree
+	    		  var zTreeId=nodes[i].id;
+		          //for children
+	    		  var childrenNodes=nodes[i].children;
+//		          console.log(childrenNodes);
+	    		  if(typeof(childrenNodes)!="undefined"&&childrenNodes!=""&&childrenNodes.length>0)
+	    		  {//有子节点的情况
+	    			  for(var ch=0;ch<childrenNodes.length;ch++)
+	    			  {
+//	    				  console.log(childrenNodes[ch]);
+			    		  var zTreeIdx=childrenNodes[ch].id;
+			    		  for(var m=0;m<menus.length;m++)
+				    	  {//for menus data 
+				    		 var menuId=menus[m].id;
+				    		  if(zTreeIdx==menuId)
+				    		  {
+				    			  treeObj.checkNode(childrenNodes[ch], true, true);
+				    		  }
+				    	  }
+
+	    			  }
+	    			  
+	    		  }else
+	    		  {//没有子节点的情况
+	    			  // alert(zTreeId);
+			    	  for(var m=0;m<menus.length;m++)
+			    	  {//for menus data 
+			    		 var menuId=menus[m].id;
+			    		  if(zTreeId==menuId)
+			    		  {
+			    			  treeObj.checkNode(nodes[i], true, true);
+			    		  }
+			    	  }
+	    		  }
+		      }
+	      }
+	}
+	
+	
 	</script>	
+	
+	
+
 
 </body>
 </html>

@@ -24,6 +24,7 @@ import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Role;
+import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.vo.RoleVo;
 
@@ -44,6 +45,7 @@ public class RoleController extends SysBaseController {
 	@Autowired
 	private IRoleService roleService;
 
+	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":list", name = "查看列表")
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(
@@ -62,9 +64,8 @@ public class RoleController extends SysBaseController {
 		return rb;
 
 	}
-	
-	
-	
+
+//	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":list", name = "查看列表")
 	@RequestMapping(value = "listAll", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getListAll() {
@@ -81,7 +82,7 @@ public class RoleController extends SysBaseController {
 	}
 
 	@RequestMapping(value = "get", method = RequestMethod.GET)
-	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":get", name = "查询")
+	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":get", name = "查看")
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
 			RoleVo roleVo) {
@@ -95,6 +96,7 @@ public class RoleController extends SysBaseController {
 		}
 		return rb;
 	}
+	
 	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
@@ -118,12 +120,16 @@ public class RoleController extends SysBaseController {
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response, Role role) {
 		ResultBean rb = new ResultBean();
+		
 		try {
 			roleService.add(role);
-		} catch (Exception e) {
+		} catch (ObjectExistException e) {
+			rb = new ResultBean(false, MessageCode.ROLE_EXISTS, "角色已存在");
+		}catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
+
 		return rb;
 	}
 

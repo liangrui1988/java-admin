@@ -129,10 +129,34 @@
 			});
 		});
 		
+
 		
-		//清空
-		function claclArea()
-		{
-			$("#citySel").val('');
-			$("#areaCodeV").val('');
-		}
+		 //获取所有选中节点的值
+	    function getCheckedAll() {
+	        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	        var nodes = treeObj.getCheckedNodes(true);
+	        var arrayObj = new Array();　//创建一个数组
+	        for (var i = 0; i < nodes.length; i++) {
+	        	arrayObj.push(nodes[i].id);
+	        }
+	       // alert(JSON.stringify(arrayObj))
+	        return arrayObj;
+	    }    
+	    
+		
+		//全选
+	    function checkAllNodes() {
+	        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	        treeObj.checkAllNodes(true);
+	    }
+
+	    //全取消
+	    function cancelAllNodes() {
+	        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	        treeObj.checkAllNodes(false);
+	    }
+	    //确定
+	    function enterSel(){
+	    	$("#menuContent").css("display","none");
+	    	//getCheckedAll();
+	    }

@@ -19,7 +19,7 @@ function isPos(s)
 }
 
 
-
+//是否失败
 function resolveResultBeanIsError(data,status)
 {
 	  if(status!="success")
@@ -44,7 +44,7 @@ function resolveResultBeanIsError(data,status)
   
 }
 
-
+//是否成功
 function resolveResultBeanIsOk(data,status)
 {
   if(status=="success")
@@ -69,12 +69,7 @@ function resolveResultBeanIsOk(data,status)
 }
 
 
-
-
-
-
-
-
+//系统解析JSON返回状态和结果
 function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 {
 	//console.log(XMLHttpRequest);

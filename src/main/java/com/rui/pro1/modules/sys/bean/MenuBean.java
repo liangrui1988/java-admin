@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class MenuBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private String id;
 
 	private String name;
 
@@ -32,11 +32,11 @@ public class MenuBean implements Serializable {
 	public MenuBean() {
 	}
 
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

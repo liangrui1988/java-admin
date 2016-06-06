@@ -11,7 +11,7 @@ import com.rui.pro1.common.constants.Modules;
 public class MenuSys {
 	/** 用户 **/
 	public static final String SYS_USER = Modules.SYS + ":user";// 系统模块
-	/** 角色 **/
+	/** 角色 sys:role **/
 	public static final String SYS_ROLE = Modules.SYS + ":role";
 	/** 菜单 **/
 	public static final String SYS_MENU = Modules.SYS + ":menu";

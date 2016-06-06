@@ -5,6 +5,7 @@ import java.util.List;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Role;
+import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.vo.RoleVo;
 
 public interface IRoleService {
@@ -18,7 +19,7 @@ public interface IRoleService {
 
 	int del(int id);
 
-	int add(Role role);
+	int add(Role role)throws ObjectExistException;
 
 	int update(Role role);
 }

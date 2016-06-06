@@ -28,6 +28,9 @@ public class MessageCode {
 	// ---------------------------------------
 	public static final String USER_EXISTS = "100";// 用户已存在
 
+	
+	public static final String ROLE_EXISTS = "110";// 角色已存在
+
 	// ---------------------------------------
 	// ----------------xx业务操作消息码--------
 	// ---------------------------------------

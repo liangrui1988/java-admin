@@ -10,6 +10,7 @@ import com.rui.pro1.comm.BaseServiceTest;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Role;
+import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.vo.RoleVo;
 
@@ -42,7 +43,12 @@ public class RoleServiceTest extends BaseServiceTest {
 		Role role=new Role();
 		role.setName("系统管理");
 		role.setRemake("remake");
-		roleService.add(role);
+		try {
+			roleService.add(role);
+		} catch (ObjectExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test

@@ -89,68 +89,66 @@ public class RoleService implements IRoleService {
 	public int del(int id) {
 		return roleMapper.del(id);
 	}
-
+	
+	
+	  /**
+	   * 添加角色
+	   */
 	@Override
-	public int add(Role role) {
-		
+	public int add(Role role) throws ObjectExistException{
 		if(role==null||StringUtils.isBlank(role.getName())){
 			return 0;
 		}
 		
-		
-		int count =0;
-		//角色名称是否存在
-		Role roleExists=roleMapper.getByName(role.getName());
-		if(roleExists!=null)
-		{
-			
-			throw new ObjectExistException("角色已存在");
-			
-			//如是没有id 但对象又存在，可能是传的名字修改
-//			if(roleExists.getId()==null||roleExists.getId()<=0){
-//				role.setId(roleExists.getId());
-//			}
-//			//修改
-//			count=	roleMapper.updateByPrimaryKeySelective(role);
-//			if (count <= 0) 
-//			{
-//				return 0;
-//			}
-//			
-//			//先删除菜单
-//		    roleMapper.delRoleMenu(roleExists.getId());
-//			
-//			if (role.getMenuIds() != null && role.getMenuIds().size() > 0) 
-//			{
-//				// 关联菜单
-//				for (String menuId : role.getMenuIds()) {
-//					roleMapper.addRoleMenu(role.getId(), menuId);
-//				}
-//			}
-			
-			
-		}else
-		{
-			
-			 roleMapper.insertSelective(role);
-				if (count <= 0) 
-				{
-					return 0;
-				}
 	
-				if (role.getMenuIds() != null && role.getMenuIds().size() > 0) 
-				{
-					// 关联菜单
-					for (String menuId : role.getMenuIds()) {
-						roleMapper.addRoleMenu(role.getId(), menuId);
-					}
+		int count =0;
+		//如果id不存在则 是新增
+		if(role.getId()==null||role.getId()<=0)
+		{
+			
+			//角色名称是否存在
+			Role roleExists=roleMapper.getByName(role.getName());
+			if(roleExists!=null)
+			{
+				throw new ObjectExistException("角色已存在");
+			}
+			
+			
+			//新增
+			count= roleMapper.insertSelective(role);
+			if (count <= 0) 
+			{
+				return 0;
+			}
+			// 关联菜单
+			if (role.getMenuIds() != null && role.getMenuIds().size() > 0) 
+			{
+				
+				for (String menuId : role.getMenuIds()) {
+					roleMapper.addRoleMenu(role.getId(), menuId);
 				}
+			}
+			
+		}else{
+			//id大于0  修改
+			count=	roleMapper.updateByPrimaryKeySelective(role);
+			if (count <= 0) 
+			{
+				return 0;
+			}
+			
+			//先删除菜单
+		    roleMapper.delRoleMenu(role.getId());
+		    // 关联菜单
+			if (role.getMenuIds() != null && role.getMenuIds().size() > 0) 
+			{
+				for (String menuId : role.getMenuIds()) {
+					roleMapper.addRoleMenu(role.getId(), menuId);
+				}
+			}
+			
 			
 		}
-		
-
-		
-
 		return count;
 	}
 
