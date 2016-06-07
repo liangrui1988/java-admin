@@ -3,6 +3,7 @@ package com.rui.pro1.modules.sys.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
@@ -49,7 +50,7 @@ public class UserController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getUserList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
-			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
+			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
 			UserVo user) {
 		ResultBean rb = new ResultBean();
 		try {
@@ -84,7 +85,7 @@ public class UserController extends SysBaseController {
 	@PermissionAnnot(id =  MenuSys.SYS_USER + ":del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean del(HttpRequest request, HttpResponse response,
+	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
 		try {
@@ -101,9 +102,19 @@ public class UserController extends SysBaseController {
 	@PermissionAnnot(id =  MenuSys.SYS_USER + ":add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpServletRequest request, HttpServletResponse response, User user) {
+	public ResultBean add(HttpServletRequest request, HttpServletResponse response, User user,String repeatPassword) {
 		ResultBean rb = new ResultBean();
 		try {
+			
+			if(!StringUtils.isBlank(repeatPassword)){
+				if(!repeatPassword.equals(user.getPassword()))
+				{
+					rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
+					return rb;
+				}
+			}
+			
+			
 			int count = userService.add(user);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
@@ -121,8 +132,23 @@ public class UserController extends SysBaseController {
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request, HttpServletResponse response,
-			User user) {
+			User user,String repeatPassword) {
 		ResultBean rb = new ResultBean();
+		
+		try {
+			if(StringUtils.isNotBlank(repeatPassword)||StringUtils.isNotBlank(user.getPassword())){
+				if(!repeatPassword.equals(user.getPassword()))
+				{
+					rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
+					return rb;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
+			return rb;
+		}
+		
 		try {
 			int count = userService.update(user);
 			if (count <= 0) {

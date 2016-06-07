@@ -23,6 +23,7 @@ public class MenuService implements IMenuService {
 		Query query = new Query();
 		query.setBean(menu);
 		query.setPageIndex(page);
+		query.setPageSize(pagesize);
 
 		// 组合分页信息
 		QueryResult<Menu> queryResult = new QueryResult<Menu>();

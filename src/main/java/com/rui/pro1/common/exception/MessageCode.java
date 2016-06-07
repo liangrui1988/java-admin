@@ -27,6 +27,7 @@ public class MessageCode {
 	// ----------------用户操作消息码--------
 	// ---------------------------------------
 	public static final String USER_EXISTS = "100";// 用户已存在
+	public static final String USER_REPEAT_PASSWORD_ERROR = "101";// 用户密码不一致
 
 	
 	public static final String ROLE_EXISTS = "110";// 角色已存在

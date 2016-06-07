@@ -51,6 +51,7 @@ public class UserService implements IUserService {
 		Query query = new Query();
 		query.setBean(userVo);
 		query.setPageIndex(page);
+		query.setPageSize(pagesize);
 
 		// 组合分页信息
 		QueryResult<UserBean> queryResult = new QueryResult<UserBean>();

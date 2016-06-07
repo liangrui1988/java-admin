@@ -169,7 +169,43 @@ function getParam()
 	return param;			 
 }
 
+//删除用户
+function delUser(obj,id)
+{
+	
+	var result=confirm("确定要删除用户吗？");
+	
+	
 
+	if(!result){
+		return;
+	}
+	
+	if(id==""){
+		alert("参数错误");
+		return;
+	}
+	alert(id);
+	$.ajax({
+		url : getContextPath()+"/sys/user/del",
+		type : "POST",
+		//contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+		data :{"id":id},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(resolveResultBeanIsOk(returnData,status)){
+				$this=$(obj);
+				var delTr=$this.parent().parent();
+				$(delTr).remove();
+			}
+		},
+		error : function() {
+			alert("异常！");
+		}
+	});
+}
 
 
 </script>

@@ -136,6 +136,13 @@ function delRole(obj,id){
 	
 	//console.log(obj);
 	
+	var result=confirm("确定要删除角色吗？");
+	
+
+	if(!result){
+		return;
+	}
+	
 	if(id==""){
 		alert("参数错误");
 		return;

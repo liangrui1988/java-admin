@@ -35,6 +35,7 @@ public class RoleService implements IRoleService {
 		Query query = new Query();
 		query.setBean(roleVo);
 		query.setPageIndex(page);
+		query.setPageSize(pagesize);
 
 		// 组合分页信息
 		QueryResult<Role> queryResult = new QueryResult<Role>();

@@ -37,6 +37,9 @@ public class Query {
 	}
 
 	public void setPageSize(int mPageSize) {
+		if(mPageSize<=0){
+			mPageSize=20;
+		}
 		this.pageSize = mPageSize;
 	}
 

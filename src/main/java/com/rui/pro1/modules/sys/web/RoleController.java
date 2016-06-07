@@ -52,7 +52,7 @@ public class RoleController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
-			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
+			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
 		try {

@@ -58,7 +58,7 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex,
-			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
+			@RequestParam(value = "pagesize", defaultValue = "12") Integer pagesize,
 			MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
 		try {
