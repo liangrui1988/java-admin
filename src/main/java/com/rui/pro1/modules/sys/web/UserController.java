@@ -20,7 +20,7 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.MenuSys;
+import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.UserBean;
@@ -38,14 +38,14 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_USER)
-@MenuAnnot(id = MenuSys.SYS_USER, name = "用户管理", parentId = Modules.SYS, href = "/views/modules/sys/user/userlist",sortNo=1)
+@MenuAnnot(id = SysMenu.SYS_USER, name = "用户管理", parentId = Modules.SYS, href = "/views/modules/sys/user/userlist",sortNo=1)
 public class UserController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private IUserService userService;
 
-	@PermissionAnnot(id =  MenuSys.SYS_USER + ":list",name="查询列表")
+	@PermissionAnnot(id =  SysMenu.SYS_USER + ":list",name="查询列表")
 	@RequestMapping(value = {"list",""}, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getUserList(
@@ -66,7 +66,7 @@ public class UserController extends SysBaseController {
 	}
 	
 	
-	@PermissionAnnot(id =  MenuSys.SYS_USER + ":get", name = "查看详情")
+	@PermissionAnnot(id =  SysMenu.SYS_USER + ":get", name = "查看详情")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
@@ -82,7 +82,7 @@ public class UserController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  MenuSys.SYS_USER + ":del", name = "删除")
+	@PermissionAnnot(id =  SysMenu.SYS_USER + ":del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
@@ -99,7 +99,7 @@ public class UserController extends SysBaseController {
 		}
 		return rb;
 	}
-	@PermissionAnnot(id =  MenuSys.SYS_USER + ":add", name = "添加")
+	@PermissionAnnot(id =  SysMenu.SYS_USER + ":add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response, User user,String repeatPassword) {
@@ -128,7 +128,7 @@ public class UserController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  MenuSys.SYS_USER + ":update", name = "修改")
+	@PermissionAnnot(id =  SysMenu.SYS_USER + ":update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request, HttpServletResponse response,

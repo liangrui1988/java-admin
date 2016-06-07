@@ -19,7 +19,7 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.MenuSys;
+import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.RoleBean;
@@ -27,7 +27,6 @@ import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.service.IRoleService;
-import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.vo.RoleVo;
 
 /**
@@ -38,16 +37,15 @@ import com.rui.pro1.modules.sys.vo.RoleVo;
  *
  */
 @Controller
-
 @RequestMapping(SysUri.SYS_ROLE)
-@MenuAnnot(id = MenuSys.SYS_ROLE, name = "角色管理", parentId = Modules.SYS, href = "/views/modules/sys/role/rolelist",sortNo=2)
+@MenuAnnot(id = SysMenu.SYS_ROLE, name = "角色管理", parentId = Modules.SYS, href = "/views/modules/sys/role/rolelist",sortNo=2)
 public class RoleController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private IRoleService roleService;
 
-	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":list", name = "查看列表")
+	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":list", name = "查看列表")
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(
@@ -84,7 +82,7 @@ public class RoleController extends SysBaseController {
 	}
 
 	@RequestMapping(value = "get", method = RequestMethod.GET)
-	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":get", name = "查看")
+	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":get", name = "查看")
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
 			RoleVo roleVo) {
@@ -99,7 +97,7 @@ public class RoleController extends SysBaseController {
 		return rb;
 	}
 	
-	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":del", name = "删除")
+	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
@@ -117,7 +115,7 @@ public class RoleController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":add", name = "添加")
+	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response, Role role) {
@@ -138,7 +136,7 @@ public class RoleController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":update", name = "修改")
+	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request, HttpServletResponse response,

@@ -20,7 +20,7 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.MenuSys;
+import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.entity.Menu;
@@ -40,7 +40,7 @@ import com.rui.pro1.modules.sys.vo.MenuVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_MENU)
-@MenuAnnot(id = MenuSys.SYS_MENU, name = "菜单管理", parentId = Modules.SYS, href = "/views/modules/sys/menu/menulist",sortNo=3)
+@MenuAnnot(id = SysMenu.SYS_MENU, name = "菜单管理", parentId = Modules.SYS, href = "/views/modules/sys/menu/menulist",sortNo=3)
 public class MenuController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -139,7 +139,7 @@ public class MenuController extends SysBaseController {
 	
 	
 	
-	@PermissionAnnot(id =  MenuSys.SYS_MENU + ":get", name = "查询")
+	@PermissionAnnot(id =  SysMenu.SYS_MENU + ":get", name = "查询")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
@@ -155,7 +155,7 @@ public class MenuController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  MenuSys.SYS_MENU + ":del", name = "删除")
+	@PermissionAnnot(id =  SysMenu.SYS_MENU + ":del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
@@ -174,7 +174,7 @@ public class MenuController extends SysBaseController {
 	}
 	
 	
-	@PermissionAnnot(id =  MenuSys.SYS_MENU + ":add", name = "添加")
+	@PermissionAnnot(id =  SysMenu.SYS_MENU + ":add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response,Menu role) {
@@ -188,7 +188,7 @@ public class MenuController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  MenuSys.SYS_MENU + ":update", name = "修改")
+	@PermissionAnnot(id =  SysMenu.SYS_MENU + ":update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request, HttpServletResponse response,

@@ -13,6 +13,9 @@ public class Modules {
 	public static final String MERCHANT = "merchant";// 商家模块
 	public static final String GOV = "gov";//政府
 	public static final String PRO = "pro";//商家
+	/**setting**/
+	public static final String SETTING = "setting";//基本设置
+
 
 
 }

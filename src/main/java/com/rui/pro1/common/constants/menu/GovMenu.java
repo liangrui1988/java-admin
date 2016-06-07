@@ -1,5 +1,5 @@
 package com.rui.pro1.common.constants.menu;
 
-public class MenuGov {
+public class GovMenu {
 
 }

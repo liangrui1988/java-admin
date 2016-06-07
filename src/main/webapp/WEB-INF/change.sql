@@ -163,7 +163,7 @@ create table sys_user
    password             varchar(50) comment '密码',
    full_name            varchar(50) comment '姓名',
    type                 varchar(100) comment '类型',
-   email                char(10) comment '邮箱',
+   email                varchar(100) comment '邮箱',
    status               int default 0 comment '状态',
    create_by_id         int comment '创建者',
    update_by_id         int comment '更新者',

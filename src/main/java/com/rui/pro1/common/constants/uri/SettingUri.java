@@ -6,8 +6,7 @@ import com.rui.pro1.common.constants.Modules;
  * @author ruiliang
  *
  */
-public class ProUri {
-	/** 商家 **/
-	public static final String PRO_MER = Modules.PRO + "/mer";// 商品
-
+public class SettingUri {
+	/**设置基础**/
+	public static final String SETTING_PERSONAL = Modules.SETTING + "/personal";// 
 }

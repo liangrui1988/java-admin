@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>个人信息</title>
+<link href="../../../common/all.css" rel="stylesheet">
+<script type="text/javascript" src="../../../common/all.js"></script>
+
+<style type="text/css">
+
+.form-actions{
+     padding-right: 1000px;
+}
+#messageBox{
+ color: red;
+}
+</style>
+
+
+<script type="text/javascript">
+
+
+//初始化
+$(function(){
+	initUpdate();
+})
+
+
+function initUpdate(){
+	//请求数据
+	$.ajax({
+		url : getContextPath()+"/setting/personal/get",
+		type : "get",
+		//contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		data :{},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+		   if(resolveResultBeanIsError(returnData,status))
+		   {
+			  var data=returnData.data;
+			  $("#_userId").val(data.id);
+			  alert(data.fullName);
+// 			  $("#_userName").val(data.userName);
+			  $("#_fullName").val(data.fullName);
+			  $("#_email").val(data.email);
+			   
+		   }
+		},
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+	
+}
+
+
+    //提交表单
+	$(document).ready(function() {
+
+		$("#inputForm").validate({
+			submitHandler: function(form){
+				updateUser();
+				//form.submit();
+			},
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+	
+	
+	function updateUser(){
+		var jobj=$("#inputForm").serialize();
+		$.ajax({
+			url : getContextPath()+"/sys/user/update",
+			type : "POST",
+			dataType : "json",
+			data :jobj,
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+			    resolveResultBeanIsOk(returnData,status);
+			}
+		});
+		
+	}
+			
+
+</script>
+
+</head>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+	
+		<ul class="nav nav-tabs">
+		<li >
+			<a href="personalUpdate.html">修改个人信息</a>
+		</li>
+		<li class="active">
+			<a href="passwordUpdate.html">修改密码</a>
+		</li>
+	</ul>
+	
+	<br/>
+ <div class="userAddClz">
+             
+      <form id="inputForm" action="" class="form-horizontal" role="form">
+    
+              <input  name="id"  id="_userId" type="hidden" />
+          
+<!--             <div class="form-group"> -->
+<!--                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：    -->
+<!--                </label> -->
+<!--                <div class="col-sd-1"> -->
+<!--                   <input class="required input-xlarge" maxlength="20" name="userName"  id="_userName" type="text" /> -->
+<!--                </div> -->
+         
+<!--             </div> -->
+            
+            
+<!--             <div class="form-group"> -->
+<!--                <label class="col-sm-1 control-label" >密码：        -->
+<!--                </label> -->
+<!--                <div class="col-sd-1"> -->
+<!--                   <input  maxlength="16"  placeholder="不增不修改密码" name="password" type="password" id="_password"/> -->
+<!--                </div> -->
+<!--             </div> -->
+            
+            
+<!--             <div class="form-group"> -->
+<!--                <label class="col-sm-1 control-label" >密码：        -->
+<!--                </label> -->
+<!--                <div class="col-sd-1"> -->
+<!--                   <input  maxlength="16" placeholder="不增不修改密码"  name="repeatPassword" type="password" id="_repeatPassword"/> -->
+<!--                </div> -->
+<!--             </div> -->
+            
+            
+            <div class="form-group">
+               <label class="col-sm-1 control-label "> <span class="help-inline"><font color="red">*</font>姓名：</label>
+               <div class="col-sd-1">
+                  <input class="required" type="text"  maxlength="20"  name="fullName" id="_fullName"/>
+               </div>
+           
+            </div>
+            
+       
+            
+            <div class="form-group">
+               <label class="col-sm-1 control-label ">邮箱：</label>
+               <div class="col-sd-1">
+                  <input  type="text"  maxlength="30"  name="email" id="_email"/>
+               </div>
+            </div>
+
+            
+<!--           <div class="form-group"> -->
+<!--                <label class="col-sm-1 control-label ">部门：</label> -->
+<!--                <div class="col-sd-1"> -->
+<!--                   <input value="1"  type="checkbox"  name="department.id"/> -->
+<!--                </div> -->
+<!--             </div> -->
+            
+             
+          
+            
+         
+            <div class="form-actions">
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		    </div>    
+         </form>
+         
+    </div>
+		
+
+
+</body>
+</html>

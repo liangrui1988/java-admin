@@ -10,19 +10,19 @@ import com.rui.pro1.common.annotatiions.MenuAnnot;
 import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.MenuPro;
+import com.rui.pro1.common.constants.menu.ProMenu;
 import com.rui.pro1.common.constants.uri.ProUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.vo.UserVo;
 
 @Controller
 @RequestMapping(ProUri.PRO_MER)
-@MenuAnnot(id = MenuPro.PRO_MER, name = "商家商品维护", parentId = Modules.PRO, href = "/views/modules/pro/merproduct/list",sortNo=1)
+@MenuAnnot(id = ProMenu.PRO_MER, name = "商家商品维护", parentId = Modules.PRO, href = "/views/modules/pro/merproduct/list",sortNo=1)
 public class MerProductController extends ProBaseController {
 
 	
 	
-	@PermissionAnnot(id =  MenuPro.PRO_MER + ":list")
+	@PermissionAnnot(id =  ProMenu.PRO_MER + ":list")
 	@RequestMapping(value = {"list",""}, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(

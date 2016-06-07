@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -262,6 +263,10 @@ public class InitMP {
 		User user = new User();
 		user.setUserName("admin");
 		user.setPassword("admin");
+		user.setFullName("林冲");
+		user.setEmail("1067165280@qq.com");
+		user.setCreateTime(new Date());
+		//user.setCreateById(1);
 //		String password = PassUtil.encryptPassword("admin", "admin");
 //		System.out.println(password);
 		//user.setPassword(password);
