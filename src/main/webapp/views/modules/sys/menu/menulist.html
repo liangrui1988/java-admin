@@ -84,9 +84,7 @@ function callbak_page(returnDatas)
 	//状态处理
 	//var sta=returnData[i].status;
 	var staName="";
-	var operation='<a href="#">查看</a>'
-				   +'&nbsp;&nbsp;<a href="#">修改</a>'
-				   +'&nbsp;&nbsp;<a href="#">删除</a>';
+	var operation='系统扫描,是否有必要做后台操作？';
 				   
 	tableHTML += "<tr>" + "<td>"
 				+ (j + 1)
@@ -127,9 +125,9 @@ function getParam()
 {				
 	 var param=new Object();	
 	
-	 var _roleName=$("#_menuName").val();
-	 if(_userName!=""){
-		 param.roleName=_roleName;
+	 var _menuName=$("#_menuName").val();
+	 if(_menuName!=""){
+		 param.name=_menuName;
 	 }
 	 
 	return param;			 

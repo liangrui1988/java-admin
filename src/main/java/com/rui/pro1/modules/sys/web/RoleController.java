@@ -24,8 +24,10 @@ import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.entity.Role;
+import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.service.IRoleService;
+import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.vo.RoleVo;
 
 /**
@@ -49,7 +51,7 @@ public class RoleController extends SysBaseController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(
-			@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
@@ -122,6 +124,9 @@ public class RoleController extends SysBaseController {
 		ResultBean rb = new ResultBean();
 		
 		try {
+			
+			User user=userUtils.getUser();
+			role.setUpdateById(user.getId());
 			roleService.add(role);
 		} catch (ObjectExistException e) {
 			rb = new ResultBean(false, MessageCode.ROLE_EXISTS, "角色已存在");

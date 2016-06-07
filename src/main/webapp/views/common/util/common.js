@@ -64,7 +64,7 @@ function pageFn(_url,_param,reqMothd)
 //点击
 function clickNumFn(i,url,reqMothd){
 	  var param=getParam();
-	   param.mPageIndex=i;
+	   param.pageIndex=i;
 	   sendPageRequst(url,param,reqMothd);
 	
 }
@@ -77,18 +77,18 @@ function pagecClickEnv(url,P,reqMothd)
 		 
 	if(P=="N")
 	{
-	  param.mPageIndex=parseInt(currentPageVar,10)+1;	
+	  param.pageIndex=parseInt(currentPageVar,10)+1;	
 	 	
 	}else if(P=="U")
 	{
-		 param.mPageIndex=parseInt(currentPageVar,10)-1;	
+		 param.pageIndex=parseInt(currentPageVar,10)-1;	
 	}else if(P=="L")
 	{
 		 var lastPageVar= $("#_sizePage").html();
-		 param.mPageIndex=parseInt(lastPageVar,10);
+		 param.pageIndex=parseInt(lastPageVar,10);
 	}else if(P=="T")
 	{
-		 param.mPageIndex=1;
+		 param.pageIndex=1;
 	}else if(P=="J")
 	{
 		var jumpPageVar=$("#jumpPageText").val();
@@ -98,7 +98,7 @@ function pagecClickEnv(url,P,reqMothd)
 		   return;
 		  }
 		   var param=getParam();
-		   param.mPageIndex=jumpPageVar;
+		   param.pageIndex=jumpPageVar;
 		
 	}
 	sendPageRequst(url,param,reqMothd);

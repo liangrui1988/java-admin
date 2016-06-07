@@ -12,6 +12,8 @@ public class Query {
 	private int pageSize = 20;// 显示行数
 	private boolean needPage = true;// 是否分页
 	private Object bean;// 组合查询条件对象
+	
+	//排序
 
 	public Query() {
 		super();

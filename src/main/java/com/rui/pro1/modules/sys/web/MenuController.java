@@ -57,12 +57,12 @@ public class MenuController extends SysBaseController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(
-			@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex,
 			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
 			MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
 		try {
-			QueryResult<Menu> result = menuService.getMenuList(page, pagesize,
+			QueryResult<Menu> result = menuService.getMenuList(pageIndex, pagesize,
 					menuVo);
 			rb.setData(result);
 		} catch (Exception e) {

@@ -7,9 +7,9 @@
 <!-- 	rel="stylesheet"> -->
 <!-- <link href="../../resources/css/sys/pager.css" -->
 <!-- 	rel="stylesheet"> -->
-	
 
-	
+
+
 <!-- <script src="../../../common/jquery/jquery-1.12.3.js"></script> -->
 <!-- <script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script> -->
 <!-- <script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script> -->
@@ -23,296 +23,26 @@
 <script type="text/javascript" src="../../../common/all.js"></script>
 
 <style type="text/css">
-
-.form-actions{
-     padding-right: 1000px;
+.form-actions {
+	padding-right: 1000px;
 }
-#messageBox{
- color: red;
+
+#messageBox {
+	color: red;
 }
 </style>
-
-
-<script type="text/javascript">
-
-
-
-
-
-	$(document).ready(function() {
-		
-		initAddUser();
-		
-		$("#inputForm").validate({
-			submitHandler: function(form){
-				//loading('正在提交，请稍等...');
-				
-				addUser();
-				
-					//form.submit();
-			},
-// 			rules: {
-//                   test: '999999999.99'
-// 			},
-// 			messages: {
-// 	   	 		userName: {
-// 					required: "必填信息"
-// 				}
-// 			},
-			//onkeyup:true,
-			errorContainer: "#messageBox",
-			errorPlacement: function(error, element) {
-				$("#messageBox").text("输入有误，请先更正。");
-				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-					error.appendTo(element.parent().parent());
-				} else {
-					error.insertAfter(element);
-				}
-			}
-		});
-	});
-	
-	
-	function initAddUser()
-	{
-		//获取角色
-		$.ajax({
-			url : getContextPath()+"/sys/role/listAll",
-			type : "GET",
-			//contentType: "application/json; charset=utf-8",
-			dataType : "json",
-			//data :{productVoJson:JSON.stringify(objVo)},
-			data :'',
-			success : function(returnData,status,XMLHttpRequest)
-			{	
-				console.log(returnData);
-				if(resolveResultBeanIsError(returnData,status))
-				{
-					var rolelist=returnData.data;
-					var roleHtml='';
-
-					for(var i=0;i<rolelist.length;i++)
-					{
-						var roleObj=rolelist[i];
-						roleHtml+=' <input value="'+roleObj.id+'" type="checkbox"  name="roles[0].id"/>';
-						roleHtml+=roleObj.name;
-						roleHtml+='&nbsp;&nbsp;';
-					}
-					$("#_role_plan_div").html(roleHtml);
-				}
-					
-			}
-		});
-	}
-	 
-
-	function addUser(){
-		
-		var jobj=$("#inputForm").serialize();
-		$.ajax({
-			url : getContextPath()+"/sys/user/add",
-			type : "POST",
-			//contentType: "application/json; charset=utf-8",
-			dataType : "json",
-			//data :{productVoJson:JSON.stringify(objVo)},
-			data :jobj,
-			success : function(returnData,status,XMLHttpRequest)
-			{	console.log(returnData);
-			    resolveResultBeanIsOk(returnData,status);
-			}
-		});
-		
-	}
-			
-
-</script>
 
 </head>
 
 <body style="overflow-x: hidden; overflow-y: hidden;">
-	
+
 	<ul class="nav nav-tabs">
-		<li >
-			<a href="userlist.html">用户列表</a>
-		</li>
-		<li class="active">
-			<a href="userAdd.html">添加用户</a>
-		</li>
+		<li><a href="menulist.html">用户列表</a></li>
+		<li class="active"><a href="menuAdd.html">添加用户</a></li>
 	</ul>
-	
-             <br/>
- <div class="userAddClz">
-             
-      <form id="inputForm" action="" class="form-horizontal" role="form">
-<!--             <div class="form-group"> -->
-<!--                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：    -->
-<!--                </label> -->
-<!--                <div class="col-sm-1"> -->
-<!--                   <input class="input-xlarge" name="userName" type="text" placeholder="192.168.1.161"/> -->
-<!--                </div> -->
-<!--                <label class="col-sm-4 control-label" ><span class="help-inline"><font color="red">*</font> </span>密码：        -->
-<!--                </label> -->
-<!--                <div class="col-sm-1"> -->
-<!--                   <input class="input-xlarge"  type="password" placeholder="msh"/> -->
-<!--                </div> -->
-<!--             </div> -->
 
-
-            <div class="form-group">
-               <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：   
-               </label>
-               <div class="col-sd-1">
-                  <input class="required input-xlarge" name="userName"  id="_userName" type="text" />
-               </div>
-         
-            </div>
-            
-            
-            <div class="form-group">
-               <label class="col-sm-1 control-label" ><span class="help-inline"><font color="red">*</font> </span>密码：       
-               </label>
-               <div class="col-sd-1">
-                  <input class="required"  name="password" type="password" id="_password"/>
-               </div>
-            </div>
-            
-            
-            <div class="form-group">
-               <label class="col-sm-1 control-label "> <span class="help-inline"><font color="red">*</font>姓名：</label>
-               <div class="col-sd-1">
-                  <input class="required" type="text"  name="fullName" id="_fullName"/>
-               </div>
-           
-            </div>
-            
-            
-              <div class="form-group">
-               <label class="col-sm-1 control-label " >
-               <span class="help-inline"><font color="red">*</font>状态：</label>
-               <div class="col-sd-1">
-			      &nbsp;  &nbsp;&nbsp;启用 <input type="radio" name="status" value="0" checked="checked"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="status" value="1"/>
-               </div>
-            </div>
-            
-            <div class="form-group">
-               <label class="col-sm-1 control-label ">邮箱：</label>
-               <div class="col-sd-1">
-                  <input  type="text"  name="email" id="_email"/>
-               </div>
-            </div>
-            
-            <div class="form-group">
-               <label class="col-sm-1 control-label ">用户类型：</label>
-               <div class="col-sd-1">
-                  
-                  <select name="type" id="_type">
-                  <option value="1">系统管理员</option>
-                  <option value="2">财务管理</option>
-                  <option value="3">普通用户</option>
-                  </select>
-               </div>
-            </div>
-            
-<!--           <div class="form-group"> -->
-<!--                <label class="col-sm-1 control-label ">部门：</label> -->
-<!--                <div class="col-sd-1"> -->
-<!--                   <input value="1"  type="checkbox"  name="department.id"/> -->
-<!--                </div> -->
-<!--             </div> -->
-            
-             
-            
-             <div class="form-group">
-               <label class="col-sm-1 control-label ">角色：</label>
-               <div class="col-sd-1" id="_role_plan_div">
-                  <input value="1" type="checkbox"  name="roles[0].id"/>
-               </div>
-            </div>
-            
-            
-            <div class="form-group">
-               <label class="col-sm-1 control-label " >
-                                            备注：</label>
-               <div class="col-sm-1">
-               <textarea rows="6" cols="60" name="remake" id="_remake"></textarea>
-               </div>
-            </div>
-            
-         
-            <div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-		    </div>    
-         </form>
-         
-    </div>
-		
-		
-		
-<script type="text/javascript">
-
-
-function addUserTest(){
-	
-	var jobj=$("#inputForm").serialize();
-	console.log(jobj);
-// 	var jsonObjjj=$("#inputForm").serializeObject();
-// 	console.log(jsonObjjj);
-
-// 	var jsonObj=$("#inputForm").serializeArray();
-// 	console.log(jsonObj);
-	
-	//获取值
-// 	   var _userName=$("#_userName").val();
-// 	    var  _passowrd=$("#_passowrd").val();
-	
-// 		var  status=$("input[name='status']:checked").val(); //状态   编号 		
-
-		
-		//var TProProductPhotos = new Array();  //商品图片
-		
-// 		$(".imgUrl").each(function(){
-// 			 var ProductPhoto=new Object();
-// 			 ProductPhoto.url=$(this).val();
-// 			 TProProductPhotos.push(ProductPhoto);
-// 		 });
-	
-		 
-		 //""处理
-// 		 if(""==price) price=null;
-// 		 if(""==normWeight)   normWeight=null;
-// 		 if(""==actual_price) actual_price=null;
-		 
-// 		var productVo={
-// 			id:mer_pro_id,
-// 			typeId:typeId,
-// 			status:status,
-// 			unit:unit,
-// 			name:name,
-// 			price:price,
-		
-// 	};
-		
-	
-	$.ajax({
-		url : getContextPath()+"/sys/user/add",
-		type : "POST",
-		//contentType: "application/json; charset=utf-8",
-		dataType : "json",
-		//data :{productVoJson:JSON.stringify(objVo)},
-		data :jobj,
-		success : function(returnData,status,XMLHttpRequest)
-		{	
-			alert("xx");
-			console.log(returnData);
-		}
-	});
-	
-}
-		
-		
-		
-</script>
+	<br />
+	<div>维护中......</div>
 
 </body>
 </html>

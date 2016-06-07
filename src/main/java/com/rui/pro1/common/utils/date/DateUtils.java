@@ -1,4 +1,4 @@
-package com.rui.pro1.common.utils;
+package com.rui.pro1.common.utils.date;
 
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.DAY_OF_MONTH;
@@ -25,10 +25,10 @@ import org.slf4j.LoggerFactory;
 /**
  * 日期工具类
  */
-public class DateUtil {
+public class DateUtils {
 	public static final long MILLIS_PER_SECOND = 1000L;
 	private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
+	private static final Logger log = LoggerFactory.getLogger(DateUtils.class);
 	public static final long MILLIS_PER_DAY = 24*60*60*1000L;
 	public static final long MILLIS_PER_MINUTE = 60*1000L;
 	
@@ -298,7 +298,7 @@ public class DateUtil {
 		if(len!=0){
 			month=changeDateOfMonth(month, len);
 		} 
-		return DateUtil.date2String(month, datePattern);
+		return DateUtils.date2String(month, datePattern);
 	}
 	
 
@@ -807,15 +807,15 @@ public class DateUtil {
 	}
 	
 	public static Date getFistDateOfWeek(Date date){
-		int i=DateUtil.dayOfWeek(date)-1;//星期一算第一天
+		int i=DateUtils.dayOfWeek(date)-1;//星期一算第一天
 		if(i==0)i=7;//星期天算最后一天，第7天
-		return DateUtil.addDay(date, 1-i);
+		return DateUtils.addDay(date, 1-i);
 	}
 	
 	public static Date getLastDateOfWeek(Date date){
-		int i=DateUtil.dayOfWeek(date)-1;//星期一算第一天
+		int i=DateUtils.dayOfWeek(date)-1;//星期一算第一天
 		if(i==0)i=7;//星期天算最后一天，第7天
-		return DateUtil.addDay(date, 7-i);
+		return DateUtils.addDay(date, 7-i);
 	}
 	
 	
@@ -860,14 +860,14 @@ public class DateUtil {
 	
 	
 	public static Date getFistDateOfMonth(Date date){
-		int i=DateUtil.getLastDayOfMonth(date);
-		int j=DateUtil.getDayOfMonth(date);
-		return DateUtil.addDay(date, 1-j);
+		int i=DateUtils.getLastDayOfMonth(date);
+		int j=DateUtils.getDayOfMonth(date);
+		return DateUtils.addDay(date, 1-j);
 	}
    public static Date getLastDateOfMonth(Date date){
-	   int i=DateUtil.getLastDayOfMonth(date);
-	   int j=DateUtil.getDayOfMonth(date);
-	   return DateUtil.addDay(date, i-j);
+	   int i=DateUtils.getLastDayOfMonth(date);
+	   int j=DateUtils.getDayOfMonth(date);
+	   return DateUtils.addDay(date, i-j);
 	}
    
 	/**
@@ -879,7 +879,7 @@ public class DateUtil {
 		calendar.set(year, month-1, date);
 		Date dateTime=calendar.getTime();
 		dateTime=changeDateOfMonth(dateTime, len);
-		return DateUtil.date2String(dateTime, "yyyy-MM");
+		return DateUtils.date2String(dateTime, "yyyy-MM");
 	}
 	
 	/**

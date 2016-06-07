@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.rui.pro1.common.utils.JsonUtils;
+import com.rui.pro1.common.utils.json.JsonUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:application-pro1.xml")

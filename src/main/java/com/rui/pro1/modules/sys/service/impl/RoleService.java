@@ -1,6 +1,7 @@
 package com.rui.pro1.modules.sys.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +19,7 @@ import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.mapper.MenuMapper;
 import com.rui.pro1.modules.sys.mapper.RoleMapper;
 import com.rui.pro1.modules.sys.service.IRoleService;
+import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.vo.RoleVo;
 
 @Service
@@ -113,6 +115,9 @@ public class RoleService implements IRoleService {
 				throw new ObjectExistException("角色已存在");
 			}
 			
+			
+			
+			//role.setUpdateTime(new Date());
 			
 			//新增
 			count= roleMapper.insertSelective(role);

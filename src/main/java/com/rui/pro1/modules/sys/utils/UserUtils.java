@@ -37,7 +37,7 @@ public class UserUtils {
 	 * 
 	 * @return 取不到返回 new User()
 	 */
-	public User getUser() 
+	public  User getUser() 
 	{
 		
 		Subject subject = SecurityUtils.getSubject();

@@ -26,9 +26,12 @@ public class MenuService implements IMenuService {
 
 		// 组合分页信息
 		QueryResult<Menu> queryResult = new QueryResult<Menu>();
-		Long count = menuMapper.getCount(query);
 		List<Menu> list = menuMapper.queryPages(query);
+		
+		
 		// 总页数 和 取多少条
+		queryResult.setCurrentPage(page);
+		Long count = menuMapper.getCount(query);
 		queryResult.setPages(count, pagesize);
 		queryResult.setItems(list);
 

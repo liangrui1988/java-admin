@@ -1,4 +1,4 @@
-package com.rui.pro1.common.utils;
+package com.rui.pro1.common.utils.json;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

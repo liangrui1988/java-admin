@@ -155,6 +155,16 @@
 	        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 	        treeObj.checkAllNodes(false);
 	    }
+	    
+	    //折叠展开
+	    function expandAll(istrue) {
+	        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+		    treeObj.expandAll(istrue);
+	    }
+	    
+	 
+	    
+	    
 	    //确定
 	    function enterSel(){
 	    	$("#menuContent").css("display","none");

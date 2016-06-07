@@ -48,7 +48,7 @@ public class UserController extends SysBaseController {
 	@RequestMapping(value = {"list",""}, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getUserList(
-			@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
 			UserVo user) {
 		ResultBean rb = new ResultBean();

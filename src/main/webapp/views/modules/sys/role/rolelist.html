@@ -6,18 +6,14 @@
 <link href="../../../common/all.css" rel="stylesheet">
 <script type="text/javascript" src="../../../common/all.js"></script>
 
-</script>
 </head>
 
 <body style="overflow-x: hidden; overflow-y: hidden;">
-
         
         <form action="" class="breadcrumb form-search " id="_search_form">
              &nbsp;角色名称: <input class="input-xlarge" name="roleName"  id="_roleName" type="text" />
 			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
 		</form>
-		
-		
 		
 	<ul class="nav nav-tabs">
 		<li class="active">
@@ -34,19 +30,16 @@
 		<table id="_role_table" class="table table-striped">
 			<thead>
 				<tr>
-					<th>序号</th>
-					<th>id</th>
-					<th>角色名称</th>
-					<th>类型</th>
-					<th>状态</th>
-<!-- 					归属机构 -->
-					<th>创建时间</th>
-					<th>操作</th>
+					<td width="10%">序号</td>
+					<td width="10%">id</td>
+					<td width="20%">角色名称</td>
+					<td width="20%">状态</td>
+					<td width="20%">创建时间</td>
+					<td width="20%">操作</td>
 				</tr>
 			</thead>
-
 			<tbody>
-				
+		
 			</tbody>
 
 		</table>
@@ -72,8 +65,10 @@ $(function() {
 function callbak_page(returnDatas)
 {
 	var tableHTML = "";
-	var trContext = $("#_role_table");
-	$("#_role_table tbody tr").remove();
+	//var trContext = $("#_role_table");
+	
+	var trContext = $("#_role_table tbody");
+	//$("#_role_table tbody tr").remove();
 	var returnData = returnDatas.data.items;
 	
 	if(returnData==null){
@@ -84,9 +79,10 @@ function callbak_page(returnDatas)
 	//状态处理
 	//var sta=returnData[i].status;
 	var staName="";
-	var operation='<a href="#">查看</a>'
+	//<a href="#">查看</a>
+	var operation=''
 				   +'&nbsp;&nbsp;<a href="roleUpdate.html?id='+returnData[i].id+'" >修改</a>'
-				   +'&nbsp;&nbsp;<a href="#">删除</a>';
+				   +'&nbsp;&nbsp;<a href="#" onclick="delRole(this,'+returnData[i].id+')">删除</a>';
 				   
 	tableHTML += "<tr>" + "<td>"
 				+ (j + 1)
@@ -135,6 +131,36 @@ function getParam()
 	return param;			 
 }
 
+//删除角色
+function delRole(obj,id){
+	
+	//console.log(obj);
+	
+	if(id==""){
+		alert("参数错误");
+		return;
+	}
+	
+	$.ajax({
+		url : getContextPath()+"/sys/role/del",
+		type : "POST",
+		//contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+		data :{"id":id},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(resolveResultBeanIsOk(returnData,status)){
+				$this=$(obj);
+				var delTr=$this.parent().parent();
+				$(delTr).remove();
+			}
+		},
+		error : function() {
+			alert("异常！");
+		}
+	});
+}
 
 
 

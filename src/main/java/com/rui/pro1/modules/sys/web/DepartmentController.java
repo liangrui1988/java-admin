@@ -42,7 +42,7 @@ public class DepartmentController extends SysBaseController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(
-			@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
 			DepartmentVo departmentVo) {
 		ResultBean rb = new ResultBean();

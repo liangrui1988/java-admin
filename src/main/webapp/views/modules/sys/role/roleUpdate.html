@@ -102,14 +102,18 @@
 				&nbsp;
 				<input id="citySel" type="text" readonly value="" placeholder="点击选择权限" style="width:220px;" onclick="showMenu(); return false;"/>
 				<input id="areaCodeV" type="hidden" >
-				<div id="menuContent" class="menuContent" style="display:none; width:600px; height:500px;z-index:9999, position: absolute; background:rgb(242, 242, 242);OVERFLOW-Y: auto; OVERFLOW-X:hidden; ">
+				<div id="menuContent" class="menuContent" style="display:none; width:600px; height:800px;z-index:9999, position: absolute; background:rgb(242, 242, 242);OVERFLOW-Y: auto; OVERFLOW-X:hidden; ">
 		        <!--  <a href="javascript:claclArea()">清空</a> -->   
-		         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-		         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+		         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;
+		         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;
 		         <a href="javascript:checkAllNodes()" >全选</a>
-		            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		            &nbsp; &nbsp; &nbsp; &nbsp; 
 		         <a href="javascript:cancelAllNodes()" >全取消</a>
-		             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+		             &nbsp; &nbsp; &nbsp; &nbsp; 
+		          <a href="javascript:expandAll(true)" >展开</a>
+		            &nbsp; &nbsp; &nbsp; &nbsp; 
+		         <a href="javascript:expandAll(false)" >折叠</a>
+		             &nbsp; &nbsp; &nbsp; &nbsp; 
 		         <a href="javascript:enterSel()">确定</a> 
 			       <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 		        </div>
@@ -221,7 +225,7 @@
 			    	  //延迟
 			    	  setTimeout(function () { 
 			    		  checkZTree(null,data.menus);
-			    	    }, 1000);
+			    	    }, 500);
 			      }else{
 			    	  checkZTree(treeObj,data.menus);
 			      }

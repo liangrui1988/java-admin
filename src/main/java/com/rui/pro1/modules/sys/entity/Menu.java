@@ -2,6 +2,9 @@ package com.rui.pro1.modules.sys.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.rui.pro1.common.utils.date.DateSerializer;
+
 public class Menu {
     private String id;
 
@@ -23,8 +26,10 @@ public class Menu {
 
     private String href;
 
+    
+    @JsonSerialize(using=DateSerializer.class)
     private Date createTime;
-
+    @JsonSerialize(using=DateSerializer.class)
     private Date updateTime;
 
     private Integer createById;
