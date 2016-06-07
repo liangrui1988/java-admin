@@ -3,6 +3,8 @@ package com.rui.pro1.modules.sys.bean;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.rui.pro1.common.utils.date.DateSerializer;
 import com.rui.pro1.modules.sys.entity.Department;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
@@ -25,9 +27,9 @@ public class UserBean {
 	private Integer createById;
 
 	private Integer updateById;
-
+    @JsonSerialize(using=DateSerializer.class)
 	private Date createTime;
-
+    @JsonSerialize(using=DateSerializer.class)
 	private Date updateTime;
 
 	private String remake;

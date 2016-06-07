@@ -9,7 +9,7 @@ import com.rui.pro1.modules.sys.utils.UserUtils;
 /**
  * BaseController
  * 
- * @date 十年之后
+ * @date 现在你不认识我，我不认识你。十年之后， 我们是朋友
  * @author ruiliang
  * @qq 1067165280
  *

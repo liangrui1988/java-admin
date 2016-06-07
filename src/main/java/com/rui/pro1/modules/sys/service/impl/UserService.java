@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.common.bean.page.QueryResult;
+import com.rui.pro1.common.exception.SysRuntimeException;
 import com.rui.pro1.common.utils.copyo.BeanCopierUtils;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
@@ -104,34 +105,70 @@ public class UserService implements IUserService {
 			return 0;
 		}
 		
-		//登录名是否存在
-		UserLoginVo vo=new UserLoginVo();
-		vo.setUserName(user.getUserName());
-		User isExistsUser=userMapper.query(vo);
-		if(isExistsUser!=null&&isExistsUser.getId()>0){
-			throw new UserExistException("用户已存在");
+		
+		int count =0;
+		
+		if(user.getId()!=null&&user.getId()>0)
+		{//修改
+			
+			 count = userMapper.updateByPrimaryKeySelective(user);
+			// 用户拥有的角色
+			if (count > 0) {
+				
+				// 删除用户拥有的角色
+				userMapper.delUserRole(user.getId());
+				// 如果没有角色更新的 返回
+				if (user.getRoles() == null || user.getRoles().size() <= 0) {
+					return count;
+				}
+				// 用户拥有的角色
+				for (Role role : user.getRoles()) {
+					if (role.getId()!=null&& role.getId()> 0) {
+						userMapper.addUserRole(user.getId(), role.getId());
+					}
+				}
+
+			}
+			
+		}else{//新增
+			//登录名是否存在
+			UserLoginVo vo=new UserLoginVo();
+			vo.setUserName(user.getUserName());
+			User isExistsUser=userMapper.query(vo);
+			if(isExistsUser!=null&&isExistsUser.getId()>0){
+				throw new UserExistException("用户已存在");
+			}
+			//
+			user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
+			
+			 count = userMapper.insertSelective(user);
+			if (count > 0) {
+				// 用户拥有的角色
+				for (Role role : user.getRoles()) {
+					if (role.getId()!=null&& role.getId()> 0) {
+						int countx=userMapper.addUserRole(user.getId(), role.getId());
+//						if(countx<=0){
+//							throw new SysRuntimeException("添加角色失败");
+//						}
+						
+					}
+				}
+				// 用户to部门 
+//				if (user.getDepartmentId()!=null&&user.getDepartmentId() > 0) {
+//					userMapper.addUserDepartment(user.getId(),
+//							user.getDepartmentId());
+//				}
+			}
+			
 		}
+		
+		
+		
 	
 
 		
 		
-		user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
 		
-		int count = userMapper.insertSelective(user);
-		if (count > 0) {
-			// 用户拥有的角色
-			for (Role role : user.getRoles()) {
-				if (role.getId() > 0) {
-					userMapper.addUserRole(user.getId(), role.getId());
-					// FIXME:如果不成功抛异常
-				}
-			}
-			// 用户to部门
-			if (user.getDepartmentId()!=null&&user.getDepartmentId() > 0) {
-				userMapper.addUserDepartment(user.getId(),
-						user.getDepartmentId());
-			}
-		}
 		return count;
 	}
 
@@ -145,33 +182,35 @@ public class UserService implements IUserService {
 
 		// 用户拥有的角色
 		if (count > 0) {
+			
+			// 删除用户拥有的角色
+			userMapper.delUserRole(user.getId());
+						
 			// 如果没有角色更新的 返回
 			if (user.getRoles() == null || user.getRoles().size() <= 0) {
 				return count;
 			}
-			// 删除用户拥有的角色
-			userMapper.delUserRole(user.getId());
+			
 			// 用户拥有的角色
 			for (Role role : user.getRoles()) {
-				if (role.getId() > 0) {
+				if (role.getId()!=null&&role.getId() > 0) {
 					userMapper.addUserRole(user.getId(), role.getId());
-					// FIXME:如果不成功抛异常
 				}
 			}
 			// 用户to部门
-			if (user.getDepartmentId() > 0) {
-				User user2 = userMapper.get(user.getId());
-
-				if (user2 == null || user2.getId() <= 0) {
-					// FIXME:抛异常 回滚
-				}
-				// 如果部门有改变，才修改
-				if (user2.getDepartmentId() != user.getDepartmentId()) {
-					userMapper.delUserDepartment(user.getId());
-					userMapper.addUserDepartment(user.getId(),
-							user.getDepartmentId());
-				}
-			}
+//			if (user.getDepartmentId() > 0) {
+//				User user2 = userMapper.get(user.getId());
+//
+//				if (user2 == null || user2.getId() <= 0) {
+//					// FIXME:抛异常 回滚
+//				}
+//				// 如果部门有改变，才修改
+//				if (user2.getDepartmentId() != user.getDepartmentId()) {
+//					userMapper.delUserDepartment(user.getId());
+//					userMapper.addUserDepartment(user.getId(),
+//							user.getDepartmentId());
+//				}
+//			}
 		}
 		return count;
 	}

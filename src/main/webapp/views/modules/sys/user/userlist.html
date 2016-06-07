@@ -66,12 +66,12 @@
 		<table id="_user_table" class="table table-striped">
 			<thead>
 				<tr>
-					<th>序号</th>
-					<th>id</th>
-					<th>用户名</th>
-					<th>状态</th>
-					<th>创建时间</th>
-					<th>操作</th>
+					<th width="10%">序号</th>
+					<th width="10%">id</th>
+					<th width="20%">用户名</th>
+					<th width="20%">状态</th>
+					<th width="20%">创建时间</th>
+					<th width="20%">操作</th>
 				</tr>
 			</thead>
 
@@ -117,9 +117,10 @@ function callbak_page(returnDatas)
 	//状态处理
 	//var sta=returnData[i].status;
 	var staName="";
-	var operation='<a href="#">查看</a>'
-				   +'&nbsp;&nbsp;<a href="#">修改</a>'
-				   +'&nbsp;&nbsp;<a href="#">删除</a>';
+	//<a href="#">查看</a>
+	var operation=''
+				   +'&nbsp;&nbsp;<a href="userUpdate.html?id='+returnData[i].id+'">修改</a>'
+				   +'&nbsp;&nbsp;<a href="#" onclick="delUser(this,'+returnData[i].id+')">删除</a>';
 				   
 	tableHTML += "<tr>" + "<td>"
 				+ (j + 1)
@@ -134,7 +135,7 @@ function callbak_page(returnDatas)
 				+ returnData[i].status
 				+ "</td>"
 				+ "<td>"
-				+ returnData[i].departmentId
+				+ returnData[i].createTime
 				+ "</td>"						
 				+ "<td>"
 				+operation									

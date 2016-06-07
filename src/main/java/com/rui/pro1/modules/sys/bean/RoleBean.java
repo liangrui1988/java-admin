@@ -16,6 +16,9 @@ public class RoleBean {
 	private String remake;
 
 	private Integer status;
+	
+	private String types;
+
 
 	private List<MenuBean> menus; // 拥有的菜单列表
 
@@ -61,5 +64,15 @@ public class RoleBean {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
+	public String getTypes() {
+		return types;
+	}
+
+	public void setTypes(String types) {
+		this.types = types;
+	}
+	
+	
 
 }

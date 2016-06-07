@@ -2,23 +2,6 @@
 <html>
 <head>
 <title>用户管理</title>
-
-<!-- <link href="../../../common/bootstrap/css/bootstrap.min.css" -->
-<!-- 	rel="stylesheet"> -->
-<!-- <link href="../../resources/css/sys/pager.css" -->
-<!-- 	rel="stylesheet"> -->
-	
-
-	
-<!-- <script src="../../../common/jquery/jquery-1.12.3.js"></script> -->
-<!-- <script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script> -->
-<!-- <script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script> -->
-
-<!-- <script src="../../../common/bootstrap/js/bootstrap.js"></script> -->
-<!-- <script src="../../../common/bootstrap/js/bootstrap.js"></script> -->
-<!-- <script src="../../../common/sys.js"></script> -->
-<!-- <script src="../../../common/util/common.js"></script> -->
-
 <link href="../../../common/all.css" rel="stylesheet">
 <script type="text/javascript" src="../../../common/all.js"></script>
 
@@ -35,27 +18,162 @@
 
 <script type="text/javascript">
 
+//全部角色
+var rolelist="";
+
+//初始化
+$(function(){
+	rolelist=getRoles();
+	
+	initUpdate();
+})
+
+
+/**
+*获取全部角色
+*/
+function getRoles()
+{
+	
+	if(typeof(rolelist)!="undefined"&&rolelist!=""&&rolelist!=null&&rolelist.length>0)
+	{
+		return rolelist;
+	}
+	
+	//获取角色
+	$.ajax({
+		url : getContextPath()+"/sys/role/listAll",
+		type : "GET",
+		//contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+		data :'',
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(resolveResultBeanIsError(returnData,status))
+			{
+				rolelist=returnData.data;
+				return rolelist;
+			}else{
+				return "";
+			}
+				
+		},
+		error:function() {
+			alert("请求角色异常！");
+		}
+	});
+}
+ 
+
+
+
+function initUpdate(){
+	var id=getUrlParam("id");
+	if(id==null||id==""){
+		alert("参数异常，无法修改！");
+		return;
+	}
+	$("#_userId").val(id);
+	//请求数据
+	$.ajax({
+		url : getContextPath()+"/sys/user/get",
+		type : "get",
+		//contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		data :{"id":id},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+		   if(resolveResultBeanIsError(returnData,status))
+		   {
+			  var data=returnData.data;
+			  $("#_userName").val(data.userName);
+			  
+			  $("#_fullName").val(data.fullName);
+			  $("#_email").val(data.email);
+
+			  //状态redio
+			  var status=data.status;
+			  if(status==0){
+				  $("input[name=status]:eq(0)").attr("checked",'checked'); 
+			  }else if(status==1)
+			  {
+				  $("input[name=status]:eq(1)").attr("checked",'checked'); 
+
+			  }
+			  
+			  //角色类型
+			//  $("#_type").attr("value",data.type);
+			  $("#_type option[value='"+data.type+"']").attr("selected", "selected");  
+			  //角色
+		      var roles=data.roles;
+		      if(typeof(rolelist)=="undefined"||rolelist==""||rolelist==null)
+		      {
+		    	//延迟
+		    	// var xRolelist=getRoles();
+		    	  setTimeout(function () { 
+		    		  initRoleCehcked(rolelist,data.roles);
+		    	    }, 800);
+			      
+		      }else{
+	    		  initRoleCehcked(rolelist,roles);
+		      }
+		      //角色 end
+				
+			  
+			  $("#_remake").val(data.remake);
+			   
+		   }
+		},
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+	
+}
+
+//初始用户拥有的角色
+function initRoleCehcked(rolelist,roles){
+
+    if(typeof(rolelist)!="undefined"&&rolelist!=""&&rolelist.length>0)
+    {
+	    	var roleHtml='';
+			for(var i=0;i<rolelist.length;i++)
+			{
+				//db数据
+				var roleObj=rolelist[i];
+				roleHtml+=' <input value="'+roleObj.id+'"';
+				
+				if(roles!=""&&roles!=null&&roles.length>0)
+				{
+					for(var j=0;j<roles.length;j++)
+					{
+						//用户数据
+						var dataId=roles[j].id;
+						if(roleObj.id==dataId){
+							roleHtml+=' checked="true"  ';
+							break;
+						}
+					}
+				}
+				roleHtml+=' type="checkbox"  name="roles['+i+'].id"/>';
+				// roleHtml+=' <input value="'+roleObj.id+'" type="checkbox"  name="roles['+i+'].id"/>';
+				roleHtml+=roleObj.name;
+				roleHtml+='&nbsp;&nbsp;';
+			}
+			$("#_role_plan_div").html(roleHtml);
+     }
+}
+
+
+    //提交表单
 	$(document).ready(function() {
-		
-		initAddUser();
-		
+
 		$("#inputForm").validate({
 			submitHandler: function(form){
-				//loading('正在提交，请稍等...');
-				
-				addUser();
-				
-					//form.submit();
+				updateUser();
+				//form.submit();
 			},
-// 			rules: {
-//                   test: '999999999.99'
-// 			},
-// 			messages: {
-// 	   	 		userName: {
-// 					required: "必填信息"
-// 				}
-// 			},
-			//onkeyup:true,
 			errorContainer: "#messageBox",
 			errorPlacement: function(error, element) {
 				$("#messageBox").text("输入有误，请先更正。");
@@ -69,49 +187,15 @@
 	});
 	
 	
-	function initAddUser()
-	{
-		//获取角色
-		$.ajax({
-			url : getContextPath()+"/sys/role/listAll",
-			type : "GET",
-			//contentType: "application/json; charset=utf-8",
-			dataType : "json",
-			//data :{productVoJson:JSON.stringify(objVo)},
-			data :'',
-			success : function(returnData,status,XMLHttpRequest)
-			{	
-				console.log(returnData);
-				if(resolveResultBeanIsError(returnData,status))
-				{
-					var rolelist=returnData.data;
-					var roleHtml='';
-
-					for(var i=0;i<rolelist.length;i++)
-					{
-						var roleObj=rolelist[i];
-						roleHtml+=' <input value="'+roleObj.id+'" type="checkbox"  name="roles['+i+'].id"/>';
-						roleHtml+=roleObj.name;
-						roleHtml+='&nbsp;&nbsp;';
-					}
-					$("#_role_plan_div").html(roleHtml);
-				}
-					
-			}
-		});
-	}
-	 
-
-	function addUser(){
-		
+	function updateUser(){
 		var jobj=$("#inputForm").serialize();
 		$.ajax({
-			url : getContextPath()+"/sys/user/add",
+			url : getContextPath()+"/sys/user/update",
 			type : "POST",
 			dataType : "json",
 			data :jobj,
 			success : function(returnData,status,XMLHttpRequest)
-			{	console.log(returnData);
+			{	
 			    resolveResultBeanIsOk(returnData,status);
 			}
 		});
@@ -125,33 +209,12 @@
 
 <body style="overflow-x: hidden; overflow-y: hidden;">
 	
-	<ul class="nav nav-tabs">
-		<li >
-			<a href="userlist.html">用户列表</a>
-		</li>
-		<li class="active">
-			<a href="userAdd.html">添加用户</a>
-		</li>
-	</ul>
-	
-             <br/>
  <div class="userAddClz">
              
       <form id="inputForm" action="" class="form-horizontal" role="form">
-<!--             <div class="form-group"> -->
-<!--                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：    -->
-<!--                </label> -->
-<!--                <div class="col-sm-1"> -->
-<!--                   <input class="input-xlarge" name="userName" type="text" placeholder="192.168.1.161"/> -->
-<!--                </div> -->
-<!--                <label class="col-sm-4 control-label" ><span class="help-inline"><font color="red">*</font> </span>密码：        -->
-<!--                </label> -->
-<!--                <div class="col-sm-1"> -->
-<!--                   <input class="input-xlarge"  type="password" placeholder="msh"/> -->
-<!--                </div> -->
-<!--             </div> -->
-
-
+    
+              <input  name="id"  id="_userId" type="hidden" />
+          
             <div class="form-group">
                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>登陆名：   
                </label>
@@ -240,72 +303,7 @@
          
     </div>
 		
-		
-		
-<script type="text/javascript">
 
-
-function addUserTest(){
-	
-	var jobj=$("#inputForm").serialize();
-	console.log(jobj);
-// 	var jsonObjjj=$("#inputForm").serializeObject();
-// 	console.log(jsonObjjj);
-
-// 	var jsonObj=$("#inputForm").serializeArray();
-// 	console.log(jsonObj);
-	
-	//获取值
-// 	   var _userName=$("#_userName").val();
-// 	    var  _passowrd=$("#_passowrd").val();
-	
-// 		var  status=$("input[name='status']:checked").val(); //状态   编号 		
-
-		
-		//var TProProductPhotos = new Array();  //商品图片
-		
-// 		$(".imgUrl").each(function(){
-// 			 var ProductPhoto=new Object();
-// 			 ProductPhoto.url=$(this).val();
-// 			 TProProductPhotos.push(ProductPhoto);
-// 		 });
-	
-		 
-		 //""处理
-// 		 if(""==price) price=null;
-// 		 if(""==normWeight)   normWeight=null;
-// 		 if(""==actual_price) actual_price=null;
-		 
-// 		var productVo={
-// 			id:mer_pro_id,
-// 			typeId:typeId,
-// 			status:status,
-// 			unit:unit,
-// 			name:name,
-// 			price:price,
-		
-// 	};
-		
-	
-	$.ajax({
-		url : getContextPath()+"/sys/user/add",
-		type : "POST",
-		//contentType: "application/json; charset=utf-8",
-		dataType : "json",
-		//data :{productVoJson:JSON.stringify(objVo)},
-		data :jobj,
-		success : function(returnData,status,XMLHttpRequest)
-		{	
-			alert("xx");
-			console.log(returnData);
-		}
-	});
-	
-}
-		
-		
-		
-</script>
 
 </body>
 </html>
