@@ -53,7 +53,7 @@ public class PersonalController extends SettingBaseController {
 	}
 	
 	
-	@RequiresPermissions(SettingMenu.SETTING_PERSONAL + ":update")
+	//@RequiresPermissions(SettingMenu.SETTING_PERSONAL + ":update")
 	@PermissionAnnot(id =  SettingMenu.SETTING_PERSONAL + ":update", name = "修改个人信息")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody

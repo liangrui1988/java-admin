@@ -40,6 +40,7 @@
     <mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<bean class="com.rui.pro1.common.utils.converter.JSONConverter" />
+			 <bean class="com.rui.pro1.modules.sys.web.converter.permissionAnnotResolver"/> 
 			 <bean class="com.rui.pro1.modules.sys.shiro.CurrentUserMethodArgumentResolver"/> 
 		</mvc:argument-resolvers>
 	<mvc:message-converters>
@@ -51,6 +52,9 @@
 		</bean>
 	</mvc:message-converters>  
 </mvc:annotation-driven>
+
+
+
 
     
        <!-- 处理静态文件 -->

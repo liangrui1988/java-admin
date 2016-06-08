@@ -129,7 +129,7 @@ public class UserController extends SysBaseController {
 		return rb;
 	}
 
-	@RequiresPermissions(SysMenu.SYS_USER + ":update")
+	//@RequiresPermissions(SysMenu.SYS_USER + ":update")
 	@PermissionAnnot(id =  SysMenu.SYS_USER + ":update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
