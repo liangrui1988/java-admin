@@ -227,6 +227,11 @@
 					 $("#captcha_sapn").text(data.message);
 				     return;
 				 }else{
+					var iscaptcha= $("#_captcha_div").css("display");
+					if("block"==iscaptcha){
+						 $('#_captchaCode_img').trigger("click");
+					}
+					
 					 alert(data.message);
 				 }
 

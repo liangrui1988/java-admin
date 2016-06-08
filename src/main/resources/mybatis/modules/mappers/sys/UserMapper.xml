@@ -236,10 +236,10 @@
       <if test="departmentId != null">
         department_id = #{departmentId,jdbcType=INTEGER},
       </if>
-      <if test="userName != null">
+      <if test="userName != null and userName != ''">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
+      <if test="password != null and password != ''">
         password = #{password,jdbcType=VARCHAR},
       </if>
       <if test="fullName != null">
@@ -248,7 +248,7 @@
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
+      <if test="email != null ">
         email = #{email,jdbcType=CHAR},
       </if>
       <if test="status != null">

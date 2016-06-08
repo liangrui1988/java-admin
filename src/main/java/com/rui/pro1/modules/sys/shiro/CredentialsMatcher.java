@@ -1,5 +1,7 @@
 package com.rui.pro1.modules.sys.shiro;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -9,9 +11,6 @@ import org.apache.shiro.cache.CacheManager;
 
 import com.rui.pro1.common.cache.EhCacheKeys;
 import com.rui.pro1.modules.sys.constants.SysComm;
-import com.rui.pro1.modules.sys.exception.CaptchaErrorException;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 认证信息匹配器

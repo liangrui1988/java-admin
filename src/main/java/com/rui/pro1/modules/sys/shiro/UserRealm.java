@@ -57,6 +57,11 @@ public class UserRealm extends AuthorizingRealm {
 			userLoginService = (IUserLoginService) SysApplicationContext
 					.getBean("userLoginService");
 		}
+		
+		if(userService==null){
+			userService =  (IUserService) SysApplicationContext
+					.getBean("userService");
+		}
 
 		// userService.findRoles(username)
 		Set<String> roles = userService.getUserRole(username);

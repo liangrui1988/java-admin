@@ -44,6 +44,8 @@ public class UserController extends SysBaseController {
 	@Autowired
 	private IUserService userService;
 
+	//@RequiresPermissions("chauffeur:carChauffeurRiskDetail:view")
+
 	@PermissionAnnot(id =  SysMenu.SYS_USER + ":list",name="查询列表")
 	@RequestMapping(value = {"list",""}, method = RequestMethod.GET)
 	@ResponseBody
@@ -127,6 +129,7 @@ public class UserController extends SysBaseController {
 		return rb;
 	}
 
+	@RequiresPermissions(SysMenu.SYS_USER + ":update")
 	@PermissionAnnot(id =  SysMenu.SYS_USER + ":update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody

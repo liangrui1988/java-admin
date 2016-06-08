@@ -118,6 +118,7 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
          <property name="loginUrl" value="/loginPage"/>
+         <property name="unauthorizedUrl" value="/unauthorized"/>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formsAuthenticationFilter"/>
@@ -129,6 +130,7 @@
 			   /views/** = anon
 			   /logout = anon
 		      /login = anon
+		      /unauthorized= anon
 		      /jcaptcha.jpg=anon
 		      /loginPage = anon
 		     /authenticated = authc
@@ -143,11 +145,28 @@
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
 
-<!-- mvc -->
-    <aop:config proxy-target-class="true"></aop:config>
+<!--  开启shiro注解 spring 配置方式有bean -->
+<!-- DefaultAdvisorAutoProxyCreator 实例化依靠另一个Bean先实例化-->
+<!--     <aop:config proxy-target-class="true"></aop:config> -->
+    
+     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+     
+    </bean>
+    
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
+
+
+	<bean id="handlerExceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+			   <prop key="org.apache.shiro.authz.AuthorizationException">/unauthorized</prop>
+				<prop key="org.apache.shiro.authz.AuthorizationException">/unauthorized</prop>
+			</props>
+		</property>
+	</bean>
 
 
 </beans>

@@ -243,9 +243,7 @@ public class UserLoginController extends SysBaseController {
 			// System.out.println("k:"+c.getName()+",age:"+c.getMaxAge()+",v:"+c.getValue()+",p:"+c.getPath()+",Domain："+c.getDomain()+",Version:"+c.getVersion()+",Secure:"+c.getSecure()+",Comment:"+c.getComment());
 			// }
         	
-        	
         	ResultBean rb = new ResultBean();
-        	
         	if(map.containsKey("isCaptcha")){
         		response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_004);
     			rb.setSuccess(false);
@@ -270,6 +268,34 @@ public class UserLoginController extends SysBaseController {
 
 				}
 				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+        
+	}
+	
+	
+	/**
+	 * 跳转页
+	 * @param request
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="unauthorized") //, method=RequestMethod.POST
+	public void unauthorized(HttpServletRequest request, HttpServletResponse response) {
+        if (WebHelp.isAjAxRequest(request))
+		{
+        	ResultBean rb = new ResultBean();
+				response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_002);
+				rb.setSuccess(false);
+				rb.setMessageCode(MessageCode.SYS_NO_PERMISSE);
+				rb.setMessage("没有权限");
+			responseResultBean(request, response, rb);
+		} else
+		{
+			try {
+				response.sendRedirect(request.getContextPath()+"/views/401.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,6 @@ import com.rui.pro1.modules.setting.service.IPersonalService;
 import com.rui.pro1.modules.setting.vo.PersonalVo;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.User;
-import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.utils.PassUtil;
 
 @Controller
@@ -33,6 +33,7 @@ public class PersonalController extends SettingBaseController {
 	@Autowired
 	private IPersonalService personalService;
 	
+	@RequiresPermissions(SettingMenu.SETTING_PERSONAL + ":get")
 	@PermissionAnnot(id = SettingMenu.SETTING_PERSONAL + ":get", name = "查看编辑")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
@@ -52,7 +53,7 @@ public class PersonalController extends SettingBaseController {
 	}
 	
 	
-	
+	@RequiresPermissions(SettingMenu.SETTING_PERSONAL + ":update")
 	@PermissionAnnot(id =  SettingMenu.SETTING_PERSONAL + ":update", name = "修改个人信息")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody

@@ -18,7 +18,6 @@
 	<!-- mybatis映射 配置-->
 	 <import resource="mybatis/application-data-dao.xml"/>
 	 
-	 
 <!-- 	<bean id="txManager" -->
 <!-- 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
 <!-- 		<property name="dataSource" ref="dataSource" /> -->
@@ -35,12 +34,8 @@
     <aop:aspectj-autoproxy />
     <!-- AutowiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor 以及 RequiredAnnotationBeanPostProcessor 这 4 个BeanPostProcessor。 -->
     <context:annotation-config/>
+    <!--<mvc:annotation-driven/> -->
     
-<!--     <mvc:annotation-driven/> -->
-    
-    
- 
-  
   
     <mvc:annotation-driven>
 		<mvc:argument-resolvers>
@@ -66,14 +61,14 @@
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/views/" />
-		<property name="suffix" value=".html" />
+<!-- 		<property name="prefix" value="/views/" /> -->
+<!-- 		<property name="suffix" value=".html" /> -->
+
 	</bean>
 	
 		<!-- 获取bean -->
 	<bean id="sysApplicationContext" class="com.rui.pro1.common.utils.spring.SysApplicationContext">
 	</bean>
-<!-- 	<import resource="cache.xml"/> -->
-<!-- 	<import resource="shiro.xml"/> -->
+
 
 </beans>

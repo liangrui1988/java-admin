@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.common.bean.page.QueryResult;
-import com.rui.pro1.common.exception.SysRuntimeException;
 import com.rui.pro1.common.utils.copyo.BeanCopierUtils;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
@@ -115,7 +114,7 @@ public class UserService implements IUserService {
 			
 			if(!StringUtils.isBlank(user.getPassword()))
 			{
-				user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
+				user.setPassword(PassUtil.encryptPassword(user.getPassword(),user.getUserName()));
 
 			}
 			
@@ -189,7 +188,7 @@ public class UserService implements IUserService {
 		
 		if(!StringUtils.isBlank(user.getPassword()))
 		{
-			user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
+			user.setPassword(PassUtil.encryptPassword(user.getPassword(),user.getUserName()));
 
 		}
 		
@@ -291,7 +290,10 @@ public class UserService implements IUserService {
 				continue;
 			}
 			for (Menu m : mes) {
-				result.add(m.getPermission());
+				
+				//FIXME
+				//result.add(m.getPermission());
+				result.add(m.getId());
 			}
 		}
 

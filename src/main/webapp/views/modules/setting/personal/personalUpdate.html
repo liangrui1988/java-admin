@@ -83,7 +83,11 @@ function initUpdate(){
 			data :jobj,
 			success : function(returnData,status,XMLHttpRequest)
 			{	
-			    resolveResultBeanIsOk(returnData,status);
+			    //resolveResultBeanIsOk(returnData,status);
+			    
+			    if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+			    	alert("修改成功！");
+			    }
 			}
 		});
 		

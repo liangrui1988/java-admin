@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.rui.pro1.common.annotatiions.MenuAnnot;
 import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.utils.dir.Directory.TreeInfo;
+import com.rui.pro1.modules.sys.constants.MenuStatus;
 import com.rui.pro1.modules.sys.entity.Department;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.Role;
@@ -179,7 +180,7 @@ public class InitMP {
 				// menuEntity.setc(new Date());
 				// menuEntity.setCreater("系统扫描");
 				// menuEntity.setClient(menu.client());
-				menuEntity.setStatus(0);
+				menuEntity.setStatus(MenuStatus.NORMAL_0);
 				menuList.add(menuEntity);
 				// System.out.println("menuEntity:" + menuEntity);
 				// 获取方法
@@ -200,7 +201,7 @@ public class InitMP {
 					// menuthree.setHref(menu.href());
 					// FIXME:href
 					menuthree.setSortNo(menu.sortNo());
-					menuthree.setStatus(1);//不显示
+					menuthree.setStatus(MenuStatus.PERMISSION_1);//不显示
 					menuList.add(menuthree);
 
 				}

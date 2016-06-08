@@ -7,7 +7,6 @@ import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.entity.User;
-import com.rui.pro1.modules.sys.vo.UserLoginVo;
 import com.rui.pro1.modules.sys.vo.UserVo;
 
 /**
