@@ -39,7 +39,6 @@ function initUpdate(){
 		   {
 			  var data=returnData.data;
 			  $("#_userId").val(data.id);
-			  alert(data.fullName);
 // 			  $("#_userName").val(data.userName);
 			  $("#_fullName").val(data.fullName);
 			  $("#_email").val(data.email);
@@ -98,10 +97,10 @@ function initUpdate(){
 <body style="overflow-x: hidden; overflow-y: hidden;">
 	
 		<ul class="nav nav-tabs">
-		<li >
+		<li class="active">
 			<a href="personalUpdate.html">修改个人信息</a>
 		</li>
-		<li class="active">
+		<li >
 			<a href="passwordUpdate.html">修改密码</a>
 		</li>
 	</ul>

@@ -239,8 +239,11 @@ public class InitMP {
 
 		// 角色
 		Role role = new Role();
-		role.setName("系统管理员");
+		role.setName("系统管理");
 		role.setRemake("remake");
+		role.setCreateById(1);
+		role.setTypes("1");
+		
 		List<String> menuIds = new ArrayList<String>();
 		for (Menu m : menus) {
 			menuIds.add(m.getId());
@@ -249,8 +252,8 @@ public class InitMP {
 		roleService.add(role);
 		
 		Role roleB = new Role();
-		roleB.setName("普通用户");
-		roleB.setRemake("普通用户");
+		roleB.setName("商家角色");
+		roleB.setRemake("remake");
 //		List<String> menuIds2 = new ArrayList<String>();
 //		for (Menu m : menus) {
 //			menuIds2.add(m.getId());
@@ -266,6 +269,9 @@ public class InitMP {
 		user.setFullName("林冲");
 		user.setEmail("1067165280@qq.com");
 		user.setCreateTime(new Date());
+		user.setType("1");
+		user.setRemake("系统初始用户");
+		user.setCreateById(1);
 		//user.setCreateById(1);
 //		String password = PassUtil.encryptPassword("admin", "admin");
 //		System.out.println(password);
@@ -275,6 +281,8 @@ public class InitMP {
 		List<Role> roles = new ArrayList<Role>();
 		Role role2 = new Role();
 		role2.setId(role.getId());
+		
+		
 		roles.add(role2);
 		user.setRoles(roles);
 		// 部门

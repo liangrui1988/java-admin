@@ -18,6 +18,7 @@ import com.rui.pro1.common.constants.menu.SettingMenu;
 import com.rui.pro1.common.constants.uri.SettingUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.common.utils.copyo.BeanCopierUtils;
+import com.rui.pro1.modules.setting.service.IPersonalService;
 import com.rui.pro1.modules.setting.vo.PersonalVo;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.User;
@@ -30,7 +31,7 @@ import com.rui.pro1.modules.sys.utils.PassUtil;
 public class PersonalController extends SettingBaseController {
 
 	@Autowired
-	private IUserService userService;
+	private IPersonalService personalService;
 	
 	@PermissionAnnot(id = SettingMenu.SETTING_PERSONAL + ":get", name = "查看编辑")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
@@ -64,7 +65,7 @@ public class PersonalController extends SettingBaseController {
 			personalVo.setPassword(null);
 			User user=new User();
 			BeanCopierUtils.copyProperties(personalVo, user);
-			int count = userService.update(user);
+			int count = personalService.update(user);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
@@ -128,12 +129,7 @@ public class PersonalController extends SettingBaseController {
 		}
 		
 		try {
-			
-			User userEntity=new User();
-			userEntity.setPassword(password);
-			userEntity.setId(user.getId());
-			
-			int count = userService.update(userEntity);
+			int count = personalService.updatePassword(password,user.getId(),user.getUserName());
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}

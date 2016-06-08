@@ -112,6 +112,14 @@ public class UserService implements IUserService {
 		if(user.getId()!=null&&user.getId()>0)
 		{//修改
 			
+			
+			if(!StringUtils.isBlank(user.getPassword()))
+			{
+				user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
+
+			}
+			
+			
 			 count = userMapper.updateByPrimaryKeySelective(user);
 			// 用户拥有的角色
 			if (count > 0) {
@@ -140,7 +148,7 @@ public class UserService implements IUserService {
 				throw new UserExistException("用户已存在");
 			}
 			//
-			user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
+			user.setPassword(PassUtil.encryptPassword(user.getPassword(),user.getUserName()));
 			
 			 count = userMapper.insertSelective(user);
 			if (count > 0) {
@@ -178,6 +186,13 @@ public class UserService implements IUserService {
 		if (user == null) {
 			return 0;
 		}
+		
+		if(!StringUtils.isBlank(user.getPassword()))
+		{
+			user.setPassword(PassUtil.encryptPassword(user.getUserName(), user.getPassword()));
+
+		}
+		
 
 		int count = userMapper.updateByPrimaryKeySelective(user);
 
@@ -215,6 +230,8 @@ public class UserService implements IUserService {
 		}
 		return count;
 	}
+	
+	
 
 	@Override
 	public UserBean getUser(String username) {

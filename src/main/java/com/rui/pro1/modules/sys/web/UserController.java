@@ -4,8 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +113,7 @@ public class UserController extends SysBaseController {
 				}
 			}
 			
-			
+			user.setCreateById(userUtils.getUser().getId());
 			int count = userService.add(user);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
@@ -141,6 +140,8 @@ public class UserController extends SysBaseController {
 				{
 					rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
 					return rb;
+				}else{
+					//如果需要修改密码，
 				}
 			}
 		} catch (Exception e) {
@@ -150,6 +151,9 @@ public class UserController extends SysBaseController {
 		}
 		
 		try {
+			
+			user.setUpdateById(userUtils.getUser().getId());
+
 			int count = userService.update(user);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
