@@ -25,15 +25,13 @@ public interface IUserService {
 	int add(User user) throws Exception;
 
 	int update(User user);
-	
+
 	UserBean getUser(String username);
-	
+
 	Set<String> getUserRole(String username);
 
 	Set<String> getUserPermissions(String username);
-	
-	 List<Menu> getUserMenus(String username);
 
-
+	List<Menu> getUserMenus(String username);
 
 }

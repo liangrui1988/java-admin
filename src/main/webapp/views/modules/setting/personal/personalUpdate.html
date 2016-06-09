@@ -77,7 +77,8 @@ function initUpdate(){
 	function updateUser(){
 		var jobj=$("#inputForm").serialize();
 		$.ajax({
-			url : getContextPath()+"/sys/user/update",
+			//url : getContextPath()+"/sys/user/update",setting/personal
+			url : getContextPath()+"/setting/personal/update",
 			type : "POST",
 			dataType : "json",
 			data :jobj,
@@ -175,7 +176,7 @@ function initUpdate(){
          
             <div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+<!-- 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/> -->
 		    </div>    
          </form>
          

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 表单验证
  * auto  进行处理
- * @author ruiliang
+ * @author 
  *
  */
 public class FormsAuthenticationFilter extends FormAuthenticationFilter {

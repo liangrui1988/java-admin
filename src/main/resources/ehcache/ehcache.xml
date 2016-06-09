@@ -15,12 +15,16 @@
 <!-- diskSpoolBufferSizeMB:这个参数设置DiskStore（磁盘缓存）的缓存区大小。默认是30MB。每个Cache都应该有自己的一个缓冲区。 -->
 <!-- clearOnFlush:当调用flush()是否清除缓存，默认是 -->
 
-    <!-- 登录记录缓存 锁定10分钟 -->
+<!-- tTI timeToIdleSeconds  用于设置对象在cache中的最大闲置时间，就是 在一直不访问这个对象的前提下，这个对象可以在cache中的存活时间。 -->
+<!-- tTL timeToLiveSeconds  用于设置对象在cache中的最大存活时间，就是 无论对象访问或是不访问(闲置),这个对象在cache中的存活时间。 -->
+<!-- min(tTI,tTL); -->
+
+    <!-- 登录记录缓存 验证码或锁定1天 -->
     <cache name="longinLogCache"
            maxEntriesLocalHeap="2000"
            eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="86400"
            overflowToDisk="false"
            statistics="true">
     </cache>

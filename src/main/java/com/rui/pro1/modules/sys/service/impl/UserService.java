@@ -39,14 +39,6 @@ public class UserService implements IUserService {
 
 	@Override
 	public QueryResult<UserBean> getUserList(int page, int pagesize, UserVo userVo) {
-		// User user=new User();
-		// user.setId(1);
-		// user.setName("user001");
-		// user.setPassowd("pass");
-		//
-		// List<User> list=new ArrayList<User>();
-		// list.add(user);
-
 		Query query = new Query();
 		query.setBean(userVo);
 		query.setPageIndex(page);
@@ -56,7 +48,6 @@ public class UserService implements IUserService {
 		QueryResult<UserBean> queryResult = new QueryResult<UserBean>();
 		Long count = userMapper.getCount(query);
 		List<User> list = userMapper.queryPages(query);
-		
 		List<UserBean> listBean =new ArrayList<UserBean>();
 		if(list!=null&&list.size()>0){
 			for(int i=0;i<list.size();i++)
@@ -68,14 +59,11 @@ public class UserService implements IUserService {
 					BeanCopierUtils.copyProperties(user, userBean);
 					listBean.add(userBean);
 				}
-				
-				
 			}
 		}
 		// 总页数 和 取多少条
 		queryResult.setPages(count, pagesize);
 		queryResult.setItems(listBean);
-
 		return queryResult;
 	}
 
@@ -104,25 +92,16 @@ public class UserService implements IUserService {
 				|| user.getRoles().size() <= 0) {
 			return 0;
 		}
-		
-		
 		int count =0;
-		
 		if(user.getId()!=null&&user.getId()>0)
 		{//修改
-			
-			
 			if(!StringUtils.isBlank(user.getPassword()))
 			{
 				user.setPassword(PassUtil.encryptPassword(user.getPassword(),user.getUserName()));
-
 			}
-			
-			
 			 count = userMapper.updateByPrimaryKeySelective(user);
 			// 用户拥有的角色
 			if (count > 0) {
-				
 				// 删除用户拥有的角色
 				userMapper.delUserRole(user.getId());
 				// 如果没有角色更新的 返回
@@ -135,7 +114,6 @@ public class UserService implements IUserService {
 						userMapper.addUserRole(user.getId(), role.getId());
 					}
 				}
-
 			}
 			
 		}else{//新增
@@ -148,8 +126,7 @@ public class UserService implements IUserService {
 			}
 			//
 			user.setPassword(PassUtil.encryptPassword(user.getPassword(),user.getUserName()));
-			
-			 count = userMapper.insertSelective(user);
+			count = userMapper.insertSelective(user);
 			if (count > 0) {
 				// 用户拥有的角色
 				for (Role role : user.getRoles()) {
@@ -158,7 +135,6 @@ public class UserService implements IUserService {
 //						if(countx<=0){
 //							throw new SysRuntimeException("添加角色失败");
 //						}
-						
 					}
 				}
 				// 用户to部门 
@@ -167,16 +143,7 @@ public class UserService implements IUserService {
 //							user.getDepartmentId());
 //				}
 			}
-			
 		}
-		
-		
-		
-	
-
-		
-		
-		
 		return count;
 	}
 
@@ -189,23 +156,16 @@ public class UserService implements IUserService {
 		if(!StringUtils.isBlank(user.getPassword()))
 		{
 			user.setPassword(PassUtil.encryptPassword(user.getPassword(),user.getUserName()));
-
 		}
-		
-
 		int count = userMapper.updateByPrimaryKeySelective(user);
-
 		// 用户拥有的角色
 		if (count > 0) {
-			
 			// 删除用户拥有的角色
 			userMapper.delUserRole(user.getId());
-						
 			// 如果没有角色更新的 返回
 			if (user.getRoles() == null || user.getRoles().size() <= 0) {
 				return count;
 			}
-			
 			// 用户拥有的角色
 			for (Role role : user.getRoles()) {
 				if (role.getId()!=null&&role.getId() > 0) {
@@ -234,17 +194,11 @@ public class UserService implements IUserService {
 
 	@Override
 	public UserBean getUser(String username) {
-
 		UserLoginVo userLoginVo = new UserLoginVo();
 		userLoginVo.setUserName(username);
-
 		User user = userMapper.query(userLoginVo);
 		UserBean userBean=new UserBean();
-		
 		BeanCopierUtils.copyProperties(user, userBean);
-	
-		
-
 		return userBean;
 	}
 
@@ -252,34 +206,30 @@ public class UserService implements IUserService {
 	public Set<String> getUserRole(String username) {
 		UserLoginVo userLoginVo = new UserLoginVo();
 		userLoginVo.setUserName(username);
-
 		User user = userMapper.query(userLoginVo);
-
 		if (user == null) {
 			return null;
 		}
-
 		if (user.getRoles() == null || user.getRoles().size() <= 0) {
 			return null;
 		}
-
 		Set<String> roles = new HashSet<String>();
 		for (Role role : user.getRoles()) {
 			roles.add(role.getName());
 		}
 		return roles;
 	}
-
+	/**
+	 * 获取权限
+	 */
 	@Override
 	public Set<String> getUserPermissions(String username) {
-
 		UserLoginVo userLoginVo = new UserLoginVo();
 		userLoginVo.setUserName(username);
 		User user = userMapper.query(userLoginVo);
 		if (user == null) {
 			return null;
 		}
-
 		if (user.getRoles() == null || user.getRoles().size() <= 0) {
 			return null;
 		}
@@ -290,53 +240,37 @@ public class UserService implements IUserService {
 				continue;
 			}
 			for (Menu m : mes) {
-				
-				//FIXME
-				//result.add(m.getPermission());
 				result.add(m.getId());
 			}
 		}
-
 		return result;
 	}
-
+	 /**
+	  * 获取菜单
+	  */
 	@Override
 	public List<Menu> getUserMenus(String username) {
-
-//		UserLoginVo userLoginVo = new UserLoginVo();
-//		userLoginVo.setUserName(username);
-		//User user = userMapper.query(userLoginVo);
-		
 		User user = userMapper.queryByUserName(username);
-		
 		if (user == null) {
 			return null;
 		}
-
 		if (user.getRoles() == null || user.getRoles().size() <= 0) {
 			return null;
 		}
-
 		List<Menu> menus = new ArrayList<Menu>();
 		for (Role role : user.getRoles()) {
 			List<Menu> menu = menuMapper.getAllMenuByRoleId(role.getId());
 			if (menu == null || menu.size() <= 0) {
 				continue;
 			}
-			
 			for(Menu m:menu){
 				if(m==null||m.getStatus()!=0){
 					continue;
 				}
 				menus.add(m);
 			}
-			//menus.addAll(menu);
-
 		}
-
 		return menus;
 	}
-
-
 
 }

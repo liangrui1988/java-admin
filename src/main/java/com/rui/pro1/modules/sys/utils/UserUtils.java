@@ -1,5 +1,8 @@
 package com.rui.pro1.modules.sys.utils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -7,8 +10,11 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.rui.pro1.modules.sys.entity.Menu;
+import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.mapper.UserMapper;
+import com.rui.pro1.modules.sys.service.IUserService;
 
 /**
  * 身份信息获取<br>
@@ -25,6 +31,7 @@ public class UserUtils {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired private IUserService userService;
 	
 	public String getCurrentName()
 	{
@@ -53,6 +60,16 @@ public class UserUtils {
 		}
 		// 如果没有登录，则返回实例化空的User对象。
 		return new User();
+	}
+	/**
+	 * 获取用户权限集合
+	 * @return
+	 */
+	public  Set<String> getUserPermisson() 
+	{
+		Subject subject = SecurityUtils.getSubject();
+		String username = (String) subject.getPrincipal();
+		return	userService.getUserPermissions(username);
 	}
 
 //--------------------------------------------------------------------------

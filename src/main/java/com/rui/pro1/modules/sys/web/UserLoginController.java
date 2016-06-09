@@ -65,7 +65,7 @@ public class UserLoginController extends SysBaseController {
 	public ResultBean login(HttpServletRequest request,
 			HttpServletResponse response, UserLoginVo userLoginVo) {
 		
-        Map<String, String[]> param=request.getParameterMap();
+        //Map<String, String[]> param=request.getParameterMap();
 		
 		ResultBean rb = new ResultBean();
 		try {

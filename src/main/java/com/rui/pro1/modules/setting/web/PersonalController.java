@@ -98,7 +98,7 @@ public class PersonalController extends SettingBaseController {
 			}
 
 			String srcPassowrdEncrypt = PassUtil.encryptPassword(
-					user.getUserName(), srcPassword);
+					srcPassword, user.getUserName());
 
 			if (!user.getPassword().equals(srcPassowrdEncrypt)) {
 				rb = new ResultBean(false, MessageCode.USER_SRC_PASSWORD_ERROR,
