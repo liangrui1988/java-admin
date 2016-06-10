@@ -1,12 +1,6 @@
 package com.rui.pro1.common.web;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.exception.MessageCode;
@@ -17,11 +11,13 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  * @author ruiliang
  * @date 2016/04/05
  */
-// @Controller
-// @RequestMapping("sys/user")
+// @RequestMapping(SysUri.SYS_USER)
+// @MenuAnnot(id = SysMenu.SYS_USER, name = "菜单名字", parentId = Modules.SYS, href
+// = "/views/modules/sys/user/userlist",sortNo=1)
 public class TemplateConatroller {
-	@RequestMapping(value = "list", method = RequestMethod.GET)
-	@ResponseBody
+	// @PermissionAnnot(id = SysMenu.SYS_USER + ":list",name="查询列表")
+	// @RequestMapping(value = {"list",""}, method = RequestMethod.GET)
+	// @ResponseBody
 	public ResultBean getUserList(
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "page", defaultValue = "20") Integer pagesize,
@@ -40,55 +36,4 @@ public class TemplateConatroller {
 
 	}
 
-	@RequestMapping(value = "get", method = RequestMethod.GET)
-	@ResponseBody
-	public ResultBean get(HttpRequest request, HttpResponse response) {
-		ResultBean rb = new ResultBean();
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
-		return rb;
-	}
-
-	@RequestMapping(value = "del", method = RequestMethod.POST)
-	@ResponseBody
-	public ResultBean del(HttpRequest request, HttpResponse response) {
-		ResultBean rb = new ResultBean();
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
-		return rb;
-	}
-
-	@RequestMapping(value = "save", method = RequestMethod.POST)
-	@ResponseBody
-	public ResultBean save(HttpRequest request, HttpResponse response) {
-		ResultBean rb = new ResultBean();
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
-		return rb;
-	}
-
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	@ResponseBody
-	public ResultBean update(HttpRequest request, HttpResponse response) {
-		ResultBean rb = new ResultBean();
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
-		return rb;
-	}
 }

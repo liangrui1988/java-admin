@@ -1,7 +1,8 @@
 package com.rui.pro1.modules.sys.web;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,36 +20,31 @@ import com.rui.pro1.common.constants.Modules;
 import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
-import com.rui.pro1.modules.sys.entity.Department;
-import com.rui.pro1.modules.sys.service.IDepartmentService;
-import com.rui.pro1.modules.sys.vo.DepartmentVo;
+import com.rui.pro1.modules.sys.entity.Dict;
+import com.rui.pro1.modules.sys.exception.UserExistException;
+import com.rui.pro1.modules.sys.service.IDictService;
 
-/**
- * 用户管理
- * 
- * @author ruiliang
- * @date 2016/04/05
- *
- */
 @Controller
-@RequestMapping(SysUri.SYS_DEPARTMENT)
-@MenuAnnot(id = SysMenu.SYS_DEPARTMENT, name = "部门管理", parentId = Modules.SYS, href = "/views/modules/sys/departmentlist", sortNo = 4)
-public class DepartmentController extends SysBaseController {
+@RequestMapping(SysUri.SYS_DICT)
+@MenuAnnot(id = SysMenu.SYS_DICT, name = "字典管理", parentId = Modules.SYS, href = "/views/modules/sys/dict/dictlist", sortNo = 5)
+public class DictController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private IDepartmentService departmentService;
+	private IDictService dictService;
 
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	// @RequiresPermissions("chauffeur:carChauffeurRiskDetail:view")
+
+	@PermissionAnnot(id = SysMenu.SYS_DICT + ":list", name = "查询列表")
+	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getList(
+	public ResultBean getUserList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
-			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
-			DepartmentVo departmentVo) {
+			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
+			Dict dict) {
 		ResultBean rb = new ResultBean();
 		try {
-			QueryResult<Department> result = departmentService
-					.getDepartmentList(page, pagesize, departmentVo);
+			QueryResult<Dict> result = dictService.getList(page, pagesize, dict);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,15 +54,15 @@ public class DepartmentController extends SysBaseController {
 
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":get", name = "查询")
+	@PermissionAnnot(id = SysMenu.SYS_DICT + ":get", name = "查看详情")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean get(HttpRequest request, HttpResponse response,
-			DepartmentVo departmentVo) {
+	public ResultBean get(HttpServletRequest request,
+			HttpServletResponse response, Dict dict) {
 		ResultBean rb = new ResultBean();
 		try {
-			Department department = departmentService.get(departmentVo.getId());
-			rb.setData(department);
+			Dict result = dictService.get(dict.getId());
+			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
@@ -74,14 +70,15 @@ public class DepartmentController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":del", name = "删除")
+	@PermissionAnnot(id = SysMenu.SYS_DICT + ":del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean del(HttpRequest request, HttpResponse response,
+	public ResultBean del(HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = departmentService.del(id);
+			int count = dictService.del(id);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
@@ -92,17 +89,20 @@ public class DepartmentController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":add", name = "添加")
+	@PermissionAnnot(id = SysMenu.SYS_DICT + ":add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpRequest request, HttpResponse response,
-			Department department) {
+	public ResultBean add(HttpServletRequest request,
+			HttpServletResponse response, Dict dict) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = departmentService.add(department);
+			dict.setCreateById(userUtils.getUser().getId());
+			int count = dictService.add(dict);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
+		} catch (UserExistException e) {
+			rb = new ResultBean(false, MessageCode.USER_EXISTS, "用户已存在");
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
@@ -110,14 +110,15 @@ public class DepartmentController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":update", name = "修改")
+	@PermissionAnnot(id = SysMenu.SYS_DICT + ":update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean update(HttpRequest request, HttpResponse response,
-			Department department) {
+	public ResultBean update(HttpServletRequest request,
+			HttpServletResponse response, Dict dict) {
 		ResultBean rb = new ResultBean();
 		try {
-			int count = departmentService.update(department);
+			dict.setUpdateById(userUtils.getUser().getId());
+			int count = dictService.update(dict);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
@@ -127,5 +128,4 @@ public class DepartmentController extends SysBaseController {
 		}
 		return rb;
 	}
-
 }

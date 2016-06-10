@@ -18,6 +18,9 @@ public interface IRoleService {
 	RoleBean get(int id);
 
 	int del(int id);
+	
+	Role getByName(String name);
+
 
 	int add(Role role)throws ObjectExistException;
 

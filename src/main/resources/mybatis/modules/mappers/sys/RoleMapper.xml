@@ -41,7 +41,7 @@
 		resultMap="resultMapId">
 		select * from sys_role
 		<include refid="searchField" />
-		order by id desc
+		order by id asc
 		LIMIT
 		#{startRow},#{pageSize}
 	</select>

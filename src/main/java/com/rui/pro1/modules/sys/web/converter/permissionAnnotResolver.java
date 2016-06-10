@@ -44,10 +44,10 @@ public class permissionAnnotResolver implements HandlerMethodArgumentResolver {
 			if (a.annotationType() == PermissionAnnot.class) {
 				PermissionAnnot permissionAnnot = (PermissionAnnot) a;
 				Set<String> set = userUtils.getUserPermisson();
-				logger.error("permissionAnnotResolver >>> resolveArgument throw new org.apache.shiro.authz.AuthorizationException(\"没有访问权限\")==id:{}",permissionAnnot.id());
 				if (set.contains(permissionAnnot.id())) {
 					return false;
 				}
+				logger.error("permissionAnnotResolver >>> resolveArgument throw new org.apache.shiro.authz.AuthorizationException(\"没有访问权限\")==id:{}",permissionAnnot.id());
 				return true;
 			}
 		}

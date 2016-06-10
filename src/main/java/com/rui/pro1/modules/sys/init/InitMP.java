@@ -1,7 +1,6 @@
 package com.rui.pro1.modules.sys.init;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Component;
 import com.rui.pro1.common.annotatiions.MenuAnnot;
 import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.utils.dir.Directory.TreeInfo;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.constants.MenuStatus;
 import com.rui.pro1.modules.sys.entity.Department;
 import com.rui.pro1.modules.sys.entity.Menu;
@@ -30,7 +30,6 @@ import com.rui.pro1.modules.sys.service.IDepartmentService;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.service.IUserService;
-import com.rui.pro1.modules.sys.utils.PassUtil;
 
 /**
  * 初始化菜单 权限 用户 角色
@@ -64,12 +63,14 @@ public class InitMP {
 
 	@Autowired
 	private IUserService userService;
+
 	
 
 
 	// -------------------------------------------------------------------------------
 	// 系统初始化 initLevel=0 执行全部操作 删除用户 角色。。。
 	// initLevel=1 执行 删除菜单 重新扫描
+	//initLevel=2 执行 删除菜单 重新扫描 并初始admin用户权限
 	// esle 什么都不做
 	// -------------------------------------------------------------------------------
 	@PostConstruct
@@ -81,14 +82,26 @@ public class InitMP {
 			systemMapper.truncateAllRBAC();
 
 			Set<Menu> menuList = initMenus();
-			log.info("xxxxxxxxx==== 初始化用户admin xxxxxxxxxx");
-			initUser(menuList);
+			log.info("xxxxxxxxx==== initLevel=0,初始化用户admin xxxxxxxxxx");
+			initUser(menuList,initLevel);
 			log.info("xxxxxxxxx==== 初始化用户admin 结束 xxxxxxxxxx");
 
 		} else if (initLevel.equals("1")) {
+			log.info("xxxxxxxxx==== initLevel=1,初始化菜单 xxxxxxxxxx");
 			systemMapper.truncateMenus();
 			initMenus();
-		} else {
+
+		} else if(initLevel.equals("2")) {
+			log.info("xxxxxxxxx==== initLevel=2,初始化菜单 &&初始admin xxxxxxxxxx");
+			systemMapper.truncateMenus();
+			Set<Menu> menuList = initMenus();
+			
+			initUser(menuList,initLevel);
+
+			
+			log.info("xxxxxxxxx==== initLevel=2,初始化菜单 &&初始admin 结束 xxxxxxxxxx");
+
+		}else{
 
 		}
 
@@ -226,7 +239,7 @@ public class InitMP {
 	}
 
 	// 初始用户
-	public void initUser(Set<Menu> menus) throws Exception {
+	public void initUser(Set<Menu> menus,String initLevel) throws Exception {
 
 		// 部门
 		Department department = new Department();
@@ -234,7 +247,11 @@ public class InitMP {
 		department.setSort(1);
 		department.setParentId(0);
 		department.setRemake("remake");
-		departmentService.add(department);
+		if(initLevel.equals("0")){
+		  departmentService.add(department);
+		}else if(initLevel.equals("2")){
+			
+		}
 
 		// 分置菜单
 
@@ -250,18 +267,34 @@ public class InitMP {
 			menuIds.add(m.getId());
 		}
 		role.setMenuIds(menuIds);
-		roleService.add(role);
+		if(initLevel.equals("0")){
+			roleService.add(role);
+			
+		}else if(initLevel.equals("2")){
+			Role roleupdate=roleService.getByName("系统管理");
+			if(roleupdate==null||roleupdate.getId()==null||roleupdate.getId()<=0){
+				roleService.add(role);
+			}else{
+				role.setId(roleupdate.getId());
+				roleService.update(role);
+			}
+			
+		}
 		
-		Role roleB = new Role();
-		roleB.setName("商家角色");
-		roleB.setRemake("remake");
-//		List<String> menuIds2 = new ArrayList<String>();
-//		for (Menu m : menus) {
-//			menuIds2.add(m.getId());
-//		}
-		roleB.setMenuIds(menuIds);
+		
 
-		roleService.add(roleB);
+
+		if(initLevel.equals("0")){
+			Role roleB = new Role();
+			roleB.setName("商家角色");
+			roleB.setRemake("remake");
+			//roleB.setMenuIds(menuIds);
+		    roleService.add(roleB);
+		}else 	if(initLevel.equals("2")){
+
+			
+		}
+		
 
 		// 用户
 		User user = new User();
@@ -273,22 +306,32 @@ public class InitMP {
 		user.setType("1");
 		user.setRemake("系统初始用户");
 		user.setCreateById(1);
-		//user.setCreateById(1);
-//		String password = PassUtil.encryptPassword("admin", "admin");
-//		System.out.println(password);
-		//user.setPassword(password);
+		if(initLevel.equals("0")){
+			// 关联角色
+			List<Role> roles = new ArrayList<Role>();
+			Role role2 = new Role();
+			role2.setId(role.getId());
+			roles.add(role2);
+			user.setRoles(roles);
+			// 部门
+			user.setDepartmentId(department.getId());
+			
+			userService.add(user);
+		}else{
+			
+			//所有角色和部门
+			List<Role> rolesAll=roleService.getRoleListAll();
+			user.setRoles(rolesAll);
+			UserBean dbUser=userService.getUser("admin");
+			if(dbUser==null||dbUser.getId()==null||dbUser.getId()<=0){
+				userService.add(user);
+			}else{
+				user.setId(dbUser.getId());
+				userService.update(user);
+			}
+			
+		}
 	
-		// 关联角色
-		List<Role> roles = new ArrayList<Role>();
-		Role role2 = new Role();
-		role2.setId(role.getId());
-		
-		
-		roles.add(role2);
-		user.setRoles(roles);
-		// 部门
-		user.setDepartmentId(department.getId());
-		userService.add(user);
 		System.out.println("userId>>>" + user.getId());
 
 	}

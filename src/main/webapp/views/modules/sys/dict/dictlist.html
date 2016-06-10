@@ -2,75 +2,40 @@
 <html>
 <head>
 <title>用户管理</title>
-
-<!-- <link href="../../../common/bootstrap/css/bootstrap.min.css" -->
-<!-- 	rel="stylesheet"> -->
-<!-- <link href="../../resources/css/sys/pager.css" -->
-<!-- 	rel="stylesheet"> -->
-	
-<!-- <script src="../../../common/jquery/jquery-1.12.3.js"></script> -->
-<!-- <script src="../../../common/bootstrap/js/bootstrap.js"></script> -->
-<!-- <script src="../../../common/bootstrap/js/bootstrap.js"></script> -->
-<!-- <script type="text/javascript"  src="../../../common/sys.js"></script> -->
-<!-- <script type="text/javascript"  src="../../../common/util/common.js"></script> -->
-<!-- <script type="text/javascript"> -->
-
-
 <link href="../../../common/all.css" rel="stylesheet">
 <script type="text/javascript" src="../../../common/all.js"></script>
 
 </script>
 </head>
-<!-- <div style="padding: 15px 10px;font: 9px" > -->
-<!-- 系统管理>用户管理 -->
-<!-- </div> -->
+
 <body style="overflow-x: hidden; overflow-y: hidden;">
-<!-- 	<div> -->
-<!-- 		<a href="#" class="btn btn-primary">新增用户</a> -->
-<!-- 	</div> -->
-	
-<!-- 	<ul class="nav nav-tabs"> -->
-<!-- 		<li class="active"> -->
-<!-- 			<a href="javascript:aHref('/sys/user/list');">用户列表</a> -->
-<!-- 		</li> -->
-<!-- 		<li> -->
-<!-- 			<a href="javascript:aHref('/views/sys/user/userAdd.html');">新增用户</a> -->
-<!-- 		</li> -->
-<!-- 	</ul> -->
-
-
-
-      
         
         <form action="" class="breadcrumb form-search " id="_search_form">
-        
-             &nbsp;登陆名: <input class="input-xlarge" name="userName"  id="_userName" type="text" />
+             &nbsp;类型: <input class="input-xlarge" name="type"  id="_type" type="text" />
 			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
-			
 		</form>
-		
-		
 		
 	<ul class="nav nav-tabs">
 		<li class="active">
-			<a href="userlist.html">用户列表</a>
+			<a href="dictlist.html">字典列表</a>
 		</li>
 		<li>
-			<a href="userAdd.html">新增用户</a>
+			<a href="dictAdd.html">新增字典</a>
 		</li>
 	</ul>
 	
 		
 
 	<div class="panel panel-default">
-		<table id="_user_table" class="table table-striped">
+		<table id="_dict_table" class="table table-striped">
 			<thead>
 				<tr>
-					<th width="10%">序号</th>
 					<th width="10%">id</th>
-					<th width="20%">用户名</th>
-					<th width="20%">状态</th>
-					<th width="20%">创建时间</th>
+					<th width="20%">类型</th>
+					<th width="20%">名称</th>
+					<th width="20%">值</th>
+				    <th width="20%">状态</th>
+				    <th width="20%">备注</th>
 					<th width="20%">操作</th>
 				</tr>
 			</thead>
@@ -94,7 +59,7 @@ $(function() {
 	var param=new Object();	
 	    param.status="0";
 	//初始化数据	
-	pageFn(getContextPath()+"/sys/user/list",param,"get");
+	pageFn(getContextPath()+"/sys/dict/list",param,"get");
 })
 
 
@@ -104,7 +69,7 @@ function callbak_page(returnDatas)
 	//alert(JSON.stringify(returnDatas));
 	
 	var tableHTML = "";
-	var trContext = $("#_user_table");
+	var trContext = $("#_dict_table");
 	//$("#_user_table tbody tr").eq(0).nextAll().remove();
 	$("#_user_table tbody tr").remove();
 	var returnData = returnDatas.data.items;
@@ -119,23 +84,26 @@ function callbak_page(returnDatas)
 	var staName="";
 	//<a href="#">查看</a>
 	var operation=''
-				   +'&nbsp;&nbsp;<a href="userUpdate.html?id='+returnData[i].id+'">修改</a>'
-				   +'&nbsp;&nbsp;<a href="#" onclick="delUser(this,'+returnData[i].id+')">删除</a>';
+				   +'&nbsp;&nbsp;<a href="dictUpdate.html?id='+returnData[i].id+'">修改</a>'
+				   +'&nbsp;&nbsp;<a href="#" onclick="delDict(this,'+returnData[i].id+')">删除</a>';
 				   
 	tableHTML += "<tr>" + "<td>"
-				+ (j + 1)
-				+ "</td>"
-				+ "<td>"
 				+ returnData[i].id
 				+ "</td>"
 				+ "<td>"
-				+ returnData[i].userName
+				+ returnData[i].type
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].name
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].value
 				+ "</td>"										
 				+ "<td>"
 				+ returnData[i].status
 				+ "</td>"
 				+ "<td>"
-				+ returnData[i].createTime
+				+ returnData[i].remake
 				+ "</td>"						
 				+ "<td>"
 				+operation									
@@ -151,7 +119,7 @@ function callbak_page(returnDatas)
 $("#_search_submit").click(
 	function(){
 	 var param=getParam();
-	 sendPageRequst(getContextPath()+"/sys/user/list",param);
+	 sendPageRequst(getContextPath()+"/sys/dict/list",param);
 	   
 	  // sendGetReq(getContextPath()+"/sys/user/list",param,"");
 });
@@ -161,16 +129,16 @@ function getParam()
 {				
 	 var param=new Object();	
 	
-	 var _userName=$("#_userName").val();
+	 var _type=$("#_type").val();
 	 if(_userName!=""){
-		 param.userName=_userName;
+		 param.type=_type;
 	 }
 	 
 	return param;			 
 }
 
 //删除用户
-function delUser(obj,id)
+function delDict(obj,id)
 {
 	
 	var result=confirm("确定要删除用户吗？");
@@ -185,9 +153,8 @@ function delUser(obj,id)
 		alert("参数错误");
 		return;
 	}
-// 	alert(id);
 	$.ajax({
-		url : getContextPath()+"/sys/user/del",
+		url : getContextPath()+"/sys/dict/del",
 		type : "POST",
 		//contentType: "application/json; charset=utf-8",
 		dataType : "json",

@@ -1,7 +1,6 @@
 package com.rui.pro1.modules.sys.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +18,6 @@ import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.mapper.MenuMapper;
 import com.rui.pro1.modules.sys.mapper.RoleMapper;
 import com.rui.pro1.modules.sys.service.IRoleService;
-import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.vo.RoleVo;
 
 @Service
@@ -181,6 +179,12 @@ public class RoleService implements IRoleService {
 	@Override
 	public List<Role> getRoleListAll() {
 		return roleMapper.getRoleListAll();
+	}
+
+	@Override
+	public Role getByName(String name) {
+		return roleMapper.getByName(name);
+		
 	}
 
 }

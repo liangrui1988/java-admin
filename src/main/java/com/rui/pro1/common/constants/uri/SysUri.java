@@ -15,6 +15,8 @@ public class SysUri {
 	public static final String SYS_MENU = Modules.SYS + "/menu";
 	/** 部门 **/
 	public static final String SYS_DEPARTMENT = Modules.SYS + "/department";
+	/**字典管理**/
+	public static final String SYS_DICT = Modules.SYS + "/dict";
 
 
 }
