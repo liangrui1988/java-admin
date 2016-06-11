@@ -81,7 +81,7 @@
 			data :'',
 			success : function(returnData,status,XMLHttpRequest)
 			{	
-				console.log(returnData);
+				//console.log(returnData);
 				if(resolveResultBeanIsError(returnData,status))
 				{
 					var rolelist=returnData.data;
@@ -111,7 +111,7 @@
 			dataType : "json",
 			data :jobj,
 			success : function(returnData,status,XMLHttpRequest)
-			{	console.log(returnData);
+			{	//console.log(returnData);
 			    resolveResultBeanIsOk(returnData,status);
 			}
 		});
@@ -259,7 +259,6 @@
 function addUserTest(){
 	
 	var jobj=$("#inputForm").serialize();
-	console.log(jobj);
 // 	var jsonObjjj=$("#inputForm").serializeObject();
 // 	console.log(jsonObjjj);
 
@@ -308,7 +307,7 @@ function addUserTest(){
 		success : function(returnData,status,XMLHttpRequest)
 		{	
 			alert("xx");
-			console.log(returnData);
+			//console.log(returnData);
 		}
 	});
 	

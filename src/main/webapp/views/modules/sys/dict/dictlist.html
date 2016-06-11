@@ -30,11 +30,11 @@
 		<table id="_dict_table" class="table table-striped">
 			<thead>
 				<tr>
-					<th width="10%">id</th>
-					<th width="20%">类型</th>
+<!-- 					<th width="10%">id</th> -->
+					<th width="10%">类型</th>
 					<th width="20%">名称</th>
 					<th width="20%">值</th>
-				    <th width="20%">状态</th>
+				    <th width="10%">状态</th>
 				    <th width="20%">备注</th>
 					<th width="20%">操作</th>
 				</tr>
@@ -88,9 +88,9 @@ function callbak_page(returnDatas)
 				   +'&nbsp;&nbsp;<a href="#" onclick="delDict(this,'+returnData[i].id+')">删除</a>';
 				   
 	tableHTML += "<tr>" + "<td>"
-				+ returnData[i].id
-				+ "</td>"
-				+ "<td>"
+// 				+ returnData[i].id
+// 				+ "</td>"
+// 				+ "<td>"
 				+ returnData[i].type
 				+ "</td>"	
 				+ "<td>"
@@ -141,9 +141,7 @@ function getParam()
 function delDict(obj,id)
 {
 	
-	var result=confirm("确定要删除用户吗？");
-	
-	
+	var result=confirm("确定要删除字典吗？");
 
 	if(!result){
 		return;
@@ -162,7 +160,7 @@ function delDict(obj,id)
 		data :{"id":id},
 		success : function(returnData,status,XMLHttpRequest)
 		{	
-			if(resolveResultBeanIsOk(returnData,status)){
+			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
 				$this=$(obj);
 				var delTr=$this.parent().parent();
 				$(delTr).remove();

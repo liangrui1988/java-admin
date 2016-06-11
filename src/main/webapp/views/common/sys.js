@@ -84,6 +84,7 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 			return false;
 		}
 		alert(resultBean.message);
+		return false;
 	}
 	
 	var ajaxRequestHeader = XMLHttpRequest.getResponseHeader("AJAX_REQUEST_HEADER");
@@ -120,6 +121,65 @@ function handleAjaxRequest(resultBean, status,XMLHttpRequest)
 	}
 	return resultBean.success;
 }
+
+
+
+//系统解析JSON返回状态和结果
+function handleAjaxRequestBACK(resultBean, status,XMLHttpRequest)
+{
+	//console.log(XMLHttpRequest);
+	//console.log(resultBean);
+	//alert(resultBean.success);
+	if(!resultBean.success)
+	{
+		if(resultBean.messageCode=="010"||resultBean.messageCode=="002"||resultBean.messageCode=="003")
+		{
+			alert(resultBean.message);
+			window.top.location.href=getContextPath()+"/views/login.html";
+			return false;
+		}
+		alert(resultBean.message);
+	}
+	
+	var ajaxRequestHeader = XMLHttpRequest.getResponseHeader("AJAX_REQUEST_HEADER");
+	//alert("ajaxRequestHeader:"+ajaxRequestHeader);
+	if(ajaxRequestHeader!=null)
+	{
+		if(ajaxRequestHeader=="001")
+		{
+			alert('您未登录或会话已过期');
+			window.top.location.href=getContextPath()+"/views/login.html";
+			return false;
+		}else if(ajaxRequestHeader=="004"){
+			alert('请输入验证码');
+			window.top.location.href=getContextPath()+"/views/login.html?isCaptcha=1";
+			return false;
+		}else if(ajaxRequestHeader=="002"){
+			alert('您没有此模块的访问权限');
+			return false;
+		}else if(ajaxRequestHeader=="003"){
+			alert('系统出错');
+			return false;
+		}
+	}
+	var ajaxRequestException = XMLHttpRequest.getResponseHeader("AJAX_REQUEST_EXCEPTION");
+	if(ajaxRequestException!=null)
+	{
+		alert(ajaxRequestException);
+		return false;
+	}
+	if (status == "error") 
+	{
+		alert('系统出错');
+		return false;
+	}
+	return resultBean.success;
+}
+
+
+
+
+
 
 function topLoading()
 {
