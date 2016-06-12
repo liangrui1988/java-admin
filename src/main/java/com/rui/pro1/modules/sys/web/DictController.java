@@ -101,8 +101,8 @@ public class DictController extends SysBaseController {
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-		} catch (UserExistException e) {
-			rb = new ResultBean(false, MessageCode.USER_EXISTS, "用户已存在");
+//		} catch (UserExistException e) {
+//			rb = new ResultBean(false, MessageCode.USER_EXISTS, "用户已存在");
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");

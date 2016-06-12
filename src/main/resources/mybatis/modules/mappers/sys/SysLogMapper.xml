@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rui.pro1.modules.sys.mapper.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.rui.pro1.modules.sys.entity.SysLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="uri" jdbcType="VARCHAR" property="uri" />
+    <result column="agent" jdbcType="VARCHAR" property="agent" />
+    <result column="create_by_id" jdbcType="INTEGER" property="createById" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, type, ip, method, uri, agent, create_by_id, create_time, remake, end_time, 
+    result
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    insert into sys_log (id, title, type, 
+      ip, method, uri, agent, 
+      create_by_id, create_time, remake, 
+      end_time, result)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
+      #{createById,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remake,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{result,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="method != null">
+        method,
+      </if>
+      <if test="uri != null">
+        uri,
+      </if>
+      <if test="agent != null">
+        agent,
+      </if>
+      <if test="createById != null">
+        create_by_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="remake != null">
+        remake,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null">
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="createById != null">
+        #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remake != null">
+        #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    update sys_log
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null">
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="createById != null">
+        create_by_id = #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remake != null">
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    update sys_log
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      uri = #{uri,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      create_by_id = #{createById,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remake = #{remake,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      result = #{result,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.rui.pro1.modules.sys.entity.SysLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="uri" jdbcType="VARCHAR" property="uri" />
+    <result column="agent" jdbcType="VARCHAR" property="agent" />
+    <result column="create_by_id" jdbcType="INTEGER" property="createById" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, type, ip, method, uri, agent, create_by_id, create_time, remake
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    insert into sys_log (id, title, type, 
+      ip, method, uri, agent, 
+      create_by_id, create_time, remake
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
+      #{createById,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remake,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="method != null">
+        method,
+      </if>
+      <if test="uri != null">
+        uri,
+      </if>
+      <if test="agent != null">
+        agent,
+      </if>
+      <if test="createById != null">
+        create_by_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="remake != null">
+        remake,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null">
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="createById != null">
+        #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remake != null">
+        #{remake,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    update sys_log
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null">
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="createById != null">
+        create_by_id = #{createById,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remake != null">
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+    update sys_log
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      uri = #{uri,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      create_by_id = #{createById,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remake = #{remake,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

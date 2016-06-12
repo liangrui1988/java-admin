@@ -19,6 +19,8 @@ public class SysMenu {
 	public static final String SYS_DEPARTMENT = Modules.SYS + ":department";
 	/**字典权限**/
 	public static final String SYS_DICT = Modules.SYS + ":dict";
+	/**系统日志权限**/
+    public static final String SYS_LOG = Modules.SYS + ":log";
 
 	
 
