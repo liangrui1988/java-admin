@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/5/30 14:15:54                           */
+/* Created on:     2016/6/12 19:16:28                           */
 /*==============================================================*/
 
 
@@ -8,9 +8,19 @@ drop index dep_name_unique on sys_department;
 
 drop table if exists sys_department;
 
-drop index dict_type_unique on sys_dict;
+drop index dict_Index_type on sys_dict;
 
 drop table if exists sys_dict;
+
+drop index Index_create_user on sys_log;
+
+drop index Index_create_time on sys_log;
+
+drop table if exists sys_log;
+
+drop index menu_Index_sort on sys_menu;
+
+drop index menu_Index_create on sys_menu;
 
 drop table if exists sys_menu;
 
@@ -82,11 +92,49 @@ create table sys_dict
 alter table sys_dict comment '部门';
 
 /*==============================================================*/
-/* Index: dict_type_unique                                      */
+/* Index: dict_Index_type                                       */
 /*==============================================================*/
-create unique index dict_type_unique on sys_dict
+create index dict_Index_type on sys_dict
 (
    type
+);
+
+/*==============================================================*/
+/* Table: sys_log                                               */
+/*==============================================================*/
+create table sys_log
+(
+   id                   int not null auto_increment,
+   title                varchar(100) comment '菜单',
+   type                 char(1) comment '类型',
+   ip                   varchar(100) comment '操作ip',
+   method               varchar(50) default '0' comment '请求方式',
+   uri                  varchar(200) comment 'uri',
+   agent                varchar(300) comment '代理',
+   create_by_id         int comment '创建者',
+   create_time          timestamp default CURRENT_TIMESTAMP comment '创建时间',
+   remake               varchar(300) comment '备注',
+   end_time             datetime comment '结束时间',
+   result               varchar(500),
+   primary key (id)
+);
+
+alter table sys_log comment '系统日志';
+
+/*==============================================================*/
+/* Index: Index_create_time                                     */
+/*==============================================================*/
+create index Index_create_time on sys_log
+(
+   create_time
+);
+
+/*==============================================================*/
+/* Index: Index_create_user                                     */
+/*==============================================================*/
+create index Index_create_user on sys_log
+(
+   create_by_id
 );
 
 /*==============================================================*/
@@ -112,6 +160,22 @@ create table sys_menu
 );
 
 alter table sys_menu comment '菜单';
+
+/*==============================================================*/
+/* Index: menu_Index_create                                     */
+/*==============================================================*/
+create index menu_Index_create on sys_menu
+(
+   create_time
+);
+
+/*==============================================================*/
+/* Index: menu_Index_sort                                       */
+/*==============================================================*/
+create index menu_Index_sort on sys_menu
+(
+   sort_no
+);
 
 /*==============================================================*/
 /* Table: sys_role                                              */
