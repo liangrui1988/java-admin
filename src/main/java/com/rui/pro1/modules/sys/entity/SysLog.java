@@ -2,6 +2,9 @@ package com.rui.pro1.modules.sys.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.rui.pro1.common.utils.date.DateSerializer;
+
 public class SysLog {
     private Integer id;
 
@@ -18,11 +21,13 @@ public class SysLog {
     private String agent;
 
     private Integer createById;
-
+    
+    @JsonSerialize(using=DateSerializer.class)
     private Date createTime;
 
     private String remake;
-
+    
+    @JsonSerialize(using=DateSerializer.class)
     private Date endTime;
 
     private String result;

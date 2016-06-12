@@ -3,14 +3,15 @@ package com.rui.pro1.modules.sys.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.common.bean.page.QueryResult;
-import com.rui.pro1.modules.sys.entity.Dict;
 import com.rui.pro1.modules.sys.entity.SysLog;
 import com.rui.pro1.modules.sys.mapper.SysLogMapper;
 import com.rui.pro1.modules.sys.service.ILogService;
 
+@Service
 public class LogService implements ILogService {
 
 	@Autowired

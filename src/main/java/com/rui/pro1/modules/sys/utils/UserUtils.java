@@ -1,6 +1,5 @@
 package com.rui.pro1.modules.sys.utils;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,8 +9,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.rui.pro1.modules.sys.entity.Menu;
-import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.mapper.UserMapper;
 import com.rui.pro1.modules.sys.service.IUserService;

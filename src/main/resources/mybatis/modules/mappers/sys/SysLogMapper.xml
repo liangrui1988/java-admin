@@ -19,6 +19,37 @@
     id, title, type, ip, method, uri, agent, create_by_id, create_time, remake, end_time, 
     result
   </sql>
+  
+  
+  
+  
+  	<!-- 搜索条件判断 -->
+	<sql id="searchField">
+		<where>
+			<if test="bean.uri != null and bean.uri != ''">uri  LIKE CONCAT('%',#{bean.uri},'%') </if>
+			<if test="bean.title != null and bean.title != ''"> and title  LIKE CONCAT('%',#{bean.title},'%')</if>
+			<if test="bean.createTime != null and bean.createTime != ''"> and  create_time=${bean.createTime}</if>
+			<if test="bean.createById != null and bean.createById != ''"> and  create_by_id=${bean.createById}</if>
+		</where>
+	</sql>
+	<!--=========================查询搜索 ============================================================================= -->
+	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"
+		resultMap="BaseResultMap">
+		select * from sys_log
+		<include refid="searchField" />
+		order by id asc
+		LIMIT
+		#{startRow},#{pageSize}
+	</select>
+
+
+	<select id="getCount" resultType="long"
+		parameterType="com.rui.pro1.common.bean.page.Query">
+		select count(*) from sys_log
+		<include refid="searchField" />
+	</select>
+  
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

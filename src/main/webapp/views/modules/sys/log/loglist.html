@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户管理</title>
+<link href="../../../common/all.css" rel="stylesheet">
+<script type="text/javascript" src="../../../common/all.js"></script>
+
+</script>
+</head>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+        
+        <form action="" class="breadcrumb form-search " id="_search_form">
+             &nbsp;菜单: <input class="input-xlarge" name="title"  id="_title" type="text" />
+			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
+		</form>
+		
+<!-- 	<ul class="nav nav-tabs"> -->
+<!-- 		<li class="active"> -->
+<!-- 			<a href="dictlist.html">字典列表</a> -->
+<!-- 		</li> -->
+<!-- 		<li> -->
+<!-- 			<a href="dictAdd.html">新增字典</a> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+	
+		
+
+	<div class="panel panel-default">
+		<table id="_dict_table" class="table table-striped">
+			<thead>
+				<tr>
+<!-- 					<th width="10%">id</th> -->
+<!-- 					<th width="10%">类型</th> -->
+					<th width="10%">菜单</th>
+					<th width="20%">uri</th>
+				    <th width="10%">方法</th>
+				    <th width="20%">ip</th>
+				     <th width="20%">操作用户</th>
+				     <th width="20%">操作时间</th>
+<!-- 					<th width="20%">操作</th> -->
+				</tr>
+			</thead>
+
+			<tbody>
+				
+			</tbody>
+
+		</table>
+
+    <div class="pagination" id="_pagination">
+    
+</div>
+	
+	
+	
+<script type="text/javascript">
+
+//初始化
+$(function() {
+	var param=new Object();	
+	  //  param.status="0";
+	//初始化数据	
+	pageFn(getContextPath()+"/sys/log/list",param,"get");
+})
+
+
+/**分页回调处理**/
+function callbak_page(returnDatas)
+{
+	var tableHTML = "";
+	var trContext = $("#_dict_table");
+	$("#_user_table tbody tr").remove();
+	var returnData = returnDatas.data.items;
+	
+	if(returnData==null){
+	  return;
+	}
+	for (var i = 0; i < returnData.length; i++) {
+	//var j=i;
+	
+				   
+	tableHTML += "<tr>" + "<td>"
+// 				+ returnData[i].id
+// 				+ "</td>"
+// 				+ "<td>"
+				+ returnData[i].title
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].uri
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].method
+				+ "</td>"										
+				+ "<td>"
+				+ returnData[i].ip
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].createById
+				+ "</td>"						
+				+ "<td>"
+				+ returnData[i].createTime					
+				+"</td>" 
+				+ "</tr>"
+	
+	}
+	trContext.append(tableHTML);
+
+}
+
+//查询
+$("#_search_submit").click(
+	function(){
+	 var param=getParam();
+	 sendPageRequst(getContextPath()+"/sys/log/list",param);
+	   
+	  // sendGetReq(getContextPath()+"/sys/user/list",param,"");
+});
+
+//获取参数处理
+function getParam()
+{				
+	 var param=new Object();	
+	
+	 var _title=$("#_title").val();
+	 if(_title!=""){
+		 param.title=_title;
+	 }
+	 
+	return param;			 
+}
+
+
+
+</script>
+
+</body>
+</html>
