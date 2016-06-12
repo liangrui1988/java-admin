@@ -22,7 +22,7 @@ import com.rui.pro1.modules.sys.service.ILogService;
 
 @Controller
 @RequestMapping(SysUri.SYS_LOG)
-@MenuAnnot(id = SysMenu.SYS_LOG, name = "系统日志", parentId = Modules.SYS, href = "/views/modules/sys/dict/loglist", sortNo = 6)
+@MenuAnnot(id = SysMenu.SYS_LOG, name = "系统日志", parentId = Modules.SYS, href = "/views/modules/sys/log/loglist", sortNo = 6)
 public class LogController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
