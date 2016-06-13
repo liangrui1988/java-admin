@@ -1,5 +1,8 @@
 package com.rui.pro1.common.utils.http;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.ServletWebRequest;
+
+
 
 
 
@@ -73,5 +78,53 @@ public class WebHelp
 			logger.error(e.getMessage());
 		}
 	}
+	
+	
+	
+	public static void responseResultBean(HttpServletRequest request, HttpServletResponse response, ResultBean rb)
+	{
+		if (WebHelp.isCrossDomainRequest(request))
+		{
+			WebHelp.handleCrossDomainRequest(request, response, rb);
+		} else
+		{
+			try
+			{
+				response.getOutputStream().write(new Gson().toJson(rb).getBytes("UTF-8"));
+			} catch (Exception e)
+			{
+				logger.error(e.getMessage());
+			}
+		}
+	}
 
+	
+	public static String requestParametersToString(HttpServletRequest request)
+	{
+		StringBuffer sb = new StringBuffer();
+		Map map = request.getParameterMap();
+		if (map != null)
+		{
+			Iterator<String> it = map.keySet().iterator();
+			boolean isOk = false;
+			String key = null;
+			Object value = null;
+			while (it.hasNext())
+			{
+				key = it.next();
+				value = request.getParameter(key);
+				if (value != null && !value.equals("") && !key.startsWith("button.") && !key.startsWith("submitDateTime") && !key.equals("_"))
+				{
+					if (isOk)
+					{
+						sb.append("&");
+					}
+					sb.append(key + "=" + value);
+					isOk = true;
+				}
+			}
+		}
+		return sb.toString();
+	}
+	
 }

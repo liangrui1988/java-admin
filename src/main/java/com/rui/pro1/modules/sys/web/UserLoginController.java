@@ -257,7 +257,7 @@ public class UserLoginController extends SysBaseController {
 			}
         	
 			
-			responseResultBean(request, response, rb);
+			WebHelp.responseResultBean(request, response, rb);
 		} else
 		{
 			try {
@@ -291,7 +291,7 @@ public class UserLoginController extends SysBaseController {
 				rb.setSuccess(false);
 				rb.setMessageCode(MessageCode.SYS_NO_PERMISSE);
 				rb.setMessage("没有权限");
-			responseResultBean(request, response, rb);
+				WebHelp.responseResultBean(request, response, rb);
 		} else
 		{
 			try {
@@ -371,22 +371,7 @@ public class UserLoginController extends SysBaseController {
 	     return rb;
 	}
 	
-	private void responseResultBean(HttpServletRequest request, HttpServletResponse response, ResultBean rb)
-	{
-		if (WebHelp.isCrossDomainRequest(request))
-		{
-			WebHelp.handleCrossDomainRequest(request, response, rb);
-		} else
-		{
-			try
-			{
-				response.getOutputStream().write(new Gson().toJson(rb).getBytes("UTF-8"));
-			} catch (Exception e)
-			{
-				logger.error(e.getMessage());
-			}
-		}
-	}
+	
 	
 	public static void main(String[] args) {
         TokenBuild token = new TokenBuild("admin", "admin".toCharArray(), true,"0:0:0:1");  

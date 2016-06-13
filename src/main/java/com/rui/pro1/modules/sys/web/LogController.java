@@ -34,7 +34,7 @@ public class LogController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getUserList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
-			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
+			@RequestParam(value = "pagesize", defaultValue = "12") Integer pagesize,
 			SysLog log) {
 		ResultBean rb = new ResultBean();
 		try {

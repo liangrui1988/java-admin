@@ -6,125 +6,136 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rui.pro1.common.utils.date.DateSerializer;
 
 public class SysLog {
-    private Integer id;
+	private Integer id;
 
-    private String title;
+	private String title;
 
-    private String type;
+	private String type;
 
-    private String ip;
+	private String ip;
 
-    private String method;
+	private String method;
 
-    private String uri;
+	private String uri;
 
-    private String agent;
+	private String agent;
 
-    private Integer createById;
-    
-    @JsonSerialize(using=DateSerializer.class)
-    private Date createTime;
+	private Integer createById;
 
-    private String remake;
-    
-    @JsonSerialize(using=DateSerializer.class)
-    private Date endTime;
+	@JsonSerialize(using = DateSerializer.class)
+	private Date createTime;
 
-    private String result;
+	private String remake;
 
-    public Integer getId() {
-        return id;
-    }
+	@JsonSerialize(using = DateSerializer.class)
+	private Date endTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String requestParamenters;
 
-    public String getTitle() {
-        return title;
-    }
+	private String result;
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getIp() {
-        return ip;
-    }
+	public void setTitle(String title) {
+		this.title = title == null ? null : title.trim();
+	}
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
+	public String getType() {
+		return type;
+	}
 
-    public String getMethod() {
-        return method;
-    }
+	public void setType(String type) {
+		this.type = type == null ? null : type.trim();
+	}
 
-    public void setMethod(String method) {
-        this.method = method == null ? null : method.trim();
-    }
+	public String getIp() {
+		return ip;
+	}
 
-    public String getUri() {
-        return uri;
-    }
+	public void setIp(String ip) {
+		this.ip = ip == null ? null : ip.trim();
+	}
 
-    public void setUri(String uri) {
-        this.uri = uri == null ? null : uri.trim();
-    }
+	public String getMethod() {
+		return method;
+	}
 
-    public String getAgent() {
-        return agent;
-    }
+	public void setMethod(String method) {
+		this.method = method == null ? null : method.trim();
+	}
 
-    public void setAgent(String agent) {
-        this.agent = agent == null ? null : agent.trim();
-    }
+	public String getUri() {
+		return uri;
+	}
 
-    public Integer getCreateById() {
-        return createById;
-    }
+	public void setUri(String uri) {
+		this.uri = uri == null ? null : uri.trim();
+	}
 
-    public void setCreateById(Integer createById) {
-        this.createById = createById;
-    }
+	public String getAgent() {
+		return agent;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setAgent(String agent) {
+		this.agent = agent == null ? null : agent.trim();
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public Integer getCreateById() {
+		return createById;
+	}
 
-    public String getRemake() {
-        return remake;
-    }
+	public void setCreateById(Integer createById) {
+		this.createById = createById;
+	}
 
-    public void setRemake(String remake) {
-        this.remake = remake == null ? null : remake.trim();
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public Date getEndTime() {
-        return endTime;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
+	public String getRemake() {
+		return remake;
+	}
 
-    public String getResult() {
-        return result;
-    }
+	public void setRemake(String remake) {
+		this.remake = remake == null ? null : remake.trim();
+	}
 
-    public void setResult(String result) {
-        this.result = result == null ? null : result.trim();
-    }
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result == null ? null : result.trim();
+	}
+
+	public String getRequestParamenters() {
+		return requestParamenters;
+	}
+
+	public void setRequestParamenters(String requestParamenters) {
+		this.requestParamenters = requestParamenters;
+	}
+
 }

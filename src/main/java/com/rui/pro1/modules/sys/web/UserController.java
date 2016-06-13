@@ -166,5 +166,32 @@ public class UserController extends SysBaseController {
 		}
 		return rb;
 	}
+	
+	
+	@RequestMapping(value = "get", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean getCommentUser(HttpServletRequest request, HttpServletResponse response,
+			UserVo userVo) {
+		
+		if(userVo==null||userVo.getId()<=0)
+		{
+			return  new ResultBean(false, MessageCode.ARGUMENT_ILLEGAL, "系统参数不合法");
+		}
+		
+		User user=userUtils.getUser();
+		if(user==null||user.getId()==null||user.getId()<=0){
+			return  new ResultBean(false, MessageCode.PLASS_LOGIN, "请登陆系统");
+		}
+		
+		ResultBean rb = new ResultBean();
+		try {
+			UserBean userBean = userService.get(userVo.getId());
+			rb.setData(userBean);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
+		}
+		return rb;
+	}
 
 }

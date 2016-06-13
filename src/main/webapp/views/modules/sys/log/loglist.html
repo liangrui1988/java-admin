@@ -32,12 +32,13 @@
 				<tr>
 <!-- 					<th width="10%">id</th> -->
 <!-- 					<th width="10%">类型</th> -->
-					<th width="10%">菜单</th>
+<!-- 					<th width="10%">菜单</th> -->
 					<th width="20%">uri</th>
 				    <th width="10%">方法</th>
-				    <th width="20%">ip</th>
-				     <th width="20%">操作用户</th>
-				     <th width="20%">操作时间</th>
+				    <td width="40%">代理</td>
+				    <th width="10%">ip</th>
+				     <th width="10%">操作用户</th>
+				     <th width="10%">操作时间</th>
 <!-- 					<th width="20%">操作</th> -->
 				</tr>
 			</thead>
@@ -84,14 +85,17 @@ function callbak_page(returnDatas)
 // 				+ returnData[i].id
 // 				+ "</td>"
 // 				+ "<td>"
-				+ returnData[i].title
-				+ "</td>"	
-				+ "<td>"
+// 				+ returnData[i].title
+// 				+ "</td>"	
+// 				+ "<td>"
 				+ returnData[i].uri
 				+ "</td>"	
 				+ "<td>"
 				+ returnData[i].method
-				+ "</td>"										
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].agent
+				+ "</td>"	
 				+ "<td>"
 				+ returnData[i].ip
 				+ "</td>"

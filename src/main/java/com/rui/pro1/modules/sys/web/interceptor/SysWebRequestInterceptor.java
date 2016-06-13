@@ -12,10 +12,15 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rui.pro1.common.bean.ResultBean;
+import com.rui.pro1.common.constants.RespHeaderConstans;
+import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.common.utils.IpUtil;
+import com.rui.pro1.common.utils.http.WebHelp;
 import com.rui.pro1.modules.sys.entity.SysLog;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.ILogService;
+import com.rui.pro1.modules.sys.threads.SysLogRunnable;
 import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.web.converter.permissionAnnotResolver;
 
@@ -26,8 +31,7 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 	private NamedThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>(
 			"StopWatch-StartTime");
 
-	@Autowired
-	private ILogService logService;
+
 
 	/**
 	 * 用户util组件
@@ -42,19 +46,19 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 
 		long beginTime = System.currentTimeMillis();// 1、开始时间
 		startTimeThreadLocal.set(beginTime);// 线程绑定变量（该数据只有当前请求的线程可见）
-		System.out.println("preHandle");
-
 		// if(SetData.whiteList.contains(request.getRequestURI())){
 		// return true;
 		// }
 		// perm
-		User user = userUtils.getUser();
-		if (user == null || user.getId() != null || user.getId() <= 0) {
+		System.out.println(request.getRequestURI());
+		if(!isUserLogin(request,response)){
 			return false;
 		}
+		
 
 		try {
 			// 日志处理
+			User user = userUtils.getUser();
 			SysLog log = new SysLog();
 			log.setCreateById(user.getId());
 			log.setCreateTime(new Date());
@@ -65,10 +69,10 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			log.setUri(request.getRequestURI());
 			String userAgent=request.getHeader("user-agent");
 			log.setAgent(userAgent);
-			
-			logService.add(log);
-			
-			
+			String parameters=WebHelp.requestParametersToString(request);
+			log.setRequestParamenters(parameters);
+			log.setMethod(request.getMethod());
+			new Thread(new SysLogRunnable(log)).start();
 		} catch (Exception e) {
 			logger.error("写入系统日志异常!");
 			e.printStackTrace();
@@ -102,6 +106,23 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 		}
 		System.out.println("response");
 
+	}
+	
+	
+	private boolean isUserLogin(HttpServletRequest request,
+			HttpServletResponse response){
+		User user = userUtils.getUser();
+		if (user == null || user.getId() == null || user.getId() <= 0) {
+			ResultBean rb = new ResultBean();
+			response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_002);
+			rb.setSuccess(false);
+			rb.setMessageCode(MessageCode.SYS_NO_PERMISSE);
+			rb.setMessage("没有权限");
+			WebHelp.responseResultBean(request, response, rb);
+			
+			return false;
+		}
+		return true;
 	}
 
 }
