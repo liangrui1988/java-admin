@@ -1,31 +1,34 @@
 package com.rui.pro1.modules.sys.web.interceptor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rui.pro1.common.utils.IpUtil;
+import com.rui.pro1.modules.sys.entity.SysLog;
 import com.rui.pro1.modules.sys.entity.User;
+import com.rui.pro1.modules.sys.service.ILogService;
 import com.rui.pro1.modules.sys.utils.UserUtils;
+import com.rui.pro1.modules.sys.web.converter.permissionAnnotResolver;
 
-public class PermissionAnnotInterceptor implements HandlerInterceptor {
-	
-	
-	
-	
-	//Spring提供的一个命名的ThreadLocal实现
+public class SysWebRequestInterceptor implements HandlerInterceptor {
+	static Logger logger = LoggerFactory
+			.getLogger(permissionAnnotResolver.class);
+	// Spring提供的一个命名的ThreadLocal实现
 	private NamedThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>(
 			"StopWatch-StartTime");
-	
+
+	@Autowired
+	private ILogService logService;
+
 	/**
 	 * 用户util组件
 	 */
@@ -40,20 +43,37 @@ public class PermissionAnnotInterceptor implements HandlerInterceptor {
 		long beginTime = System.currentTimeMillis();// 1、开始时间
 		startTimeThreadLocal.set(beginTime);// 线程绑定变量（该数据只有当前请求的线程可见）
 		System.out.println("preHandle");
-		
-		if(SetData.whiteList.contains(request.getRequestURI())){
-			return true;
+
+		// if(SetData.whiteList.contains(request.getRequestURI())){
+		// return true;
+		// }
+		// perm
+		User user = userUtils.getUser();
+		if (user == null || user.getId() != null || user.getId() <= 0) {
+			return false;
 		}
-		
-		
-	    //perm
-	    User user=userUtils.getUser();
-	    if(user==null||user.getId()!=null||user.getId()<=0)
-	    {
-	    	return false;
-	    }
-		
-		
+
+		try {
+			// 日志处理
+			SysLog log = new SysLog();
+			log.setCreateById(user.getId());
+			log.setCreateTime(new Date());
+		    //String host = request.getRemoteHost();  
+		    String ip=IpUtil.getRemoteIp(request);
+			log.setIp(ip);
+			log.setTitle("");
+			log.setUri(request.getRequestURI());
+			String userAgent=request.getHeader("user-agent");
+			log.setAgent(userAgent);
+			
+			logService.add(log);
+			
+			
+		} catch (Exception e) {
+			logger.error("写入系统日志异常!");
+			e.printStackTrace();
+		}
+
 		return true;
 	}
 

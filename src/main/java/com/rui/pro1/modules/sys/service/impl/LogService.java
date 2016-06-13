@@ -1,5 +1,6 @@
 package com.rui.pro1.modules.sys.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,19 @@ public class LogService implements ILogService {
 		queryResult.setPages(count, pagesize);
 		queryResult.setItems(list);
 		return queryResult;
+	}
+
+	@Override
+	public int add(SysLog log) {
+		if(log==null){
+			return 0;
+		}
+		
+//		log.setCreateTime(new Date());
+		
+		sysLogMapper.insertSelective(log);
+		
+		return 0;
 	}
 
 

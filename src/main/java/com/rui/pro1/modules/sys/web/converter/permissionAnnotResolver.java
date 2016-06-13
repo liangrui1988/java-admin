@@ -13,6 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.rui.pro1.common.annotatiions.PermissionAnnot;
+import com.rui.pro1.modules.sys.service.ILogService;
 import com.rui.pro1.modules.sys.utils.UserUtils;
 
 /**
@@ -26,6 +27,9 @@ public class permissionAnnotResolver implements HandlerMethodArgumentResolver {
 	static Logger logger = LoggerFactory
 			.getLogger(permissionAnnotResolver.class);
 
+	@Autowired
+	private ILogService logService;
+	
 	/**
 	 * 用户util组件
 	 */
@@ -39,6 +43,8 @@ public class permissionAnnotResolver implements HandlerMethodArgumentResolver {
 			return false;
 
 		}
+		
+//		SetData.whiteList.contains(request.getRequestURI())
 
 		for (Annotation a : as) {
 			if (a.annotationType() == PermissionAnnot.class) {

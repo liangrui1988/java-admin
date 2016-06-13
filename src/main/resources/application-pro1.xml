@@ -60,8 +60,17 @@
        <!-- 处理静态文件 -->
     <mvc:default-servlet-handler/>
     
-	
-		
+	<mvc:interceptors> 
+		<mvc:interceptor>
+			<mvc:exclude-mapping path="/views/**"/>
+			<mvc:exclude-mapping path="/logout"/>
+			<mvc:exclude-mapping path="/unauthorized"/>
+			<mvc:exclude-mapping path="/jcaptcha.jpg"/>
+			<mvc:exclude-mapping path="/loginPage"/>
+			<bean class="com.rui.pro1.modules.sys.web.interceptor.SysWebRequestInterceptor"/>  
+		</mvc:interceptor>
+	</mvc:interceptors>  
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
