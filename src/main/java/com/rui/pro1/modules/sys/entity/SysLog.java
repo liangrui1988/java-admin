@@ -33,6 +33,8 @@ public class SysLog {
 	private String requestParamenters;
 
 	private String result;
+	
+	private String createByName;
 
 	public Integer getId() {
 		return id;
@@ -137,5 +139,15 @@ public class SysLog {
 	public void setRequestParamenters(String requestParamenters) {
 		this.requestParamenters = requestParamenters;
 	}
+
+	public String getCreateByName() {
+		return createByName;
+	}
+
+	public void setCreateByName(String createByName) {
+		this.createByName = createByName;
+	}
+	
+	
 
 }

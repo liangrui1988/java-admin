@@ -1,6 +1,5 @@
 package com.rui.pro1.modules.sys.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +7,20 @@ import org.springframework.stereotype.Service;
 
 import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.common.bean.page.QueryResult;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.SysLog;
 import com.rui.pro1.modules.sys.mapper.SysLogMapper;
 import com.rui.pro1.modules.sys.service.ILogService;
+import com.rui.pro1.modules.sys.service.IUserService;
 
 @Service
 public class LogService implements ILogService {
 
 	@Autowired
 	SysLogMapper sysLogMapper; 
+	
+	@Autowired
+	private IUserService userService;
 	
 	@Override
 	public QueryResult<SysLog> getList(Integer page, Integer pagesize, SysLog log) {
@@ -31,8 +35,18 @@ public class LogService implements ILogService {
 		QueryResult<SysLog> queryResult = new QueryResult<SysLog>();
 		Long count = sysLogMapper.getCount(query);
 		List<SysLog> list = sysLogMapper.queryPages(query);
+		if(list!=null&&list.size()>0)
+		{
+			for(SysLog sysLog:list){
+				if(sysLog.getCreateById()!=null&&sysLog.getCreateById()>0){
+					UserBean user=userService.get(sysLog.getCreateById());
+					sysLog.setCreateByName(user.getUserName());
+				}
+			}
+		}
 		
 		// 总页数 和 取多少条
+		queryResult.setCurrentPage(page);
 		queryResult.setPages(count, pagesize);
 		queryResult.setItems(list);
 		return queryResult;

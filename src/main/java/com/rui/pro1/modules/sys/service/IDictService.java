@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.modules.sys.entity.Dict;
+import com.rui.pro1.modules.sys.exception.ObjectExistException;
 
 /**
  * 
@@ -20,7 +21,7 @@ public interface IDictService {
 
 	int add(Dict dict) throws Exception;
 
-	int update(Dict dict);
+	int update(Dict dict)  throws ObjectExistException;
 
 	List<Dict> getByType(String type);
 

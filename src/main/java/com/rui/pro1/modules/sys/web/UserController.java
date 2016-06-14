@@ -168,7 +168,7 @@ public class UserController extends SysBaseController {
 	}
 	
 	
-	@RequestMapping(value = "get", method = RequestMethod.GET)
+	@RequestMapping(value = "getUser", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getCommentUser(HttpServletRequest request, HttpServletResponse response,
 			UserVo userVo) {

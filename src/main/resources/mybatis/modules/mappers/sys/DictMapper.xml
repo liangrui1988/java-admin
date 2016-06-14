@@ -47,7 +47,7 @@
 	
 	<select id="getByType" 	resultMap="BaseResultMap">
 		select * from sys_dict where type=#{type}
-		order by id sort
+		order by  sort
 	</select>
 	
 	

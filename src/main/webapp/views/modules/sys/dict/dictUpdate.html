@@ -25,7 +25,7 @@
 		$("#inputForm").validate({
 			submitHandler: function(form){
 				//loading('正在提交，请稍等...');
-				addDict();
+				update();
 			},
 			errorContainer: "#messageBox",
 			errorPlacement: function(error, element) {
@@ -40,11 +40,7 @@
 	});
 	
 	
-	
-	
 	function initDict(){
-		
-		
 		var id=getUrlParam("id");
 		if(id==null||id==""){
 			alert("参数异常，无法修改！");
@@ -52,22 +48,22 @@
 		}
 		$("#_dictId").val(id);
 		
-		
 		$.ajax({
 			url : getContextPath()+"/sys/dict/get",
 			type : "GET",
 			dataType : "json",
-			data :jobj,
+			data :{"id":id},
 			success : function(returnData,status,XMLHttpRequest)
 			{	
+				
 			   // resolveResultBeanIsOk(returnData,status);
 			    if(handleAjaxRequest(returnData,status,XMLHttpRequest))
 			    {
 			    	var data=returnData.data;
-			    	$("_type").val(data.type);
-			    	$("_name").val(data.name);
-			    	$("_value").val(data.value);
-			    	$("_remake").text(data.remake);
+			    	$("#_type").val(data.type);
+			    	$("#_name").val(data.name);
+			    	$("#_value").val(data.value);
+			    	$("#_remake").text(data.remake);
 			    	
 			    	 //状态redio
 					  var status=data.status;
@@ -91,11 +87,11 @@
 
 	
 	//
-	function addDict(){
+	function update(){
 		
 		var jobj=$("#inputForm").serialize();
 		$.ajax({
-			url : getContextPath()+"/sys/dict/add",
+			url : getContextPath()+"/sys/dict/update",
 			type : "POST",
 			dataType : "json",
 			data :jobj,
@@ -130,7 +126,7 @@
              
       <form id="inputForm" action="" class="form-horizontal" role="form">
       
-       <input id="_dictId" name="id" type="text">
+       <input id="_dictId" name="id" type="hidden">
       
           <div class="form-group">
                <label class="col-sm-2 control-label" > <span class="help-inline"><font color="red">*</font> </span>类型：   

@@ -27,7 +27,7 @@
 		
 
 	<div class="panel panel-default">
-		<table id="_dict_table" class="table table-striped">
+		<table id="_log_table" class="table table-striped">
 			<thead>
 				<tr>
 <!-- 					<th width="10%">id</th> -->
@@ -70,8 +70,8 @@ $(function() {
 function callbak_page(returnDatas)
 {
 	var tableHTML = "";
-	var trContext = $("#_dict_table");
-	$("#_user_table tbody tr").remove();
+	var trContext = $("#_log_table");
+	$("#_log_table tbody tr").remove();
 	var returnData = returnDatas.data.items;
 	
 	if(returnData==null){
@@ -100,7 +100,7 @@ function callbak_page(returnDatas)
 				+ returnData[i].ip
 				+ "</td>"
 				+ "<td>"
-				+ returnData[i].createById
+				+ returnData[i].createByName
 				+ "</td>"						
 				+ "<td>"
 				+ returnData[i].createTime					

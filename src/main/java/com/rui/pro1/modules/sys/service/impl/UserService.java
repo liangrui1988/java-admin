@@ -67,6 +67,7 @@ public class UserService implements IUserService {
 		return queryResult;
 	}
 
+	//FIXME:cache
 	@Override
 	public UserBean get(int userId) {
 		User user= userMapper.get(userId);

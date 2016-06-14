@@ -36,5 +36,6 @@ public class MessageCode {
 	// ---------------------------------------
 	// ----------------xx业务操作消息码--------
 	// ---------------------------------------
+	public static final String OBJECT_EXIST_EXCEPTION = "120";// 数据已存在
 
 }

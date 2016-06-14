@@ -21,6 +21,7 @@ import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.entity.Dict;
+import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.exception.UserExistException;
 import com.rui.pro1.modules.sys.service.IDictService;
 
@@ -38,7 +39,7 @@ public class DictController extends SysBaseController {
 	@PermissionAnnot(id = SysMenu.SYS_DICT + ":list", name = "查询列表")
 	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getUserList(
+	public ResultBean getList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
 			Dict dict) {
@@ -101,8 +102,8 @@ public class DictController extends SysBaseController {
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-//		} catch (UserExistException e) {
-//			rb = new ResultBean(false, MessageCode.USER_EXISTS, "用户已存在");
+		} catch (ObjectExistException e) {
+			rb = new ResultBean(false, MessageCode.OBJECT_EXIST_EXCEPTION, e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
@@ -122,6 +123,8 @@ public class DictController extends SysBaseController {
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
+		} catch (ObjectExistException e) {
+			rb = new ResultBean(false, MessageCode.OBJECT_EXIST_EXCEPTION, e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");

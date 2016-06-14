@@ -7,7 +7,7 @@ import com.rui.pro1.common.constants.Modules;
  *
  */
 public class SysUri {
-	/** 用户 **/
+	/** 用户 sys/user**/
 	public static final String SYS_USER = Modules.SYS + "/user";// 系统模块
 	/** 角色 **/
 	public static final String SYS_ROLE = Modules.SYS + "/role";
