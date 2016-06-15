@@ -80,10 +80,36 @@ public class QueryResult<T> implements Serializable {
 		this.currentPage = mCurrentPage;
 	}
 
+	// public int getStartNo() {
+	// if (startNo <= 0) {
+	// return 1;
+	// }
+	// return startNo;
+	// }
+
 	public int getStartNo() {
+
+		if (currentPage < pages) {
+			if (pages > currentPage + showNum) {
+				startNo = pages - showNum + 1;
+			} else {
+				// 当前页-显示行数/2
+				startNo = currentPage - (showNum / 2);
+			}
+		}
+		// 当前页大于(行数/2)
+		if (currentPage > showNum / 2) {
+			// 当前页-显示行数/2
+			startNo = currentPage - (showNum / 2);
+		}
+		if (currentPage < showNum || currentPage < 0) {
+			startNo = 1;
+		}
+
 		if (startNo <= 0) {
 			return 1;
 		}
+
 		return startNo;
 	}
 
@@ -109,6 +135,8 @@ public class QueryResult<T> implements Serializable {
 	}
 
 	/**
+	 * SOA 会用到这样的方法计算 单项目忽略
+	 * <p>
 	 * 12 3 45
 	 * 
 	 * @param pages

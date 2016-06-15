@@ -116,10 +116,18 @@ function pagecClickEnv(url,P,reqMothd)
 * **/
 function sendPageRequst(_url,obj,requestMeothd)
 {
-	//alert(getOrPost);
+	
 	if(requestMeothd==undefined||requestMeothd==null||requestMeothd=="")
 	{
 		requestMeothd="get";
+	}
+	var _sizePage=$("#_sizePage").text();
+	var pageindex=obj.pageIndex;
+	if((typeof pageindex)=='undefined'){
+		obj.pageIndex==1
+	}else
+	if(parseInt(pageindex)>parseInt(_sizePage)){
+		obj.pageIndex=_sizePage;
 	}
 	
 	$.ajax({
