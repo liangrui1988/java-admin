@@ -1,8 +1,11 @@
 package com.rui.pro1.modules.sys.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +66,29 @@ public class DictController extends SysBaseController {
 		ResultBean rb = new ResultBean();
 		try {
 			Dict result = dictService.get(dict.getId());
+			rb.setData(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
+		}
+		return rb;
+	}
+	
+	
+//	@PermissionAnnot(id = SysMenu.SYS_DICT + ":get", name = "查看详情")
+	@RequestMapping(value = "getByType", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean getByType(HttpServletRequest request,
+			HttpServletResponse response, String type) {
+		ResultBean rb = new ResultBean();
+		
+		if(StringUtils.isBlank(type)){
+			return rb;
+		}
+		
+		try {
+			dictService.getByType(type);
+			List<Dict> result = dictService.getByType(type);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();

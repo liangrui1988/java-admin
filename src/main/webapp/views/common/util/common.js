@@ -1,7 +1,6 @@
 
 /**获取根目录**/
 function getRootPath(){
-	
 	 //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
     var curWwwPath=window.document.location.href;
     //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
@@ -11,19 +10,17 @@ function getRootPath(){
     var localhostPaht=curWwwPath.substring(0,pos);
     //获取带"/"的项目名，如：/uimcardprj
     var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
-    
-    alert(curWwwPath);
-    alert(pathName);
-    alert(pos);
-    alert(localhostPaht);
-    alert(projectName);
+//    alert(curWwwPath);
+//    alert(pathName);
+//    alert(pos);
+//    alert(localhostPaht);
+//    alert(projectName);
     
     return(localhostPaht+projectName);
 }
 
 function getRootPath2(){
-	
-	 //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+   //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
    var curWwwPath=window.document.location.href;
    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
    var pathName=window.document.location.pathname;
@@ -49,16 +46,10 @@ function getQueryString(name) {
 
 
 /**分页js start***/
-
-
 //init
 function pageFn(_url,_param,reqMothd)
 {
-//	if(moethd==""||(moethd!="get"&&moethd!="post")){
-//		moethd="get";
-//	}
 	sendPageRequst(_url,_param,reqMothd);
-		
 }
 
 //点击
@@ -66,7 +57,6 @@ function clickNumFn(i,url,reqMothd){
 	  var param=getParam();
 	   param.pageIndex=i;
 	   sendPageRequst(url,param,reqMothd);
-	
 }
 
 function pagecClickEnv(url,P,reqMothd)
@@ -105,9 +95,6 @@ function pagecClickEnv(url,P,reqMothd)
 	
 }
 
-
-
-
 /**
 * 发送请求 
 * _url=
@@ -142,20 +129,13 @@ function sendPageRequst(_url,obj,requestMeothd)
 			
 			//----处理分页数据
 				  var jsonData=JSON.stringify(returnDatas);
-	
 		    	   eval('callbak_page('+jsonData+')');
-		    	   
 		    	   returnDatas=returnDatas.data;
 					//分页信息
 					var pageinfoHTML = "共 <sapn id='_countPage'>" + returnDatas.count
 							+ "</sapn>条&nbsp;第<font color='#FF0000' id='_currentPage'>"
 							+ returnDatas.currentPage + "</font>/<sapn id='_sizePage'>"
 							+ returnDatas.pages + "</sapn>页";
-							
-				
-					
-					//$("#_pageInfos").html(pageinfoHTML);
-					
 					//页码显示
 					var paginationNum="<div>"+pageinfoHTML+"</div><span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','T','"+requestMeothd+"')\">首页 </span>";
 					paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','U','"+requestMeothd+"')\">&lt; </span>";
@@ -173,7 +153,6 @@ function sendPageRequst(_url,obj,requestMeothd)
 						}
 						
 					}
-					
 					paginationNum+="<span class=\"next\" rel=\"prev\" onclick=\"pagecClickEnv('"+_url+"','N','"+requestMeothd+"')\">&gt; </span>";
 					paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','L','"+requestMeothd+"')\">尾页 </span>";
 					paginationNum+="&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -181,7 +160,6 @@ function sendPageRequst(_url,obj,requestMeothd)
 	
 					//alert(paginationNum);
 					$("#_pagination").html(paginationNum);
-				
 					addPageClass();
 			//----处理分页数据
 			
@@ -194,26 +172,10 @@ function sendPageRequst(_url,obj,requestMeothd)
 			alert("请求异常！");
 		}
 	});
-	
 	//ajax end
-
 }
 
-/**验证数字 true 有 false 没有**/ 
-function checkStr(varStr) { 
-var included = "1234567890"; 
-	//var i; 
-	var c; 
-	for( var i = 0; i < varStr.length; i ++ )   
-	{   
-		c = varStr.charAt(i); 
-		if (included.indexOf(c) ==-1)
-		{ //在"included"中找不到"c"   
-		   return true; 
-	    } 
-	} 
-	return false; 
-} 
+
 
 /** *分页鼠标经过效果** */
 function addPageClass(){
@@ -248,60 +210,53 @@ $.fn.serializeObject = function()
 };
 
 
-//
-//function sendGetReq(_url,obj)
-//{
-// 				  
-//	  $.get(_url,obj,function(returnDatas,status)
-//	  {
-//	       if(status=="success")
-//		   { 
-//		       var jsonData=JSON.stringify(returnDatas);
-//
-//	    	   eval('callbak_page('+jsonData+')');
-//	    	   
-//	    	   returnDatas=returnDatas.data;
-//				//分页信息
-//				var pageinfoHTML = "共 <sapn id='_countPage'>" + returnDatas.count
-//						+ "</sapn>条&nbsp;第<font color='#FF0000' id='_currentPage'>"
-//						+ returnDatas.currentPage + "</font>/<sapn id='_sizePage'>"
-//						+ returnDatas.pages + "</sapn>页";
-//						
-//			
-//				
-//				//$("#_pageInfos").html(pageinfoHTML);
-//				
-//				//页码显示
-//				var paginationNum="<div>"+pageinfoHTML+"</div><span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','T')\">首页 </span>";
-//				paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','U')\">&lt; </span>";
-//				//alert(returnDatas.showNum);
-//				for(var i=returnDatas.startNo;i<(returnDatas.startNo+returnDatas.showNum);i++)
-//				{
-//					if(returnDatas.pages<i){
-//						break;
-//					}
-//					if(returnDatas.currentPage==i)
-//					{
-//						paginationNum+="<a class='pageSelected' onclick=clickNumFn('"+i+"','"+_url+"')>"+i+" </a>";
-//					}else{
-//						paginationNum+="<a onclick=clickNumFn('"+i+"','"+_url+"')>"+i+" </a>";
-//					}
-//					
-//				}
-//				
-//				paginationNum+="<span class=\"next\" rel=\"prev\" onclick=\"pagecClickEnv('"+_url+"','N')\">&gt; </span>";
-//				paginationNum+="<span class=\"next\" rel=\"prev\"	onclick=\"pagecClickEnv('"+_url+"','L')\">尾页 </span>";
-//				paginationNum+="&nbsp;&nbsp;&nbsp;&nbsp;"
-//				+"跳到第&nbsp;&nbsp;<input type=\"text\" size=\"4\" id=\"jumpPageText\"> 页&nbsp;  <a onclick=pagecClickEnv('"+_url+"','J')>确定 </a>";
-//
-//				//alert(paginationNum);
-//				$("#_pagination").html(paginationNum);
-//			
-//				addPageClass();
-//		    }else
-//			{
-//			  alert("系统异常!");
-//			}
-//		
-//	  });
-//}
+
+/**验证数字 true 有 false 没有**/ 
+function checkStr(varStr) { 
+var included = "1234567890"; 
+	//var i; 
+	var c; 
+	for( var i = 0; i < varStr.length; i ++ )   
+	{   
+		c = varStr.charAt(i); 
+		if (included.indexOf(c) ==-1)
+		{ //在"included"中找不到"c"   
+		   return true; 
+	    } 
+	} 
+	return false; 
+} 
+
+/**
+ * 字典 根据类型请求
+ */
+function initDictByType(type,selectId){
+	$.ajax({
+		url : getContextPath()+"/sys/dict/getByType",
+		type : "GET",
+//		contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+		data :{"type":type},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+				var data=returnData.data;
+				if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+				{
+					for(var i=0;i<data.length;i++)
+					{
+						var dict=data[i];
+						$("#"+selectId).append("<option value='"+dict.value+"'>"+dict.name+"</option>");
+					}
+				}
+				return returnData.data;
+			}
+		},
+		error : function() {
+			alert("字典请请求异常！");
+		}
+	});
+	
+	
+}

@@ -33,93 +33,6 @@
 </style>
 
 
-<script type="text/javascript">
-
-	$(document).ready(function() {
-		
-		initAddUser();
-		
-		$("#inputForm").validate({
-			submitHandler: function(form){
-				//loading('正在提交，请稍等...');
-				
-				addUser();
-				
-					//form.submit();
-			},
-// 			rules: {
-//                   test: '999999999.99'
-// 			},
-// 			messages: {
-// 	   	 		userName: {
-// 					required: "必填信息"
-// 				}
-// 			},
-			//onkeyup:true,
-			errorContainer: "#messageBox",
-			errorPlacement: function(error, element) {
-				$("#messageBox").text("输入有误，请先更正。");
-				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
-					error.appendTo(element.parent().parent());
-				} else {
-					error.insertAfter(element);
-				}
-			}
-		});
-	});
-	
-	
-	function initAddUser()
-	{
-		//获取角色
-		$.ajax({
-			url : getContextPath()+"/sys/role/listAll",
-			type : "GET",
-			//contentType: "application/json; charset=utf-8",
-			dataType : "json",
-			//data :{productVoJson:JSON.stringify(objVo)},
-			data :'',
-			success : function(returnData,status,XMLHttpRequest)
-			{	
-				//console.log(returnData);
-				if(resolveResultBeanIsError(returnData,status))
-				{
-					var rolelist=returnData.data;
-					var roleHtml='';
-
-					for(var i=0;i<rolelist.length;i++)
-					{
-						var roleObj=rolelist[i];
-						roleHtml+=' <input value="'+roleObj.id+'" type="checkbox"  name="roles['+i+'].id"/>';
-						roleHtml+=roleObj.name;
-						roleHtml+='&nbsp;&nbsp;';
-					}
-					$("#_role_plan_div").html(roleHtml);
-				}
-					
-			}
-		});
-	}
-	 
-
-	function addUser(){
-		
-		var jobj=$("#inputForm").serialize();
-		$.ajax({
-			url : getContextPath()+"/sys/user/add",
-			type : "POST",
-			dataType : "json",
-			data :jobj,
-			success : function(returnData,status,XMLHttpRequest)
-			{	//console.log(returnData);
-			    resolveResultBeanIsOk(returnData,status);
-			}
-		});
-		
-	}
-			
-
-</script>
 
 </head>
 
@@ -211,9 +124,9 @@
                <div class="col-sd-1">
                   
                   <select name="type" id="_type">
-                  <option value="1">系统管理员</option>
-                  <option value="2">商家管理</option>
-                  <option value="3">政府管理</option>
+<!--                   <option value="1">系统管理员</option> -->
+<!--                   <option value="2">商家管理xx</option> -->
+<!--                   <option value="3">政府管理xx</option> -->
                   </select>
                </div>
             </div>
@@ -253,69 +166,96 @@
 		
 		
 		
+		
 <script type="text/javascript">
 
-
-function addUserTest(){
-	
-	var jobj=$("#inputForm").serialize();
-// 	var jsonObjjj=$("#inputForm").serializeObject();
-// 	console.log(jsonObjjj);
-
-// 	var jsonObj=$("#inputForm").serializeArray();
-// 	console.log(jsonObj);
-	
-	//获取值
-// 	   var _userName=$("#_userName").val();
-// 	    var  _passowrd=$("#_passowrd").val();
-	
-// 		var  status=$("input[name='status']:checked").val(); //状态   编号 		
-
+	$(document).ready(function() {
 		
-		//var TProProductPhotos = new Array();  //商品图片
+		initAddUser();
 		
-// 		$(".imgUrl").each(function(){
-// 			 var ProductPhoto=new Object();
-// 			 ProductPhoto.url=$(this).val();
-// 			 TProProductPhotos.push(ProductPhoto);
-// 		 });
-	
-		 
-		 //""处理
-// 		 if(""==price) price=null;
-// 		 if(""==normWeight)   normWeight=null;
-// 		 if(""==actual_price) actual_price=null;
-		 
-// 		var productVo={
-// 			id:mer_pro_id,
-// 			typeId:typeId,
-// 			status:status,
-// 			unit:unit,
-// 			name:name,
-// 			price:price,
-		
-// 	};
-		
-	
-	$.ajax({
-		url : getContextPath()+"/sys/user/add",
-		type : "POST",
-		//contentType: "application/json; charset=utf-8",
-		dataType : "json",
-		//data :{productVoJson:JSON.stringify(objVo)},
-		data :jobj,
-		success : function(returnData,status,XMLHttpRequest)
-		{	
-			alert("xx");
-			//console.log(returnData);
-		}
+		$("#inputForm").validate({
+			submitHandler: function(form){
+				//loading('正在提交，请稍等...');
+				
+				addUser();
+				
+					//form.submit();
+			},
+// 			rules: {
+//                   test: '999999999.99'
+// 			},
+// 			messages: {
+// 	   	 		userName: {
+// 					required: "必填信息"
+// 				}
+// 			},
+			//onkeyup:true,
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
 	});
 	
-}
+	
+	function initAddUser()
+	{
+		//获取角色
+		$.ajax({
+			url : getContextPath()+"/sys/role/listAll",
+			type : "GET",
+			//contentType: "application/json; charset=utf-8",
+			dataType : "json",
+			//data :{productVoJson:JSON.stringify(objVo)},
+			data :'',
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				//console.log(returnData);
+				if(resolveResultBeanIsError(returnData,status))
+				{
+					var rolelist=returnData.data;
+					var roleHtml='';
+
+					for(var i=0;i<rolelist.length;i++)
+					{
+						var roleObj=rolelist[i];
+						roleHtml+=' <input value="'+roleObj.id+'" type="checkbox"  name="roles['+i+'].id"/>';
+						roleHtml+=roleObj.name;
+						roleHtml+='&nbsp;&nbsp;';
+					}
+					$("#_role_plan_div").html(roleHtml);
+				}
+					
+			}
+		});
+		//字典
+		initDictByType("user_type","_type");
+	}
+	 
+
+	function addUser(){
 		
+		var jobj=$("#inputForm").serialize();
+		$.ajax({
+			url : getContextPath()+"/sys/user/add",
+			type : "POST",
+			dataType : "json",
+			data :jobj,
+			success : function(returnData,status,XMLHttpRequest)
+			{	//console.log(returnData);
+			    resolveResultBeanIsOk(returnData,status);
+			}
+		});
 		
-		
+	}	
+
 </script>
+
 
 </body>
 </html>
