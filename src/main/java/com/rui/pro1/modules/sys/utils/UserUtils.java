@@ -9,6 +9,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.rui.pro1.common.utils.copyo.BeanCopierUtils;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.mapper.UserMapper;
 import com.rui.pro1.modules.sys.service.IUserService;
@@ -36,12 +38,40 @@ public class UserUtils {
 		String username = (String) subject.getPrincipal();
         return username;
 	}
+	
+	
 	/**
-	 * 获取当前用户
+	 * 获取当前用户Bean
 	 * 
 	 * @return 取不到返回 new User()
 	 */
-	public  User getUser() 
+	public  UserBean getUserBean() 
+	{
+		
+		Subject subject = SecurityUtils.getSubject();
+		String username = (String) subject.getPrincipal();
+		if (!StringUtils.isBlank(username)) 
+		{
+			User user=userMapper.queryByUserName(username);
+			 if (user != null) 
+			 {
+				 UserBean userBean=new UserBean();
+				 BeanCopierUtils.copyProperties(user, userBean);
+			    return userBean;
+			 }
+			return new UserBean();
+		}
+		// 如果没有登录，则返回实例化空的User对象。
+		return new UserBean();
+	}
+	
+	/**
+	 * 获取当前用户  业务中请不要调用这个返回前端，包含密码
+	 * 
+	 * @return 取不到返回 new User()
+	 */
+	@Deprecated
+	public  User getUserEntity() 
 	{
 		
 		Subject subject = SecurityUtils.getSubject();

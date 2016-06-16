@@ -1,7 +1,9 @@
 package com.rui.pro1.modules.sys.web;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +25,8 @@ import com.rui.pro1.common.constants.Modules;
 import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Menu;
-import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.utils.MenuComparator;
@@ -112,16 +114,29 @@ public class MenuController extends SysBaseController {
 		try {
 			
 			String userName=userUtils.getCurrentName();
-			
-			User user=userUtils.getUser();
-			System.out.println(user);
-			
+			UserBean user=userUtils.getUserBean();
+		
     		List<Menu> menus = userService.getUserMenus(userName);
+    		
+    		if(menus==null||menus.size()<=0){
+    			return rb;
+    		}
+    		
+    		Set<Menu> menusSet=new HashSet<Menu>();
+    		
+    		menusSet.addAll(menus);
+    		
+    		Menu[] ocAr =new Menu[menusSet.size()];
+    		
+    		menusSet.toArray(ocAr);
+    		
+    	
 
-    		Menu[] ocAr = new Menu[menus.size()];
-			for (int i = 0; i < menus.size(); i++) {
-				ocAr[i] = menus.get(i);
-			}
+//    		Menu[] ocAr = new Menu[menusSet.size()];
+//			for (int i = 0; i < menusSet.size(); i++) {
+//				ocAr[i] = menus.get(i);
+//			}
+			
 			Arrays.sort(ocAr, new MenuComparator());
 			List<Menu> menusNew = Arrays.asList(ocAr);
 			

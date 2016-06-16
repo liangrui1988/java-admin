@@ -114,7 +114,7 @@ public class UserController extends SysBaseController {
 				}
 			}
 			
-			user.setCreateById(userUtils.getUser().getId());
+			user.setCreateById(userUtils.getUserBean().getId());
 			int count = userService.add(user);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
@@ -154,7 +154,7 @@ public class UserController extends SysBaseController {
 		
 		try {
 			
-			user.setUpdateById(userUtils.getUser().getId());
+			user.setUpdateById(userUtils.getUserBean().getId());
 
 			int count = userService.update(user);
 			if (count <= 0) {
@@ -178,7 +178,7 @@ public class UserController extends SysBaseController {
 			return  new ResultBean(false, MessageCode.ARGUMENT_ILLEGAL, "系统参数不合法");
 		}
 		
-		User user=userUtils.getUser();
+		UserBean user=userUtils.getUserBean();
 		if(user==null||user.getId()==null||user.getId()<=0){
 			return  new ResultBean(false, MessageCode.PLASS_LOGIN, "请登陆系统");
 		}

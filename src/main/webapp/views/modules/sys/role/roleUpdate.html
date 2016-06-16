@@ -91,9 +91,9 @@
                <label class="col-sm-1 control-label ">角色类型：</label>
                <div class="col-sd-1">
                   <select name="types" id="_type">
-                  <option value="1">系统管理角色</option>
-                  <option value="2">商家角色</option>
-                  <option value="3">政府角色</option>
+<!--                   <option value="1">系统管理角色</option> -->
+<!--                   <option value="2">商家角色</option> -->
+<!--                   <option value="3">政府角色</option> -->
                   </select>
                </div>
             </div>
@@ -207,6 +207,7 @@
 			{	
 			   if(resolveResultBeanIsError(returnData,status))
 			   {
+				   
 				  var data=returnData.data;
 				  $("#_roleName").val(data.name);
 				  
@@ -220,9 +221,13 @@
  
 				  }
 				  
+				 
+				  //初始字典
+		           initDictByType('role_type',"_type",data.types);
+				  
 				  //角色类型
 				 // $("#_type").attr("value",data.types);
-				  $("#_type option[value='"+data.types+"']").attr("selected", "selected");  
+				  //$("#_type option[value='"+data.types+"']").attr("selected", "selected");  
 
 				  //权限
 			      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
@@ -235,6 +240,9 @@
 			    	  checkZTree(treeObj,data.menus);
 			      }
 				  //权限 end
+				  
+				  
+				  
 				  
 				  $("#_remake").val(data.remake);
 				   

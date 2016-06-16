@@ -230,7 +230,10 @@ var included = "1234567890";
 /**
  * 字典 根据类型请求
  */
-function initDictByType(type,selectId){
+function initDictByType(type,selectId,type_value){
+	
+	$("#"+selectId).empty();
+	
 	$.ajax({
 		url : getContextPath()+"/sys/dict/getByType",
 		type : "GET",
@@ -247,7 +250,20 @@ function initDictByType(type,selectId){
 					for(var i=0;i<data.length;i++)
 					{
 						var dict=data[i];
-						$("#"+selectId).append("<option value='"+dict.value+"'>"+dict.name+"</option>");
+						
+						var html="";
+						html+="<option value='"+dict.value+"' ";
+						//(typeof type_value)!="undefined"&&type_value!=null&&type_value!=""&&
+						if(type_value==dict.value)
+						{
+							html+=" selected='selected' ";
+						}
+						
+						html+=">";
+						html+= dict.name+"</option>";
+						
+						$("#"+selectId).append(html);
+						
 					}
 				}
 				return returnData.data;

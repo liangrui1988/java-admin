@@ -17,6 +17,7 @@ import com.rui.pro1.common.constants.RespHeaderConstans;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.common.utils.IpUtil;
 import com.rui.pro1.common.utils.http.WebHelp;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.SysLog;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.service.ILogService;
@@ -50,7 +51,6 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 		// return true;
 		// }
 		// perm
-		System.out.println(request.getRequestURI());
 		if(!isUserLogin(request,response)){
 			return false;
 		}
@@ -58,7 +58,7 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 
 		try {
 			// 日志处理
-			User user = userUtils.getUser();
+			UserBean user = userUtils.getUserBean();
 			SysLog log = new SysLog();
 			log.setCreateById(user.getId());
 			log.setCreateTime(new Date());
@@ -111,7 +111,7 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 	
 	private boolean isUserLogin(HttpServletRequest request,
 			HttpServletResponse response){
-		User user = userUtils.getUser();
+		UserBean user = userUtils.getUserBean();
 		if (user == null || user.getId() == null || user.getId() <= 0) {
 			ResultBean rb = new ResultBean();
 			response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_002);

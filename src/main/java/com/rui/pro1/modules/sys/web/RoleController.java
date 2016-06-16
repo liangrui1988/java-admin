@@ -23,6 +23,7 @@ import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.RoleBean;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Role;
 import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.exception.ObjectExistException;
@@ -123,7 +124,7 @@ public class RoleController extends SysBaseController {
 		
 		try {
 			
-			User user=userUtils.getUser();
+			UserBean user=userUtils.getUserBean();
 			role.setUpdateById(user.getId());
 			roleService.add(role);
 		} catch (ObjectExistException e) {

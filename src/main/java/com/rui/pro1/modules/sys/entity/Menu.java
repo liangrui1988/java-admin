@@ -147,4 +147,129 @@ public class Menu {
     public void setUpdateById(Integer updateById) {
         this.updateById = updateById;
     }
+
+    
+    
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((createById == null) ? 0 : createById.hashCode());
+		result = prime * result
+				+ ((createTime == null) ? 0 : createTime.hashCode());
+		result = prime * result + ((href == null) ? 0 : href.hashCode());
+		result = prime * result + ((icon == null) ? 0 : icon.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((parentId == null) ? 0 : parentId.hashCode());
+		result = prime * result
+				+ ((parentIds == null) ? 0 : parentIds.hashCode());
+		result = prime * result
+				+ ((permission == null) ? 0 : permission.hashCode());
+		result = prime * result + ((sortNo == null) ? 0 : sortNo.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((types == null) ? 0 : types.hashCode());
+		result = prime * result
+				+ ((updateById == null) ? 0 : updateById.hashCode());
+		result = prime * result
+				+ ((updateTime == null) ? 0 : updateTime.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Menu other = (Menu) obj;
+		if (createById == null) {
+			if (other.createById != null)
+				return false;
+		} else if (!createById.equals(other.createById))
+			return false;
+		if (createTime == null) {
+			if (other.createTime != null)
+				return false;
+		} else if (!createTime.equals(other.createTime))
+			return false;
+		if (href == null) {
+			if (other.href != null)
+				return false;
+		} else if (!href.equals(other.href))
+			return false;
+		if (icon == null) {
+			if (other.icon != null)
+				return false;
+		} else if (!icon.equals(other.icon))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (parentId == null) {
+			if (other.parentId != null)
+				return false;
+		} else if (!parentId.equals(other.parentId))
+			return false;
+		if (parentIds == null) {
+			if (other.parentIds != null)
+				return false;
+		} else if (!parentIds.equals(other.parentIds))
+			return false;
+		if (permission == null) {
+			if (other.permission != null)
+				return false;
+		} else if (!permission.equals(other.permission))
+			return false;
+		if (sortNo == null) {
+			if (other.sortNo != null)
+				return false;
+		} else if (!sortNo.equals(other.sortNo))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (types == null) {
+			if (other.types != null)
+				return false;
+		} else if (!types.equals(other.types))
+			return false;
+		if (updateById == null) {
+			if (other.updateById != null)
+				return false;
+		} else if (!updateById.equals(other.updateById))
+			return false;
+		if (updateTime == null) {
+			if (other.updateTime != null)
+				return false;
+		} else if (!updateTime.equals(other.updateTime))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Menu [id=" + id + ", name=" + name + ", types=" + types
+				+ ", sortNo=" + sortNo + ", parentId=" + parentId
+				+ ", parentIds=" + parentIds + ", permission=" + permission
+				+ ", status=" + status + ", icon=" + icon + ", href=" + href
+				+ ", createTime=" + createTime + ", updateTime=" + updateTime
+				+ ", createById=" + createById + ", updateById=" + updateById
+				+ "]";
+	}
+    
+    
 }

@@ -40,10 +40,7 @@ public class PersonalController extends SettingBaseController {
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response) {
 		ResultBean rb = new ResultBean();
 		try {
-			User user=userUtils.getUser();
-			UserBean userBean=new UserBean();
-			BeanCopierUtils.copyProperties(user, userBean);
-			//UserBean user = userService.get(userVo.getId());
+			UserBean userBean=userUtils.getUserBean();
 			rb.setData(userBean);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,7 +84,7 @@ public class PersonalController extends SettingBaseController {
 		ResultBean rb = new ResultBean();
 		
 		
-		User user = userUtils.getUser();
+		User user = userUtils.getUserEntity();
 
 		//原始密码验证
 		try {

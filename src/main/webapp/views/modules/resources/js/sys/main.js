@@ -35,8 +35,9 @@ $(function(){
 			topLoaded();    
 			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
 			
+			alert(resultBean.data.userName);
 			//loginUser=resultBean.data;
-			$("#userNameLabel").html(resultBean.data.userName);
+			$("#userNameLabel").text(resultBean.data.userName);
 			//buildTreeMenu(resultBean.data.user.menuList);
 			buildTreeMenu(resultBean.data);
 		},

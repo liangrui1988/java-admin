@@ -109,7 +109,7 @@ function initUpdate(){
 		      var roles=data.roles;
 		      if(typeof(rolelist)=="undefined"||rolelist==""||rolelist==null)
 		      {
-		    	//延迟
+		    	//延迟 
 		    	// var xRolelist=getRoles();
 		    	  setTimeout(function () { 
 		    		  initRoleCehcked(rolelist,data.roles);
@@ -119,6 +119,9 @@ function initUpdate(){
 	    		  initRoleCehcked(rolelist,roles);
 		      }
 		      //角色 end
+		      
+		      	//字典
+		        initDictByType("role_type","_type",data.type);
 				
 			  
 			  $("#_remake").val(data.remake);
@@ -273,9 +276,9 @@ function initRoleCehcked(rolelist,roles){
                <div class="col-sd-1">
                   
                   <select name="type" id="_type">
-                  <option value="1">系统管理员</option>
-                  <option value="2">商家管理</option>
-                  <option value="3">政府管理</option>
+<!--                   <option value="1">系统管理员</option> -->
+<!--                   <option value="2">商家管理</option> -->
+<!--                   <option value="3">政府管理</option> -->
                   </select>
                </div>
             </div>

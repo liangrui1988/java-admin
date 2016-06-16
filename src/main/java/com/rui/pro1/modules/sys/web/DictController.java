@@ -23,6 +23,7 @@ import com.rui.pro1.common.constants.Modules;
 import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
+import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Dict;
 import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.exception.UserExistException;
@@ -123,7 +124,7 @@ public class DictController extends SysBaseController {
 			HttpServletResponse response, Dict dict) {
 		ResultBean rb = new ResultBean();
 		try {
-			dict.setCreateById(userUtils.getUser().getId());
+			dict.setCreateById(userUtils.getUserBean().getId());
 			int count = dictService.add(dict);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
@@ -144,7 +145,7 @@ public class DictController extends SysBaseController {
 			HttpServletResponse response, Dict dict) {
 		ResultBean rb = new ResultBean();
 		try {
-			dict.setUpdateById(userUtils.getUser().getId());
+			dict.setUpdateById(userUtils.getUserBean().getId());
 			int count = dictService.update(dict);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");

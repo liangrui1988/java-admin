@@ -85,9 +85,9 @@
                <label class="col-sm-1 control-label ">角色类型：</label>
                <div class="col-sd-1">
                   <select name="types" id="_type">
-                  <option value="1">系统管理角色</option>
-                  <option value="2">商家角色</option>
-                  <option value="3">政府角色</option>
+<!--                   <option value="1">系统管理角色</option> -->
+<!--                   <option value="2">商家角色</option> -->
+<!--                   <option value="3">政府角色</option> -->
                   </select>
                </div>
             </div>
@@ -149,6 +149,14 @@
     </div>
 		
 	<script type="text/javascript">
+	
+	
+	$(function(){
+		//初始字典
+		initDictByType('role_type',"_type");
+		
+	})
+	
 	
 	
 	function addRole(){
