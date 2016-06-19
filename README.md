@@ -9,4 +9,6 @@ gradle初始项目demo,jetty简单main运行项目
 ![图3](/doc/imgEffect/20160609145311.png)
 ![图3](/doc/imgEffect/20160609145345.png)
 ![图3](/doc/imgEffect/20160609153358.png)
+![图3](/doc/imgEffect/20160619193031.png)
+![图3](/doc/imgEffect/20160619193054.png)
 
