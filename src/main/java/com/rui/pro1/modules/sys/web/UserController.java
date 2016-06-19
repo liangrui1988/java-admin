@@ -167,23 +167,36 @@ public class UserController extends SysBaseController {
 		return rb;
 	}
 	
-	
+	/***
+	 * 获取用户信息公用方法
+	 * @param request
+	 * @param response
+	 * @param userVo
+	 * @return
+	 */
+
 	@RequestMapping(value = "getUser", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getCommentUser(HttpServletRequest request, HttpServletResponse response,
 			UserVo userVo) {
-		
-		if(userVo==null||userVo.getId()<=0)
-		{
-			return  new ResultBean(false, MessageCode.ARGUMENT_ILLEGAL, "系统参数不合法");
-		}
+		ResultBean rb = new ResultBean();
+
 		
 		UserBean user=userUtils.getUserBean();
 		if(user==null||user.getId()==null||user.getId()<=0){
 			return  new ResultBean(false, MessageCode.PLASS_LOGIN, "请登陆系统");
 		}
 		
-		ResultBean rb = new ResultBean();
+		//获取当前用户 信息
+		if(userVo==null||userVo.getId()<=0)
+		{
+			
+			rb.setData(user);
+			return rb;
+			//return  new ResultBean(false, MessageCode.ARGUMENT_ILLEGAL, "系统参数不合法");
+		}
+		
+	
 		try {
 			UserBean userBean = userService.get(userVo.getId());
 			rb.setData(userBean);

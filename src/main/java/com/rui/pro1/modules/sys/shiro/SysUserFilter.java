@@ -21,16 +21,11 @@ public class SysUserFilter extends PathMatchingFilter {
     @Override
     protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 
-    	System.out.println("SysUserFilter onPreHandle");
         String username = (String)SecurityUtils.getSubject().getPrincipal();
-        
-        System.out.println(username);
         if (userService == null) {
         	userService = (IUserService) SysApplicationContext
 					.getBean("userService");
 		}
-        
-        
         request.setAttribute(SysComm.SYS_USER, userService.getUser(username));
         return true;
     }

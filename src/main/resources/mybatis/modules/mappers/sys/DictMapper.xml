@@ -33,7 +33,7 @@
 		resultMap="BaseResultMap">
 		select * from sys_dict
 		<include refid="searchField" />
-		order by type,,sort asc,value asc
+		order by type,sort asc,value asc
 		LIMIT
 		#{startRow},#{pageSize}
 	</select>

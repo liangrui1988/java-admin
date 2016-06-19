@@ -270,9 +270,8 @@ function initDictByType(type,selectId,type_value){
 			}
 		},
 		error : function() {
-			alert("字典请请求异常！");
+			alert("字典请求异常！");
 		}
 	});
-	
-	
 }
+	

@@ -36,7 +36,7 @@ public class SpringCacheManagerWrapper implements CacheManager {
 	/**
 	 * 用srping cache接口进行 包装
 	 * 
-	 * @author ruiliang
+	 * @author 
 	 *
 	 */
 	static class SpringCacheWrapper implements Cache {

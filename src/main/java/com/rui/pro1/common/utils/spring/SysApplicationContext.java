@@ -27,6 +27,9 @@ public class SysApplicationContext implements ApplicationContextAware {
 	}
 
 	public static Object getBean(String name) throws BeansException {
+		if(applicationContext==null){
+			return null;
+		}
 		return applicationContext.getBean(name);
 	}
 }

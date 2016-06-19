@@ -50,7 +50,7 @@
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMexxxxxx"/>
         <property name="httpOnly" value="true"/>
-      <property name="maxAge" value="60"/> <!--604800=7  30天=2592000 -->
+      <property name="maxAge" value="86400"/> <!--604800=7  30天=2592000 -->
     </bean>
 
     <!-- rememberMe管理器 -->    

@@ -35,11 +35,14 @@ $(function(){
 			topLoaded();    
 			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
 			
-			alert(resultBean.data.userName);
 			//loginUser=resultBean.data;
-			$("#userNameLabel").text(resultBean.data.userName);
 			//buildTreeMenu(resultBean.data.user.menuList);
 			buildTreeMenu(resultBean.data);
+			
+			var userObjxxx=getUserComment();
+//			console.log(userObjxxx)
+			$("#userNameLabel").text(userObjxxx.userName);
+
 		},
 		complete: function (XMLHttpRequest, textStatus) {
 			 //alert(alert("textStatus》》"+textStatus));
@@ -48,6 +51,8 @@ $(function(){
 			alert("请求异常！");
 		}
 	});
+	
+	
 	
 	
 	 /*$.ajax({

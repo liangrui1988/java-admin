@@ -13,6 +13,9 @@ public class Query {
 	private boolean needPage = true;// 是否分页
 	private Object bean;// 组合查询条件对象
 	
+	private String orderBy;// 组合查询条件对象
+
+	
 	//排序
 
 	public Query() {
@@ -65,6 +68,15 @@ public class Query {
 
 	public void setBean(Object bean) {
 		this.bean = bean;
+	}
+
+	
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
 	}
 
 	@Override

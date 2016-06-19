@@ -176,10 +176,41 @@ function handleAjaxRequestBACK(resultBean, status,XMLHttpRequest)
 	return resultBean.success;
 }
 
-
-
-
-
+/****
+ * 
+ *  获取用户信息公用方法
+ * getUser
+ */
+function getUserComment(userid){
+	
+	var objreturn="";
+	
+	var param="";
+	if((typeof userid)=='undefined'||userid==null||userid==""){
+		param="";
+	}else{
+		param="id="+userid;
+	}
+	
+	$.ajax({
+		url : getContextPath()+"/sys/user/getUser",
+		type : "GET",
+		//cache:false, 
+	    async:false, 
+		dataType : "json",
+		data :param,
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+				objreturn=returnData.data;
+			}
+		},
+		error : function() {
+			alert("获取用户信息异常！");
+		}
+	});
+	return objreturn;
+}
 
 function topLoading()
 {

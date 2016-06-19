@@ -55,5 +55,25 @@
            overflowToDisk="false"
            statistics="true">
     </cache>
+    
+    <!-- 菜单cache -->
+    <cache name="sys_memu"
+           maxEntriesLocalHeap="3000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="86400"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+      <!-- 用户cache -->
+    <cache name="sys_user_bean"
+           maxEntriesLocalHeap="5000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="86400"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
 
 </ehcache>
