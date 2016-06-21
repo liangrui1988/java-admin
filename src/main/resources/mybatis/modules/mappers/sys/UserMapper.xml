@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.rui.pro1.modules.sys.mapper.UserMapper">
@@ -77,7 +78,17 @@
 		resultMap="resultMapId">
 		select * from sys_user
 		<include refid="searchField" />
-		order by id asc
+		
+			<choose>
+			<when test="bean !=null and bean.sort != null and bean.sort != ''">
+				ORDER BY ${orderBy}
+			</when>
+			<otherwise>
+				order by id asc
+			</otherwise>
+		</choose>
+		
+		
 		LIMIT
 		#{startRow},#{pageSize}
 	</select>
