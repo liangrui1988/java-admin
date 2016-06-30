@@ -51,14 +51,12 @@ public class UserController extends SysBaseController {
 	public ResultBean getUserList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
-			UserVo user) throws Exception {
+			UserVo user)  {
 	//	throw new Exception("xx");
 		ResultBean rb = new ResultBean();
-	
-			QueryResult<UserBean> result = userService.getUserList(page, pagesize,
-					user);
-			rb.setData(result);
-		
+		QueryResult<UserBean> result = userService.getUserList(page, pagesize,
+				user);
+		rb.setData(result);
 		return rb;
 
 	}
