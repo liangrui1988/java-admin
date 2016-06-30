@@ -158,18 +158,18 @@
     </bean>
 
 
-	<bean id="handlerExceptionResolver"
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-			   <prop key="org.apache.shiro.authz.AuthorizationException">/unauthorized</prop>
-				<prop key="org.apache.shiro.authz.AuthorizationException">/unauthorized</prop>
-				<prop key="java.lang.Exception">/exception</prop>
-			</props>
-		</property>
-	</bean>
+<!-- 	<bean id="handlerExceptionResolver" -->
+<!-- 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> -->
+<!-- 		<property name="exceptionMappings"> -->
+<!-- 			<props> -->
+<!-- 			   <prop key="org.apache.shiro.authz.AuthorizationException">/unauthorized</prop> -->
+<!-- 				<prop key="org.apache.shiro.authz.AuthorizationException">/unauthorized</prop> -->
+<!-- 				<prop key="java.lang.Exception">/exception</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	
-<!-- 	<bean id="exceptionHandler" class="com.rui.pro1.modules.sys.web.converter.HandlerExceptionResolverImp"/>   -->
+	<bean id="exceptionHandler" class="com.rui.pro1.modules.sys.web.converter.HandlerExceptionResolverImp"/>  
 	
 
 </beans>

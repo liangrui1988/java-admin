@@ -51,7 +51,8 @@ public class UserController extends SysBaseController {
 	public ResultBean getUserList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
-			UserVo user) {
+			UserVo user) throws Exception {
+	//	throw new Exception("xx");
 		ResultBean rb = new ResultBean();
 	
 			QueryResult<UserBean> result = userService.getUserList(page, pagesize,
@@ -69,13 +70,8 @@ public class UserController extends SysBaseController {
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
 			UserVo userVo) {
 		ResultBean rb = new ResultBean();
-		try {
-			UserBean user = userService.get(userVo.getId());
-			rb.setData(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		UserBean user = userService.get(userVo.getId());
+		rb.setData(user);
 		return rb;
 	}
 
@@ -85,15 +81,12 @@ public class UserController extends SysBaseController {
 	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-		try {
-			int count = userService.del(id);
-			if (count <= 0) {
-				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
+	
+		int count = userService.del(id);
+		if (count <= 0) {
+			rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 		}
+		
 		return rb;
 	}
 	@PermissionAnnot(id =  SysMenu.SYS_USER + ":add", name = "添加")

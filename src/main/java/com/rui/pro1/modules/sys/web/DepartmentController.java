@@ -46,14 +46,11 @@ public class DepartmentController extends SysBaseController {
 			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
 			DepartmentVo departmentVo) {
 		ResultBean rb = new ResultBean();
-		try {
+	
 			QueryResult<Department> result = departmentService
 					.getDepartmentList(page, pagesize, departmentVo);
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 
 	}
@@ -64,13 +61,10 @@ public class DepartmentController extends SysBaseController {
 	public ResultBean get(HttpRequest request, HttpResponse response,
 			DepartmentVo departmentVo) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			Department department = departmentService.get(departmentVo.getId());
 			rb.setData(department);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -80,15 +74,12 @@ public class DepartmentController extends SysBaseController {
 	public ResultBean del(HttpRequest request, HttpResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			int count = departmentService.del(id);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -98,15 +89,12 @@ public class DepartmentController extends SysBaseController {
 	public ResultBean add(HttpRequest request, HttpResponse response,
 			Department department) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			int count = departmentService.add(department);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -116,15 +104,12 @@ public class DepartmentController extends SysBaseController {
 	public ResultBean update(HttpRequest request, HttpResponse response,
 			Department department) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			int count = departmentService.update(department);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 

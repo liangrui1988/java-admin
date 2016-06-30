@@ -62,14 +62,11 @@ public class MenuController extends SysBaseController {
 			@RequestParam(value = "pagesize", defaultValue = "12") Integer pagesize,
 			MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
-		try {
+	
 			QueryResult<Menu> result = menuService.getMenuList(pageIndex,
 					pagesize, menuVo);
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -77,7 +74,7 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getlistAll(String level) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 
 			List<Menu> menus = menuService.getMenuListAll();
 
@@ -91,10 +88,7 @@ public class MenuController extends SysBaseController {
 			// List<Menu> menusNew = Arrays.asList(ocAr);
 
 			rb.setData(menus);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 
 	}
@@ -103,7 +97,7 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getlistByCurentUser() {
 		ResultBean rb = new ResultBean();
-		try {
+	
 			String userName = userUtils.getCurrentName();
 			List<Menu> menus = userService.getUserMenus(userName);
 			if (menus == null || menus.size() <= 0) {
@@ -120,10 +114,7 @@ public class MenuController extends SysBaseController {
 			Arrays.sort(ocAr, new MenuComparator());
 			List<Menu> menusNew = Arrays.asList(ocAr);
 			rb.setData(menusNew);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 
 	}
@@ -134,13 +125,10 @@ public class MenuController extends SysBaseController {
 	public ResultBean get(HttpServletRequest request,
 			HttpServletResponse response, MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			Menu menu = menuService.get(Integer.valueOf(menuVo.getId()));
 			rb.setData(menu);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -151,15 +139,12 @@ public class MenuController extends SysBaseController {
 			HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			int count = menuService.del(id);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -169,12 +154,9 @@ public class MenuController extends SysBaseController {
 	public ResultBean add(HttpServletRequest request,
 			HttpServletResponse response, Menu role) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			menuService.add(role);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -184,12 +166,9 @@ public class MenuController extends SysBaseController {
 	public ResultBean update(HttpServletRequest request,
 			HttpServletResponse response, Menu menu) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			menuService.update(menu);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 

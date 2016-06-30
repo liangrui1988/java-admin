@@ -54,14 +54,11 @@ public class RoleController extends SysBaseController {
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
-		try {
+	
 			QueryResult<Role> result = roleService.getRoleList(page, pagesize,
 					roleVo);
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 
 	}
@@ -71,13 +68,10 @@ public class RoleController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getListAll() {
 		ResultBean rb = new ResultBean();
-		try {
+	
 			List<Role> result = roleService.getRoleListAll();
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 
 	}
@@ -88,13 +82,10 @@ public class RoleController extends SysBaseController {
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			RoleBean role = roleService.get(roleVo.getId());
 			rb.setData(role);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 	
@@ -104,15 +95,12 @@ public class RoleController extends SysBaseController {
 	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-		try {
+	
 			int count = roleService.del(id);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -143,12 +131,7 @@ public class RoleController extends SysBaseController {
 	public ResultBean update(HttpServletRequest request, HttpServletResponse response,
 			Role role) {
 		ResultBean rb = new ResultBean();
-		try {
-			roleService.update(role);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		roleService.update(role);
 		return rb;
 	}
 

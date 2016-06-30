@@ -48,13 +48,10 @@ public class DictController extends SysBaseController {
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
 			Dict dict) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			QueryResult<Dict> result = dictService.getList(page, pagesize, dict);
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 
 	}
@@ -65,13 +62,10 @@ public class DictController extends SysBaseController {
 	public ResultBean get(HttpServletRequest request,
 			HttpServletResponse response, Dict dict) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			Dict result = dictService.get(dict.getId());
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 	
@@ -87,14 +81,11 @@ public class DictController extends SysBaseController {
 			return rb;
 		}
 		
-		try {
+		
 			dictService.getByType(type);
 			List<Dict> result = dictService.getByType(type);
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
@@ -105,15 +96,12 @@ public class DictController extends SysBaseController {
 			HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-		try {
+		
 			int count = dictService.del(id);
 			if (count <= 0) {
 				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 	}
 
