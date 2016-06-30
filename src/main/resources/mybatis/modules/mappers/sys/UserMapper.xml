@@ -79,7 +79,7 @@
 		<include refid="searchField" />
 		
 			<choose>
-			<when test="bean !=null and bean.orderBy != null and bean.orderBy != ''">
+			<when test="orderBy != null and orderBy != ''">
 				ORDER BY ${orderBy}
 			</when>
 			<otherwise>
