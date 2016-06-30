@@ -7,12 +7,12 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.rui.pro1.common.utils.copyo.BeanCopierUtils;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.User;
-import com.rui.pro1.modules.sys.mapper.UserMapper;
 import com.rui.pro1.modules.sys.service.IUserService;
 
 /**
@@ -27,10 +27,10 @@ import com.rui.pro1.modules.sys.service.IUserService;
 @Component
 public class UserUtils {
 
+//	@Autowired(required=false)
+//	private UserMapper userMapper;
 	@Autowired
-	private UserMapper userMapper;
-	
-	@Autowired private IUserService userService;
+	private IUserService userService;
 	
 	public String getCurrentName()
 	{
@@ -52,7 +52,7 @@ public class UserUtils {
 		String username = (String) subject.getPrincipal();
 		if (!StringUtils.isBlank(username)) 
 		{
-			User user=userMapper.queryByUserName(username);
+			User user=userService.queryByUserName(username);
 			 if (user != null) 
 			 {
 				 UserBean userBean=new UserBean();
@@ -78,7 +78,7 @@ public class UserUtils {
 		String username = (String) subject.getPrincipal();
 		if (!StringUtils.isBlank(username)) 
 		{
-			User user=userMapper.queryByUserName(username);
+			User user=userService.queryByUserName(username);
 			 if (user != null) 
 			 {
 			    return user;

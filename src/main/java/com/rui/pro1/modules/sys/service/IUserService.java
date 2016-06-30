@@ -34,4 +34,6 @@ public interface IUserService {
 
 	List<Menu> getUserMenus(String username);
 
+	User queryByUserName(String username);
+
 }

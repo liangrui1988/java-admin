@@ -331,4 +331,9 @@ public class UserService implements IUserService {
 		return menus;
 	}
 
+	@Override
+	public User queryByUserName(String username) {
+		return userMapper.queryByUserName(username);
+	}
+
 }

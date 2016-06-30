@@ -53,14 +53,11 @@ public class UserController extends SysBaseController {
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
 			UserVo user) {
 		ResultBean rb = new ResultBean();
-		try {
+	
 			QueryResult<UserBean> result = userService.getUserList(page, pagesize,
 					user);
 			rb.setData(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
-		}
+		
 		return rb;
 
 	}

@@ -372,6 +372,31 @@ public class UserLoginController extends SysBaseController {
 	}
 	
 	
+	/**
+	 * 异常处理
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="exception") //, method=RequestMethod.POST
+	public void exception(HttpServletRequest request, HttpServletResponse response) {
+        if (WebHelp.isAjAxRequest(request))
+		{
+        	ResultBean rb = new ResultBean();
+				response.setHeader(RespHeaderConstans.AJAX_REQUEST_HEADER, RespHeaderConstans.Code.AJAX_REQUEST_HEADER_003);
+				rb.setSuccess(false);
+				rb.setMessageCode(MessageCode.SYS_ERROR);
+				rb.setMessage("系统异常");
+				WebHelp.responseResultBean(request, response, rb);
+		} else
+		{
+			try {
+				response.sendRedirect(request.getContextPath()+"/views/500.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+        
+	}
 	
 	public static void main(String[] args) {
         TokenBuild token = new TokenBuild("admin", "admin".toCharArray(), true,"0:0:0:1");  
