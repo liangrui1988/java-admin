@@ -97,6 +97,9 @@ dependencies {
 		//compile 'net.sf.ehcache:ehcache:2.10.1'
 		//compile group: 'com.octo.captcha', name: 'jcaptcha', version: '1.0'
 		compile group: 'com.octo.captcha', name: 'jcaptcha-all', version: '1.0-RC6'
+		
+		compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.3.0.Alpha1'
+		//compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
 		//compile 'com.octo.captcha:jcaptcha:2.0-alpha-1'
 		//compile 'com.octo.captcha:jcaptcha-integration-simple-servlet:2.0-alpha-1'
 	
