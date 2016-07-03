@@ -1,10 +1,13 @@
 package com.rui.pro1.modules.sys.web.converter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.constraints.AssertFalse;
@@ -35,6 +38,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rui.pro1.common.annotatiions.PermissionAnnot;
+import com.rui.pro1.vail.v.Car;
 
 /**
  * @desc 验证接口参数（方法里的实体bean和单个参数）的解析器
@@ -113,31 +118,54 @@ public class ValidateSingleParamHandlerResolver implements
 //		System.out.println(s);
 		
 		
-		String p=parameter.getParameterName();
-		parameter.getParameterAnnotations();
-
-		Object o = BeanUtils.instantiate(parameter.getParameterType());
-		Field[] frr = o.getClass().getDeclaredFields();
-		// 给对象设置值
-		BeanWrapper beanWrapper = PropertyAccessorFactory
-				.forBeanPropertyAccess(o);
-		for (Field f : frr) {
-			if (map.containsKey(f.getName())) {// 如果参数有值
-				Object[] oValue = (Object[]) map.get(f.getName());
-				if (oValue != null && oValue.length > 0) {
-					beanWrapper.setPropertyValue(f.getName(), oValue[0]);
+		Annotation[] as= parameter.getMethodAnnotations();
+		
+		Class decla=parameter.getDeclaringClass();
+		int index=parameter.getParameterIndex();
+		
+		Method method=parameter.getMethod();
+		
+		String pName=parameter.getParameterName();
+		
+		
+		
+		for (Annotation a : as) {
+			if (a.annotationType() == Null.class) {
+				if(!map.containsKey(pName)){
+					
 				}
+			
 			}
 		}
+		
+		
+		Object parameterClz=parameter.getClass();
+		System.out.println(parameterClz);
+		Object containingClz=parameter.getContainingClass();
+		String p=parameter.getParameterName();
+		
 
+		
+	//	Method method = Car.class.getMethod("drive", int.class, String.class);
+
+		Object[] parameterValues = { 1, "a" };
+		
+		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+				.validateParameters(parameterClz, method, parameterValues);
+		
+		validator.forExecutables().validateParameters(object, method, parameterValues, groups)
+
+		System.out.println(violations);
+		for (ConstraintViolation cv : violations) {
+			System.out.println(cv.getMessage());
+		}
+		
 		// 验证对象
 		// BeanValidators.validateWithException(validator,hello);
-		@SuppressWarnings("rawtypes")
-		Set constraintViolations = validator.validate(o);
-		if (!constraintViolations.isEmpty()) {
-			throw new ConstraintViolationException(constraintViolations);
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(violations);
 		}
-		return o;
+		return null;
 
 	}
 

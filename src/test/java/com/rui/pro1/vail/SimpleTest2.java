@@ -37,7 +37,7 @@ public class SimpleTest2 {
 	
 	
 	
-	
+	@Length(min = 2, max = 6) 
 	public String getSs() {
 		return ss;
 	}
@@ -46,7 +46,6 @@ public class SimpleTest2 {
 		this.ss = ss;
 	}
 
-	//@Length(min = 2, max = 6) String ss
 	@Test
 	public void testString()
 	 {
