@@ -44,14 +44,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2016/07/01
  *
  */
-public class ValidateSingleParamHandlerResolver implements HandlerMethodArgumentResolver {
+public class ValidateSingleParamHandlerResolver implements
+		HandlerMethodArgumentResolver {
 
 	@Autowired
 	protected Validator validator;
 
 	static Logger logger = LoggerFactory
 			.getLogger(ValidateSingleParamHandlerResolver.class);
-
 
 	private ObjectMapper objectMapper = new ObjectMapper().configure(
 			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -65,27 +65,37 @@ public class ValidateSingleParamHandlerResolver implements HandlerMethodArgument
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
-		// return false;
-		boolean supports=false;
-		
-		if(parameter.hasParameterAnnotation(Null.class))return true;
-		if(parameter.hasParameterAnnotation(NotNull.class))return true;
-		if(parameter.hasParameterAnnotation(AssertFalse.class))return true;
-		if(parameter.hasParameterAnnotation(AssertTrue.class))return true;
-		if(parameter.hasParameterAnnotation(DecimalMax.class))return true;
-		if(parameter.hasParameterAnnotation(DecimalMin.class))return true;
-		if(parameter.hasParameterAnnotation(Digits.class))return true;
-		if(parameter.hasParameterAnnotation(Future.class))return true;
-		if(parameter.hasParameterAnnotation(Max.class))return true;
-		if(parameter.hasParameterAnnotation(Past.class))return true;
-		if(parameter.hasParameterAnnotation(Pattern.class))return true;
-		if(parameter.hasParameterAnnotation(Size.class))return true;
-		if(parameter.hasParameterAnnotation(Min.class))return true;
-		if(parameter.hasParameterAnnotation(Min.class))return true;
+		if (parameter.hasParameterAnnotation(Null.class))
+			return true;
+		if (parameter.hasParameterAnnotation(NotNull.class))
+			//NotNullValidator
+			return true;
+		if (parameter.hasParameterAnnotation(AssertFalse.class))
+			return true;
+		if (parameter.hasParameterAnnotation(AssertTrue.class))
+			return true;
+		if (parameter.hasParameterAnnotation(DecimalMax.class))
+			return true;
+		if (parameter.hasParameterAnnotation(DecimalMin.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Digits.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Future.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Max.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Past.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Pattern.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Size.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Min.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Min.class))
+			return true;
 
-		 
-
-		 return supports;
+		return false;
 
 	}
 
@@ -97,15 +107,14 @@ public class ValidateSingleParamHandlerResolver implements HandlerMethodArgument
 		final HttpServletRequest httpServletRequest = webRequest
 				.getNativeRequest(HttpServletRequest.class);
 
-		Map<String, Object> map = httpServletRequest.getParameterMap();
+		Map<String, String[]> map = httpServletRequest.getParameterMap();
 
-		// for(Entry<String,Object> set:map.entrySet()){
-		// System.out.println(set.getKey());
-		// System.out.println(map.get(set.getKey()));
-		// }
-
-		String s = objectMapper.writeValueAsString(map);
-		System.out.println(s);
+//		String s = objectMapper.writeValueAsString(map);
+//		System.out.println(s);
+		
+		
+		String p=parameter.getParameterName();
+		parameter.getParameterAnnotations();
 
 		Object o = BeanUtils.instantiate(parameter.getParameterType());
 		Field[] frr = o.getClass().getDeclaredFields();

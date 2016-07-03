@@ -1,10 +1,8 @@
 package com.rui.pro1.modules.sys.web.converter;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
@@ -24,7 +22,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ihavecar.hirecar.common.beanvalidator.BeanValidators;
+import com.rui.pro1.common.annotatiions.BeanVaildate;
 
 /**
  * @desc 验证接口参数（方法里的实体bean和单个参数）的解析器
@@ -44,7 +42,6 @@ public class ValidateHandlerResolver implements HandlerMethodArgumentResolver {
 	// final TypeToken<PMessage> type = new TypeToken<PMessage>() {
 	// private static final long serialVersionUID = -5448869194131285385L;
 	// };
-
 	private ObjectMapper objectMapper = new ObjectMapper().configure(
 			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -70,7 +67,8 @@ public class ValidateHandlerResolver implements HandlerMethodArgumentResolver {
 		final HttpServletRequest httpServletRequest = webRequest
 				.getNativeRequest(HttpServletRequest.class);
 
-		Map<String, Object> map = httpServletRequest.getParameterMap();
+
+		Map<String, String[]> map = httpServletRequest.getParameterMap();
 
 		// for(Entry<String,Object> set:map.entrySet()){
 		// System.out.println(set.getKey());
