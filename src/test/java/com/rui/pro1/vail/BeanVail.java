@@ -37,5 +37,9 @@ public class BeanVail {
 	public void setAge(int age) {
 		this.age = age;
 	}
+	
+	public void testMethod(int age,String name){
+		System.out.println("xx:"+age);
+	}
 
 }

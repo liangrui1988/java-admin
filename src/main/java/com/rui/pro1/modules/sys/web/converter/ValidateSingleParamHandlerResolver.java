@@ -153,7 +153,7 @@ public class ValidateSingleParamHandlerResolver implements
 		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
 				.validateParameters(parameterClz, method, parameterValues);
 		
-		validator.forExecutables().validateParameters(object, method, parameterValues, groups)
+		//validator.forExecutables().validateParameters(object, method, parameterValues, groups)
 
 		System.out.println(violations);
 		for (ConstraintViolation cv : violations) {
