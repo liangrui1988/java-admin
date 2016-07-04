@@ -11,9 +11,15 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * 在参数对象上标记为需要验证的bean
+ * 
+ * @author rui
+ *
+ */
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 @Documented
 public @interface BeanVaildate {
-	//Class<?> clz();
+	// Class<?> clz();
 }

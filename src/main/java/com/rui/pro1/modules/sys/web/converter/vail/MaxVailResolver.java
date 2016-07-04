@@ -47,7 +47,7 @@ public class MaxVailResolver implements HandlerMethodArgumentResolver {
 		String pName = parameter.getParameterName();
 		
 		// 做成对象才能 到vaildation 这是个难题?
-		Object[] obj = (Object[]) map.get(pName);
+		String[] obj = (String[]) map.get(pName);
 
 
 			//模拟异常
