@@ -1,14 +1,8 @@
 package com.rui.pro1.modules.sys.web.converter;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
@@ -26,9 +20,6 @@ import javax.validation.constraints.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -38,8 +29,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rui.pro1.common.annotatiions.PermissionAnnot;
-import com.rui.pro1.vail.v.Car;
 
 /**
  * @desc 验证接口参数（方法里的实体bean和单个参数）的解析器
@@ -49,14 +38,14 @@ import com.rui.pro1.vail.v.Car;
  * @date 2016/07/01
  *
  */
-public class ValidateSingleParamHandlerResolver implements
-		HandlerMethodArgumentResolver {
+public class ValidateSingleParamHandlerResolver implements HandlerMethodArgumentResolver {
 
 	@Autowired
 	protected Validator validator;
 
 	static Logger logger = LoggerFactory
 			.getLogger(ValidateSingleParamHandlerResolver.class);
+
 
 	private ObjectMapper objectMapper = new ObjectMapper().configure(
 			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -70,37 +59,27 @@ public class ValidateSingleParamHandlerResolver implements
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
-		if (parameter.hasParameterAnnotation(Null.class))
-			return true;
-		if (parameter.hasParameterAnnotation(NotNull.class))
-			//NotNullValidator
-			return true;
-		if (parameter.hasParameterAnnotation(AssertFalse.class))
-			return true;
-		if (parameter.hasParameterAnnotation(AssertTrue.class))
-			return true;
-		if (parameter.hasParameterAnnotation(DecimalMax.class))
-			return true;
-		if (parameter.hasParameterAnnotation(DecimalMin.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Digits.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Future.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Max.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Past.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Pattern.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Size.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Min.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Min.class))
-			return true;
+		// return false;
+		boolean supports=false;
+		
+		if(parameter.hasParameterAnnotation(Null.class))return true;
+		if(parameter.hasParameterAnnotation(NotNull.class))return true;
+		if(parameter.hasParameterAnnotation(AssertFalse.class))return true;
+		if(parameter.hasParameterAnnotation(AssertTrue.class))return true;
+		if(parameter.hasParameterAnnotation(DecimalMax.class))return true;
+		if(parameter.hasParameterAnnotation(DecimalMin.class))return true;
+		if(parameter.hasParameterAnnotation(Digits.class))return true;
+		if(parameter.hasParameterAnnotation(Future.class))return true;
+		if(parameter.hasParameterAnnotation(Max.class))return true;
+		if(parameter.hasParameterAnnotation(Past.class))return true;
+		if(parameter.hasParameterAnnotation(Pattern.class))return true;
+		if(parameter.hasParameterAnnotation(Size.class))return true;
+		if(parameter.hasParameterAnnotation(Min.class))return true;
+		if(parameter.hasParameterAnnotation(Min.class))return true;
 
-		return false;
+	
+
+		 return supports;
 
 	}
 
@@ -114,58 +93,22 @@ public class ValidateSingleParamHandlerResolver implements
 
 		Map<String, String[]> map = httpServletRequest.getParameterMap();
 
-//		String s = objectMapper.writeValueAsString(map);
-//		System.out.println(s);
-		
-		
-		Annotation[] as= parameter.getMethodAnnotations();
-		
-		Class decla=parameter.getDeclaringClass();
-		int index=parameter.getParameterIndex();
-		
-		Method method=parameter.getMethod();
-		
+		// for(Entry<String,Object> set:map.entrySet()){
+		// System.out.println(set.getKey());
+		// System.out.println(map.get(set.getKey()));
+		// }
+
+		String s = objectMapper.writeValueAsString(map);
+		System.out.println(s);
 		String pName=parameter.getParameterName();
 		
 		
+		//做成对象才能vaildation
 		
-		for (Annotation a : as) {
-			if (a.annotationType() == Null.class) {
-				if(!map.containsKey(pName)){
-					
-				}
-			
-			}
-		}
+		Object[] obj=(Object[]) map.get(pName);
 		
-		
-		Object parameterClz=parameter.getClass();
-		System.out.println(parameterClz);
-		Object containingClz=parameter.getContainingClass();
-		String p=parameter.getParameterName();
-		
-
-		
-	//	Method method = Car.class.getMethod("drive", int.class, String.class);
-
-		Object[] parameterValues = { 1, "a" };
-		
-		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
-				.validateParameters(parameterClz, method, parameterValues);
-		
-		//validator.forExecutables().validateParameters(object, method, parameterValues, groups)
-
-		System.out.println(violations);
-		for (ConstraintViolation cv : violations) {
-			System.out.println(cv.getMessage());
-		}
-		
-		// 验证对象
-		// BeanValidators.validateWithException(validator,hello);
-		if (!violations.isEmpty()) {
-			throw new ConstraintViolationException(violations);
-		}
-		return null;
+		System.out.println(obj[0]);
+		return obj[0];
 
 	}
 

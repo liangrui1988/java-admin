@@ -39,11 +39,12 @@
   
     <mvc:annotation-driven>
 		<mvc:argument-resolvers>
-			<bean class="com.rui.pro1.common.utils.converter.JSONConverter" />
-			 <bean class="com.rui.pro1.modules.sys.web.converter.permissionAnnotResolver"/> 
-			 <bean class="com.rui.pro1.modules.sys.shiro.CurrentUserMethodArgumentResolver"/> 
-			<bean class="com.rui.pro1.modules.sys.web.converter.ValidateHandlerResolver"/> 
-			 <bean class="com.rui.pro1.modules.sys.web.converter.ValidateSingleParamHandlerResolver"/> 
+	<bean class="com.rui.pro1.common.utils.converter.JSONConverter" />
+	<bean class="com.rui.pro1.modules.sys.web.converter.permissionAnnotResolver" />
+	<bean class="com.rui.pro1.modules.sys.shiro.CurrentUserMethodArgumentResolver" />
+	<bean class="com.rui.pro1.modules.sys.web.converter.ValidateHandlerResolver" />
+	<bean class="com.rui.pro1.modules.sys.web.converter.vail.MaxVailResolver" />
+	<bean class="com.rui.pro1.modules.sys.web.converter.vail.NotNallVailResolver" /> 
 		</mvc:argument-resolvers>
 	<mvc:message-converters>
 		<bean

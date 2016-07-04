@@ -4,6 +4,11 @@ package com.rui.pro1.modules.sys.constants;
 public class SysComm {
 	public static final String SYS_USER="user";
 	
+	
+	public static final String VAIL_ERROR_MESSAGE="vailHasErrorMap";
+	public static final String HAS_ERROR="hasError";
+
+
 //	@Value("${sys.user.key}")
 //	public static final String SYS_USER_KEY="abcd";
 	

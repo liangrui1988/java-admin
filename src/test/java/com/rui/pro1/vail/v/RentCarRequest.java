@@ -2,13 +2,10 @@ package com.rui.pro1.vail.v;
 
 import java.util.Date;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-
-@RequestScoped
+//@RequestScoped
 public class RentCarRequest {
 
-	@Inject
+	//@Inject
 	private RentalStation rentalStation;
 
 	public void rentCar(String customerId, Date startDate, int duration) {
