@@ -11,7 +11,7 @@ apply plugin: 'war'
 // gradle 自已用的
 buildscript {
         repositories {
-		    maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+		   // maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
              mavenCentral()
         }
         dependencies {
@@ -24,7 +24,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7  
 
 repositories {
-    maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+   // maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
     mavenCentral()
 }
 
