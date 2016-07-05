@@ -57,15 +57,16 @@ public class SimpleTest {
 	@Test
 	public void testString()
 	 {
+
 		
-	
-		validator.validateValue(String.class, "ss", "a");
-		
-		Set<ConstraintViolation<String>> methodV2=validator.validate(ss);
-		System.out.println("methodV2:"+methodV2);
-		for(ConstraintViolation cv:methodV2){
-			System.out.println(cv.getMessage());
-		}
+//	
+//		validator.validateValue(String.class, "ss", "a");
+//		
+//		Set<ConstraintViolation<String>> methodV2=validator.validate(ss);
+//		System.out.println("methodV2:"+methodV2);
+//		for(ConstraintViolation cv:methodV2){
+//			System.out.println(cv.getMessage());
+//		}
 	 }
 
 	@Test

@@ -58,7 +58,7 @@ public class MinVailResolver implements HandlerMethodArgumentResolver {
 		Class clz = parameter.getParameterType();
 		String pType = clz.toString();
 		System.out.println(pType);
-		Object returnObj = VailUtil.getType(pType, obj[0]);
+		Object returnObj = VailResolverUtils.getType(pType, obj[0]);
 
 		// 获得注解
 		Max max = parameter.getParameterAnnotation(Max.class);

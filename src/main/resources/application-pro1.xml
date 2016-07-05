@@ -43,9 +43,8 @@
 	<bean class="com.rui.pro1.modules.sys.web.converter.permissionAnnotResolver" />
 	<bean class="com.rui.pro1.modules.sys.shiro.CurrentUserMethodArgumentResolver" />
 	<bean class="com.rui.pro1.modules.sys.web.converter.ValidateHandlerResolver" />
-	<bean class="com.rui.pro1.modules.sys.web.converter.vail.MaxVailResolver" />
-	<bean class="com.rui.pro1.modules.sys.web.converter.vail.NotNallVailResolver" /> 
-		</mvc:argument-resolvers>
+	<bean class="com.rui.pro1.modules.sys.web.converter.ValidateSingleParamHandlerResolver" />
+	</mvc:argument-resolvers>
 	<mvc:message-converters>
 		<bean
 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">

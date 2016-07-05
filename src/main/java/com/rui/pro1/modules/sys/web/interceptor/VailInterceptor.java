@@ -1,6 +1,5 @@
 package com.rui.pro1.modules.sys.web.interceptor;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -13,7 +12,6 @@ import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +20,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rui.pro1.common.annotatiions.vali.MethodVailAnnot;
-import com.rui.pro1.modules.sys.web.converter.vail.VailUtil;
-import com.rui.pro1.vail.BeanVail;
-import com.rui.pro1.vail.v.Car;
-
-import freemarker.template.utility.StringUtil;
+import com.rui.pro1.modules.sys.web.converter.vail.VailResolverUtils;
 
 /**
  * 拦截器处理验证
@@ -91,7 +85,7 @@ public class VailInterceptor implements HandlerInterceptor {
 				continue;
 			}
 			String pValue = request.getParameter(pNameArray[i].trim());
-			Object obj = VailUtil.getType(clzType[i].getSimpleName(), pValue);
+			Object obj = VailResolverUtils.getType(clzType[i].getSimpleName(), pValue);
 			parameterValues[i] = obj;
 		}
 

@@ -7,7 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Controller;
@@ -27,17 +29,14 @@ public class VailTestController {
 
 	@ResponseBody
 	@RequestMapping(value = "testVaildate")
-	@MethodVailAnnot(methodParamName = { "null", "null", "name", "hello",
-			"size", "size2", "null" })
 	public Map testVaildate(HttpServletRequest req, SaleAgent entity,
-			String name, @NotNull String hello, @Max(100) int size,
-			Integer size2, Model model) {
+			@Null String name, @NotNull String hello, @Max(100) int size,
+			@Min(10)Integer size2, Model model) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		Object obj = req.getAttribute(SysComm.VAIL_ERROR_MESSAGE);
 		if (obj != null) {
 			map = (Map<String, String>) obj;
-
 			System.out.println(map);
 			return map;
 		}

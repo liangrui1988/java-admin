@@ -1,5 +1,6 @@
 package com.rui.pro1.modules.sys.web.converter;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rui.pro1.modules.sys.web.converter.vail.AnnotResolverHelp;
+import com.rui.pro1.modules.sys.web.converter.vail.VailResolverUtils;
 
 /**
  * @desc 验证接口参数（方法里的实体bean和单个参数）的解析器
@@ -38,14 +41,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2016/07/01
  *
  */
-public class ValidateSingleParamHandlerResolver implements HandlerMethodArgumentResolver {
+public class ValidateSingleParamHandlerResolver implements
+		HandlerMethodArgumentResolver {
 
 	@Autowired
 	protected Validator validator;
 
 	static Logger logger = LoggerFactory
 			.getLogger(ValidateSingleParamHandlerResolver.class);
-
 
 	private ObjectMapper objectMapper = new ObjectMapper().configure(
 			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -59,27 +62,34 @@ public class ValidateSingleParamHandlerResolver implements HandlerMethodArgument
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
-		// return false;
-		boolean supports=false;
-		
-		if(parameter.hasParameterAnnotation(Null.class))return true;
-		if(parameter.hasParameterAnnotation(NotNull.class))return true;
-		if(parameter.hasParameterAnnotation(AssertFalse.class))return true;
-		if(parameter.hasParameterAnnotation(AssertTrue.class))return true;
-		if(parameter.hasParameterAnnotation(DecimalMax.class))return true;
-		if(parameter.hasParameterAnnotation(DecimalMin.class))return true;
-		if(parameter.hasParameterAnnotation(Digits.class))return true;
-		if(parameter.hasParameterAnnotation(Future.class))return true;
-		if(parameter.hasParameterAnnotation(Max.class))return true;
-		if(parameter.hasParameterAnnotation(Past.class))return true;
-		if(parameter.hasParameterAnnotation(Pattern.class))return true;
-		if(parameter.hasParameterAnnotation(Size.class))return true;
-		if(parameter.hasParameterAnnotation(Min.class))return true;
-		if(parameter.hasParameterAnnotation(Min.class))return true;
+		if (parameter.hasParameterAnnotation(Null.class))
+			return true;
+		if (parameter.hasParameterAnnotation(NotNull.class))
+			return true;
+		if (parameter.hasParameterAnnotation(AssertFalse.class))
+			return true;
+		if (parameter.hasParameterAnnotation(AssertTrue.class))
+			return true;
+		if (parameter.hasParameterAnnotation(DecimalMax.class))
+			return true;
+		if (parameter.hasParameterAnnotation(DecimalMin.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Digits.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Future.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Max.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Past.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Pattern.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Size.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Min.class))
+			return true;
 
-	
-
-		 return supports;
+		return false;
 
 	}
 
@@ -90,25 +100,83 @@ public class ValidateSingleParamHandlerResolver implements HandlerMethodArgument
 
 		final HttpServletRequest httpServletRequest = webRequest
 				.getNativeRequest(HttpServletRequest.class);
-
 		Map<String, String[]> map = httpServletRequest.getParameterMap();
-
-		// for(Entry<String,Object> set:map.entrySet()){
-		// System.out.println(set.getKey());
-		// System.out.println(map.get(set.getKey()));
-		// }
-
 		String s = objectMapper.writeValueAsString(map);
 		System.out.println(s);
-		String pName=parameter.getParameterName();
-		
-		
-		//做成对象才能vaildation
-		
-		Object[] obj=(Object[]) map.get(pName);
-		
-		System.out.println(obj[0]);
-		return obj[0];
+
+		String pName = parameter.getParameterName();
+		String[] obj = (String[]) map.get(pName);
+		if(obj==null){
+			obj=new String[]{null};
+		}
+	
+		// 获取参数值
+		Class clz = parameter.getParameterType();
+		String pType = clz.toString();
+		Object returnObj = VailResolverUtils.getType(pType, obj[0]);
+
+		 Annotation[]  a=parameter.getParameterAnnotations();
+		// 判断是那种注解
+		if (parameter.hasParameterAnnotation(Null.class)) {
+			Null annot = parameter.getParameterAnnotation(Null.class);
+			AnnotResolverHelp.nullResolver(returnObj, annot, pName,
+					httpServletRequest);
+			return returnObj;
+		}
+
+		if (parameter.hasParameterAnnotation(NotNull.class)) {
+			NotNull annot = parameter.getParameterAnnotation(NotNull.class);
+			AnnotResolverHelp.notNullResolver(returnObj, annot, pName,
+					httpServletRequest);
+			return returnObj;
+		}
+
+		if (parameter.hasParameterAnnotation(Max.class)) {
+			// 获得注解
+			Max max = parameter.getParameterAnnotation(Max.class);
+			AnnotResolverHelp.maxResolver(returnObj, max, pName,
+					httpServletRequest);
+			return returnObj;
+		}
+
+		if (parameter.hasParameterAnnotation(Min.class)) {
+			// 获得注解
+			Min min = parameter.getParameterAnnotation(Min.class);
+			AnnotResolverHelp.minResolver(returnObj, min, pName,
+					httpServletRequest);
+			return returnObj;
+		}
+
+		if (parameter.hasParameterAnnotation(AssertFalse.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(AssertTrue.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(DecimalMax.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(DecimalMin.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(Digits.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(Future.class)) {
+			return returnObj;
+		}
+
+		if (parameter.hasParameterAnnotation(Past.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(Pattern.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(Size.class)) {
+			return returnObj;
+		}
+
+		return returnObj;
 
 	}
 
