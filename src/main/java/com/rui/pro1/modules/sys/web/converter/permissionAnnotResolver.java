@@ -13,6 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.rui.pro1.common.annotatiions.PermissionAnnot;
+import com.rui.pro1.common.constants.enums.MenuReadWrite;
 import com.rui.pro1.modules.sys.service.ILogService;
 import com.rui.pro1.modules.sys.utils.UserUtils;
 
@@ -49,6 +50,11 @@ public class permissionAnnotResolver implements HandlerMethodArgumentResolver {
 		for (Annotation a : as) {
 			if (a.annotationType() == PermissionAnnot.class) {
 				PermissionAnnot permissionAnnot = (PermissionAnnot) a;
+				//如果这个权限标记为只写，就不会做为一个权限拦截了
+				if(permissionAnnot.readWrite().getValue()==MenuReadWrite.Write.getValue()){
+					return false;
+				}
+				
 				Set<String> set = userUtils.getUserPermisson();
 				if (set.contains(permissionAnnot.id())) {
 					return false;

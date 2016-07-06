@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.rui.pro1.modules.sys.constants.enums.MenuStatusEnum;
+
 /**
  * 菜单
  * @author liangrui
@@ -29,5 +31,7 @@ public @interface MenuAnnot
 	public String href() default "";
 
 	public int sortNo() default -1;
+	
+	public MenuStatusEnum status() default MenuStatusEnum.NORMAL_0;
 
 }

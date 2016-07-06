@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.rui.pro1.common.annotatiions.MenuAnnot;
 import com.rui.pro1.common.annotatiions.PermissionAnnot;
+import com.rui.pro1.common.constants.enums.MenuReadWrite;
 import com.rui.pro1.common.utils.dir.Directory.TreeInfo;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.constants.MenuStatus;
@@ -193,7 +194,8 @@ public class InitMP {
 				// menuEntity.setc(new Date());
 				// menuEntity.setCreater("系统扫描");
 				// menuEntity.setClient(menu.client());
-				menuEntity.setStatus(MenuStatus.NORMAL_0);
+				//menuEntity.setStatus(MenuStatus.NORMAL_0);
+				menuEntity.setStatus(menu.status().getCode());
 				menuList.add(menuEntity);
 				// System.out.println("menuEntity:" + menuEntity);
 				// 获取方法
@@ -206,7 +208,11 @@ public class InitMP {
 					if (permission == null) {
 						continue;
 					}
-
+					
+					//如果是只读防问控制  就不写入了
+					if(permission.readWrite().getValue()==MenuReadWrite.Read.getValue()){
+						continue;
+					}
 					Menu menuthree = new Menu();
 					menuthree.setName(permission.name());
 					menuthree.setId(permission.id());

@@ -20,6 +20,9 @@ public class Menu {
 
     private String permission;
 
+    /**
+     * {@link} MenuStatus 菜单状态  0=正常   1=权限标识  2=停用
+     */
     private Integer status;
 
     private String icon;

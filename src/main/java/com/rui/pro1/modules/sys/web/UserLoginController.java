@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.cache.EhCacheKeys;
 import com.rui.pro1.common.cache.SpringCacheManagerWrapper;
 import com.rui.pro1.common.constants.RespHeaderConstans;
 import com.rui.pro1.common.exception.MessageCode;
+import com.rui.pro1.common.utils.IpUtil;
 import com.rui.pro1.common.utils.http.WebHelp;
 import com.rui.pro1.common.utils.spring.SysApplicationContext;
 import com.rui.pro1.modules.sys.annotations.CurrentUser;
@@ -133,8 +133,8 @@ public class UserLoginController extends SysBaseController {
 	     }
 	     
 		 boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM); 
-	     String host = request.getRemoteHost();  
-	    
+	   //  String host = request.getRemoteHost(); //主机名 
+	     String host =  IpUtil.getRemoteIp(request);
 		try {
 			// return new SimpleAuthenticationInfo(new Principal(user,
 			// token.isMobileLogin()),
@@ -323,12 +323,11 @@ public class UserLoginController extends SysBaseController {
 	@RequestMapping("/")
 	public String index(@CurrentUser User loginUser) {
 		
-		System.out.println(loginUser);
+		System.out.println("indexxxx:"+loginUser);
 		if(loginUser==null){
-			System.out.println(loginUser);
-			return "index";
+			return "/loginPage";
 		}
-		System.out.println(loginUser);
+		System.out.println("index:"+loginUser);
 		List<Menu> menus = userService.getUserMenus(loginUser.getUserName());
 		//model.addAttribute("menus", menus);
 		System.out.println(menus);

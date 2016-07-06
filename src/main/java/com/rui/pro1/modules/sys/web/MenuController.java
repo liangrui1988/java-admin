@@ -26,6 +26,7 @@ import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.UserBean;
+import com.rui.pro1.modules.sys.constants.enums.MenuStatusEnum;
 import com.rui.pro1.modules.sys.entity.Menu;
 import com.rui.pro1.modules.sys.service.IMenuService;
 import com.rui.pro1.modules.sys.service.IUserService;
@@ -42,7 +43,7 @@ import com.rui.pro1.modules.sys.vo.MenuVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_MENU)
-@MenuAnnot(id = SysMenu.SYS_MENU, name = "菜单管理", parentId = Modules.SYS, href = "/views/modules/sys/menu/menulist", sortNo = 3)
+@MenuAnnot(id = SysMenu.SYS_MENU, name = "菜单管理", parentId = Modules.SYS, href = "/views/modules/sys/menu/menulist", sortNo = 3,status=MenuStatusEnum.NORMAL_0)
 public class MenuController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 

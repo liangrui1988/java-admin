@@ -19,6 +19,7 @@ import com.rui.pro1.common.constants.Modules;
 import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
+import com.rui.pro1.modules.sys.constants.enums.MenuStatusEnum;
 import com.rui.pro1.modules.sys.entity.Department;
 import com.rui.pro1.modules.sys.service.IDepartmentService;
 import com.rui.pro1.modules.sys.vo.DepartmentVo;
@@ -32,7 +33,7 @@ import com.rui.pro1.modules.sys.vo.DepartmentVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_DEPARTMENT)
-@MenuAnnot(id = SysMenu.SYS_DEPARTMENT, name = "部门管理", parentId = Modules.SYS, href = "/views/modules/sys/departmentlist", sortNo = 4)
+@MenuAnnot(id = SysMenu.SYS_DEPARTMENT, name = "部门管理", parentId = Modules.SYS, href = "/views/modules/sys/departmentlist", sortNo = 4,status=MenuStatusEnum.STOP_2)
 public class DepartmentController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
