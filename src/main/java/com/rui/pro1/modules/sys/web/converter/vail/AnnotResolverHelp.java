@@ -1,9 +1,12 @@
 package com.rui.pro1.modules.sys.web.converter.vail;
 
+import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
+import javax.validation.Validator;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -17,10 +20,17 @@ import org.hibernate.validator.internal.constraintvalidators.bv.MaxValidatorForN
 import org.hibernate.validator.internal.constraintvalidators.bv.MinValidatorForNumber;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NullValidator;
+import org.hibernate.validator.internal.engine.ValidatorImpl;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 
 import com.rui.pro1.modules.sys.constants.SysComm;
 
 public class AnnotResolverHelp {
+
 
 	static ConstraintValidator<Max, Number> maxValidatorForNumber = new MaxValidatorForNumber();
 	static ConstraintValidator<Min, Number> minValidatorForNumber = new MinValidatorForNumber();
@@ -56,7 +66,7 @@ public class AnnotResolverHelp {
 
 		// 验证不通过
 		if (mapMess != null) {
-			mapMess = ErrorMessageChain(httpServletRequest, mapMess);
+			mapMess = errorMessageChain(httpServletRequest, mapMess);
 		}
 		return mapMess == null ? false : true;
 
@@ -80,7 +90,7 @@ public class AnnotResolverHelp {
 
 		// 验证不通过
 		if (mapMess != null) {
-			mapMess = ErrorMessageChain(httpServletRequest, mapMess);
+			mapMess = errorMessageChain(httpServletRequest, mapMess);
 		}
 		return mapMess == null ? false : true;
 
@@ -97,13 +107,13 @@ public class AnnotResolverHelp {
 		if (!hasError) {
 			notNullValidatorForNumber.initialize(annot);
 			// 比较注解上面的值
-			mapMess = VailResolverUtils.isValid(notNullValidatorForNumber, annot,
-					returnObj, pName);
+			mapMess = VailResolverUtils.isValid(notNullValidatorForNumber,
+					annot, returnObj, pName);
 		}
 
 		// 验证不通过
 		if (mapMess != null) {
-			mapMess = ErrorMessageChain(httpServletRequest, mapMess);
+			mapMess = errorMessageChain(httpServletRequest, mapMess);
 		}
 		return mapMess == null ? false : true;
 
@@ -126,11 +136,12 @@ public class AnnotResolverHelp {
 
 		// 验证不通过
 		if (mapMess != null) {
-			mapMess = ErrorMessageChain(httpServletRequest, mapMess);
+			mapMess = errorMessageChain(httpServletRequest, mapMess);
 		}
 		return mapMess == null ? false : true;
 
 	}
+
 
 	/**
 	 * error handler
@@ -139,7 +150,7 @@ public class AnnotResolverHelp {
 	 * @param mapMess
 	 * @return
 	 */
-	private static Map<String, String> ErrorMessageChain(
+	public static Map<String, String> errorMessageChain(
 			HttpServletRequest httpServletRequest, Map<String, String> mapMess) {
 		Object message = httpServletRequest
 				.getAttribute(SysComm.VAIL_ERROR_MESSAGE);

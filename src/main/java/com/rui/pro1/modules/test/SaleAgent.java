@@ -60,7 +60,7 @@ public class SaleAgent  {
 		this.contacter = contacter;
 	}
 	
-	@Length(min=1, max=32, message="联系人电话长度必须介于 1 和 32 之间")
+	@Length(min=5, max=32, message="联系人电话长度必须介于 1 和 32 之间")
 	public String getContacterPhone() {
 		return contacterPhone;
 	}

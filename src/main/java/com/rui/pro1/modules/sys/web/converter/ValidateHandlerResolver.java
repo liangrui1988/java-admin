@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.slf4j.Logger;
@@ -22,7 +22,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rui.pro1.common.annotatiions.BeanVaildate;
+import com.google.common.collect.Maps;
+import com.rui.pro1.common.annotatiions.vali.BeanVaildate;
+import com.rui.pro1.modules.sys.web.converter.vail.AnnotResolverHelp;
 
 /**
  * @desc 验证接口参数（方法里的实体bean和单个参数）的解析器
@@ -54,7 +56,7 @@ public class ValidateHandlerResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
-		// return false;
+		//return true;
 		return parameter.hasParameterAnnotation(BeanVaildate.class);
 
 	}
@@ -96,11 +98,25 @@ public class ValidateHandlerResolver implements HandlerMethodArgumentResolver {
 		// BeanValidators.validateWithException(validator,hello);
 		@SuppressWarnings("rawtypes")
 		Set constraintViolations = validator.validate(o);
-		if (!constraintViolations.isEmpty()) {
-			throw new ConstraintViolationException(constraintViolations);
+//		if (!constraintViolations.isEmpty()) {
+//			throw new ConstraintViolationException(constraintViolations);
+//		}
+		Map<String, String> errorMessages =extractPropertyAndMessage(constraintViolations);
+		// 验证不通过
+		if (errorMessages != null) {
+			AnnotResolverHelp.errorMessageChain(httpServletRequest, errorMessages);
 		}
 		return o;
 
+	}
+	
+	
+	public static Map<String, String> extractPropertyAndMessage(Set<? extends ConstraintViolation> constraintViolations) {
+		Map<String, String> errorMessages = Maps.newHashMap();
+		for (ConstraintViolation violation : constraintViolations) {
+			errorMessages.put(violation.getPropertyPath().toString(), violation.getMessage());
+		}
+		return errorMessages;
 	}
 
 }

@@ -1,9 +1,13 @@
 package com.rui.pro1.modules.sys.web.converter;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
@@ -21,6 +25,9 @@ import javax.validation.constraints.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -30,6 +37,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
+import com.rui.pro1.common.annotatiions.vali.BeanVaildate;
 import com.rui.pro1.modules.sys.web.converter.vail.AnnotResolverHelp;
 import com.rui.pro1.modules.sys.web.converter.vail.VailResolverUtils;
 
@@ -41,14 +50,14 @@ import com.rui.pro1.modules.sys.web.converter.vail.VailResolverUtils;
  * @date 2016/07/01
  *
  */
-public class ValidateSingleParamHandlerResolver implements
+public class ValidateMethodParamHandlerResolver implements
 		HandlerMethodArgumentResolver {
 
 	@Autowired
 	protected Validator validator;
 
 	static Logger logger = LoggerFactory
-			.getLogger(ValidateSingleParamHandlerResolver.class);
+			.getLogger(ValidateMethodParamHandlerResolver.class);
 
 	private ObjectMapper objectMapper = new ObjectMapper().configure(
 			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -62,6 +71,8 @@ public class ValidateSingleParamHandlerResolver implements
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
+		
+		
 		if (parameter.hasParameterAnnotation(Null.class))
 			return true;
 		if (parameter.hasParameterAnnotation(NotNull.class))
@@ -88,6 +99,9 @@ public class ValidateSingleParamHandlerResolver implements
 			return true;
 		if (parameter.hasParameterAnnotation(Min.class))
 			return true;
+		if (parameter.hasParameterAnnotation(BeanVaildate.class))
+			return true;
+		
 
 		return false;
 
@@ -114,9 +128,38 @@ public class ValidateSingleParamHandlerResolver implements
 		Class clz = parameter.getParameterType();
 		String pType = clz.toString();
 		Object returnObj = VailResolverUtils.getType(pType, obj[0]);
-
-		 Annotation[]  a=parameter.getParameterAnnotations();
 		// 判断是那种注解
+		if (parameter.hasParameterAnnotation(BeanVaildate.class)) 
+		{
+			Object o = BeanUtils.instantiate(parameter.getParameterType());
+			Field[] frr = o.getClass().getDeclaredFields();
+			// 给对象设置值
+			BeanWrapper beanWrapper = PropertyAccessorFactory
+					.forBeanPropertyAccess(o);
+			for (Field f : frr) {
+				if (map.containsKey(f.getName())) {// 如果参数有值
+					Object[] oValue = (Object[]) map.get(f.getName());
+					if (oValue != null && oValue.length > 0) {
+						beanWrapper.setPropertyValue(f.getName(), oValue[0]);
+					}
+				}
+			}
+			// 验证对象
+			Set<? extends ConstraintViolation>  constraintViolations = validator.validate(o);
+			Map<String, String> errorMessages = null;
+			if(constraintViolations!=null&&constraintViolations.size()>0){
+				 errorMessages = new HashMap<String, String>();
+				for (ConstraintViolation violation : constraintViolations) {
+					errorMessages.put(violation.getPropertyPath().toString(), violation.getMessage());
+				}
+			}
+			// 验证不通过
+			if (errorMessages != null) {
+				AnnotResolverHelp.errorMessageChain(httpServletRequest, errorMessages);
+			}
+			return o;
+		}
+			
 		if (parameter.hasParameterAnnotation(Null.class)) {
 			Null annot = parameter.getParameterAnnotation(Null.class);
 			AnnotResolverHelp.nullResolver(returnObj, annot, pName,
@@ -175,6 +218,7 @@ public class ValidateSingleParamHandlerResolver implements
 		if (parameter.hasParameterAnnotation(Size.class)) {
 			return returnObj;
 		}
+	
 
 		return returnObj;
 
