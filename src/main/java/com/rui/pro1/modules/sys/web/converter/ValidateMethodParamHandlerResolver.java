@@ -59,8 +59,6 @@ public class ValidateMethodParamHandlerResolver implements
 	static Logger logger = LoggerFactory
 			.getLogger(ValidateMethodParamHandlerResolver.class);
 
-	private ObjectMapper objectMapper = new ObjectMapper().configure(
-			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	/**
 	 * 是否给定 {@linkplain MethodParameter method parameter} 支持这个解析器.
@@ -115,8 +113,8 @@ public class ValidateMethodParamHandlerResolver implements
 		final HttpServletRequest httpServletRequest = webRequest
 				.getNativeRequest(HttpServletRequest.class);
 		Map<String, String[]> map = httpServletRequest.getParameterMap();
-		String s = objectMapper.writeValueAsString(map);
-		System.out.println(s);
+//		String s = objectMapper.writeValueAsString(map);
+//		System.out.println(s);
 
 		String pName = parameter.getParameterName();
 		String[] obj = (String[]) map.get(pName);

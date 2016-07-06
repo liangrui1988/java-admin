@@ -1,12 +1,9 @@
 package com.rui.pro1.modules.sys.web.converter.vail;
 
-import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
-import javax.validation.Validator;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -20,12 +17,6 @@ import org.hibernate.validator.internal.constraintvalidators.bv.MaxValidatorForN
 import org.hibernate.validator.internal.constraintvalidators.bv.MinValidatorForNumber;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NullValidator;
-import org.hibernate.validator.internal.engine.ValidatorImpl;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.PropertyAccessorFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
 
 import com.rui.pro1.modules.sys.constants.SysComm;
 

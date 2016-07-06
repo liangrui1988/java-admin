@@ -19,7 +19,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 import org.apache.commons.lang3.StringUtils;
 
 public class VailResolverUtils {
@@ -57,66 +56,111 @@ public class VailResolverUtils {
 		}
 
 		if (t instanceof Null) {
-			Null salfAnnot = (Null) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			Null salfAnnot = (Null) t;
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="必须为null";
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 
 		if (t instanceof NotNull) {
 			NotNull salfAnnot = (NotNull) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="不能为null";
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 
 		if (t instanceof AssertFalse) {
 			AssertFalse salfAnnot = (AssertFalse) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="只能为false";
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 
 		if (t instanceof DecimalMax) {
 			DecimalMax salfAnnot = (DecimalMax) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="必须小于或等于"+salfAnnot.value();
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 		if (t instanceof Digits) {
 			Digits salfAnnot = (Digits) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="数字的值超出了允许范围(只允许在{integer}位整数和{fraction}位小数范围内)";
+				message=message.replace("{integer}", salfAnnot.integer()+"");
+				message=message.replace("{fraction}",salfAnnot.fraction()+"");
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 		if (t instanceof Future) {
 			Future salfAnnot = (Future) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="需要是一个将来的时间";
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 		if (t instanceof Past) {
 			Past salfAnnot = (Past) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="需要是一个过去的时间";
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 		if (t instanceof Pattern) {
 			Pattern salfAnnot = (Pattern) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="需要匹配正则表达式\"{"+salfAnnot.regexp()+"}\"";
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 		if (t instanceof Size) {
-			Size salfAnnot = (Size) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			Size salfAnnot = (Size) t;
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="个数必须在{min}和{max}之间";
+				message=message.replace("{min}", String.valueOf(salfAnnot.min()));
+				message=message.replace("{max}", String.valueOf(salfAnnot.max()));
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 		if (t instanceof Min) {
 			Min salfAnnot = (Min) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + "验证失败");
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{{javax.validation")){
+				message="最小不能小于{value}";
+				message=message.replace("{value}", String.valueOf(salfAnnot.value()));
+			}
+			mapMess.put(pName, message);
 			return mapMess;
 		}
 		return mapMess;
