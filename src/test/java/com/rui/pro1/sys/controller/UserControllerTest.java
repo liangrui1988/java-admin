@@ -12,7 +12,7 @@ import com.rui.pro1.comm.BaseConatrollerTest;
  */
 public class UserControllerTest extends BaseConatrollerTest {
 
-	String http = "http://localhost:9808/demo/";
+	String http = "http://localhost:9808/";
 
 	@Test
 	public void getUsers() {
@@ -20,4 +20,5 @@ public class UserControllerTest extends BaseConatrollerTest {
 		String result = super.getReq(http + uri);
 		System.out.println(result);
 	}
+	
 }

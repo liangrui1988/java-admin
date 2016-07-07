@@ -19,7 +19,9 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.Length;
 
 public class VailResolverUtils {
 
@@ -51,7 +53,11 @@ public class VailResolverUtils {
 		if (t instanceof Max) {
 			Max max = (Max) t;
 			mapMess = new HashMap<String, String>();
-			mapMess.put(pName, pName + ":不能大于" + max.value());
+			String message=max.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
+				message="最大不能超过{value}".replace("{value}",String.valueOf(max.value()));
+			}
+			mapMess.put(pName,message);
 			return mapMess;
 		}
 
@@ -61,6 +67,19 @@ public class VailResolverUtils {
 			String message=salfAnnot.message();
 			if(StringUtils.isBlank(message)||message.startsWith("{javax.validation")){
 				message="必须为null";
+			}
+			mapMess.put(pName, message);
+			return mapMess;
+		}
+		
+		if (t instanceof Length) {
+			mapMess = new HashMap<String, String>();
+			Length salfAnnot = (Length) t;
+			String message=salfAnnot.message();
+			if(StringUtils.isBlank(message)||message.startsWith("{org.hibernate")){
+				message="长度需要在{min}和{max}之间";
+				message=message.replace("{min}", String.valueOf(salfAnnot.min()));
+				message=message.replace("{max}", String.valueOf(salfAnnot.max()));
 			}
 			mapMess.put(pName, message);
 			return mapMess;

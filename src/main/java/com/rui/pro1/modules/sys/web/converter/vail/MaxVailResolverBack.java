@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rui.pro1.modules.sys.constants.SysComm;
 
+@Deprecated
 public class MaxVailResolverBack implements HandlerMethodArgumentResolver {
 	private ObjectMapper objectMapper = new ObjectMapper().configure(
 			DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
