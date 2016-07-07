@@ -11,24 +11,26 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.internal.constraintvalidators.bv.DecimalMaxValidatorForNumber;
 import org.hibernate.validator.internal.constraintvalidators.bv.DecimalMinValidatorForNumber;
 import org.hibernate.validator.internal.constraintvalidators.bv.MaxValidatorForNumber;
 import org.hibernate.validator.internal.constraintvalidators.bv.MinValidatorForNumber;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import org.hibernate.validator.internal.constraintvalidators.bv.NullValidator;
+import org.hibernate.validator.internal.constraintvalidators.hv.LengthValidator;
 
 import com.rui.pro1.modules.sys.constants.SysComm;
 
 public class AnnotResolverHelp {
 
-
 	static ConstraintValidator<Max, Number> maxValidatorForNumber = new MaxValidatorForNumber();
 	static ConstraintValidator<Min, Number> minValidatorForNumber = new MinValidatorForNumber();
 	static ConstraintValidator<NotNull, Object> notNullValidatorForNumber = new NotNullValidator();
-	static ConstraintValidator<Null, Object> nullValidatorForNumber = new NullValidator();
+	static ConstraintValidator<Null, Object> nullValidatorForObject = new NullValidator();
 	static ConstraintValidator<DecimalMax, Number> decimalMaxValidatorForNumber = new DecimalMaxValidatorForNumber();
 	static ConstraintValidator<DecimalMin, Number> decimalMinValidatorForNumber = new DecimalMinValidatorForNumber();
+	static ConstraintValidator<Length, CharSequence> lengthValidator = new LengthValidator();
 
 	/***
 	 * max 验证处理
@@ -110,6 +112,15 @@ public class AnnotResolverHelp {
 
 	}
 
+	/**
+	 * nullValidatorForNumber
+	 * 
+	 * @param returnObj
+	 * @param annot
+	 * @param pName
+	 * @param httpServletRequest
+	 * @return
+	 */
 	public static boolean nullResolver(Object returnObj, Null annot,
 			String pName, HttpServletRequest httpServletRequest) {
 		Map<String, String> mapMess = null;
@@ -119,9 +130,9 @@ public class AnnotResolverHelp {
 			hasError = true;
 		}
 		if (!hasError) {
-			nullValidatorForNumber.initialize(annot);
+			nullValidatorForObject.initialize(annot);
 			// 比较注解上面的值
-			mapMess = VailResolverUtils.isValid(nullValidatorForNumber, annot,
+			mapMess = VailResolverUtils.isValid(nullValidatorForObject, annot,
 					returnObj, pName);
 		}
 
@@ -133,6 +144,28 @@ public class AnnotResolverHelp {
 
 	}
 
+	/**
+	 * lengthResolver
+	 * 
+	 * @param returnObj
+	 * @param annot
+	 * @param pName
+	 * @param httpServletRequest
+	 * @return
+	 */
+	public static boolean lengthResolver(Object returnObj, Length annot,
+			String pName, HttpServletRequest httpServletRequest) {
+		Map<String, String> mapMess = null;
+		lengthValidator.initialize(annot);
+		// 比较注解上面的值
+		mapMess = VailResolverUtils.isValid(lengthValidator, annot, returnObj,
+				pName);
+		// 验证不通过
+		if (mapMess != null) {
+			mapMess = errorMessageChain(httpServletRequest, mapMess);
+		}
+		return mapMess == null ? false : true;
+	}
 
 	/**
 	 * error handler

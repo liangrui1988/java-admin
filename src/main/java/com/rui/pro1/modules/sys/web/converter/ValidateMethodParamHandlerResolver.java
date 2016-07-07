@@ -22,6 +22,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Length;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -67,10 +68,22 @@ public class ValidateMethodParamHandlerResolver implements
 
 		
 		
+		if (parameter.hasParameterAnnotation(BeanVaildate.class))
+			return true;
 		if (parameter.hasParameterAnnotation(Null.class))
 			return true;
 		if (parameter.hasParameterAnnotation(NotNull.class))
 			return true;
+		if (parameter.hasParameterAnnotation(Size.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Min.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Max.class))
+			return true;
+		if (parameter.hasParameterAnnotation(Length.class))
+			return true;
+		
+		//...TODO 末实现
 		if (parameter.hasParameterAnnotation(AssertFalse.class))
 			return true;
 		if (parameter.hasParameterAnnotation(AssertTrue.class))
@@ -83,18 +96,11 @@ public class ValidateMethodParamHandlerResolver implements
 			return true;
 		if (parameter.hasParameterAnnotation(Future.class))
 			return true;
-		if (parameter.hasParameterAnnotation(Max.class))
-			return true;
 		if (parameter.hasParameterAnnotation(Past.class))
 			return true;
 		if (parameter.hasParameterAnnotation(Pattern.class))
 			return true;
-		if (parameter.hasParameterAnnotation(Size.class))
-			return true;
-		if (parameter.hasParameterAnnotation(Min.class))
-			return true;
-		if (parameter.hasParameterAnnotation(BeanVaildate.class))
-			return true;
+	
 		
 
 		return false;
@@ -183,11 +189,12 @@ public class ValidateMethodParamHandlerResolver implements
 					httpServletRequest);
 			return returnObj;
 		}
-
-		if (parameter.hasParameterAnnotation(AssertFalse.class)) {
-			return returnObj;
-		}
-		if (parameter.hasParameterAnnotation(AssertTrue.class)) {
+		
+		if (parameter.hasParameterAnnotation(Length.class)) {
+			// 获得注解
+			Length annot = parameter.getParameterAnnotation(Length.class);
+			AnnotResolverHelp.lengthResolver(returnObj, annot, pName,
+					httpServletRequest);
 			return returnObj;
 		}
 		if (parameter.hasParameterAnnotation(DecimalMax.class)) {
@@ -196,6 +203,15 @@ public class ValidateMethodParamHandlerResolver implements
 		if (parameter.hasParameterAnnotation(DecimalMin.class)) {
 			return returnObj;
 		}
+		
+
+		if (parameter.hasParameterAnnotation(AssertFalse.class)) {
+			return returnObj;
+		}
+		if (parameter.hasParameterAnnotation(AssertTrue.class)) {
+			return returnObj;
+		}
+	
 		if (parameter.hasParameterAnnotation(Digits.class)) {
 			return returnObj;
 		}

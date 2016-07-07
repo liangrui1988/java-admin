@@ -34,6 +34,7 @@ import com.rui.pro1.modules.sys.web.converter.vail.AnnotResolverHelp;
  * @date 2016/07/01
  *
  */
+@Deprecated
 public class ValidateHandlerResolver implements HandlerMethodArgumentResolver {
 
 	@Autowired
