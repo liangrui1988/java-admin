@@ -37,7 +37,9 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
-
+	<listener>
+		<listener-class>com.rui.pro1.modules.sys.web.listener.ProRequestListener</listener-class>
+	</listener>
 
 	<!-- alibaba -->
 	<servlet>

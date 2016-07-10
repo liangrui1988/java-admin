@@ -74,7 +74,6 @@
 			<mvc:exclude-mapping path="/loginPage"/>
 			<bean class="com.rui.pro1.modules.sys.web.interceptor.SysWebRequestInterceptor"/> 
 		</mvc:interceptor>
-		
 <!-- 			<mvc:interceptor> -->
 <!-- 		     <mvc:mapping path="/**"/> -->
 <!-- 			<mvc:exclude-mapping path="/views/**"/> -->
@@ -86,7 +85,6 @@
 <!-- 			<mvc:exclude-mapping path="/loginPage"/> -->
 <!-- 			<bean class="com.rui.pro1.modules.sys.web.interceptor.VailInterceptor"/>  -->
 <!-- 		</mvc:interceptor> -->
-		
 		
 	</mvc:interceptors>  
 

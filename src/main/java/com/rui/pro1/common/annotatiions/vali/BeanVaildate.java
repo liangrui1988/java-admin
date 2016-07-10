@@ -12,9 +12,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * 在参数对象上标记为需要验证的bean
+ * 在参数对象上标记为需要验证的bean 通常是和方法里有单个字段验证时一起使用的，会把错误消息联合起来一起输出，
+ * <p>
+ * <code>Object obj = req.getAttribute(SysComm.VAIL_ERROR_MESSAGE);
+		if (obj != null) {
+			map = (Map<String, String>) obj;
+			System.out.println(map);
+			return map;
+		}</code>
  * 
- * @author rui
+ * 
+ * @author ruiliang
  *
  */
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })

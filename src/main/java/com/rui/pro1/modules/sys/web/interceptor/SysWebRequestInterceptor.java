@@ -77,6 +77,7 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			logger.error("写入系统日志异常!");
 			e.printStackTrace();
 		}
+		System.out.println("SysWebRequestInterceptor》》preHandle");
 
 		return true;
 	}
@@ -104,7 +105,7 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			System.out.println(String.format("%s consume %d millis",
 					request.getRequestURI(), consumeTime));
 		}
-		System.out.println("response");
+		System.out.println("SysWebRequestInterceptor>>afterCompletion");
 
 	}
 	
