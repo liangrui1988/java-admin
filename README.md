@@ -1,6 +1,6 @@
 # gradleInitProDemo
 
-运行环境：eclipse+mysql就可以启动项目，不需要安装其它服务如：tomcat,maven。其它后台还是借助类似这些服务，但开发时不需要关心这些了。
+运行环境：eclipse+mysql就可以启动项目，不需要安装其它服务比如：tomcat,maven。其实后台还是借助类似这些服务，但开发时不需要关心这些了。<p>
 gradle初始项目demo,jetty简单main运行项目，
 
 #项目框架
