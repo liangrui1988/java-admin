@@ -95,6 +95,21 @@
 <!-- 		<property name="suffix" value=".html" /> -->
 
 	</bean>
+
+
+<!-- freeMarker -->
+	<beans>
+		<bean id="freeMarkerConfigurer"
+			class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+			<property name="templateLoaderPath" value="ftl" />
+			<property name="freemarkerSettings">
+				<props>
+					<prop key="template_update_delay">0</prop>
+					<prop key="default_encoding">GBK</prop>
+					<prop key="locale">zh_CN</prop>
+				</props>
+			</property>
+		</bean>
 	
 		<!-- 获取bean -->
 	<bean id="sysApplicationContext" class="com.rui.pro1.common.utils.spring.SysApplicationContext">
