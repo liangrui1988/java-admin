@@ -110,7 +110,7 @@
 				</props>
 			</property>
 		</bean>
-	
+		
 		<!-- 获取bean -->
 	<bean id="sysApplicationContext" class="com.rui.pro1.common.utils.spring.SysApplicationContext">
 	</bean>

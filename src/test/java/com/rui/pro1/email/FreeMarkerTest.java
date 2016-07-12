@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
@@ -25,9 +26,7 @@ import freemarker.template.TemplateNotFoundException;
 
 public class FreeMarkerTest {
 
-	public static void main(String[] args) {
-		System.out.println( System.getProperty("user.dir"));
-	}
+
 
 	
 	@Test
@@ -55,10 +54,14 @@ public class FreeMarkerTest {
 	  public void testMultiTL() throws IOException {
 	    TemplateLoader ctl = new ClassTemplateLoader(FreeMarkerTest.class,
 	        "/");
-	    TemplateLoader ftl1 = new FileTemplateLoader(new File(
-	        System.getProperty("user.dir")));
 	    
-	    System.out.println( ctl.findTemplateSource("test.ftl"));
+	    String path=System.getProperty("user.dir")+File.separator+"ftl";
+	    TemplateLoader ftl1 = new FileTemplateLoader(new File(
+	    		path ));
+	    
+	    System.out.println(System.getProperty("user.dir"));
+	    
+	    System.out.println(ctl.findTemplateSource("test.ftl"));
 
 	    MultiTemplateLoader mtl = new MultiTemplateLoader(new TemplateLoader[] {
 	        ftl1 });//,ctl 
@@ -70,5 +73,29 @@ public class FreeMarkerTest {
 	    System.out.println(dest);
 //	    Assert.assertEquals("${hello}", dest);
 	  }
+	 
+	 
+	 public static void main(String[] args) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException {
+		
+		 FreeMarkerConfigurer free=new FreeMarkerConfigurer();
+		 
+		 free.setTemplateLoaderPath("ftl");
+		 
+		 Template t=free.getConfiguration().getTemplate("test.ftl");
+		 
+		   Map root = new HashMap();    
+           root.put("name", "javaboy2012");  
+             
+           StringWriter writer = new StringWriter();    
+           try {  
+               t.process(root, writer);  
+               System.out.println(writer.toString());    
+           } catch (TemplateException e) {  
+               e.printStackTrace();  
+           }    
+		 
+		 System.out.println(free);
+		 
+	}
 
 }
