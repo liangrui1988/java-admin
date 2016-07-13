@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.junit.Test;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.rui.pro1.comm.BaseServiceTest;
+import com.rui.pro1.common.bean.EmailBean;
 import com.rui.pro1.common.utils.web.EmailUtil;
 import com.rui.pro1.common.utils.web.FreeMarkerUtil;
 
@@ -37,25 +39,102 @@ public class mainServiceTest extends BaseServiceTest {
 				tpl, map);
 		System.out.println(htmlText);
 	}
-	
-	
+
 	@Test
-	public void simpleSendTest() throws EmailException{
-		EmailUtil.sendContextEmail("simpleSendTest rui", "工具测试subject", "rui_dev@126.com", "rui");
-		
+	public void simpleSendTest() throws EmailException {
+		EmailUtil.sendContextEmail("simpleSendTest rui", "工具测试subject",
+				"rui_dev@126.com", "rui");
+
 	}
-	
-	
+
 	@Test
-	public void ftlSendTest() throws EmailException{
-		
-		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("hello", "world"); 
-		EmailUtil.sendFtlEmail(map, "test.ftl", "ftl测试邮件",  "rui_dev@126.com", "rui");
-		
+	public void ftlSendTest() throws EmailException {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hello", "world");
+		EmailUtil.sendFtlEmail(map, "test.ftl", "ftl测试邮件", "rui_dev@126.com",
+				"rui");
+
 	}
-	
-	
-	
-	
+
+	@Test
+	public void sendBeanTest() throws EmailException {
+		EmailBean email = new EmailBean();
+		email.setContext("world hao");
+		email.setToEmail("rui_dev@126.com");
+		email.setSubject("worldx");
+		EmailUtil.sendEmailToBean(email);
+
+	}
+
+	/**
+	 * 附件测试
+	 * 
+	 * @throws EmailException
+	 */
+	@Test
+	public void sendBeanTest2() throws EmailException {
+		EmailBean email = new EmailBean();
+		email.setContext("world hao");
+		email.setToEmail("rui_dev@126.com");
+		email.setSubject("worldx");
+
+		EmailAttachment emailAttachment = new EmailAttachment();
+		emailAttachment
+				.setPath("C:\\Users\\Public\\Pictures\\Sample Pictures\\200811241158539655.jpg");
+
+		email.setEmailAttachment(emailAttachment);
+		EmailUtil.sendEmailToBean(email);
+
+	}
+
+	/**
+	 * ftl测试
+	 * 
+	 * @throws EmailException
+	 */
+	@Test
+	public void sendBeanTest3() throws EmailException {
+		EmailBean email = new EmailBean();
+		email.setContext("world hao");
+		email.setToEmail("rui_dev@126.com");
+		email.setSubject("worldx");
+		email.setFtlName("test.ftl");
+		// email.setFtlName("test2.ftl"); 纯ftl内容
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hello", "world");
+		email.setMap(map);
+
+		EmailUtil.sendEmailToBean(email);
+
+	}
+
+	/**
+	 * ftl测试 +附件
+	 * 
+	 * @throws EmailException
+	 */
+	@Test
+	public void sendBeanTest4() throws EmailException {
+		EmailBean email = new EmailBean();
+		email.setContext("world hao");
+		email.setToEmail("rui_dev@126.com");
+		email.setSubject("worldx");
+		email.setFtlName("test.ftl");
+		// email.setFtlName("test2.ftl"); 纯ftl内容
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hello", "world");
+		email.setMap(map);
+		//
+		EmailAttachment emailAttachment = new EmailAttachment();
+		emailAttachment
+				.setPath("C:\\Users\\Public\\Pictures\\Sample Pictures\\200811241158539655.jpg");
+
+		email.setEmailAttachment(emailAttachment);
+		EmailUtil.sendEmailToBean(email);
+
+	}
+
 }

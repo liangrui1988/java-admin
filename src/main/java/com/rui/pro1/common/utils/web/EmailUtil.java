@@ -51,23 +51,48 @@ public class EmailUtil {
 		return email;
 	}
 
-	public static void main(String[] args) throws EmailException {
-		Email email = new SimpleEmail();
-		email.setHostName(hostName);
-		email.setSslSmtpPort(sslSmtpPort);
-		email.setAuthenticator(new DefaultAuthenticator(userName, password));// @163.com
-		email.setSSLOnConnect(true);
-		// 发送人
-		email.setFrom(from);// 设置字段的电子邮件使用指定的地址。电子邮件
-		email.setSubject("送行-梁实秋");
+	/**
+	 * 发送邮件 bean组装
+	 * <p>
+	 * 如果有ftl名字 and EmailAttachment 就先发这个,优先
+	 * 
+	 * @param email
+	 *            bean 邮件内容封装bean
+	 * @throws EmailException
+	 */
+	public static void sendEmailToBean(EmailBean email) throws EmailException {
 
-		email.setMsg("发邮件simple test");
-		// 接收人
-		email.addTo("rui_dev@126.com", "toName");// 382453602@qq.com
-													// rui_dev@126.com
-		email.send();
+		// 如果有flt文件名传来
+		if (email == null) {
+			throw new EmailException("对象不能为空");
+		}
 
-		System.out.println("ok>>>");
+		if (!StringUtils.isBlank(email.getFtlName())) {
+			if (email.getEmailAttachment() != null) {// 发送ftl模板邮件 +附件
+				sendMultiPartEmailAndFtl(email.getMap(), email.getFtlName(),
+						email.getSubject(), email.getToEmail(),
+						email.getToEmailName(), email.getEmailAttachment());
+				return;
+			}
+			// 发送ftl模板邮件
+			sendFtlEmail(email.getMap(), email.getFtlName(),
+					email.getSubject(), email.getToEmail(),
+					email.getToEmailName());
+			return;
+		}
+
+		// 发送普通带符件的邮件
+		if (email.getEmailAttachment() != null) {
+			sendMultiPartEmail(email.getContext(), email.getSubject(),
+					email.getToEmail(), email.getToEmailName(),
+					email.getEmailAttachment());
+			return;
+		}
+
+		// 普通文本邮件
+		sendContextEmail(email.getContext(), email.getSubject(),
+				email.getToEmail(), email.getToEmailName());
+
 	}
 
 	/**
@@ -97,7 +122,7 @@ public class EmailUtil {
 		try {
 			Email email = getDefaultEmailConfig(new SimpleEmail());
 			email.setSubject(subject);
-			email.setMsg(toEmail);
+			email.setMsg(context);
 
 			if (StringUtils.isBlank(toEmailName)) {
 				// 接收人
@@ -141,14 +166,14 @@ public class EmailUtil {
 		if (StringUtils.isBlank(subject)) {
 			throw new EmailException("邮件主题不能为空");
 		}
-		if (emailAttachment != null) {
+		if (emailAttachment == null) {
 			throw new EmailException("附件不能为空");
 		}
 
 		try {
 			MultiPartEmail email = (MultiPartEmail) getDefaultEmailConfig(new MultiPartEmail());
 			email.setSubject(subject);
-			email.setMsg(toEmail);
+			email.setMsg(context);
 			if (StringUtils.isBlank(toEmailName)) {
 				// 接收人
 				email.addTo(toEmail);
@@ -190,7 +215,7 @@ public class EmailUtil {
 		if (StringUtils.isBlank(subject)) {
 			throw new EmailException("邮件主题不能为空");
 		}
-		if (emailAttachment != null) {
+		if (emailAttachment == null) {
 			throw new EmailException("附件不能为空");
 		}
 
@@ -208,7 +233,6 @@ public class EmailUtil {
 			email.setHtmlMsg(ftlContext);
 			// email.setTextMsg("xx");//文本消息的一部分。如果这将被用作替代文本 电子邮件客户端不支持HTML消息。
 			email.setSubject(subject);
-			// email.setMsg(toEmail);
 			if (StringUtils.isBlank(toEmailName)) {
 				// 接收人
 				email.addTo(toEmail);
@@ -229,30 +253,6 @@ public class EmailUtil {
 			logger.error("processTemplateIntoString处理异常!{}" + e.getMessage());
 			e.printStackTrace();
 		}
-
-	}
-
-	/**
-	 * 发送简单文本邮件
-	 * 
-	 * @param email
-	 *            bean
-	 * @throws EmailException
-	 */
-	public static void sendContextEmail(EmailBean email) throws EmailException {
-
-		if (StringUtils.isBlank(email.getContext())) {
-			throw new EmailException("邮件文本不能为空");
-		}
-		if (StringUtils.isBlank(email.getToEmail())) {
-			throw new EmailException("邮件接收人不能为空");
-		}
-		if (StringUtils.isBlank(email.getSubject())) {
-			throw new EmailException("邮件主题不能为空");
-		}
-
-		sendContextEmail(email.getContext(), email.getSubject(),
-				email.getToEmail(), email.getToEmailName());
 
 	}
 
@@ -293,7 +293,6 @@ public class EmailUtil {
 			email.setHtmlMsg(ftlContext);
 			// email.setTextMsg("xx");//文本消息的一部分。如果这将被用作替代文本 电子邮件客户端不支持HTML消息。
 			email.setSubject(subject);
-			// email.setMsg(toEmail);
 			if (StringUtils.isBlank(toEmailName)) {
 				// 接收人
 				email.addTo(toEmail);
@@ -315,6 +314,25 @@ public class EmailUtil {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static void main(String[] args) throws EmailException {
+		Email email = new SimpleEmail();
+		email.setHostName(hostName);
+		email.setSslSmtpPort(sslSmtpPort);
+		email.setAuthenticator(new DefaultAuthenticator(userName, password));// @163.com
+		email.setSSLOnConnect(true);
+		// 发送人
+		email.setFrom(from);// 设置字段的电子邮件使用指定的地址。电子邮件
+		email.setSubject("送行-梁实秋");
+
+		email.setMsg("发邮件simple test");
+		// 接收人
+		email.addTo("rui_dev@126.com", "toName");// 382453602@qq.com
+													// rui_dev@126.com
+		email.send();
+
+		System.out.println("ok>>>");
 	}
 
 }
