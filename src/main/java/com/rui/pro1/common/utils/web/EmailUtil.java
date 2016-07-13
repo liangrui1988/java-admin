@@ -227,7 +227,7 @@ public class EmailUtil {
 			// }
 			String ftlContext = FreeMarkerTemplateUtils
 					.processTemplateIntoString(tpl, map);
-			System.out.println(ftlContext);
+//			System.out.println(ftlContext);
 			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
 			// MimeMultipart multipart = new MimeMultipart("related");
 			email.setHtmlMsg(ftlContext);
@@ -287,7 +287,7 @@ public class EmailUtil {
 			// }
 			String ftlContext = FreeMarkerTemplateUtils
 					.processTemplateIntoString(tpl, map);
-			System.out.println(ftlContext);
+//			System.out.println(ftlContext);
 			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
 			// MimeMultipart multipart = new MimeMultipart("related");
 			email.setHtmlMsg(ftlContext);
