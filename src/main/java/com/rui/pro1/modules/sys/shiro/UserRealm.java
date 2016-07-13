@@ -97,13 +97,13 @@ public class UserRealm extends AuthorizingRealm {
 		// 简单的身份验证  // salt=username+salt  // 用户名
 		ByteSource bs=ByteSource.Util.bytes(PassUtil.salt	+ user.getUserName());
 		
-		System.out.println(user.getUserName()+"=="+user.getPassword());
-		System.out.println("bs:"+bs);
+//		System.out.println(user.getUserName()+"=="+user.getPassword());
+//		System.out.println("bs:"+bs);
 
-		System.out.println(getName());
+//		System.out.println(getName());
 		SimpleAuthenticationInfo info=new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), bs,getName());
 		
-		System.out.println(info);
+//		System.out.println(info);
 		
 //		return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()), 
 //				user.getPassword().substring(16), ByteSource.Util.bytes(salt), getName());

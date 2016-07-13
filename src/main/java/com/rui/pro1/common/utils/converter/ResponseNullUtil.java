@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class ResponseNullUtil extends ObjectMapper {
 	private static final long serialVersionUID = 1L;
+
 	//
 	public ResponseNullUtil() {
 		// 空值处理为空串
@@ -34,8 +35,19 @@ public class ResponseNullUtil extends ObjectMapper {
 	// // 数字也加引号
 	// this.configure(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS, true);
 	// this.configure(JsonGenerator.Feature.QUOTE_NON_NUMERIC_NUMBERS, true);
-
-	
-
+	// // 进行HTML解码。
+	// this.registerModule(new SimpleModule().addSerializer(String.class, new
+	// JsonSerializer<String>(){
+	// @Override
+	// public void serialize(String value, JsonGenerator jgen,
+	// SerializerProvider provider) throws IOException,
+	// JsonProcessingException {
+	// jgen.writeString(StringEscapeUtils.unescapeHtml4(value));
+	// }
+	// }));
+	// // 设置时区
+	// this.setTimeZone(TimeZone.getDefault());//getTimeZone("GMT+8:00")
+	// // 设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
+	// this.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 }

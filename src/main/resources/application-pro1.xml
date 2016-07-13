@@ -95,7 +95,25 @@
 <!-- 		<property name="suffix" value=".html" /> -->
 
 	</bean>
-	
+
+
+
+    
+<!-- freeMarker -->
+<bean id="freeMarker" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">  
+  <property name="templateLoaderPath" value="classpath:ftl"/><!--指定模板文件目录-->   
+  <property name="freemarkerSettings"><!-- 设置FreeMarker环境属性-->   
+      <props>  
+          <prop key="template_update_delay">1800</prop><!--刷新模板的周期，单位为秒-->   
+          <prop key="default_encoding">UTF-8</prop><!--模板的编码格式 -->  
+          <prop key="locale">zh_CN</prop><!-- 本地化设置-->  
+      </props>  
+  </property>  
+</bean>  
+
+
+
+		
 		<!-- 获取bean -->
 	<bean id="sysApplicationContext" class="com.rui.pro1.common.utils.spring.SysApplicationContext">
 	</bean>
