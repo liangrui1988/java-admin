@@ -23,11 +23,12 @@ import freemarker.template.TemplateNotFoundException;
 public class FreeMarkerUtil {
 
 	private static FreeMarkerConfigurer freeMarkerConfigurer;
-	
-	
-	
-	
 
+	/**
+	 * 获取 FreeMarkerConfigurer
+	 * 
+	 * @return
+	 */
 	public static FreeMarkerConfigurer getFreeMarkerConfigurer() {
 		// System.out.println("freeMarkerConfigurer:>>>>>"+freeMarkerConfigurer);
 		if (freeMarkerConfigurer == null) {
@@ -36,21 +37,6 @@ public class FreeMarkerUtil {
 		}
 		return freeMarkerConfigurer;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public static void main(String[] args) throws MessagingException,
 			TemplateNotFoundException, MalformedTemplateNameException,

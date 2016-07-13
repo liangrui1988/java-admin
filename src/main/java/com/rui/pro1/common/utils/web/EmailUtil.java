@@ -19,10 +19,16 @@ import com.rui.pro1.common.bean.EmailBean;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+/**
+ * 信邮发送工具帮助
+ * 
+ * @author ruiliang
+ * @date 2016/7/13
+ *
+ */
 public class EmailUtil {
 
-	protected Logger logger = LoggerFactory.getLogger(EmailUtil.class);
-
+	protected static Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 	public final static String hostName = "smtp.163.com";// 协议
 	public final static String from = "rui_dev@163.com";// 发件人
 	public final static String userName = "rui_dev";// 登陆名
@@ -30,13 +36,15 @@ public class EmailUtil {
 	public final static int smtpPort = 25;//
 	public final static String sslSmtpPort = "465";//
 
-	public Email getDefaultEmailConfig(Email email) throws EmailException {
+	public static Email getDefaultEmailConfig(Email email)
+			throws EmailException {
 		// Email email = new SimpleEmail();
 		email.setHostName(hostName);
 		email.setSslSmtpPort(sslSmtpPort);
 		email.setAuthenticator(new DefaultAuthenticator(userName, password));// @163.com
 		email.setSSLOnConnect(true);
 		email.setFrom(from);
+		email.setCharset("utf-8");
 
 		return email;
 	}
@@ -72,7 +80,7 @@ public class EmailUtil {
 	 *            名称
 	 * @throws EmailException
 	 */
-	public void sendContextEmail(String context, String subject,
+	public static void sendContextEmail(String context, String subject,
 			String toEmail, String toEmailName) throws EmailException {
 		if (StringUtils.isBlank(context)) {
 			throw new EmailException("邮件文本不能为空");
@@ -113,7 +121,7 @@ public class EmailUtil {
 	 *            bean
 	 * @throws EmailException
 	 */
-	public void sendContextEmail(EmailBean email) throws EmailException {
+	public static void sendContextEmail(EmailBean email) throws EmailException {
 
 		if (StringUtils.isBlank(email.getContext())) {
 			throw new EmailException("邮件文本不能为空");
@@ -125,7 +133,7 @@ public class EmailUtil {
 			throw new EmailException("邮件主题不能为空");
 		}
 
-		this.sendContextEmail(email.getContext(), email.getSubject(),
+		sendContextEmail(email.getContext(), email.getSubject(),
 				email.getToEmail(), email.getToEmailName());
 
 	}
@@ -133,7 +141,8 @@ public class EmailUtil {
 	/**
 	 * 发送ftl模板邮件
 	 * 
-	 * @param context邮件文本
+	 * @param map
+	 *            邮件内容 对应ftl模板数据
 	 * @param subject
 	 *            主题
 	 * @param toEmail
@@ -142,10 +151,9 @@ public class EmailUtil {
 	 *            名称
 	 * @throws EmailException
 	 */
-	public void sendFtlEmail(Map<String, Object> map, String ftlName,
+	public static void sendFtlEmail(Map<String, Object> map, String ftlName,
 			String subject, String toEmail, String toEmailName)
 			throws EmailException {
-
 		if (StringUtils.isBlank(toEmail)) {
 			throw new EmailException("邮件接收人不能为空");
 		}
@@ -165,8 +173,9 @@ public class EmailUtil {
 			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
 			// MimeMultipart multipart = new MimeMultipart("related");
 			email.setHtmlMsg(ftlContext);
+			// email.setTextMsg("xx");//文本消息的一部分。如果这将被用作替代文本 电子邮件客户端不支持HTML消息。
 			email.setSubject(subject);
-			email.setMsg(toEmail);
+			//email.setMsg(toEmail);
 			if (StringUtils.isBlank(toEmailName)) {
 				// 接收人
 				email.addTo(toEmail);

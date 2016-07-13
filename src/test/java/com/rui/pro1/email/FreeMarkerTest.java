@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
