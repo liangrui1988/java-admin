@@ -2,6 +2,8 @@ package com.rui.pro1.common.bean;
 
 import java.util.Map;
 
+import org.apache.commons.mail.EmailAttachment;
+
 /**
  * 发送邮件bean
  * 
@@ -18,6 +20,9 @@ public class EmailBean {
 	private Map<String, Object> map;// 模板邮件数据
 	private String ftlName;
 
+	
+	private EmailAttachment emailAttachment;
+	
 	public String getContext() {
 		return context;
 	}
@@ -65,5 +70,16 @@ public class EmailBean {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+
+	public EmailAttachment getEmailAttachment() {
+		return emailAttachment;
+	}
+
+	public void setEmailAttachment(EmailAttachment emailAttachment) {
+		this.emailAttachment = emailAttachment;
+	}
+	
+	
+	
 
 }

@@ -6,8 +6,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,6 +117,122 @@ public class EmailUtil {
 	}
 
 	/**
+	 * 发送带符件邮件的简单文本邮件
+	 * 
+	 * @param context
+	 *            邮件文本
+	 * @param subject
+	 *            主题
+	 * @param toEmail
+	 *            发送给谁的邮件地址
+	 * @param toEmailName
+	 *            名称
+	 * @throws EmailException
+	 */
+	public static void sendMultiPartEmail(String context, String subject,
+			String toEmail, String toEmailName, EmailAttachment emailAttachment)
+			throws EmailException {
+		if (StringUtils.isBlank(context)) {
+			throw new EmailException("邮件文本不能为空");
+		}
+		if (StringUtils.isBlank(toEmail)) {
+			throw new EmailException("邮件接收人不能为空");
+		}
+		if (StringUtils.isBlank(subject)) {
+			throw new EmailException("邮件主题不能为空");
+		}
+		if (emailAttachment != null) {
+			throw new EmailException("附件不能为空");
+		}
+
+		try {
+			MultiPartEmail email = (MultiPartEmail) getDefaultEmailConfig(new MultiPartEmail());
+			email.setSubject(subject);
+			email.setMsg(toEmail);
+			if (StringUtils.isBlank(toEmailName)) {
+				// 接收人
+				email.addTo(toEmail);
+			} else {
+				// 接收人
+				email.addTo(toEmail, toEmailName);// 1067165280@qq.com
+													// rui_dev@126.com
+			}
+			email.attach(emailAttachment);
+			email.send();
+		} catch (EmailException e) {
+			logger.error("邮件发送异常!{}" + e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 发送带符件邮件和ftl模板邮件
+	 * 
+	 * @param map
+	 *            ftl 对应数据
+	 * @param subject
+	 *            主题
+	 * @param toEmail
+	 *            发送给谁的邮件地址
+	 * @param toEmailName
+	 *            名称
+	 * @param EmailAttachment
+	 *            附件
+	 * @throws EmailException
+	 */
+	public static void sendMultiPartEmailAndFtl(Map<String, Object> map,
+			String ftlName, String subject, String toEmail, String toEmailName,
+			EmailAttachment emailAttachment) throws EmailException {
+		if (StringUtils.isBlank(toEmail)) {
+			throw new EmailException("邮件接收人不能为空");
+		}
+		if (StringUtils.isBlank(subject)) {
+			throw new EmailException("邮件主题不能为空");
+		}
+		if (emailAttachment != null) {
+			throw new EmailException("附件不能为空");
+		}
+
+		try {
+			FreeMarkerConfigurer configurer = FreeMarkerUtil
+					.getFreeMarkerConfigurer();
+			Template tpl = configurer.getConfiguration().getTemplate(ftlName);
+			// if (map==null||map.size()<=0) {
+			// }
+			String ftlContext = FreeMarkerTemplateUtils
+					.processTemplateIntoString(tpl, map);
+			System.out.println(ftlContext);
+			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
+			// MimeMultipart multipart = new MimeMultipart("related");
+			email.setHtmlMsg(ftlContext);
+			// email.setTextMsg("xx");//文本消息的一部分。如果这将被用作替代文本 电子邮件客户端不支持HTML消息。
+			email.setSubject(subject);
+			// email.setMsg(toEmail);
+			if (StringUtils.isBlank(toEmailName)) {
+				// 接收人
+				email.addTo(toEmail);
+			} else {
+				// 接收人
+				email.addTo(toEmail, toEmailName);// 1067165280@qq.com
+													// rui_dev@126.com
+			}
+			email.attach(emailAttachment);
+			email.send();
+		} catch (IOException e) {
+			logger.error("freeMaraker模板加载异常!{}" + e.getMessage());
+			e.printStackTrace();
+		} catch (EmailException e) {
+			logger.error("邮件发送异常!{}" + e.getMessage());
+			e.printStackTrace();
+		} catch (TemplateException e) {
+			logger.error("processTemplateIntoString处理异常!{}" + e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
 	 * 发送简单文本邮件
 	 * 
 	 * @param email
@@ -175,7 +293,7 @@ public class EmailUtil {
 			email.setHtmlMsg(ftlContext);
 			// email.setTextMsg("xx");//文本消息的一部分。如果这将被用作替代文本 电子邮件客户端不支持HTML消息。
 			email.setSubject(subject);
-			//email.setMsg(toEmail);
+			// email.setMsg(toEmail);
 			if (StringUtils.isBlank(toEmailName)) {
 				// 接收人
 				email.addTo(toEmail);

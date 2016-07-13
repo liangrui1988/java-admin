@@ -86,6 +86,7 @@ public class SimpleEmailTest {
 		// .setPath("C:/Users/Public/Pictures/Sample Pictures/befc0052e4021f50d6c8912214ae770f.jpg");
 		attachment.setURL(new URL(
 				"http://www.apache.org/images/asf_logo_wide.gif"));
+	
 
 		attachment.setDisposition(EmailAttachment.ATTACHMENT);
 		attachment.setDescription("Picture of John");
