@@ -21,7 +21,8 @@ public class SysMenu {
 	public static final String SYS_DICT = Modules.SYS + ":dict";
 	/**系统日志权限**/
     public static final String SYS_LOG = Modules.SYS + ":log";
-
+    /**系统参数**/
+	public static final String SYS_PARAMETER = Modules.SYS + ":parameter";
 	
 
 }

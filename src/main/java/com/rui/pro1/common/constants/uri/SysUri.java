@@ -19,6 +19,11 @@ public class SysUri {
 	public static final String SYS_DICT = Modules.SYS + "/dict";
 	/**系统日志**/
 	public static final String SYS_LOG = Modules.SYS + "/log";
+	/**系统参数**/
+	public static final String SYS_PARAMETER = Modules.SYS + "/parameter";
+	
+	/**临时操作区**/
+	public static final String SYS_TEMP_SERVICE = Modules.SYS + "/temp_service";
 
 
 }
