@@ -6,19 +6,24 @@ import com.rui.pro1.common.constants.Modules;
  * @author ruiliang
  *
  */
-public class SysUri {
+public class SysUri extends Modules {
 	/** 用户 sys/user**/
-	public static final String SYS_USER = Modules.SYS + "/user";// 系统模块
+	public static final String SYS_USER = SYS + "/user";// 系统模块
 	/** 角色 **/
-	public static final String SYS_ROLE = Modules.SYS + "/role";
+	public static final String SYS_ROLE = SYS + "/role";
 	/** 菜单 **/
-	public static final String SYS_MENU = Modules.SYS + "/menu";
+	public static final String SYS_MENU = SYS + "/menu";
 	/** 部门 **/
-	public static final String SYS_DEPARTMENT = Modules.SYS + "/department";
+	public static final String SYS_DEPARTMENT = SYS + "/department";
 	/**字典管理**/
-	public static final String SYS_DICT = Modules.SYS + "/dict";
+	public static final String SYS_DICT = SYS + "/dict";
 	/**系统日志**/
-	public static final String SYS_LOG = Modules.SYS + "/log";
+	public static final String SYS_LOG = SYS + "/log";
+	/**系统参数**/
+	public static final String SYS_PARAMETER = SYS + "/parameter";
+	
+	/**临时操作区**/
+	public static final String SYS_TEMP_SERVICE = SYS + "/temp_service";
 
 
 }
