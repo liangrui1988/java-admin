@@ -6,7 +6,7 @@ import com.rui.pro1.common.constants.Modules;
  * @author ruiliang
  *
  */
-public class SettingUri {
+public class SettingUri extends Modules {
 	/**设置基础**/
-	public static final String SETTING_PERSONAL = Modules.SETTING + "/personal";// 
+	public static final String SETTING_PERSONAL = SETTING + "/personal";// 
 }

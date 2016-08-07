@@ -17,12 +17,47 @@
     id, keyx, value, sort, status, create_time, update_time, create_by_id, update_by_id, 
     remake
   </sql>
+  
+  
+  	<!-- 搜索条件判断 -->
+	<sql id="searchField">
+		<where>
+			<if test="bean.keyx != null and bean.keyx != ''">AND keyx =#{bean.keyx} </if>
+		</where>
+	</sql>
+	<!--=========================查询搜索 ============================================================================= -->
+	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"
+		resultMap="BaseResultMap">
+		select * from sys_parameter
+		<include refid="searchField" />
+		order by keyx,sort asc,create_time desc
+		LIMIT
+		#{startRow},#{pageSize}
+	</select>
+	<select id="getCount" resultType="long"
+		parameterType="com.rui.pro1.common.bean.page.Query">
+		select count(*) from sys_parameter
+		<include refid="searchField" />
+	</select>
+	
+<!--=========================根据key查询结果============================================================================= -->
+  <select id="selectByKeyX" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_parameter
+    where  status=0 and keyx = #{keyx}
+  </select>
+	
+  <!--=========================Auto-generated method stub ============================================================================= -->
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sys_parameter
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_parameter
     where id = #{id,jdbcType=INTEGER}

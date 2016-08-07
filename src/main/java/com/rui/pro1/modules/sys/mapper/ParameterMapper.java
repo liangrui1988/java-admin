@@ -1,5 +1,8 @@
 package com.rui.pro1.modules.sys.mapper;
 
+import java.util.List;
+
+import com.rui.pro1.common.bean.page.Query;
 import com.rui.pro1.modules.sys.entity.Parameter;
 
 public interface ParameterMapper {
@@ -14,4 +17,10 @@ public interface ParameterMapper {
 	int updateByPrimaryKeySelective(Parameter record);
 
 	int updateByPrimaryKey(Parameter record);
+
+	Long getCount(Query query);
+
+	List<Parameter> queryPages(Query query);
+
+	List<Parameter> selectByKeyX(String keyx);
 }
