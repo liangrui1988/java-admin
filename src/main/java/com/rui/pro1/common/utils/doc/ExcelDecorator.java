@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,19 +115,17 @@ public class ExcelDecorator {
 		// style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		// style.setBorderRight(HSSFCellStyle.BORDER_THIN);
 		// style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-		// style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		HSSFCell cell;
 
 		// 用于设置表格样式的对象，可以设置某一列的样式指定 FieldStyle
 		List<FieldStyle> tempSort = new ArrayList<FieldStyle>();
 		int cellIndex = 0;
-
 		for (Entry<String, FieldStyle> es : m.entrySet()) {
 			tempSort.add(es.getValue());
 			cell = row.createCell(cellIndex);// 创建一个单元格,并放入数据
 			HSSFCellStyle style = wb.createCellStyle();
-			style.setAlignment(es.getValue().getCellStyle());// 对齐
+			style.setAlignment(es.getValue().getAlignment());// 对齐
 			// 生成一个字体
 			HSSFFont font = wb.createFont();
 			font.setColor(HSSFColor.BLACK.index);
@@ -138,12 +138,16 @@ public class ExcelDecorator {
 			cell.setCellStyle(style);
 			// cell.setEncoding(HSSFCell.ENCODING_UTF_16);// 指定编码
 			cell.setCellValue(es.getKey()); // 设值
+
+			// 设置列表宽
+			if (es.getValue().getColunmWidth() != 0) {
+				sheet.setColumnWidth(cellIndex, es.getValue().getColunmWidth());
+			}
 			cellIndex++;
 		}
 		startContextRow++;
 		if (users != null) {
 			for (int i = 0; i < users.size(); ++i) {
-				// Object obj = clz.newInstance();
 				Object obj = users.get(i);
 				row = sheet.createRow(i + startContextRow);// 创建一行, 接上标题
 				// 根据 v 找到方法 并获取值
@@ -169,18 +173,17 @@ public class ExcelDecorator {
 						value = getMethodValue(obj.getClass(), obj,
 								styleObject.getTitle());
 					}
-					String strValue = converType(value,
-							styleObject.getDateFormat());
+					String strValue = converType(value, styleObject);
 					cell = row.createCell(r);
 
 					HSSFCellStyle styleText = wb.createCellStyle();
-					styleText.setAlignment(styleObject.getCellStyle());
+					styleText.setAlignment(styleObject.getAlignment());
 					cell.setCellStyle(styleText);
 					cell.setCellValue(strValue);
 					// 设置列表宽
-					if (styleObject.getColunmWidth() != 0) {
-						sheet.setColumnWidth(r, styleObject.getColunmWidth());
-					}
+					// if (styleObject.getColunmWidth() != 0) {
+					// sheet.setColumnWidth(r, styleObject.getColunmWidth());
+					// }
 				}
 			}
 		}
@@ -231,7 +234,7 @@ public class ExcelDecorator {
 		return value;
 	}
 
-	public static String converType(Object value, String dateFormat) {
+	public static String converType(Object value, FieldStyle fieldStyle) {
 
 		String rResult = "";
 
@@ -260,18 +263,55 @@ public class ExcelDecorator {
 		// boolean result = (Boolean) value;
 		// return result;
 		//
-		// } else
-		if (value instanceof Date) {
+		// } elseif (value instanceof byte[]) {
+		//
+		// }
+		if (value instanceof Float) {
+			java.text.DecimalFormat df = null;
+			if (fieldStyle.getDateFormat() == null) {
+				df = new java.text.DecimalFormat("0.00");
+				df.setRoundingMode(RoundingMode.FLOOR);
+			} else {
+				df = fieldStyle.getDecimalFormat();
+			}
+			float result = (Float) value;
+			return df.format(result);
+
+		} else if (value instanceof BigDecimal) {
+			BigDecimal resultBigDeci= (BigDecimal) value;
+			//setScale 
+			double result=resultBigDeci.setScale(fieldStyle.getBigDecimalNewScale(),fieldStyle.getBigDecimalRoundingMode()).doubleValue();
+			//double result=resultBigDeci.doubleValue();
+//			java.text.DecimalFormat df = null;
+//			if (fieldStyle.getDateFormat() == null) {
+//				df = new java.text.DecimalFormat("0.00");
+//				df.setRoundingMode(RoundingMode.FLOOR);
+//			} else {
+//				df = fieldStyle.getDecimalFormat();
+//			}
+
+			return String.valueOf(result);
+		} else if (value instanceof Double) {
+			java.text.DecimalFormat df = null;
+			if (fieldStyle.getDateFormat() == null) {
+				df = new java.text.DecimalFormat("0.00");
+				df.setRoundingMode(RoundingMode.FLOOR);
+			} else {
+				df = fieldStyle.getDecimalFormat();
+			}
+			double result = (Double) value;
+
+			return df.format(result);
+		} else if (value instanceof Date) {
+			String dateFormat = fieldStyle.getDateFormat();
 			Date date = (Date) value;
-			if ("".equals(dateFormat) || null == dateFormat) {
+			if (null == dateFormat || "".equals(dateFormat)) {
 				dateFormat = "yyyy-MM-dd";
 			}
 			// IllegalArgumentException
 			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 			rResult = sdf.format(date);
 
-		} else if (value instanceof byte[]) {
-			//
 		} else {
 
 			return value + "";

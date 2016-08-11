@@ -1,5 +1,8 @@
 package com.rui.pro1.common.utils.doc;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 import org.apache.poi.ss.usermodel.CellStyle;
 
 /**
@@ -36,7 +39,7 @@ public class FieldStyle {
 	 * 
 	 * @default 剧中
 	 */
-	private short cellStyle = CellStyle.ALIGN_CENTER;
+	private short alignment = CellStyle.ALIGN_CENTER;
 
 	/**
 	 * 导出字段字段排序（升序）
@@ -69,6 +72,20 @@ public class FieldStyle {
 	 */
 	private int colunmWidth;
 
+	/**
+	 * 如果是小数，格式样式自定议。默认两位 不四舍五入
+	 */
+	private DecimalFormat decimalFormat;
+
+	/**
+	 * 如果是BigDecimal类型，格试化时指定小数位数。默认2位
+	 */
+	private int bigDecimalNewScale = 2;
+	/**
+	 * 如果是BigDecimal类型，格试化时 取舍定义，默认不四舍五入
+	 */
+	private int bigDecimalRoundingMode = BigDecimal.ROUND_DOWN;
+
 	@Deprecated
 	private boolean isSkipZero;
 
@@ -76,23 +93,28 @@ public class FieldStyle {
 		this.title = title;
 	}
 
-	public FieldStyle(String title, short cellStyle, String dateFormat,
+	public FieldStyle(String title, short alignment, String dateFormat,
 			int colunmWidth) {
 		this.title = title;
-		this.cellStyle = cellStyle;
+		this.alignment = alignment;
 		this.dateFormat = dateFormat;
 		this.colunmWidth = colunmWidth;
 	}
 
-	public FieldStyle(String title, short cellStyle) {
+	public FieldStyle(String title, short alignment) {
 		this.title = title;
-		this.cellStyle = cellStyle;
+		this.alignment = alignment;
 	}
 
-	public FieldStyle(String title, short cellStyle, int colunmWidth) {
+	public FieldStyle(String title, short alignment, int colunmWidth) {
 		this.title = title;
-		this.cellStyle = cellStyle;
+		this.alignment = alignment;
 		this.colunmWidth = colunmWidth;
+	}
+
+	public FieldStyle(String title, DecimalFormat decimalFormat) {
+		this.title = title;
+		this.decimalFormat = decimalFormat;
 	}
 
 	public FieldStyle(String value, String title) {
@@ -165,22 +187,48 @@ public class FieldStyle {
 		this.isSkipZero = isSkipZero;
 	}
 
-	public short getCellStyle() {
-		return cellStyle;
+	public short getAlignment() {
+		return alignment;
 	}
 
-	public void setCellStyle(short cellStyle) {
-		this.cellStyle = cellStyle;
+	public void setAlignment(short alignment) {
+		this.alignment = alignment;
 	}
 
-	public FieldStyle(String value, String title, int type, short cellStyle,
+	public DecimalFormat getDecimalFormat() {
+		return decimalFormat;
+	}
+
+	public void setDecimalFormat(DecimalFormat decimalFormat) {
+		this.decimalFormat = decimalFormat;
+	}
+	
+	
+
+	public int getBigDecimalNewScale() {
+		return bigDecimalNewScale;
+	}
+
+	public void setBigDecimalNewScale(int bigDecimalNewScale) {
+		this.bigDecimalNewScale = bigDecimalNewScale;
+	}
+
+	public int getBigDecimalRoundingMode() {
+		return bigDecimalRoundingMode;
+	}
+
+	public void setBigDecimalRoundingMode(int bigDecimalRoundingMode) {
+		this.bigDecimalRoundingMode = bigDecimalRoundingMode;
+	}
+
+	public FieldStyle(String value, String title, int type, short alignment,
 			Class<?> fieldType, int[] groups, String dateFormat,
 			int colunmWidth, boolean isSkipZero) {
 		super();
 		this.value = value;
 		this.title = title;
 		this.type = type;
-		this.cellStyle = cellStyle;
+		this.alignment = alignment;
 		this.fieldType = fieldType;
 		this.groups = groups;
 		this.dateFormat = dateFormat;

@@ -1,119 +1,140 @@
 package com.rui.pro1.modules.sys.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rui.pro1.common.utils.date.DateSerializer;
 
 public class Department {
-    private Integer id;
+	private Integer id;
 
-    private String name;
+	private String name;
 
-    private Integer sort;
+	private Integer sort;
 
-    private Integer parentId;
+	private Integer parentId;
 
-    private String parentIds;
+	private String parentIds;
 
-    private Integer status;
-    @JsonSerialize(using=DateSerializer.class)
-    private Date createTime;
+	private Integer status;
+	@JsonSerialize(using = DateSerializer.class)
+	private Date createTime;
 
-    @JsonSerialize(using=DateSerializer.class)
-    private Date updateTime;
+	@JsonSerialize(using = DateSerializer.class)
+	private Date updateTime;
 
-    private Integer createById;
+	private Integer createById;
 
-    private Integer updateById;
+	private Integer updateById;
 
-    private String remake;
+	private String remake;
 
-    public Integer getId() {
-        return id;
-    }
+	private Double testXls;
+	private BigDecimal bdTest;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Integer getSort() {
-        return sort;
-    }
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
+	public Integer getSort() {
+		return sort;
+	}
 
-    public Integer getParentId() {
-        return parentId;
-    }
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
+	public Integer getParentId() {
+		return parentId;
+	}
 
-    public String getParentIds() {
-        return parentIds;
-    }
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
 
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds == null ? null : parentIds.trim();
-    }
+	public String getParentIds() {
+		return parentIds;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public void setParentIds(String parentIds) {
+		this.parentIds = parentIds == null ? null : parentIds.trim();
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public Integer getStatus() {
+		return status;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public Date getUpdateTime() {
+		return updateTime;
+	}
 
-    public Integer getCreateById() {
-        return createById;
-    }
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 
-    public void setCreateById(Integer createById) {
-        this.createById = createById;
-    }
+	public Integer getCreateById() {
+		return createById;
+	}
 
-    public Integer getUpdateById() {
-        return updateById;
-    }
+	public void setCreateById(Integer createById) {
+		this.createById = createById;
+	}
 
-    public void setUpdateById(Integer updateById) {
-        this.updateById = updateById;
-    }
+	public Integer getUpdateById() {
+		return updateById;
+	}
 
-    public String getRemake() {
-        return remake;
-    }
+	public void setUpdateById(Integer updateById) {
+		this.updateById = updateById;
+	}
 
-    public void setRemake(String remake) {
-        this.remake = remake == null ? null : remake.trim();
-    }
+	public String getRemake() {
+		return remake;
+	}
+
+	public void setRemake(String remake) {
+		this.remake = remake == null ? null : remake.trim();
+	}
+
+	public Double getTestXls() {
+		return testXls;
+	}
+
+	public void setTestXls(Double testXls) {
+		this.testXls = testXls;
+	}
+
+	public BigDecimal getBdTest() {
+		return bdTest;
+	}
+
+	public void setBdTest(BigDecimal bdTest) {
+		this.bdTest = bdTest;
+	}
+
 }
