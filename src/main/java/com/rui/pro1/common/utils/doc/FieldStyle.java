@@ -1,7 +1,9 @@
 package com.rui.pro1.common.utils.doc;
 
+import org.apache.poi.ss.usermodel.CellStyle;
+
 /**
- * 字段样式对象
+ * 用于设置表格样式的对象，可以设置某一列的样式指定
  * 
  * @author rui
  *
@@ -9,9 +11,7 @@ package com.rui.pro1.common.utils.doc;
 public class FieldStyle {
 
 	/**
-	 * 导出字段名（默认调用当前字段的“get”方法，如指定导出字段为对象，请填写“对象名.对象属性”，例：“area.name”、“office.
-	 * name”）
-	 * 暂不支持
+	 * 导出字段名（默认调用当前字段的“get”方法，如指定导出字段为对象，请填写“对象名.对象属性”，例：“department.name”）
 	 */
 	private String value;
 
@@ -22,53 +22,77 @@ public class FieldStyle {
 
 	/**
 	 * 字段类型（0：导出导入；1：仅导出；2：仅导入）
+	 * 
 	 */
+	@Deprecated
 	private int type;
 
 	/**
-	 * 导出字段对齐方式（0：自动；1：靠左；2：居中；3：靠右）
+	 * 导出字段对齐方式（{@link org.apache.poi.ss.usermodel.CellStyle}）
+	 * 
+	 * CellStyle.ALIGN_LEFT 左
+	 * <p>
+	 * CellStyle.ALIGN_RIGHT 右
+	 * 
+	 * @default 剧中
 	 */
-	private int align;
+	private short cellStyle = CellStyle.ALIGN_CENTER;
 
 	/**
 	 * 导出字段字段排序（升序）
 	 */
-	private int sort;
-
-	/**
-	 * 如果是字典类型，请设置字典的type值
-	 */
-	private String dictType;
+	// private int sort;
 
 	/**
 	 * 反射类型
 	 */
+	@Deprecated
 	private Class<?> fieldType;
 
 	/**
 	 * 字段归属组（根据分组导出导入）
 	 */
+	@Deprecated
 	private int[] groups;
 
 	/**
 	 * 日期格式
 	 */
 	private String dateFormat = "yyyy-MM-dd HH:mm:ss";
-	
+
 	/**
 	 * 100为1个px
 	 * 
+	 * @throws Exception
+	 *             不能大于255*255=65025
 	 * @return
 	 */
 	private int colunmWidth;
 
+	@Deprecated
 	private boolean isSkipZero;
-	
-	
-	
-	
+
 	public FieldStyle(String title) {
 		this.title = title;
+	}
+
+	public FieldStyle(String title, short cellStyle, String dateFormat,
+			int colunmWidth) {
+		this.title = title;
+		this.cellStyle = cellStyle;
+		this.dateFormat = dateFormat;
+		this.colunmWidth = colunmWidth;
+	}
+
+	public FieldStyle(String title, short cellStyle) {
+		this.title = title;
+		this.cellStyle = cellStyle;
+	}
+
+	public FieldStyle(String title, short cellStyle, int colunmWidth) {
+		this.title = title;
+		this.cellStyle = cellStyle;
+		this.colunmWidth = colunmWidth;
 	}
 
 	public FieldStyle(String value, String title) {
@@ -99,30 +123,6 @@ public class FieldStyle {
 
 	public void setType(int type) {
 		this.type = type;
-	}
-
-	public int getAlign() {
-		return align;
-	}
-
-	public void setAlign(int align) {
-		this.align = align;
-	}
-
-	public int getSort() {
-		return sort;
-	}
-
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
-
-	public String getDictType() {
-		return dictType;
-	}
-
-	public void setDictType(String dictType) {
-		this.dictType = dictType;
 	}
 
 	public Class<?> getFieldType() {
@@ -165,25 +165,27 @@ public class FieldStyle {
 		this.isSkipZero = isSkipZero;
 	}
 
+	public short getCellStyle() {
+		return cellStyle;
+	}
 
+	public void setCellStyle(short cellStyle) {
+		this.cellStyle = cellStyle;
+	}
 
-	public FieldStyle(String value, String title, int type, int align,
-			int sort, String dictType, Class<?> fieldType, int[] groups,
-			String dateFormat, int colunmWidth, boolean isSkipZero) {
+	public FieldStyle(String value, String title, int type, short cellStyle,
+			Class<?> fieldType, int[] groups, String dateFormat,
+			int colunmWidth, boolean isSkipZero) {
 		super();
 		this.value = value;
 		this.title = title;
 		this.type = type;
-		this.align = align;
-		this.sort = sort;
-		this.dictType = dictType;
+		this.cellStyle = cellStyle;
 		this.fieldType = fieldType;
 		this.groups = groups;
 		this.dateFormat = dateFormat;
 		this.colunmWidth = colunmWidth;
 		this.isSkipZero = isSkipZero;
 	}
-	
-	
 
 }
