@@ -56,8 +56,15 @@ public class ExcelDecorator2  {
 		sheet.setDefaultColumnWidth(15);
 
 		HSSFRow row = sheet.createRow(0);
+	
+		
+		
+		
+		
+		
 		// 第四步，创建单元格，并设置值表头 设置表头居中
 		HSSFCellStyle style = wb.createCellStyle();
+		//表格头
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
 		// 设置这些样式
 		// style.setFillForegroundColor(HSSFColor.CORAL.index);//back
@@ -70,7 +77,7 @@ public class ExcelDecorator2  {
 
 		// 生成一个字体
 		HSSFFont font = wb.createFont();
-		font.setColor(HSSFColor.RED.index);
+		font.setColor(HSSFColor.BLACK.index);
 		font.setFontHeightInPoints((short) 12);
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		// 把字体应用到当前的样式

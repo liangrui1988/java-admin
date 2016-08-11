@@ -20,18 +20,21 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.rui.pro1.modules.sys.entity.User;
 
-public class ExcelDecorator  {
+public class ExcelDecorator {
 
 	// 表格样式
-
-
 
 	/**
 	 * 把数据转换为输出流
 	 * 
+	 * @param title
+	 *            大标题
 	 * @param sheetName
 	 *            sheet名称
 	 * @param m
@@ -46,16 +49,46 @@ public class ExcelDecorator  {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static InputStream getXlsIO(String sheetName,
-			Map<String, FieldStyle> m, List<User> users, Class clz
-			) throws Exception {
+	public static InputStream getXlsIO(String title, String sheetName,
+			Map<String, FieldStyle> m, List<User> users, Class clz)
+			throws Exception {
 
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(sheetName);
 		// 设置表格默认列宽度为15个字节
 		sheet.setDefaultColumnWidth(15);
 
-		HSSFRow row = sheet.createRow(0);
+		// 第一行
+		CellRangeAddress cra = new CellRangeAddress(0, 0, 0, m.size() - 1);// 参数:起始行号，终止行号，
+																			// 起始列号，终止列号
+		sheet.addMergedRegion(cra);
+		HSSFRow rowD = sheet.createRow(0);
+
+		// 表格大标题
+		org.apache.poi.ss.usermodel.CellStyle styleD = wb.createCellStyle();
+		HSSFCell cellD = rowD.createCell(0);// 创建一个单元格,并放入数据
+		cellD.setCellType(HSSFCell.CELL_TYPE_STRING);
+		// cell.setEncoding(HSSFCell.ENCODING_UTF_16);// 指定编码
+		cellD.setCellValue(title); // 设值
+		// cell样试
+		HSSFCellStyle styleTitle = wb.createCellStyle();
+		styleTitle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index); // 设置填充色
+		styleTitle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);// 设置填充样式
+		// 居中
+		styleTitle.setAlignment(CellStyle.ALIGN_CENTER);
+		styleTitle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		// 指定当单元格内容显示不下时自动换行
+		styleTitle.setWrapText(true);
+		// 字体
+		Font titleFont = wb.createFont();
+		titleFont.setFontName("Arial");
+		titleFont.setFontHeightInPoints((short) 16);
+		titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);// 设置粗体
+		styleTitle.setFont(titleFont);
+		cellD.setCellStyle(styleTitle);
+
+		// 小标题
+		HSSFRow row = sheet.createRow(1);
 		// 第四步，创建单元格，并设置值表头 设置表头居中
 		HSSFCellStyle style = wb.createCellStyle();
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
@@ -70,7 +103,7 @@ public class ExcelDecorator  {
 
 		// 生成一个字体
 		HSSFFont font = wb.createFont();
-		font.setColor(HSSFColor.RED.index);
+		font.setColor(HSSFColor.BLACK.index);
 		font.setFontHeightInPoints((short) 12);
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		// 把字体应用到当前的样式
@@ -94,13 +127,15 @@ public class ExcelDecorator  {
 			for (int i = 0; i < users.size(); ++i) {
 				Object obj = clz.newInstance();
 				obj = users.get(i);
-				row = sheet.createRow(i + 1);// 创建一行,从0开始
+				row = sheet.createRow(i + 2);// 创建一行,从0开始
 
 				// 根据 v 找到方法 并获取值
 				for (int r = 0; r < tempSort.size(); r++) {
 					// 获取值
-					Object value = getMethodValue(clz, obj, tempSort.get(r).getTitle());
-					String strValue = converType(value,tempSort.get(r).getDateFormat());
+					Object value = getMethodValue(clz, obj, tempSort.get(r)
+							.getTitle());
+					String strValue = converType(value, tempSort.get(r)
+							.getDateFormat());
 					cell = row.createCell(r);
 					cell.setCellValue(strValue);
 				}

@@ -41,7 +41,7 @@ public class MainTest {
          m.put("时间", new FieldStyle("createTime"));  
          m.put("id", new FieldStyle("id"));  
 		
-		 InputStream is = excel.getXlsIO("数据报表", m, users, User.class); 
+		 InputStream is = excel.getXlsIO("2017年度","数据报表", m, users, User.class); 
 		
 		 // Write the output to a file
 	    FileOutputStream fileOut = new FileOutputStream("E:\\workbook2.xls");
