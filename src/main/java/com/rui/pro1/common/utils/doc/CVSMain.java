@@ -19,12 +19,21 @@ import com.rui.pro1.modules.sys.entity.User;
 import com.univocity.parsers.common.processor.BeanWriterProcessor;
 import com.univocity.parsers.csv.CsvWriter;
 import com.univocity.parsers.csv.CsvWriterSettings;
+import com.univocity.parsers.fixed.FixedWidthFieldLengths;
+import com.univocity.parsers.fixed.FixedWidthFields;
+import com.univocity.parsers.fixed.FixedWidthWriter;
+import com.univocity.parsers.fixed.FixedWidthWriterSettings;
 
 public class CVSMain {
 
 	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException {
 
-		CsvWriterSettings settings = new CsvWriterSettings();
+		
+	    FixedWidthFields lengths=new FixedWidthFields(100, 50, 40);
+	    
+//		CsvWriterSettings settings = new CsvWriterSettings();
+		FixedWidthWriterSettings settings = new FixedWidthWriterSettings(lengths);
+
 		settings.setNullValue("?");
 		settings.setRowWriterProcessor(new BeanWriterProcessor<User>(User.class));
 		settings.setHeaders("标题", "password", "email");
@@ -33,7 +42,10 @@ public class CVSMain {
 		settings.setIgnoreTrailingWhitespaces(false);
 
 		File file = new File("d:/user.csv");
-		CsvWriter writer = new CsvWriter(new OutputStreamWriter(new FileOutputStream(file), "gbk"), settings);
+//		CsvWriter writer = new CsvWriter(new OutputStreamWriter(new FileOutputStream(file), "gbk"), settings);
+		
+	    FixedWidthWriter writer = new FixedWidthWriter(new OutputStreamWriter(new FileOutputStream(file), "gbk"), settings);
+
 		writer.writeHeaders();
 
 		User u = new User();
@@ -41,9 +53,8 @@ public class CVSMain {
 		u.setPassword("123456");
 		u.setEmail("中文测试");
 
-		 writer.writeRow(u.getUserName());
-		 writer.writeRow(u.getPassword());
-		 writer.writeRow(u.getEmail());
+		 writer.writeRow(u.getUserName(),u.getPassword(),u.getEmail());
+		
 
 		// writer.processRecord(u);
 
