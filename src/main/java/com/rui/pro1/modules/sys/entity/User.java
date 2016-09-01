@@ -5,14 +5,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rui.pro1.common.utils.date.DateSerializer;
+import com.univocity.parsers.annotations.Parsed;
 
 public class User {
     private Integer id;
 
     private Integer departmentId;
-
+    @Parsed
     private String userName;
-
+    @Parsed
     private String password;
 
     private String fullName;
