@@ -18,7 +18,6 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.UserBean;
@@ -36,23 +35,23 @@ import com.rui.pro1.modules.sys.vo.UserVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_USER)
-@MenuAnnot(id = SysMenu.SYS_USER, name = "用户管理", parentId = Modules.SYS, href = "/views/modules/sys/user/userlist",sortNo=1)
+@MenuAnnot(id = "sys:user", name = "用户管理", parentId = Modules.SYS, href = "/views/modules/sys/user/userlist", sortNo = 1)
 public class UserController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private IUserService userService;
 
-	//@RequiresPermissions("chauffeur:carChauffeurRiskDetail:view")
+	// @RequiresPermissions("chauffeur:carChauffeurRiskDetail:view")
 
-	@PermissionAnnot(id =  SysMenu.SYS_USER + ":list",name="查询列表")
-	@RequestMapping(value = {"list",""}, method = RequestMethod.GET)
+	@PermissionAnnot(id ="sys:user:list", name = "查询列表")
+	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getUserList(
 			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
-			UserVo user)  {
-	//	throw new Exception("xx");
+			UserVo user) {
+		// throw new Exception("xx");
 		ResultBean rb = new ResultBean();
 		QueryResult<UserBean> result = userService.getUserList(page, pagesize,
 				user);
@@ -60,48 +59,50 @@ public class UserController extends SysBaseController {
 		return rb;
 
 	}
-	
-	
-	@PermissionAnnot(id =  SysMenu.SYS_USER + ":get", name = "查看详情")
+
+	@PermissionAnnot(id = "sys:user:get", name = "查看详情")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
-			UserVo userVo) {
+	public ResultBean get(HttpServletRequest request,
+			HttpServletResponse response, UserVo userVo) {
 		ResultBean rb = new ResultBean();
 		UserBean user = userService.get(userVo.getId());
 		rb.setData(user);
 		return rb;
 	}
 
-	@PermissionAnnot(id =  SysMenu.SYS_USER + ":del", name = "删除")
+	@PermissionAnnot(id = "sys:user:del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
+	public ResultBean del(HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-	
+
 		int count = userService.del(id);
 		if (count <= 0) {
 			rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 		}
-		
+
 		return rb;
 	}
-	@PermissionAnnot(id =  SysMenu.SYS_USER + ":add", name = "添加")
+
+	@PermissionAnnot(id =  " SysMenu.SYS_USER + :add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpServletRequest request, HttpServletResponse response, User user,String repeatPassword) {
+	public ResultBean add(HttpServletRequest request,
+			HttpServletResponse response, User user, String repeatPassword) {
 		ResultBean rb = new ResultBean();
 		try {
-			
-			if(!StringUtils.isBlank(repeatPassword)){
-				if(!repeatPassword.equals(user.getPassword()))
-				{
-					rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
+
+			if (!StringUtils.isBlank(repeatPassword)) {
+				if (!repeatPassword.equals(user.getPassword())) {
+					rb = new ResultBean(false,
+							MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
 					return rb;
 				}
 			}
-			
+
 			user.setCreateById(userUtils.getUserBean().getId());
 			int count = userService.add(user);
 			if (count <= 0) {
@@ -116,32 +117,34 @@ public class UserController extends SysBaseController {
 		return rb;
 	}
 
-	//@RequiresPermissions(SysMenu.SYS_USER + ":update")
-	@PermissionAnnot(id =  SysMenu.SYS_USER + ":update", name = "修改")
+	// @RequiresPermissions(SysMenu.SYS_USER + ":update")
+	@PermissionAnnot(id = "sys:user:update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean update(HttpServletRequest request, HttpServletResponse response,
-			User user,String repeatPassword) {
+	public ResultBean update(HttpServletRequest request,
+			HttpServletResponse response, User user, String repeatPassword) {
 		ResultBean rb = new ResultBean();
-		
+
 		try {
-			if(StringUtils.isNotBlank(repeatPassword)||StringUtils.isNotBlank(user.getPassword())){
-				if(!repeatPassword.equals(user.getPassword()))
-				{
-					rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
+			if (StringUtils.isNotBlank(repeatPassword)
+					|| StringUtils.isNotBlank(user.getPassword())) {
+				if (!repeatPassword.equals(user.getPassword())) {
+					rb = new ResultBean(false,
+							MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
 					return rb;
-				}else{
-					//如果需要修改密码，
+				} else {
+					// 如果需要修改密码，
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR, "密码不一致");
+			rb = new ResultBean(false, MessageCode.USER_REPEAT_PASSWORD_ERROR,
+					"密码不一致");
 			return rb;
 		}
-		
+
 		try {
-			
+
 			user.setUpdateById(userUtils.getUserBean().getId());
 
 			int count = userService.update(user);
@@ -154,9 +157,10 @@ public class UserController extends SysBaseController {
 		}
 		return rb;
 	}
-	
+
 	/***
 	 * 获取用户信息公用方法
+	 * 
 	 * @param request
 	 * @param response
 	 * @param userVo
@@ -165,26 +169,24 @@ public class UserController extends SysBaseController {
 
 	@RequestMapping(value = "getUser", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getCommentUser(HttpServletRequest request, HttpServletResponse response,
-			UserVo userVo) {
+	public ResultBean getCommentUser(HttpServletRequest request,
+			HttpServletResponse response, UserVo userVo) {
 		ResultBean rb = new ResultBean();
 
-		
-		UserBean user=userUtils.getUserBean();
-		if(user==null||user.getId()==null||user.getId()<=0){
-			return  new ResultBean(false, MessageCode.PLASS_LOGIN, "请登陆系统");
+		UserBean user = userUtils.getUserBean();
+		if (user == null || user.getId() == null || user.getId() <= 0) {
+			return new ResultBean(false, MessageCode.PLASS_LOGIN, "请登陆系统");
 		}
-		
-		//获取当前用户 信息
-		if(userVo==null||userVo.getId()<=0)
-		{
-			
+
+		// 获取当前用户 信息
+		if (userVo == null || userVo.getId() <= 0) {
+
 			rb.setData(user);
 			return rb;
-			//return  new ResultBean(false, MessageCode.ARGUMENT_ILLEGAL, "系统参数不合法");
+			// return new ResultBean(false, MessageCode.ARGUMENT_ILLEGAL,
+			// "系统参数不合法");
 		}
-		
-	
+
 		try {
 			UserBean userBean = userService.get(userVo.getId());
 			rb.setData(userBean);

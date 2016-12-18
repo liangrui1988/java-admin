@@ -18,7 +18,7 @@ import com.rui.pro1.modules.sys.constants.enums.MenuStatusEnum;
 //@Inherited
 public @interface MenuAnnot
 {
-	public String id() default "-1";
+	public String id() default "-1";//权限标识 
 
 	public String name() default "";
 

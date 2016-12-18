@@ -20,18 +20,15 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
-import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Dict;
 import com.rui.pro1.modules.sys.exception.ObjectExistException;
-import com.rui.pro1.modules.sys.exception.UserExistException;
 import com.rui.pro1.modules.sys.service.IDictService;
 
 @Controller
 @RequestMapping(SysUri.SYS_DICT)
-@MenuAnnot(id = SysMenu.SYS_DICT, name = "字典管理", parentId = Modules.SYS, href = "/views/modules/sys/dict/dictlist", sortNo = 5)
+@MenuAnnot(id = "sys:dict", name = "字典管理", parentId = Modules.SYS, href = "/views/modules/sys/dict/dictlist", sortNo = 5)
 public class DictController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -40,7 +37,7 @@ public class DictController extends SysBaseController {
 
 	// @RequiresPermissions("chauffeur:carChauffeurRiskDetail:view")
 
-	@PermissionAnnot(id = SysMenu.SYS_DICT + ":list", name = "查询列表")
+	@PermissionAnnot(id = "sys:dict:list", name = "查询列表")
 	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(
@@ -56,7 +53,7 @@ public class DictController extends SysBaseController {
 
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DICT + ":get", name = "查看详情")
+	@PermissionAnnot(id = "sys:dict:get", name = "查看详情")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request,
@@ -70,7 +67,7 @@ public class DictController extends SysBaseController {
 	}
 	
 	
-//	@PermissionAnnot(id = SysMenu.SYS_DICT + ":get", name = "查看详情")
+//	@PermissionAnnot(id = "sys:dict:get", name = "查看详情")
 	@RequestMapping(value = "getByType", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getByType(HttpServletRequest request,
@@ -89,7 +86,7 @@ public class DictController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DICT + ":del", name = "删除")
+	@PermissionAnnot(id = "sys:dict:del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean del(HttpServletRequest request,
@@ -105,7 +102,7 @@ public class DictController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DICT + ":add", name = "添加")
+	@PermissionAnnot(id = "sys:dict:add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request,
@@ -126,7 +123,7 @@ public class DictController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DICT + ":update", name = "修改")
+	@PermissionAnnot(id = "sys:dict:update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request,

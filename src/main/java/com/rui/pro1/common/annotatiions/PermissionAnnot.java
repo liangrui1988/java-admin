@@ -26,7 +26,7 @@ import com.rui.pro1.common.constants.enums.MenuReadWrite;
 @Documented
 // @Inherited
 public @interface PermissionAnnot {
-	public String id() default "-1";
+	public String id() default "-1";//权限标识 
 
 	// public String menuId() default "-1";
 	public String name() default "";

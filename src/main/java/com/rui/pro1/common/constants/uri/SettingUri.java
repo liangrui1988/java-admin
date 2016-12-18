@@ -8,5 +8,5 @@ import com.rui.pro1.common.constants.Modules;
  */
 public class SettingUri extends Modules {
 	/**设置基础**/
-	public static final String SETTING_PERSONAL = SETTING + "/personal";// 
+	public static final String SETTING_PERSONAL =  "setting/personal";// 
 }
