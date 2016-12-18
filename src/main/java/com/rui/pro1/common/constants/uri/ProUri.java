@@ -8,6 +8,6 @@ import com.rui.pro1.common.constants.Modules;
  */
 public class ProUri extends Modules {
 	/** 商家 **/
-	public static final String PRO_MER = PRO + "/mer";// 商品
+	public static final String PRO_MER = "pro/mer";// 商品
 
 }
