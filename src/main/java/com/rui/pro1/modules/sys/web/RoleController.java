@@ -19,13 +19,11 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.bean.RoleBean;
 import com.rui.pro1.modules.sys.bean.UserBean;
 import com.rui.pro1.modules.sys.entity.Role;
-import com.rui.pro1.modules.sys.entity.User;
 import com.rui.pro1.modules.sys.exception.ObjectExistException;
 import com.rui.pro1.modules.sys.service.IRoleService;
 import com.rui.pro1.modules.sys.vo.RoleVo;
@@ -39,14 +37,14 @@ import com.rui.pro1.modules.sys.vo.RoleVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_ROLE)
-@MenuAnnot(id = SysMenu.SYS_ROLE, name = "角色管理", parentId = Modules.SYS, href = "/views/modules/sys/role/rolelist",sortNo=2)
+@MenuAnnot(id = "sys:role", name = "角色管理", parentId = Modules.SYS, href = "/views/modules/sys/role/rolelist", sortNo = 2)
 public class RoleController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private IRoleService roleService;
 
-	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":list", name = "查看列表")
+	@PermissionAnnot(id = "sys:role:list", name = "查看列表")
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(
@@ -54,70 +52,72 @@ public class RoleController extends SysBaseController {
 			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
 			RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
-	
-			QueryResult<Role> result = roleService.getRoleList(page, pagesize,
-					roleVo);
-			rb.setData(result);
-		
+
+		QueryResult<Role> result = roleService.getRoleList(page, pagesize,
+				roleVo);
+		rb.setData(result);
+
 		return rb;
 
 	}
 
-//	@PermissionAnnot(id =  MenuSys.SYS_ROLE + ":list", name = "查看列表")
+	// @PermissionAnnot(id = MenuSys.SYS_ROLE + ":list", name = "查看列表")
 	@RequestMapping(value = "listAll", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getListAll() {
 		ResultBean rb = new ResultBean();
-	
-			List<Role> result = roleService.getRoleListAll();
-			rb.setData(result);
-		
+
+		List<Role> result = roleService.getRoleListAll();
+		rb.setData(result);
+
 		return rb;
 
 	}
 
 	@RequestMapping(value = "get", method = RequestMethod.GET)
-	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":get", name = "查看")
+	@PermissionAnnot(id = "sys:role:get", name = "查看")
 	@ResponseBody
-	public ResultBean get(HttpServletRequest request, HttpServletResponse response,
-			RoleVo roleVo) {
+	public ResultBean get(HttpServletRequest request,
+			HttpServletResponse response, RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
-		
-			RoleBean role = roleService.get(roleVo.getId());
-			rb.setData(role);
-		
-		return rb;
-	}
-	
-	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":del", name = "删除")
-	@RequestMapping(value = "del", method = RequestMethod.POST)
-	@ResponseBody
-	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(required = false, value = "id") Integer id) {
-		ResultBean rb = new ResultBean();
-	
-			int count = roleService.del(id);
-			if (count <= 0) {
-				rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
-			}
-		
+
+		RoleBean role = roleService.get(roleVo.getId());
+		rb.setData(role);
+
 		return rb;
 	}
 
-	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":add", name = "添加")
+	@PermissionAnnot(id = "sys:role:del", name = "删除")
+	@RequestMapping(value = "del", method = RequestMethod.POST)
+	@ResponseBody
+	public ResultBean del(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(required = false, value = "id") Integer id) {
+		ResultBean rb = new ResultBean();
+
+		int count = roleService.del(id);
+		if (count <= 0) {
+			rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
+		}
+
+		return rb;
+	}
+
+	@PermissionAnnot(id = "sys:role:add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpServletRequest request, HttpServletResponse response, Role role) {
+	public ResultBean add(HttpServletRequest request,
+			HttpServletResponse response, Role role) {
 		ResultBean rb = new ResultBean();
-		
+
 		try {
-			
-			UserBean user=userUtils.getUserBean();
+
+			UserBean user = userUtils.getUserBean();
 			role.setUpdateById(user.getId());
 			roleService.add(role);
 		} catch (ObjectExistException e) {
 			rb = new ResultBean(false, MessageCode.ROLE_EXISTS, "角色已存在");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
 		}
@@ -125,11 +125,11 @@ public class RoleController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  SysMenu.SYS_ROLE + ":update", name = "修改")
+	@PermissionAnnot(id = "sys:role:update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean update(HttpServletRequest request, HttpServletResponse response,
-			Role role) {
+	public ResultBean update(HttpServletRequest request,
+			HttpServletResponse response, Role role) {
 		ResultBean rb = new ResultBean();
 		roleService.update(role);
 		return rb;

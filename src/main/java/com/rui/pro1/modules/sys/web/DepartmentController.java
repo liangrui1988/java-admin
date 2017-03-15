@@ -16,7 +16,6 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.constants.enums.MenuStatusEnum;
@@ -33,7 +32,7 @@ import com.rui.pro1.modules.sys.vo.DepartmentVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_DEPARTMENT)
-@MenuAnnot(id = SysMenu.SYS_DEPARTMENT, name = "部门管理", parentId = Modules.SYS, href = "/views/modules/sys/departmentlist", sortNo = 4,status=MenuStatusEnum.STOP_2)
+@MenuAnnot(id = "sys:department", name = "部门管理", parentId = Modules.SYS, href = "/views/modules/sys/departmentlist", sortNo = 4,status=MenuStatusEnum.STOP_2)
 public class DepartmentController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -56,7 +55,7 @@ public class DepartmentController extends SysBaseController {
 
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":get", name = "查询")
+	@PermissionAnnot(id = "sys:department:get", name = "查询")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpRequest request, HttpResponse response,
@@ -69,7 +68,7 @@ public class DepartmentController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":del", name = "删除")
+	@PermissionAnnot(id = "sys:department:del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean del(HttpRequest request, HttpResponse response,
@@ -84,7 +83,7 @@ public class DepartmentController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":add", name = "添加")
+	@PermissionAnnot(id = "sys:department:add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpRequest request, HttpResponse response,
@@ -99,7 +98,7 @@ public class DepartmentController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_DEPARTMENT + ":update", name = "修改")
+	@PermissionAnnot(id = "sys:department:update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpRequest request, HttpResponse response,

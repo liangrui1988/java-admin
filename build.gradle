@@ -100,6 +100,7 @@ dependencies {
         compile group: 'org.javassist', name: 'javassist', version: '3.20.0-GA'
         compile group: 'org.apache.commons', name: 'commons-email', version: '1.4'
         compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
+        compile group: 'com.univocity', name: 'univocity-parsers', version: '2.2.1'
 		//compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
 		//compile 'com.octo.captcha:jcaptcha:2.0-alpha-1'
 		//compile 'com.octo.captcha:jcaptcha-integration-simple-servlet:2.0-alpha-1'

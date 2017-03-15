@@ -14,7 +14,6 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.entity.SysLog;
@@ -22,14 +21,14 @@ import com.rui.pro1.modules.sys.service.ILogService;
 
 @Controller
 @RequestMapping(SysUri.SYS_LOG)
-@MenuAnnot(id = SysMenu.SYS_LOG, name = "系统日志", parentId = Modules.SYS, href = "/views/modules/sys/log/loglist", sortNo = 6)
+@MenuAnnot(id = "sys:log", name = "系统日志", parentId = Modules.SYS, href = "/views/modules/sys/log/loglist", sortNo = 6)
 public class LogController extends SysBaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private ILogService logService;
 
-	@PermissionAnnot(id = SysMenu.SYS_LOG + ":list", name = "查询列表")
+	@PermissionAnnot(id = "sys:log:list", name = "查询列表")
 	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getUserList(

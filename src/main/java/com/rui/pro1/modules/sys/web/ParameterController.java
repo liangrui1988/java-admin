@@ -15,7 +15,6 @@ import com.rui.pro1.common.annotatiions.PermissionAnnot;
 import com.rui.pro1.common.bean.ResultBean;
 import com.rui.pro1.common.bean.page.QueryResult;
 import com.rui.pro1.common.constants.Modules;
-import com.rui.pro1.common.constants.menu.SysMenu;
 import com.rui.pro1.common.constants.uri.SysUri;
 import com.rui.pro1.common.exception.MessageCode;
 import com.rui.pro1.modules.sys.entity.Parameter;
@@ -30,7 +29,7 @@ import com.rui.pro1.modules.sys.vo.MenuVo;
  */
 @Controller
 @RequestMapping(SysUri.SYS_PARAMETER)
-@MenuAnnot(id = SysMenu.SYS_PARAMETER, name = "系统参数配置", parentId = Modules.SYS, href = "/views/modules/sys/parameter/parameterlist", sortNo = 6)
+@MenuAnnot(id = "sys:parameter", name = "系统参数配置", parentId = Modules.SYS, href = "/views/modules/sys/parameter/parameterlist", sortNo = 6)
 public class ParameterController extends SysBaseController {
 
 	@Autowired
@@ -50,7 +49,7 @@ public class ParameterController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_PARAMETER + ":get", name = "查询")
+	@PermissionAnnot(id = "sys:parameter:get", name = "查询")
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request,
@@ -64,7 +63,7 @@ public class ParameterController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_PARAMETER + ":del", name = "删除")
+	@PermissionAnnot(id = "sys:parameter:del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean del(HttpServletRequest request,
@@ -80,7 +79,7 @@ public class ParameterController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_PARAMETER + ":add", name = "添加")
+	@PermissionAnnot(id = "sys:parameter:add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request,
@@ -92,7 +91,7 @@ public class ParameterController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id = SysMenu.SYS_PARAMETER + ":update", name = "修改")
+	@PermissionAnnot(id = "sys:parameter:update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request,
