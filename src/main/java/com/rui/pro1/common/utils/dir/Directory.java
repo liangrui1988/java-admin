@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * 目录实用工具
  * 
- * @author lenovo
+ * @author ruiliang
  * 
  */
 public class Directory

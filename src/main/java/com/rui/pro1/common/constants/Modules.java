@@ -8,14 +8,13 @@ package com.rui.pro1.common.constants;
  */
 public class Modules {
 	public static final String WEB_CONTEXT_PATH = "demo";
-    /**sys**/
+	/** sys **/
 	public static final String SYS = "sys";// 系统模块
 	public static final String MERCHANT = "merchant";// 商家模块
-	public static final String GOV = "gov";//政府
-	public static final String PRO = "pro";//商家
-	/**setting**/
-	public static final String SETTING = "setting";//基本设置
-
-
+	public static final String GOV = "gov";// 政府
+	public static final String PRO = "pro";// 商家
+	public static final String PRO2 = "pro2";// 商家二级菜单 
+	/** setting **/
+	public static final String SETTING = "setting";// 基本设置
 
 }

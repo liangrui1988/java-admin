@@ -16,7 +16,7 @@ import com.rui.pro1.modules.sys.vo.UserVo;
 
 @Controller
 @RequestMapping(ProUri.PRO_MER)
-@MenuAnnot(id = "pro:mer", name = "商家商品维护", parentId = Modules.PRO, href = "/views/modules/pro/merproduct/list", sortNo = 1)
+@MenuAnnot(id = "pro2:mer", name = "商家商品维护", parentId = Modules.PRO2, href = "/views/modules/pro/merproduct/list", sortNo = 1)
 public class MerProductController extends ProBaseController {
 
 	@PermissionAnnot(id = "pro:mer:list")

@@ -32,6 +32,9 @@ public @interface MenuAnnot
 
 	public int sortNo() default -1;
 	
+//	public Menu a() default null;
+
 	public MenuStatusEnum status() default MenuStatusEnum.NORMAL_0;
+	
 
 }
