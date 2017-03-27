@@ -1,9 +1,11 @@
 package com.rui.pro1.modules.sys.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rui.pro1.common.utils.date.DateSerializer;
+import com.rui.pro1.modules.sys.bean.MenuBean;
 
 public class Menu {
     private String id;
@@ -38,6 +40,8 @@ public class Menu {
     private Integer createById;
 
     private Integer updateById;
+    
+	private List<Menu> menus;
 
     public String getId() {
         return id;
@@ -152,7 +156,17 @@ public class Menu {
     }
 
     
-    
+
+
+
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -204,22 +204,17 @@
 			success : function(data,success) {
 				//alert(success);
 				//alert(JSON.stringify(data));
-				
-				
 				 if(success!="success")
 				  {
 					   alert("请求系统异常");
 				       return ;
 				  }
-				
-				 
 				 if(data.success && data.messageCode == "001")
 				 {
-					 window.location.href = getContextPath()+"/views/main.html";
+// 					 window.location.href = getContextPath()+"/views/main.html";
+					 window.location.href = getContextPath()+"/views/index.html";
 					 return;
 				 }
-				 
-				
 				 if(data.messageCode == "012" || data.messageCode == "013")
 				 {    //验证码处理
 					 $("#_captcha_div").css("display","block");
@@ -231,7 +226,6 @@
 					if("block"==iscaptcha){
 						 $('#_captchaCode_img').trigger("click");
 					}
-					
 					 alert(data.message);
 				 }
 

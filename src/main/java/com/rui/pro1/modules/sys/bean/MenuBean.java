@@ -1,6 +1,7 @@
 package com.rui.pro1.modules.sys.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * The persistent class for the sys_menu database table.
@@ -28,6 +29,8 @@ public class MenuBean implements Serializable {
 
 	private String icon;
 	private String href;
+	
+	private List<MenuBean> list;
 
 	public MenuBean() {
 	}
@@ -113,5 +116,15 @@ public class MenuBean implements Serializable {
 	public void setHref(String href) {
 		this.href = href;
 	}
+
+	public List<MenuBean> getList() {
+		return list;
+	}
+
+	public void setList(List<MenuBean> list) {
+		this.list = list;
+	}
+	
+	
 
 }
