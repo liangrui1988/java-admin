@@ -2,10 +2,8 @@ package com.rui.pro1.modules.sys.web;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -39,8 +37,6 @@ import com.rui.pro1.modules.sys.service.IUserService;
 import com.rui.pro1.modules.sys.utils.MenuComparator;
 import com.rui.pro1.modules.sys.utils.UserUtils;
 import com.rui.pro1.modules.sys.vo.MenuVo;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * 菜单管理
@@ -118,9 +114,23 @@ public class MenuController extends SysBaseController {
 		Arrays.sort(ocAr, new MenuComparator());
 		List<Menu> menusNew = Arrays.asList(ocAr);
 		// 菜单归类
+		List<Menu> result = handlerMenuClassify(menusNew);
+		rb.setData(result);
+		String str = JsonUtils.toJsonString(rb);
+		System.out.println("getlistByCurentUser>json>>>:" + str);
+		return rb;
+
+	}
+
+	/**
+	 * 菜单归类
+	 * 
+	 * @param menusNew
+	 * @return
+	 */
+	public List<Menu> handlerMenuClassify(List<Menu> menusNew) {
 		if (menusNew == null || menusNew.size() <= 0) {
-			rb.setData(menusNew);
-			return rb;
+			return menusNew;
 		}
 		List<Menu> result = new ArrayList<>();// 1级菜单
 		Map<String, Menu> map_2 = new LinkedHashMap<>();// 2,3级,id=v
@@ -167,11 +177,7 @@ public class MenuController extends SysBaseController {
 				}
 			}
 		}
-		rb.setData(result);
-		String str = JsonUtils.toJsonString(rb);
-		System.out.println("getlistByCurentUser>json>>>:" + str);
-		return rb;
-
+		return result;
 	}
 
 	@PermissionAnnot(id = "sys:menu:get", name = "查询")

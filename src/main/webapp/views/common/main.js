@@ -24,35 +24,44 @@ $(function(){
 	
 	
 	
-	/**
-	 * 获取菜单列表
-	 */
-	$.ajax({
-		url : getContextPath()+"/sys/menu/getlistByCurentUser",
-		data : {"t":12645313},
-		type : 'post',
-		cache : false,
-		dataType : 'json',
-		success : function(resultBean,status,xhRequest) {
-			topLoaded();    
-			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
-			//loginUser=resultBean.data;
-			//buildTreeMenu(resultBean.data.user.menuList);
-			buildTreeMenu(resultBean.data);
-			var userObjxxx=getUserComment();
-//			console.log(userObjxxx)
-			$("#userNameLabel").text(userObjxxx.userName);
-		},
-		complete: function (XMLHttpRequest, textStatus) {
-			 //alert(alert("textStatus》》"+textStatus));
-        },
-		error : function() {
-			alert("请求异常！");
-		}
-	});
-	
-	
-	
+//	/**
+//	 * 获取菜单列表
+//	 */
+//	$.ajax({
+//		url : getContextPath()+"/sys/menu/getlistByCurentUser",
+//		data : {"t":12645313},
+//		type : 'post',
+//		cache : false,
+//		dataType : 'json',
+//		success : function(resultBean,status,xhRequest) {
+//			topLoaded();    
+//			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
+//			//loginUser=resultBean.data;
+//			//buildTreeMenu(resultBean.data.user.menuList);
+//			buildTreeMenuV2(resultBean.data);
+//			var userObjxxx=getUserComment();
+////			console.log(userObjxxx)
+//			$("#userNameLabel").text(userObjxxx.userName);
+//		},
+//		complete: function (XMLHttpRequest, textStatus) {
+//			 //alert(alert("textStatus》》"+textStatus));
+//        },
+//		error : function() {
+//			alert("请求异常！");
+//		}
+//	});
+//	
+//
+//	
+///**
+// * 菜单显示
+// */
+//function buildTreeMenuV2(menuList) {
+//    var t = $("#nav-tree");
+//    t = $.fn.zTree.init(t, setting, menuList);
+//    demoIframe = $("#iframeid");
+//}
+//	
 	
 function goLogout() {
 	var result=confirm("确定要退出系统吗？");
@@ -73,6 +82,8 @@ function goLogout() {
 	}else{
 		
 	}
+	
+	
 	
 	
 //	$.confrim({

@@ -11,18 +11,15 @@
 <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
-<link rel="common/v2/shortcut icon" href="favicon.ico">
-<link href="common/v2/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-<link href="common/v2/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-<link href="common/v2/css/animate.css" rel="stylesheet">
-<link href="common/v2/css/style.css?v=4.1.0" rel="stylesheet">
-<link href="common/all.css" rel="stylesheet">
-<link href="/views/common/main.js" rel="stylesheet">
+<link rel="/views/common/main/shortcut icon" href="favicon.ico">
+<link href="/views/common/main/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="/views/common/main/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="/views/common/main/css/animate.css" rel="stylesheet">
+<link href="/views/common/main/css/style.css?v=4.1.0" rel="stylesheet">
+<!-- <link href="common/all.css" rel="stylesheet"> -->
+<!-- <link href="//views/common/main.js" rel="stylesheet"> -->
 
 
-<script type="text/javascript">
-	
-</script>
 
 </head>
 
@@ -46,7 +43,7 @@
 							</span>
 							</a>
 						</div>
-						<div class="logo-element">hAdmin</div>
+						<div class="logo-element">Admin</div>
 					</li>
 					<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
 						<span class="ng-scope">分类</span>
@@ -85,8 +82,12 @@
 							<li><a class="J_menuItem" href="mail_compose.html">写信</a></li>
 						</ul></li>
 					<!-- 菜单 初始 -->
-					<li><a href="#"><i class="fa fa-edit"></i> <span
-							class="nav-label">表单</span><span class="fa arrow"></span></a>
+					<li>
+					<a href="#">
+					  <i class="fa fa-edit"></i>
+					  <span	class="nav-label">表单</span>
+					  <span class="fa arrow"></span>
+					</a>
 						<ul class="nav nav-second-level">
 							<li><a class="J_menuItem" href="form_basic.html">基本表单</a></li>
 							<li><a class="J_menuItem" href="form_validate.html">表单验证</a>
@@ -100,9 +101,11 @@
 									</li>
 									<li><a class="J_menuItem" href="form_file_upload.html">DropzoneJS</a>
 									</li>
-								</ul></li>
+								</ul>
+							</li>
 
-						</ul></li>
+						</ul>
+					</li>
 
 
 				</ul>
@@ -204,22 +207,74 @@
 	</div>
 
 
-	<script type="text/javascript" src="common/all.js"></script>
+<script type="text/javascript">
+	
+$(function(){
+	alert("1");
+		
+})
+	
+	
+function initMenu(){
+	/**
+	 * 获取菜单列表
+	 */
+	$.ajax({
+		url : getContextPath()+"/sys/menu/getlistByCurentUser",
+		data : {"t":12645313},
+		type : 'post',
+		cache : false,
+		dataType : 'json',
+		success : function(resultBean,status,xhRequest) {
+			topLoaded();    
+			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
+			//loginUser=resultBean.data;
+			//buildTreeMenu(resultBean.data.user.menuList);
+			buildTreeMenuV2(resultBean.data);
+			console.log("resultBean.data>>>"+resultBean.data)
+			var userObjxxx=getUserComment();
+			$("#userNameLabel").text(userObjxxx.userName);
+		},
+		complete: function (XMLHttpRequest, textStatus) {
+			 //alert(alert("textStatus》》"+textStatus));
+        },
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+	
+ }
+		
+	/**
+	 * 菜单显示
+	 */
+	function buildTreeMenuV2(menuList) {
+		//在ul里添加菜单 
+		var sideMenu=$("#side-menu");
+		sideMenu.append();
+		
+	}
+		
+	
+</script>
+
+
+<!-- 	<script type="text/javascript" src="common/all.js"></script> -->
 
 
 	<!-- 全局js -->
-	<script src="common/v2/js/jquery.min.js?v=2.1.4"></script>
-	<script src="common/v2/js/bootstrap.min.js?v=3.3.6"></script>
-	<script src="common/v2/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="common/v2/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="common/v2/js/plugins/layer/layer.min.js"></script>
+	<script src="/views/common/main/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/views/common/main/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/views/common/main/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="/views/common/main/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="/views/common/main/js/plugins/layer/layer.min.js"></script>
 
 	<!-- 自定义js -->
-	<script src="common/v2/js/hAdmin.js?v=4.1.0"></script>
-	<script type="text/javascript" src="common/v2/js/index.js"></script>
+	<script src="/views/common/main/js/hAdmin.js?v=4.1.0"></script>
+	<script type="text/javascript" src="/views/common/main/js/index.js"></script>
 
 	<!-- 第三方插件 -->
-	<script src="common/v2/js/plugins/pace/pace.min.js"></script>
+	<script src="/views/common/main/js/plugins/pace/pace.min.js"></script>
 
 </body>
 
