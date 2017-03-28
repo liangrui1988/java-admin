@@ -24,7 +24,9 @@ $(function(){
 	
 	
 	
-	
+	/**
+	 * 获取菜单列表
+	 */
 	$.ajax({
 		url : getContextPath()+"/sys/menu/getlistByCurentUser",
 		data : {"t":12645313},
@@ -34,15 +36,12 @@ $(function(){
 		success : function(resultBean,status,xhRequest) {
 			topLoaded();    
 			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
-			
 			//loginUser=resultBean.data;
 			//buildTreeMenu(resultBean.data.user.menuList);
 			buildTreeMenu(resultBean.data);
-			
 			var userObjxxx=getUserComment();
 //			console.log(userObjxxx)
 			$("#userNameLabel").text(userObjxxx.userName);
-
 		},
 		complete: function (XMLHttpRequest, textStatus) {
 			 //alert(alert("textStatus》》"+textStatus));
@@ -55,33 +54,7 @@ $(function(){
 	
 	
 	
-	 /*$.ajax({
-         async: false,
-         url: getContextPath()+"/pc/sys/user/getUser",  // 跨域URL
-         type: 'POST',
-         dataType: 'jsonp',
-         jsonp: 'callback',
-         data: {},
-         timeout: 5000,
-         beforeSend: function () {
-             //jsonp 方式此方法不被触发。原因可能是dataType如果指定为jsonp的话，就已经不是ajax事件了
-         },
-         success: function (resultBean, status, xhRequest) {
-        	 topLoaded();    
-     		if(!handleAjaxRequest(resultBean, status,xhRequest))return;
-     		$("#userNameLabel").html(resultBean.data.name);
-     		buildTreeMenu(resultBean.data.user.menuList);
-         },
-         complete: function (XMLHttpRequest, textStatus) {
-         },
-         error: function (xhr) {
-             alert("请求出错(请检查相关度网络状况.)" + xhr);
-         }
-     }); */
-});
-
 function goLogout() {
-
 	var result=confirm("确定要退出系统吗？");
 	if(result){
 	    topLoading();
