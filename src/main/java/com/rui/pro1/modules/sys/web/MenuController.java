@@ -102,7 +102,6 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getlistByCurentUser() {
 		ResultBean rb = new ResultBean();
-
 		String userName = userUtils.getCurrentName();
 		List<Menu> menus = userService.getUserMenus(userName);
 		if (menus == null || menus.size() <= 0) {
@@ -124,85 +123,49 @@ public class MenuController extends SysBaseController {
 			return rb;
 		}
 		List<Menu> result = new ArrayList<>();// 1级菜单
-		List<Menu> result_2 = new ArrayList<>();// 2级菜单
-		Map<String, Menu> map_1 = new LinkedHashMap<>();// 1级菜单
 		Map<String, Menu> map_2 = new LinkedHashMap<>();// 2,3级,id=v
-		Map<String, Menu> map_3 = new LinkedHashMap<>();
 		// 扫描一级
 		for (Menu m : menusNew) {
 			if (StringUtils.isBlank(m.getParentId())) {
-				map_1.put(m.getId(), m);
 				result.add(m);
 				continue;
 			}
 			// 子级
 			map_2.put(m.getId(), m);
 		}
-		Map<String, List<Menu>> map_list_1 = new LinkedHashMap<>();// pid(1级id)=v
-		// 二级处理
-		for (Entry<String, Menu> entry : map_2.entrySet()) {
-			// 如果一级菜单有子菜单同，则加入
-			if (map_1.containsKey(entry.getValue().getParentId())) {
-				List<Menu> list_1 = null;
-				if (map_list_1.containsKey(entry.getValue().getParentId())) {// 取出列表，再放入
-					list_1 = map_list_1.get(entry.getValue().getParentId());
-				} else {// 第一次，先实例
-					list_1 = new ArrayList<>();
-				}
-				list_1.add(entry.getValue());
-				result_2.add(entry.getValue());// 二级列表
-				map_list_1.put(entry.getValue().getParentId(), list_1);
-			} else { // 不存在归类到 三级
-				map_3.put(entry.getKey(), entry.getValue());
-			}
-		}
-		
-		if (map_3.size() <= 0) {
-			rb.setData(menusNew);
-			return rb;
-		}
-		// 三级处理,先循环三级菜单，根据父id，找到对应的二级菜单，合并起来
-		Map<String, List<Menu>> map_list_2 = new LinkedHashMap<>();// pid(1级id)=v
-		for (Entry<String, List<Menu>> entry : map_list_1.entrySet()) {// 一级
-			for (Menu m : entry.getValue()) {// 二级
-				// if (map_3.containsKey(m.getId())) {
-				for (Entry<String, Menu> m_3 : map_3.entrySet()) {// 二级下面下面的孩子id
-					if (m_3.getValue().getParentId().equals(m.getId())) {
-						List<Menu> list = null;
-						if (map_list_2.containsKey(m.getId())) {// 取出列表，再放入
-							list = map_list_1.get(m.getId());
-						} else {// 第一次，先实例
-							list = new ArrayList<>();
-						}
-						list.add(m_3.getValue());
-						map_list_2.put(m.getId(), list);
-					}
-				}
-			}
-		}
 		// -------------------------回转-------------------------
-		// 一级转list
-		for (Menu m : result) {
-			if (map_list_1.containsKey(m.getId())) {
-				// 在二级里面找找出
-				List<Menu> subclass = map_list_1.get(m.getId());
-				m.setMenus(subclass);
+		// 二级转list
+		for (Menu m_2 : result) {
+			for (Entry<String, Menu> entry : map_2.entrySet()) {
+				String pid = entry.getValue().getParentId();
+				if (m_2.getId().equals(pid)) {// 寻找子
+					if (m_2.getMenus() == null || m_2.getMenus().size() <= 0) {// 第一次，先实例
+						m_2.setMenus(new ArrayList<Menu>());
+					}
+					// 加放孩子
+					m_2.getMenus().add(entry.getValue());
+				}
 			}
 		}
-
-		// 二级转list
+		// 三级转list
 		for (Menu m : result) {
 			if (m.getMenus() == null || m.getMenus().size() <= 0) {
 				continue;
 			}
-			for (Menu m_2 : m.getMenus()) {
-				if (map_list_2.containsKey(m.getId())) {
-					// 在二级里面找找出
-					List<Menu> subclass = map_list_2.get(m.getId());
-					m_2.setMenus(subclass);
+			// 二级
+			for (Menu m_3 : m.getMenus()) {
+				for (Entry<String, Menu> entry : map_2.entrySet()) {
+					String pid = entry.getValue().getParentId();
+					if (m_3.getId().equals(pid)) {// 寻找子
+						if (m_3.getMenus() == null || m_3.getMenus().size() <= 0) {// 第一次，先实例
+							m_3.setMenus(new ArrayList<Menu>());
+						}
+						// 加放孩子
+						m_3.getMenus().add(entry.getValue());
+						// list.add(entry.getValue());
+					}
 				}
 			}
-
 		}
 		rb.setData(result);
 		String str = JsonUtils.toJsonString(rb);
