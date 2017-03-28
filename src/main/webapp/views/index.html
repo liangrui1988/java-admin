@@ -11,14 +11,17 @@
 <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
-<link rel="/views/common/main/shortcut icon" href="favicon.ico">
-<link href="/views/common/main/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-<link href="/views/common/main/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-<link href="/views/common/main/css/animate.css" rel="stylesheet">
-<link href="/views/common/main/css/style.css?v=4.1.0" rel="stylesheet">
-<!-- <link href="common/all.css" rel="stylesheet"> -->
-<!-- <link href="//views/common/main.js" rel="stylesheet"> -->
+    <!-- <link href="common/main/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"> -->
 
+<link href="common/all.css" rel="stylesheet">
+ <script type="text/javascript" src="common/all.js"></script>
+    
+<link rel="common/main/shortcut icon" href="favicon.ico">
+<link href="common/main/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="common/main/css/animate.css" rel="stylesheet">
+
+
+<link href="common/main/css/style.css?v=4.1.0" rel="stylesheet">
 
 
 </head>
@@ -69,18 +72,12 @@
 							<li><a class="J_menuItem" href="graph_metrics.html">图表组合</a>
 							</li>
 						</ul></li>
+						
+						<!-- initxx -->
 					<li class="line dk"></li>
 					<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
 						<span class="ng-scope">分类</span>
 					</li>
-					<li><a href="mailbox.html"><i class="fa fa-envelope"></i>
-							<span class="nav-label">信箱 </span><span
-							class="label label-warning pull-right">16</span></a>
-						<ul class="nav nav-second-level">
-							<li><a class="J_menuItem" href="mailbox.html">收件箱</a></li>
-							<li><a class="J_menuItem" href="mail_detail.html">查看邮件</a></li>
-							<li><a class="J_menuItem" href="mail_compose.html">写信</a></li>
-						</ul></li>
 					<!-- 菜单 初始 -->
 					<li>
 					<a href="#">
@@ -137,7 +134,7 @@
 								<li class="m-t-xs">
 									<div class="dropdown-messages-box">
 										<a href="profile.html" class="pull-left"> <img alt="image"
-											class="img-circle" src="img/a7.jpg">
+											class="img-circle" src="common/main/img/a7.jpg">
 										</a>
 										<div class="media-body">
 											<small class="pull-right">46小时前</small> <strong>小四</strong>
@@ -150,7 +147,7 @@
 								<li>
 									<div class="dropdown-messages-box">
 										<a href="profile.html" class="pull-left"> <img alt="image"
-											class="img-circle" src="img/a4.jpg">
+											class="img-circle" src="common/main/img/a4.jpg">
 										</a>
 										<div class="media-body ">
 											<small class="pull-right text-navy">25小时前</small> <strong>二愣子</strong>
@@ -206,15 +203,21 @@
 		<!--右侧部分结束-->
 	</div>
 
+<!-- 	<script type="text/javascript" src="common/all.js"></script> -->
+	<!-- 全局js -->
+<!-- 	<script src="common/main/js/jquery.min.js?v=2.1.4"></script> -->
+<!-- 	<script src="common/main/js/bootstrap.min.js?v=3.3.6"></script> -->
+	<script src="common/main/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="common/main/js/plugins/layer/layer.min.js"></script>
+
+	<!-- 第三方插件 -->
+<!-- 	<script src="common/main/js/plugins/pace/pace.min.js"></script> -->
+
 
 <script type="text/javascript">
-	
 $(function(){
-	alert("1");
-		
+	initMenu();
 })
-	
-	
 function initMenu(){
 	/**
 	 * 获取菜单列表
@@ -226,12 +229,11 @@ function initMenu(){
 		cache : false,
 		dataType : 'json',
 		success : function(resultBean,status,xhRequest) {
-			topLoaded();    
-			if(!handleAjaxRequest(resultBean, status,xhRequest))return;
+			if(!handleAjaxRequest(resultBean, status,xhRequest)){return};
 			//loginUser=resultBean.data;
 			//buildTreeMenu(resultBean.data.user.menuList);
 			buildTreeMenuV2(resultBean.data);
-			console.log("resultBean.data>>>"+resultBean.data)
+// 			console.log("resultBean.data>>>"+resultBean.data);
 			var userObjxxx=getUserComment();
 			$("#userNameLabel").text(userObjxxx.userName);
 		},
@@ -242,39 +244,58 @@ function initMenu(){
 			alert("请求异常！");
 		}
 	});
-	
- }
-		
+ }	
 	/**
 	 * 菜单显示
 	 */
 	function buildTreeMenuV2(menuList) {
+		console.log("resultBean.data>>>"+menuList);
 		//在ul里添加菜单 
 		var sideMenu=$("#side-menu");
-		sideMenu.append();
+		var menu_html_1="";
+		for (var i = 0; i < menuList.length; i++) {
+			menu_html_1+='<li><a href="#">';
+// 			menu_html_1+='<i class="fa fa-edit"></i>'; //小图标
+			menu_html_1+='<span	class="nav-label">';
+			menu_html_1+=menuList[i].name;
+			menu_html_1+='</span> <span class="fa arrow"></span></a>';
+			//二级处理
+			var menu_2=menuList[i].menus;
+			if(menu_2!=null&&menu_2!=""){
+				menu_html_1+='<ul class="nav nav-second-level">'; // collapse
+				for (var j = 0; j < menu_2.length; j++) {//二级 for 开始
+					menu_html_1+='<li><a class="J_menuItem" href="form_basic.html">';
+					menu_html_1+=menu_2[j].name;
+					menu_html_1+='</a></li>';
+					//三级处理
+					var menu_3=menu_2[j].menus;
+					if(menu_3!=null&&menu_3!=""){
+						menu_html_1+='<ul class="nav nav-third-level">';
+						for (var k = 0; k < menu_2.length; k++) {
+							menu_html_1+='<li><a class="J_menuItem" href="form_webuploader.html">';
+							menu_html_1+=menu_3[k].name;
+							menu_html_1+='</a>';
+							menu_html_1+='</li>';
+						}
+						menu_html_1+='</ul>';//三级结束
+					}
+				}//二级 for 结束
+				menu_html_1+='</ul>';
+			}//二级 if end
+			menu_html_1+='</li>';//一级结束
+		}//一级for end
+// 		alert(menu_html_1);
+		sideMenu.append(menu_html_1);
 		
+		   // MetsiMenu
+	    $('#side-menu').metisMenu();
+
 	}
-		
-	
 </script>
-
-
-<!-- 	<script type="text/javascript" src="common/all.js"></script> -->
-
-
-	<!-- 全局js -->
-	<script src="/views/common/main/js/jquery.min.js?v=2.1.4"></script>
-	<script src="/views/common/main/js/bootstrap.min.js?v=3.3.6"></script>
-	<script src="/views/common/main/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="/views/common/main/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="/views/common/main/js/plugins/layer/layer.min.js"></script>
-
+	<script type="text/javascript" src="common/main/js/index.js"></script>
+	<script src="common/main/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<!-- 自定义js -->
-	<script src="/views/common/main/js/hAdmin.js?v=4.1.0"></script>
-	<script type="text/javascript" src="/views/common/main/js/index.js"></script>
-
-	<!-- 第三方插件 -->
-	<script src="/views/common/main/js/plugins/pace/pace.min.js"></script>
+	<script src="common/main/js/hAdmin.js?v=4.1.0"></script>
 
 </body>
 
