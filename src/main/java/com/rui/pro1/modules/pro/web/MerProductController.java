@@ -19,7 +19,7 @@ import com.rui.pro1.modules.sys.vo.UserVo;
 @MenuAnnot(id = "pro2:mer", name = "商家商品维护", parentId = Modules.PRO2, href = "/views/modules/pro/merproduct/list", sortNo = 1)
 public class MerProductController extends ProBaseController {
 
-	@PermissionAnnot(id = "pro:mer:list")
+	@PermissionAnnot(id = "pro:mer:list",name = "查询列表")
 	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getList(

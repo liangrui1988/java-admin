@@ -40,6 +40,8 @@ drop table if exists sys_user_department;
 
 drop table if exists sys_user_role;
 
+DROP TABLE IF EXISTS `sys_parameter`;
+
 /*==============================================================*/
 /* Table: sys_department                                        */
 /*==============================================================*/
@@ -278,4 +280,23 @@ create table sys_user_role
    role_id              int,
    primary key (id)
 );
+
+
+-- ----------------------------
+-- Table structure for sys_parameter
+-- ----------------------------
+
+CREATE TABLE `sys_parameter` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `keyx` varchar(50) DEFAULT NULL,
+  `value` varchar(100) DEFAULT NULL,
+  `sort` int(11) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `create_by_id` int(11) DEFAULT NULL,
+  `update_by_id` int(11) DEFAULT NULL,
+  `remake` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统参数表';
 
