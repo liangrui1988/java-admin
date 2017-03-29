@@ -212,6 +212,25 @@ function getUserComment(userid){
 }
 
 
+function goLogout() {
+	var result=confirm("确定要退出系统吗？");
+	if(result){
+	    topLoading();
+	    $.post(getContextPath() + "/logout", {}, function (resultBean, status, xhRequest) {
+	        topLoaded();
+	        //alert(JSON.stringify(resultBean));
+	       // alert(resultBean.message);
+	        if(resultBean.success)
+	    	{
+	        	if(resultBean.messageCode=="011"){
+	        		 top.document.location.href = getContextPath() + "/views/login.html";
+	        	}
+	    	}
+	    });
+		
+	}else{
+		
+	}
 
 /**
  * 获取URL中参数的值
