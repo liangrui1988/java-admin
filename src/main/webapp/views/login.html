@@ -27,50 +27,33 @@
 <body>
 	
 <div class="navbar navbar-fixed-top">
-	
 	<div class="navbar-inner">
-		
 		<div class="container">
-			
 			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
 				<span class="icon-bar"></span> 
 				<span class="icon-bar"></span> 
 				<span class="icon-bar"></span> 				
-			</a>
-			
-			<a class="brand" href="./">欢迎使用Admin管理系统</a>
-			
-			<div class="nav-collapse">
-			
-				<ul class="nav pull-right">
-					
-					<li class="">
-						
+			</a>			
+			<a class="brand" href="./">欢迎使用Admin管理系统</a>			
+			<div class="nav-collapse">			
+				<ul class="nav pull-right">					
+					<li class="">						
 						<a href="javascript:;"><i class="icon-chevron-left"></i> 使用说明</a>
 					</li>
-				</ul>
-				
+				</ul>				
 			</div> <!-- /nav-collapse -->
-			
 		</div> <!-- /container -->
-		
 	</div> <!-- /navbar-inner -->
-	
 </div> <!-- /navbar -->
-
-
 <div id="login-container">
-	
-	
 	<div id="login-header">
-		
 		<h3>Login</h3>
 		
 	</div> <!-- /login-header -->
 	
 	<div id="login-content" class="clearfix">
 	
-	<form action="./" />
+	<form action="./" >
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" for="username">登录名</label>
@@ -84,15 +67,9 @@
 						<div class="controls">
 							<input type="password" class="" id="_password" />
 							<span id="_password_sapn" style="color: red;"></span>
-							
 						</div>
 					</div>
 				</fieldset>
-				
-				
-
-    
-				
 				<div id="remember-me" class="pull-left">
 					<input type="checkbox" name="remember" id="_rememberme" />
 					<label id="remember-label" for="remember">记往登录</label>
@@ -111,7 +88,6 @@
 					</button>
 				</div>
 			</form>
-			
 		</div> <!-- /login-content -->
 		
 		
@@ -135,12 +111,17 @@
 
 <script type="text/javascript">
 
-
 	$(function(){
 		initLogin();
-		
 	})
 
+   $(document).keypress(function(e) {  
+    // 回车键事件  
+       if(e.which == 13) {  
+            jQuery("#_login").click();  
+       }  
+   }); 
+	
 	function initLogin(){
 		var isCaptcha=getUrlParam('isCaptcha');
 		//alert(isCaptcha);
