@@ -34,3 +34,11 @@ gradle初始项目demo,jetty简单main运行项目 mysql 脚本在WEB-INF/change
 ![图3](/doc/imgEffect/20160619193031.png)
 ![图3](/doc/imgEffect/20160619193054.png)
 
+
+因为之前的前端不支持三级菜单，不方便再进行修改，现在改了前端主页框架，谢谢
+ [https://github.com/huangyaoxin/hAdmin](https://github.com/huangyaoxin/hAdmin "https://github.com/huangyaoxin/hAdmin") ！，根据这个改版简易进行后台整合，效果如下
+
+![图3](/doc/imgEffect/v2_1.png)
+![图3](/doc/imgEffect/v2_2.png)
+![图3](/doc/imgEffect/v2_3.png)
+
