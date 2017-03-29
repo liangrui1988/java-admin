@@ -88,10 +88,9 @@ public class CVSMain {
 
 
 		// Write the output to a file
-		FileOutputStream fileOut = new FileOutputStream("E:\\csvTest.csv");
-		
-		OutputStream os = CSVExport.getCSVIO(m, users,fileOut);
-
+		OutputStream os = new FileOutputStream("E:\\csvTest.csv");
+//		OutputStream os = CSVExport.getCSVIO(m, users,fileOut);
+		CSVExport.csvOputput(m, users,os);
 
 
 		os.close();
