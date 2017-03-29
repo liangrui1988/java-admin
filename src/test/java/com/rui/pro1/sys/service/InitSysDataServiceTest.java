@@ -52,8 +52,6 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		if(isDel){ //truncate table
 			systemMapper.truncateAllRBAC();
 		}
-
-		
 		//部门
 		Department department = new Department();
 		department.setName("技术部");
@@ -61,8 +59,6 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		department.setParentId(0);
 		department.setRemake("remake");
 		departmentService.add(department);
-		
-		
 		//分置菜单 
 		Menu menu=new Menu();
 		menu.setName("系统管理");
@@ -73,22 +69,14 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		menu.setIcon("a");
 		menu.setHref("/sys/menu/list");
 		menuService.add(menu);
-		
-		
 		//角色
 		Role role=new Role();
 		role.setName("系统管理员");
 		role.setRemake("remake");
-		
 		List<String> menuIds=new ArrayList<String>();
 		menuIds.add(menu.getId());
 		role.setMenuIds(menuIds);
-		
 		roleService.add(role);
-		
-	
-		
-		
 		//用户
 		User user=new User();
 		user.setUserName("admin");
@@ -100,15 +88,10 @@ public class InitSysDataServiceTest extends BaseServiceTest {
 		role2.setId(role.getId());
 		roles.add(role2);
 		user.setRoles(roles);
-		
 		//部门
 		user.setDepartmentId(department.getId());
-		
 		userService.add(user);
 		System.out.println("userId>>>"+user.getId());
-		
-		
-		
 	}
 	
 

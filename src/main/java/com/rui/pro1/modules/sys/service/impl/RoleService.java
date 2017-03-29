@@ -67,7 +67,6 @@ public class RoleService implements IRoleService {
 		if (menus == null || menus.size() <= 0) {
 			return roleBean;
 		}
-
 		// copy菜单
 		List<MenuBean> menusBean = new ArrayList<MenuBean>();
 		for (Menu m : menus) {
@@ -91,7 +90,6 @@ public class RoleService implements IRoleService {
 		return roleMapper.del(id);
 	}
 	
-	
 	  /**
 	   * 添加角色
 	   */
@@ -100,24 +98,17 @@ public class RoleService implements IRoleService {
 		if(role==null||StringUtils.isBlank(role.getName())){
 			return 0;
 		}
-		
-	
 		int count =0;
 		//如果id不存在则 是新增
 		if(role.getId()==null||role.getId()<=0)
 		{
-			
 			//角色名称是否存在
 			Role roleExists=roleMapper.getByName(role.getName());
 			if(roleExists!=null)
 			{
 				throw new ObjectExistException("角色已存在");
 			}
-			
-			
-			
 			//role.setUpdateTime(new Date());
-			
 			//新增
 			count= roleMapper.insertSelective(role);
 			if (count <= 0) 
@@ -140,7 +131,6 @@ public class RoleService implements IRoleService {
 			{
 				return 0;
 			}
-			
 			//先删除菜单
 		    roleMapper.delRoleMenu(role.getId());
 		    // 关联菜单
@@ -150,8 +140,6 @@ public class RoleService implements IRoleService {
 					roleMapper.addRoleMenu(role.getId(), menuId);
 				}
 			}
-			
-			
 		}
 		return count;
 	}
