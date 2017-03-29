@@ -87,7 +87,7 @@ public class UserController extends SysBaseController {
 		return rb;
 	}
 
-	@PermissionAnnot(id =  " SysMenu.SYS_USER + :add", name = "添加")
+	@PermissionAnnot(id = "sys:user:add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request,

@@ -215,9 +215,9 @@ function getUserComment(userid){
 function goLogout() {
 	var result=confirm("确定要退出系统吗？");
 	if(result){
-	    topLoading();
+//	    topLoading();
 	    $.post(getContextPath() + "/logout", {}, function (resultBean, status, xhRequest) {
-	        topLoaded();
+//	        topLoaded();
 	        //alert(JSON.stringify(resultBean));
 	       // alert(resultBean.message);
 	        if(resultBean.success)
@@ -228,9 +228,8 @@ function goLogout() {
 	    	}
 	    });
 		
-	}else{
-		
 	}
+}
 
 /**
  * 获取URL中参数的值
