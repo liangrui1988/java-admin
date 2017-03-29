@@ -137,32 +137,45 @@ create index Index_create_user on sys_log
    create_by_id
 );
 
--- ----------------------------
--- Table structure for sys_menu
--- ----------------------------
--- DROP TABLE IF EXISTS `sys_menu`;
-CREATE TABLE `sys_menu` (
-  `incr_id` int(32) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
-  `id` varchar(200) NOT NULL,
-  `name` varchar(200) DEFAULT NULL COMMENT '名称',
-  `types` varchar(200) DEFAULT NULL,
-  `sort_no` int(11) DEFAULT NULL,
-  `parent_id` varchar(200) DEFAULT NULL,
-  `parent_ids` varchar(200) DEFAULT NULL,
-  `permission` varchar(200) DEFAULT NULL COMMENT '权限',
-  `status` int(11) DEFAULT '0' COMMENT '状态',
-  `icon` varchar(200) DEFAULT NULL COMMENT '图标',
-  `href` varchar(200) DEFAULT NULL COMMENT '链接',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `create_by_id` int(11) DEFAULT NULL COMMENT '创建者',
-  `update_by_id` int(11) DEFAULT NULL COMMENT '更新者',
-  PRIMARY KEY (`incr_id`),
-  UNIQUE KEY `menu_index_id_unique` (`id`),
-  KEY `menu_Index_create` (`create_time`),
-  KEY `menu_Index_sort` (`sort_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COMMENT='菜单';
+/*==============================================================*/
+/* Table: sys_menu                                              */
+/*==============================================================*/
+create table sys_menu
+(
+   id                   varchar(200) not null,
+   name                 varchar(200) comment '名称',
+   types                varchar(200),
+   sort_no              int,
+   parent_id            varchar(200),
+   parent_ids           varchar(200),
+   permission           varchar(200) comment '权限',
+   status               int default 0 comment '状态',
+   icon                 varchar(200) comment '图标',
+   href                 varchar(200) comment '链接',
+   create_time          timestamp default CURRENT_TIMESTAMP comment '创建时间',
+   update_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
+   create_by_id         int comment '创建者',
+   update_by_id         int comment '更新者',
+   primary key (id)
+);
 
+alter table sys_menu comment '菜单';
+
+/*==============================================================*/
+/* Index: menu_Index_create                                     */
+/*==============================================================*/
+create index menu_Index_create on sys_menu
+(
+   create_time
+);
+
+/*==============================================================*/
+/* Index: menu_Index_sort                                       */
+/*==============================================================*/
+create index menu_Index_sort on sys_menu
+(
+   sort_no
+);
 
 
 /*==============================================================*/

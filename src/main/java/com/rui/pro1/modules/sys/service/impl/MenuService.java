@@ -51,17 +51,11 @@ public class MenuService implements IMenuService {
 
 	@Override
 	public int add(Menu menu) {
-		
-		
 		int count=menuMapper.insertSelective(menu);
-		
 		if(count>0){
 			//清除权限
-			
 			//增加权限
 		}
-		
-		
 		return count;
 	}
 
