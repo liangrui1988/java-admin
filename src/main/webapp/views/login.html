@@ -167,9 +167,6 @@
      	   }	
      	}
 		
-		
-
-		
 		//alert(rememberme);
 		if(username=="")
 		{
@@ -202,7 +199,6 @@
 			cache : false,
 			dataType : 'json',
 			success : function(data,success) {
-				//alert(success);
 				//alert(JSON.stringify(data));
 				 if(success!="success")
 				  {
@@ -211,7 +207,7 @@
 				  }
 				 if(data.success && data.messageCode == "001")
 				 {
-// 					 window.location.href = getContextPath()+"/views/main.html";
+                     //window.location.href = getContextPath()+"/views/main.html";
 					 window.location.href = getContextPath()+"/views/index.html";
 					 return;
 				 }
@@ -228,7 +224,6 @@
 					}
 					 alert(data.message);
 				 }
-
 			},
 			error : function() {
 				alert("异常！");
