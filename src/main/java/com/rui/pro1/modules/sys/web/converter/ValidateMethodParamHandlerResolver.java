@@ -65,9 +65,6 @@ public class ValidateMethodParamHandlerResolver implements
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-
-		
-		
 		if (parameter.hasParameterAnnotation(BeanVaildate.class))
 			return true;
 		if (parameter.hasParameterAnnotation(Null.class))
@@ -82,7 +79,6 @@ public class ValidateMethodParamHandlerResolver implements
 			return true;
 		if (parameter.hasParameterAnnotation(Length.class))
 			return true;
-		
 		//...TODO 末实现
 		if (parameter.hasParameterAnnotation(AssertFalse.class))
 			return true;
@@ -100,30 +96,23 @@ public class ValidateMethodParamHandlerResolver implements
 			return true;
 		if (parameter.hasParameterAnnotation(Pattern.class))
 			return true;
-	
-		
-
 		return false;
-
 	}
 
 	@Override
 	public Object resolveArgument(MethodParameter parameter,
 			ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) throws Exception {
-
 		final HttpServletRequest httpServletRequest = webRequest
 				.getNativeRequest(HttpServletRequest.class);
 		Map<String, String[]> map = httpServletRequest.getParameterMap();
 //		String s = objectMapper.writeValueAsString(map);
 //		System.out.println(s);
-
 		String pName = parameter.getParameterName();
 		String[] obj = (String[]) map.get(pName);
 		if(obj==null){
 			obj=new String[]{null};
 		}
-	
 		// 获取参数值
 		Class clz = parameter.getParameterType();
 		String pType = clz.toString();
@@ -166,14 +155,12 @@ public class ValidateMethodParamHandlerResolver implements
 					httpServletRequest);
 			return returnObj;
 		}
-
 		if (parameter.hasParameterAnnotation(NotNull.class)) {
 			NotNull annot = parameter.getParameterAnnotation(NotNull.class);
 			AnnotResolverHelp.notNullResolver(returnObj, annot, pName,
 					httpServletRequest);
 			return returnObj;
 		}
-
 		if (parameter.hasParameterAnnotation(Max.class)) {
 			// 获得注解
 			Max max = parameter.getParameterAnnotation(Max.class);
@@ -181,7 +168,6 @@ public class ValidateMethodParamHandlerResolver implements
 					httpServletRequest);
 			return returnObj;
 		}
-
 		if (parameter.hasParameterAnnotation(Min.class)) {
 			// 获得注解
 			Min min = parameter.getParameterAnnotation(Min.class);
@@ -203,8 +189,6 @@ public class ValidateMethodParamHandlerResolver implements
 		if (parameter.hasParameterAnnotation(DecimalMin.class)) {
 			return returnObj;
 		}
-		
-
 		if (parameter.hasParameterAnnotation(AssertFalse.class)) {
 			return returnObj;
 		}
@@ -218,7 +202,6 @@ public class ValidateMethodParamHandlerResolver implements
 		if (parameter.hasParameterAnnotation(Future.class)) {
 			return returnObj;
 		}
-
 		if (parameter.hasParameterAnnotation(Past.class)) {
 			return returnObj;
 		}
@@ -228,10 +211,6 @@ public class ValidateMethodParamHandlerResolver implements
 		if (parameter.hasParameterAnnotation(Size.class)) {
 			return returnObj;
 		}
-	
-
 		return returnObj;
-
 	}
-
 }
