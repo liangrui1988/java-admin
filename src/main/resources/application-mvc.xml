@@ -10,56 +10,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-
-
-    <!-- 通过配置织入@Aspectj切面  -->
-<!--     <aop:aspectj-autoproxy /> -->
-    <!-- AutowiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor 以及 RequiredAnnotationBeanPostProcessor 这 4 个BeanPostProcessor。 -->
-<!--     <context:annotation-config/> -->
-	
-<!-- 简化自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean -->
-<!--当我们需要controller返回一个map的json对象时，可以设定mvc:annotation-driven  同时设定<mvc:message-converters> 标签，设定字符集和json处理类  -->
-
-<!-- <mvc:annotation-driven> -->
-<!-- 		<mvc:argument-resolvers> -->
-<!-- 			<bean class="com.rui.pro1.common.utils.converter.JSONConverter" /> -->
-<!-- 		</mvc:argument-resolvers> -->
-<!-- 	<mvc:message-converters> -->
-<!-- 		<bean -->
-<!-- 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"> -->
-<!-- 			<property name="objectMapper"> -->
-<!-- 				<bean class="com.rui.pro1.common.utils.converter.ResponseNullUtil"></bean> -->
-<!-- 			</property> -->
-<!-- 		</bean> -->
-<!-- 	</mvc:message-converters>   -->
-<!-- </mvc:annotation-driven> -->
-	
      <!-- 处理静态文件 -->
     <mvc:default-servlet-handler/>
-
-        <!-- 静态资源映射 -->
-<!--     <mvc:resources mapping="/viwes/**" location="/viwes/"/> -->
-
-<!--     <mvc:interceptors> -->
-<!--         <mvc:interceptor> -->
-<!--             <mvc:mapping path="/**" /> -->
-<!--             <mvc:exclude-mapping path="/json/**" /> -->
-<!--             <mvc:exclude-mapping path="/static/**" /> -->
-<!--             <ref bean="responseAwareInterceptor" /> -->
-<!--         </mvc:interceptor> -->
-<!--         <mvc:interceptor> -->
-<!--             <mvc:mapping path="/json/**"/> -->
-<!--             <mvc:exclude-mapping path="/static/**" /> -->
-<!--             <ref bean="jsonResponseAwareInterceptor" /> -->
-<!--         </mvc:interceptor> -->
-<!--         <mvc:interceptor> -->
-<!--             <mvc:mapping path="/**"/> -->
-<!--             <mvc:exclude-mapping path="/static/**" /> -->
-<!--             <ref bean="blackResponseAwareInterceptor" /> -->
-<!--         </mvc:interceptor> -->
-<!--     </mvc:interceptors> -->
-	
-	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

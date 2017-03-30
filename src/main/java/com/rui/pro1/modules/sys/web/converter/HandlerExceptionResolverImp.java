@@ -8,15 +8,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 异常解析
+ * 
+ * @author ruiliang
+ *
+ */
 public class HandlerExceptionResolverImp implements HandlerExceptionResolver {
 
-	static Logger logger = LoggerFactory
-			.getLogger(HandlerExceptionResolverImp.class);
+	static Logger logger = LoggerFactory.getLogger(HandlerExceptionResolverImp.class);
 
 	@Override
-	public ModelAndView resolveException(HttpServletRequest request,
-			HttpServletResponse response, Object handler, Exception ex) {
-
+	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
+			Exception ex) {
 		// Map<String, Object> model = new HashMap<String, Object>();
 		// model.put("ex", ex);
 		ex.printStackTrace();

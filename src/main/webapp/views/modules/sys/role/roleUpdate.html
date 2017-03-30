@@ -234,6 +234,7 @@
 			      if(treeObj==null){
 			    	  //延迟
 			    	  setTimeout(function () { 
+// 			    		  console.log(JSON.stringify(data.menus));
 			    		  checkZTree(null,data.menus);
 			    	    }, 500);
 			      }else{
@@ -255,59 +256,93 @@
 		
 	}
 	
-
+/**
+ * 把角色拥有的菜单 ，默认选中
+ */
 	function checkZTree(treeObj,menus){
-		
-		if(treeObj==null){
-			 treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-		}
-	      
-
-	      var nodes= treeObj.getNodes();
-//	      console.log(nodes);
-//	      console.log(menus);
-	      
-	      if(menus!=""&&menus.length>0)
-	      {
-	    	  for (var i=0, l=nodes.length; i < l; i++) 
-		      {//for ztree
-	    		  var zTreeId=nodes[i].id;
-		          //for children
-	    		  var childrenNodes=nodes[i].children;
-//		          console.log(childrenNodes);
-	    		  if(typeof(childrenNodes)!="undefined"&&childrenNodes!=""&&childrenNodes.length>0)
-	    		  {//有子节点的情况
-	    			  for(var ch=0;ch<childrenNodes.length;ch++)
+	  if(treeObj==null){
+		treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	  }
+      var nodes= treeObj.getNodes();
+//      console.log(nodes);
+//      console.log(menus);
+      if(menus==""&&menus.length<=0)
+      {
+    	  return;
+      }
+   	  for (var i=0, l=nodes.length; i < l; i++) //for ztree
+      {
+   		  var zTreeId=nodes[i].id;
+          //for children
+   		  var childrenNodes=nodes[i].children;
+   		  if(typeof(childrenNodes)!="undefined"&&childrenNodes!=""&&childrenNodes.length>0)
+   		  {//有子节点的情况
+   			  for(var ch=0;ch<childrenNodes.length;ch++)
+	   		  {
+	   		      var childrenNodes_3=childrenNodes[ch].children;
+// 				  console.log("childrenNodes_3>>>:"+childrenNodes_3);
+				  //三级判断，这个选中的话，所有节点都会被选中的
+	    		  if(typeof(childrenNodes_3)!="undefined"&&childrenNodes_3!=""&&childrenNodes_3.length>0)
+	    		  {//有三级节点的情况-正常
+	    			  for(var ch_3=0;ch_3<childrenNodes_3.length;ch_3++)
 	    			  {
-//	    				  console.log(childrenNodes[ch]);
-			    		  var zTreeIdx=childrenNodes[ch].id;
-			    		  for(var m=0;m<menus.length;m++)
-				    	  {//for menus data 
-				    		 var menuId=menus[m].id;
-				    		  if(zTreeIdx==menuId)
-				    		  {
-				    			  treeObj.checkNode(childrenNodes[ch], true, true);
-				    		  }
-				    	  }
-
+	    				  //三级菜单下，四级权限的情况
+	    				  var childrenNodes_4=childrenNodes_3[ch_3];
+	    				  if(typeof(childrenNodes_4)!="undefined"&&childrenNodes_4!=""&&childrenNodes_4.length>0)
+	    				  {
+	    					  //设置为true
+	    					  for(var ch_4=0;ch_4<childrenNodes_4.length;ch_4++)
+	    	    			  {
+	    						  var zTreeIdx_4=childrenNodes_4[ch_4].id;
+					    		  for(var m=0;m<menus.length;m++)//如果用户有这个菜单或权限
+						    	  {//for menus data 
+						    		 var menuId=menus[m].id;
+						    		  if(zTreeIdx_4==menuId)
+						    		  {
+						    			  treeObj.checkNode(childrenNodes_4[ch_4], true, true);//设置先中
+						    		  }
+						    	  }  
+	    	    			  }
+	    				  }else{
+	    					  for(var m=0;m<menus.length;m++)//如果用户有这个菜单或权限
+					    	  {
+					    		  if(childrenNodes_3[ch_3].id==menus[m].id)
+					    		  {
+					    			  treeObj.checkNode(childrenNodes_3[ch_3], true, true);//设置先中
+					    		  }
+					    	  }  
+	    					  
+	    				  }
+	    	
 	    			  }
-	    			  
-	    		  }else
-	    		  {//没有子节点的情况
-	    			  // alert(zTreeId);
-			    	  for(var m=0;m<menus.length;m++)
-			    	  {//for menus data 
-			    		 var menuId=menus[m].id;
-			    		  if(zTreeId==menuId)
-			    		  {
-			    			  treeObj.checkNode(nodes[i], true, true);
-			    		  }
-			    	  }
+               }else{
+    			  //这个是二级处理，有bug
+    			  var zTreeIdx=childrenNodes[ch].id;
+	    		  for(var m=0;m<menus.length;m++)
+		    	  {//for menus data 
+		    		 var menuId=menus[m].id;
+		    		  if(zTreeIdx==menuId)
+		    		  {
+		    			  treeObj.checkNode(childrenNodes[ch], true, true);
+		    		  }
+		    	  }  
+	    		}
+   			  }
+   		  }else
+   		  {//没有子节点的情况
+   			  // alert(zTreeId);
+	    	  for(var m=0;m<menus.length;m++)
+	    	  {//for menus data 
+	    		 var menuId=menus[m].id;
+	    		  if(zTreeId==menuId)
+	    		  {
+	    			  treeObj.checkNode(nodes[i], true, true);
 	    		  }
-		      }
-	      }
+	    	  }
+   		  }
+      }
+	      
 	}
-	
 	
 	</script>	
 	
