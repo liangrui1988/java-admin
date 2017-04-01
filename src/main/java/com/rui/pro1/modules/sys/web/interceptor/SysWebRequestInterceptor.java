@@ -38,7 +38,6 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-
 		long beginTime = System.currentTimeMillis();// 1、开始时间
 		startTimeThreadLocal.set(beginTime);// 线程绑定变量（该数据只有当前请求的线程可见）
 		// if(SetData.whiteList.contains(request.getRequestURI())){
@@ -48,7 +47,6 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 		if (!isUserLogin(request, response)) {
 			return false;
 		}
-
 		try {
 			// 日志处理
 			UserBean user = userUtils.getUserBean();
@@ -63,7 +61,7 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			String userAgent = request.getHeader("user-agent");
 			log.setAgent(userAgent);
 			String parameters = WebHelp.requestParametersToString(request);
-			log.setRequestParamenters(parameters);
+			log.setParameters(parameters);
 			log.setMethod(request.getMethod());
 			new Thread(new SysLogRunnable(log)).start();
 		} catch (Exception e) {
@@ -71,7 +69,6 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			e.printStackTrace();
 		}
 		// logger.info("SysWebRequestInterceptor》》preHandle");
-
 		return true;
 	}
 
@@ -80,7 +77,6 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		// logger.info("postHandle");
-
 	}
 
 	// 整个请求处理完毕回调方法
@@ -106,7 +102,6 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			rb.setMessageCode(MessageCode.SYS_NO_PERMISSE);
 			rb.setMessage("没有权限");
 			WebHelp.responseResultBean(request, response, rb);
-
 			return false;
 		}
 		return true;

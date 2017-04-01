@@ -112,6 +112,7 @@ create table sys_log
    ip                   varchar(100) comment '操作ip',
    method               varchar(50) default '0' comment '请求方式',
    uri                  varchar(200) comment 'uri',
+   parameters           varchar(200) comment '参数',
    agent                varchar(300) comment '代理',
    create_by_id         int comment '创建者',
    create_time          timestamp default CURRENT_TIMESTAMP comment '创建时间',
