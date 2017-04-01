@@ -2,8 +2,11 @@
 <html>
 <head>
 <title>用户管理</title>
+<link href="../../../common/sweetalert/sweetalert.css" rel="stylesheet">
+
 <link href="../../../common/all.css" rel="stylesheet">
 <script type="text/javascript" src="../../../common/all.js"></script>
+<script type="text/javascript" src="../../../common/sweetalert/sweetalert.min.js"></script>
 
 <style type="text/css">
 
@@ -17,6 +20,8 @@
 
 
 <script type="text/javascript">
+
+// swal("Here's a message!")
 
 //全部角色
 var rolelist="";
@@ -191,6 +196,8 @@ function initRoleCehcked(rolelist,roles){
 	
 	
 	function updateUser(){
+	
+
 		var jobj=$("#inputForm").serialize();
 		$.ajax({
 			url : getContextPath()+"/sys/user/update",
@@ -199,7 +206,20 @@ function initRoleCehcked(rolelist,roles){
 			data :jobj,
 			success : function(returnData,status,XMLHttpRequest)
 			{	
-			    resolveResultBeanIsOk(returnData,status);
+// 			    resolveResultBeanIsOk(returnData,status);
+			    if(status!="success")
+			    {
+		    	 alert("请求失败："+data.message);
+			  	 return;
+			    }
+			    if(!returnData.success)
+			  	{
+			      alert("操作失败："+data.message);
+			      return;
+			  	}
+			  	  alert("操作成功");
+// 			  	swal("Good job!", "You clicked the button!", "success");
+			  location.href=getContextPath()+"/views/modules/sys/user/userlist.html";
 			}
 		});
 		

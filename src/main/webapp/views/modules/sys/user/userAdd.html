@@ -246,7 +246,10 @@
 			data :jobj,
 			success : function(returnData,status,XMLHttpRequest)
 			{	//console.log(returnData);
-			    resolveResultBeanIsOk(returnData,status);
+			    if(resolveResultBeanIsOk(returnData,status))
+			    {
+					location.href=getContextPath()+"/views/modules/sys/user/userlist.html";
+			    }
 			}
 		});
 		
