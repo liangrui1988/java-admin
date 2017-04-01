@@ -60,11 +60,11 @@
   </delete>
   <insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
     insert into sys_log (id, title, type, 
-      ip, method, uri, agent, 
+      ip, method, uri,parameters, agent, 
       create_by_id, create_time, remake, 
       end_time, result)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
-      #{ip,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{uri,jdbcType=VARCHAR},#{parameters,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
       #{createById,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remake,jdbcType=VARCHAR}, 
       #{endTime,jdbcType=TIMESTAMP}, #{result,jdbcType=VARCHAR})
   </insert>
@@ -88,6 +88,9 @@
       </if>
       <if test="uri != null">
         uri,
+      </if>
+      <if test="uri != null">
+        parameters,
       </if>
       <if test="agent != null">
         agent,
@@ -126,6 +129,9 @@
       </if>
       <if test="uri != null">
         #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="parameters != null">
+        #{parameters,jdbcType=VARCHAR},
       </if>
       <if test="agent != null">
         #{agent,jdbcType=VARCHAR},

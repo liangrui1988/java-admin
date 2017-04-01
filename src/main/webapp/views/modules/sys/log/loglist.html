@@ -5,13 +5,12 @@
 <link href="../../../common/all.css" rel="stylesheet">
 <script type="text/javascript" src="../../../common/all.js"></script>
 
-</script>
 </head>
 
 <body style="overflow-x: hidden; overflow-y: hidden;">
         
         <form action="" class="breadcrumb form-search " id="_search_form">
-             &nbsp;菜单: <input class="input-xlarge" name="title"  id="_title" type="text" />
+             &nbsp;uri: <input class="input-xlarge" name="uri"  id="_uri" type="text" />
 			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
 		</form>
 		
@@ -27,7 +26,7 @@
 		
 
 	<div class="panel panel-default">
-		<table id="_log_table" class="table table-striped">
+		<table id="_log_table" class="table table-bordered">
 			<thead>
 				<tr>
 					<th width="10%">id</th>
@@ -35,7 +34,7 @@
 <!-- 					<th width="10%">菜单</th> -->
 					<th width="20%">uri</th>
 				    <th width="10%">方法</th>
-				    <td width="30%">代理</td>
+				    <td width="30%">参数</td>
 				    <th width="10%">ip</th>
 				     <th width="10%">操作用户</th>
 				     <th width="20%">操作时间</th>
@@ -48,11 +47,11 @@
 			</tbody>
 
 		</table>
+</div>
 
     <div class="pagination" id="_pagination">
     
 </div>
-	
 	
 	
 <script type="text/javascript">
@@ -94,7 +93,7 @@ function callbak_page(returnDatas)
 				+ returnData[i].method
 				+ "</td>"	
 				+ "<td>"
-				+ returnData[i].agent
+				+ returnData[i].parameters
 				+ "</td>"	
 				+ "<td>"
 				+ returnData[i].ip
@@ -126,9 +125,9 @@ function getParam()
 {				
 	 var param=new Object();	
 	
-	 var _title=$("#_title").val();
-	 if(_title!=""){
-		 param.title=_title;
+	 var _uri=$("#_uri").val();
+	 if(_uri!=""){
+		 param.uri=_uri;
 	 }
 	 
 	return param;			 

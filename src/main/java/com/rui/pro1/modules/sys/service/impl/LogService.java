@@ -24,13 +24,10 @@ public class LogService implements ILogService {
 	
 	@Override
 	public QueryResult<SysLog> getList(Integer page, Integer pagesize, SysLog log) {
-		
-		
 		Query query = new Query();
 		query.setBean(log);
 		query.setPageIndex(page);
 		query.setPageSize(pagesize);
-
 		// 组合分页信息
 		QueryResult<SysLog> queryResult = new QueryResult<SysLog>();
 		Long count = sysLogMapper.getCount(query);
@@ -44,7 +41,6 @@ public class LogService implements ILogService {
 				}
 			}
 		}
-		
 		// 总页数 和 取多少条
 		queryResult.setCurrentPage(page);
 		queryResult.setPages(count, pagesize);
@@ -57,11 +53,8 @@ public class LogService implements ILogService {
 		if(log==null){
 			return 0;
 		}
-		
 //		log.setCreateTime(new Date());
-		
 		sysLogMapper.insertSelective(log);
-		
 		return 0;
 	}
 

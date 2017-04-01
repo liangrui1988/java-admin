@@ -30,7 +30,7 @@ public class SysLog {
 	@JsonSerialize(using = DateTimeSerializer.class)
 	private Date endTime;
 
-	private String requestParamenters;
+	private String parameters;
 
 	private String result;
 	
@@ -132,12 +132,14 @@ public class SysLog {
 		this.result = result == null ? null : result.trim();
 	}
 
-	public String getRequestParamenters() {
-		return requestParamenters;
+
+	
+	public String getParameters() {
+		return parameters;
 	}
 
-	public void setRequestParamenters(String requestParamenters) {
-		this.requestParamenters = requestParamenters;
+	public void setParameters(String parameters) {
+		this.parameters = parameters;
 	}
 
 	public String getCreateByName() {
