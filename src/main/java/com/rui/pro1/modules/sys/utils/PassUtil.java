@@ -30,7 +30,16 @@ public class PassUtil {
 
 
 	public static void main(String[] args) {
-		System.out.println(new PassUtil().encryptPassword("admin", "admin"));
+		System.out.println(PassUtil.encryptPassword("admin", "admin"));
+		
+		ByteSource bs=ByteSource.Util.bytes("admin");
+		String newPassword = new SimpleHash("md5", "admin", bs).toHex();
+		System.out.println(newPassword);
+
+		String newPassword2 = new SimpleHash("md5",  bs).toHex();
+
+		System.out.println(newPassword2);
+		
 
 	}
 }
