@@ -106,7 +106,7 @@
 	<filter-mapping>
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-		<dispatcher>request</dispatcher>
+<!-- 		<dispatcher>request</dispatcher> -->
 	</filter-mapping>
 
 	<filter>  
