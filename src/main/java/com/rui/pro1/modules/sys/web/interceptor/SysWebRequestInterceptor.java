@@ -1,6 +1,8 @@
 package com.rui.pro1.modules.sys.web.interceptor;
 
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,7 +65,9 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			String parameters = WebHelp.requestParametersToString(request);
 			log.setParameters(parameters);
 			log.setMethod(request.getMethod());
-			new Thread(new SysLogRunnable(log)).start();
+			ExecutorService cachedThreadPool = Executors.newCachedThreadPool();  
+			cachedThreadPool.execute(new SysLogRunnable(log));
+//			new Thread(new SysLogRunnable(log)).start();
 		} catch (Exception e) {
 			logger.error("写入系统日志异常!");
 			e.printStackTrace();
