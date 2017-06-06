@@ -13,16 +13,16 @@
 	<!-- mybatis config 需要注入一个数据源 -->
    	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="com.rui.pro1.modules.**.entity" />
+		<property name="typeAliasesPackage" value="com.huiwan.gdata.modules.**.entity" />
 		<property name="mapperLocations">
 			<list>
-				<value>classpath:/mybatis/modules/mappers/**/**Mapper.xml</value>
+				<value>classpath:/mybatis/modules/mappers/sys/**Mapper.xml</value>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.rui.pro1.modules.**.mapper" />
+		<property name="basePackage" value="com.huiwan.gdata.modules.**.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 	
@@ -66,7 +66,7 @@
 
 	<aop:config>
 		<aop:pointcut id="allServiceOperation"
-			expression="execution(* com.rui.pro1..service..*(..))" />
+			expression="execution(* com.huiwan.gdata..service..*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="allServiceOperation" />
 	</aop:config>
 	

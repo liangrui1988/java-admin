@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rui.pro1.modules.sys.mapper.MenuMapper">
+<mapper namespace="com.huiwan.gdata.modules.sys.mapper.MenuMapper">
 
 	<!--=========================查询数据返回集合 配置====================================================== -->
-	<resultMap type="com.rui.pro1.modules.sys.entity.Menu" id="resultMapId">
+	<resultMap type="com.huiwan.gdata.modules.sys.entity.Menu" id="resultMapId">
 		  <id column="id" jdbcType="VARCHAR" property="id" />
 		    <result column="name" jdbcType="VARCHAR" property="name" />
 		    <result column="types" jdbcType="VARCHAR" property="types" />
@@ -34,7 +34,7 @@
 		</where>
 	</sql>
 	<!--=========================查询搜索 ============================================================================= -->
-	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"
+	<select id="queryPages" parameterType="com.huiwan.gdata.common.bean.page.Query"
 		resultMap="resultMapId">
 		select * from sys_menu
 		<include refid="searchField" />
@@ -45,7 +45,7 @@
 
 
 	<select id="getCount" resultType="long"
-		parameterType="com.rui.pro1.common.bean.page.Query">
+		parameterType="com.huiwan.gdata.common.bean.page.Query">
 		select count(*) from sys_menu
 		<include refid="searchField" />
 	</select>
@@ -54,12 +54,12 @@
 	
 	
 	
-	<select id="queryAll" parameterType="com.rui.pro1.modules.sys.entity.Menu"
+	<select id="queryAll" parameterType="com.huiwan.gdata.modules.sys.entity.Menu"
 		resultMap="resultMapId">
 		select * from sys_menu where status in(0,1)	order by sort_no asc
 	</select>
 	
-	<select id="queryAllByLevel" parameterType="com.rui.pro1.modules.sys.entity.Menu"
+	<select id="queryAllByLevel" parameterType="com.huiwan.gdata.modules.sys.entity.Menu"
 		resultMap="resultMapId">
 		select * from sys_menu 
 		<where>
@@ -72,7 +72,7 @@
 	
 	<!--=========================添加 ============================================================================= -->
 
-	<insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Menu" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insert" parameterType="com.huiwan.gdata.modules.sys.entity.Menu" useGeneratedKeys="true" keyProperty="id">
     insert into sys_menu (id, name, types, 
       sort_no, parent_id, parent_ids, 
       permission, status, icon, 
@@ -84,7 +84,7 @@
       #{href,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{createById,jdbcType=INTEGER}, #{updateById,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.Menu" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.huiwan.gdata.modules.sys.entity.Menu" useGeneratedKeys="true" keyProperty="id">
     insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -186,7 +186,7 @@
 	<!--=========================修改 ============================================================================= -->
 
 
-<update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.Menu">
+<update id="updateByPrimaryKeySelective" parameterType="com.huiwan.gdata.modules.sys.entity.Menu">
     update sys_menu
     <set>
       <if test="name != null">
@@ -232,7 +232,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.Menu">
+  <update id="updateByPrimaryKey" parameterType="com.huiwan.gdata.modules.sys.entity.Menu">
     update sys_menu
     set name = #{name,jdbcType=VARCHAR},
       types = #{types,jdbcType=VARCHAR},
