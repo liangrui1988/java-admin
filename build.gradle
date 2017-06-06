@@ -11,7 +11,7 @@ apply plugin: 'war'
 // gradle 自已用的
 buildscript {
         repositories {
-		   // maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+	maven { url "http://192.168.12.26:8081/nexus/content/groups/public/" }
              mavenCentral()
         }
         dependencies {
@@ -24,7 +24,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7  
 
 repositories {
-   // maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+	maven { url "http://192.168.12.26:8081/nexus/content/groups/public/" }
     mavenCentral()
 }
 
@@ -38,7 +38,7 @@ configurations {
 }
 	
 //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
-archivesBaseName = "gradle-test-6.6.6.jar"
+archivesBaseName = "gdata-1.0.0.jar"
 	
 dependencies { 
         testCompile group: 'junit', name: 'junit', version: '4.+'    
@@ -107,8 +107,7 @@ dependencies {
 	    //compile 'net.sf.ehcache:ehcache:2.10.1'
 		//compile group: 'com.octo.captcha', name: 'jcaptcha', version: '1.0'
 	    //compile group: 'javax.enterprise', name: 'cdi-api', version: '2.0-EDR1'
-		
-
+		compile group: 'org.postgresql', name: 'postgresql', version: '42.0.0'
 
 		
 }
