@@ -15,7 +15,7 @@ public class AdminMain {
 	private static List<String> webappPaths = new ArrayList<>();
 
 	public static void main(String[] args) {
-    	int port = 9809;
+    	int port = 9899;
 		try {
 			if (args.length > 0)
 				port = Integer.parseInt(args[0]);

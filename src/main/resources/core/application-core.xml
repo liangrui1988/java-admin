@@ -19,7 +19,7 @@
 		http://www.springframework.org/schema/task 
 		http://www.springframework.org/schema/task/spring-task.xsd">
     <context:component-scan base-package="com.huiwan"/>
-    <context:property-placeholder location="classpath:pro1.properties,classpath:logback.properties,classpath:properties/psql-game-log.properties"/>
+    <context:property-placeholder location="classpath:pro1.properties,classpath:logback.properties,classpath:properties/psql-game-log.properties,classpath:properties/game-jdbc.properties"/>
 
     <bean id="baseDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
 <!--         <property name="username" value="${jdbc.username}" /> -->
