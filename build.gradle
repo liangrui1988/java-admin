@@ -96,7 +96,10 @@ dependencies {
         compile "org.apache.shiro:shiro-quartz:${ShiroVersion}"
 		compile "org.apache.shiro:shiro-spring:${ShiroVersion}"
 		compile 'org.sitemesh:sitemesh:3.0.1'
-		compile group: 'com.octo.captcha', name: 'jcaptcha', version: '1.0'		
+		compile ('com.octo.captcha:jcaptcha:1.0')	
+		{
+		exclude group: 'javax.servlet', module: 'servlet-api'
+		}	
 		//compile ('com.octo.captcha:jcaptcha-all:1.0-RC6')	
 		//{ exclude group: 'org.springframework', module: 'spring'
 		//exclude group: ' net.sf.ehcache ', module: 'ehcache'
