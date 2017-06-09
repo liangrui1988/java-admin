@@ -24,24 +24,7 @@
 
 
 	<!-- 控制服务器日志数据源配置 -->
-	<bean id="xLogDataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">
-		<property name="url" value="${jdbc.log_x_url}" />
-		<property name="username" value="${jdbc.log_x_username}" />
-		<property name="password" value="${jdbc.log_x_password}" />
-		<property name="maxActive" value="${max_active}" />
-		<property name="initialSize" value="${initial_size}" />
-		<property name="minIdle" value="${min_idle}" />
-		<property name="maxWait" value="${max_wait}" />
-		<property name="timeBetweenEvictionRunsMillis" value="60000" />
-		<property name="minEvictableIdleTimeMillis" value="300000" />
-		<property name="validationQuery" value="SELECT 'x'" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="false" />
-		<property name="testOnReturn" value="false" />
-		<!-- 配置监控统计拦截的filters -->
-		<property name="filters" value="${filters}" />
-	</bean>
+		<bean id="xLogDataSource"  parent="baseDataSource" p:url="${jdbc.log_x_url}" p:username="${jdbc.log_x_username}"  p:password="${jdbc.log_x_password}"/>
 	
 	
     <!-- 定时任务 -->
