@@ -96,7 +96,10 @@ dependencies {
         compile "org.apache.shiro:shiro-quartz:${ShiroVersion}"
 		compile "org.apache.shiro:shiro-spring:${ShiroVersion}"
 		compile 'org.sitemesh:sitemesh:3.0.1'
-		compile group: 'com.octo.captcha', name: 'jcaptcha-all', version: '1.0-RC6'		
+		compile ('com.octo.captcha:jcaptcha-all:1.0-RC6')	
+		{
+		  exclude group: 'org.springframework', module: 'spring' 		
+		}	
 		compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.3.0.Alpha1'
 		compile group: 'cglib', name: 'cglib-nodep', version: '3.2.4'
         compile group: 'org.javassist', name: 'javassist', version: '3.20.0-GA'
