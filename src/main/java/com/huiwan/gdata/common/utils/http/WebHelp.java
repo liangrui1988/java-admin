@@ -71,7 +71,7 @@ public class WebHelp
 			String callback = request.getParameter("callback");
 			callback += "(" + new Gson().toJson(rb) + ")";
 			response.setContentType("text/script");
-			response.setCharacterEncoding("UTF-8");
+//			response.setCharacterEncoding("UTF-8");
 			response.getOutputStream().write(callback.getBytes("UTF-8"));
 		} catch (Exception e)
 		{
