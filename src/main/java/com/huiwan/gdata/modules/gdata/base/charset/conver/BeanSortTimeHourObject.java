@@ -1,10 +1,10 @@
-package com.huiwan.gdata.common.utils.charset.conver;
+package com.huiwan.gdata.modules.gdata.base.charset.conver;
 
 import java.util.Comparator;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.huiwan.gdata.common.utils.charset.bean.common.CharsetBeanCommon;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.common.CharsetBeanCommon;
 
 
 /**

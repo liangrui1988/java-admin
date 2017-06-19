@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.bean;
+package com.huiwan.gdata.modules.gdata.base.charset.bean;
 
 /**
  * 用于json图表对象

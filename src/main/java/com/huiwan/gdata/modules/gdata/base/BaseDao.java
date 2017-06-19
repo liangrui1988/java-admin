@@ -18,17 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
-/**
- * <p>
- * Title:DBDao
- * </p>
- * <p>
- * Description:
- * </p>
- * 
- * @Author Chenkangming @Date 2013-11-8
- * @version 1.0
- */
+
 public abstract class BaseDao {
 	protected Logger log = LoggerFactory.getLogger(getClass());
 

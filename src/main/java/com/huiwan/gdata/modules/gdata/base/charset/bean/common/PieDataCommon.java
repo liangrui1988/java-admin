@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.bean.common;
+package com.huiwan.gdata.modules.gdata.base.charset.bean.common;
 
 /**
  * 图表数据Pie饼图

@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.bean;
+package com.huiwan.gdata.modules.gdata.base.charset.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.huiwan.gdata.common.utils.charset.bean.common.SeriesCommon;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.common.SeriesCommon;
 
 /**
  * 通用图表属性

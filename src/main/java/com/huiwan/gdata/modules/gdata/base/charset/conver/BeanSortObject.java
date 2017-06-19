@@ -1,11 +1,11 @@
-package com.huiwan.gdata.common.utils.charset.conver;
+package com.huiwan.gdata.modules.gdata.base.charset.conver;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 
-import com.huiwan.gdata.common.utils.charset.bean.common.CharsetBeanCommon;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.common.CharsetBeanCommon;
 
 
 /**

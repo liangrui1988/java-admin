@@ -18,6 +18,11 @@ public class Modules {
 	public static final String SETTING = "setting";// 基本设置
 	
 	/***异常分析**/
-	public static final String CRASH = "crash";// 政府
+	public static final String CRASH = "crash";// 异常
+	
+	
+	/***战斗日志分析**/
+	public static final String COMBAT = "combat";// 异常
+
 
 }

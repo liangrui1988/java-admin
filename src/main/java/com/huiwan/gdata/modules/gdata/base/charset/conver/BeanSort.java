@@ -1,8 +1,8 @@
-package com.huiwan.gdata.common.utils.charset.conver;
+package com.huiwan.gdata.modules.gdata.base.charset.conver;
 
 import java.util.Comparator;
 
-import com.huiwan.gdata.common.utils.charset.bean.CharsetBeanDobule;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.CharsetBeanDobule;
 
 
 /**

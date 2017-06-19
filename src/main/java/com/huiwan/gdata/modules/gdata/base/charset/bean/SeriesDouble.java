@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.bean;
+package com.huiwan.gdata.modules.gdata.base.charset.bean;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import java.util.List;
  * @author ruiliang
  * @date 2016/10/10
  */
-public class SeriesLong {
+public class SeriesDouble {
 
 	private String name; // leang
-	private List<Long> data;// 图表数据
+	private List<Double> data;// 图表数据
 
 	public String getName() {
 		return name;
@@ -21,15 +21,15 @@ public class SeriesLong {
 		this.name = name;
 	}
 
-	public List<Long> getData() {
+	public List<Double> getData() {
 		return data;
 	}
 
-	public void setData(List<Long> data) {
+	public void setData(List<Double> data) {
 		this.data = data;
 	}
 
-	public SeriesLong(String name) {
+	public SeriesDouble(String name) {
 		super();
 
 		if (name == null) {
@@ -40,7 +40,7 @@ public class SeriesLong {
 
 	}
 
-	public SeriesLong() {
+	public SeriesDouble() {
 
 	}
 

@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset;
+package com.huiwan.gdata.modules.gdata.base.charset;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -11,17 +11,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.commons.lang.StringUtils;
 
-import com.huiwan.gdata.common.utils.charset.bean.CharsetBean;
-import com.huiwan.gdata.common.utils.charset.bean.CharsetBeanDobule;
-import com.huiwan.gdata.common.utils.charset.bean.CharsetBeanLong;
-import com.huiwan.gdata.common.utils.charset.bean.ChartData;
-import com.huiwan.gdata.common.utils.charset.bean.ChartsQueryVo;
-import com.huiwan.gdata.common.utils.charset.bean.Series;
-import com.huiwan.gdata.common.utils.charset.bean.SeriesDouble;
-import com.huiwan.gdata.common.utils.charset.bean.SeriesLong;
-import com.huiwan.gdata.common.utils.charset.bean.common.CharsetBeanCommon;
-import com.huiwan.gdata.common.utils.charset.bean.common.SeriesCommon;
-import com.huiwan.gdata.common.utils.charset.conver.ListConverMap;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.CharsetBean;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.CharsetBeanDobule;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.CharsetBeanLong;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.ChartData;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.QueryCommBean;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.Series;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.SeriesDouble;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.SeriesLong;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.common.CharsetBeanCommon;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.common.SeriesCommon;
+import com.huiwan.gdata.modules.gdata.base.charset.conver.ListConverMap;
 
 
 /**
@@ -357,7 +357,7 @@ public class CharsetDataUtil {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static ChartData getChartDataInComBean(ChartsQueryVo vo, List<CharsetBean> result) throws ParseException {
+	public static ChartData getChartDataInComBean(QueryCommBean vo, List<CharsetBean> result) throws ParseException {
 		// 对数据进行归类
 		// id={日期=数据}
 		Map<Integer, Map<String, Integer>> groupMapList = new LinkedHashMap<Integer, Map<String, Integer>>();
@@ -418,7 +418,7 @@ public class CharsetDataUtil {
 	 * @return 图表对象
 	 * @throws ParseException
 	 */
-	public static ChartData getChartDataInComBean2(ChartsQueryVo vo, List<CharsetBeanLong> result)
+	public static ChartData getChartDataInComBean2(QueryCommBean vo, List<CharsetBeanLong> result)
 			throws ParseException {
 		// 对数据进行归类
 		// id={日期=数据}
@@ -480,7 +480,7 @@ public class CharsetDataUtil {
 	 * @return 图表对象
 	 * @throws ParseException
 	 */
-	public static <T> ChartData getChartDataInComBeanDouble(ChartsQueryVo vo, List<T> result) throws ParseException {
+	public static <T> ChartData getChartDataInComBeanDouble(QueryCommBean vo, List<T> result) throws ParseException {
 		// 对数据进行归类
 		// id={日期=数据}
 		Map<String, Map<String, Double>> groupMapList = new LinkedHashMap<String, Map<String, Double>>();
@@ -658,7 +658,7 @@ public class CharsetDataUtil {
 	 *            图表类型
 	 * @return
 	 */
-	public static ChartData commonBeanToCharsetCommonToDateHandler(ChartsQueryVo vo, List<CharsetBeanCommon> comBeans,
+	public static ChartData commonBeanToCharsetCommonToDateHandler(QueryCommBean vo, List<CharsetBeanCommon> comBeans,
 			String charsetType, String timeType) {
 		if (comBeans == null || comBeans.size() <= 0) {
 			return new ChartData();

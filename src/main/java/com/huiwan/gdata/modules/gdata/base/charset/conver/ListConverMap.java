@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.conver;
+package com.huiwan.gdata.modules.gdata.base.charset.conver;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,10 +10,10 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.huiwan.gdata.common.utils.charset.CharsetDataUtil;
-import com.huiwan.gdata.common.utils.charset.bean.CharsetBeanDobule;
-import com.huiwan.gdata.common.utils.charset.bean.ChartsQueryVo;
-import com.huiwan.gdata.common.utils.charset.bean.common.CharsetBeanCommon;
+import com.huiwan.gdata.modules.gdata.base.charset.CharsetDataUtil;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.CharsetBeanDobule;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.QueryCommBean;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.common.CharsetBeanCommon;
 
 public class ListConverMap {
 
@@ -116,7 +116,7 @@ public class ListConverMap {
 	 * @param charsetType
 	 *            图表类型
 	 */
-	public static Map<String, List<CharsetBeanCommon>> beanConverMapToObject_to_date(ChartsQueryVo vo,
+	public static Map<String, List<CharsetBeanCommon>> beanConverMapToObject_to_date(QueryCommBean vo,
 			List<CharsetBeanCommon> lists, String charsetType, String timeType) {
 		if (StringUtils.isBlank(charsetType)) {
 			charsetType = "";

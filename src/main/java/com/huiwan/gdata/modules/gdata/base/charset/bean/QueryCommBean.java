@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.bean;
+package com.huiwan.gdata.modules.gdata.base.charset.bean;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * @author ruiliang
  * @date 2016/09/23
  */
-public class ChartsQueryVo implements Cloneable {
+public class QueryCommBean implements Cloneable {
 
 	private String dt1;
 	private String dt2;
@@ -24,6 +24,7 @@ public class ChartsQueryVo implements Cloneable {
 	private Integer startNum;// 起始数
 	private Integer endNum;// 结束数
 	private int commQueryInt;// 通用int
+	private String commQueryString;// 通用String
 	private String honor;// 荣誉值
 	private List<String> honors;// 荣誉值
 	private String sign;
@@ -31,6 +32,10 @@ public class ChartsQueryVo implements Cloneable {
 	private List<String> dans;// 段位
 	// 多选框
 	private List<String> jobs;// 职业
+	
+	public String copyId;//副本id
+
+	
 
 	public String getDt1() {
 		return dt1;
@@ -197,6 +202,27 @@ public class ChartsQueryVo implements Cloneable {
 
 	public void setJobs(List<String> jobs) {
 		this.jobs = jobs;
+	}
+
+	
+	
+	public String getCopyId() {
+		return copyId;
+	}
+
+	public void setCopyId(String copyId) {
+		this.copyId = copyId;
+	}
+	
+	
+
+
+	public String getCommQueryString() {
+		return commQueryString;
+	}
+
+	public void setCommQueryString(String commQueryString) {
+		this.commQueryString = commQueryString;
 	}
 
 	@Override

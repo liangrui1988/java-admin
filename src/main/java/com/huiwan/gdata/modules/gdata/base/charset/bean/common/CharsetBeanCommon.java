@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.bean.common;
+package com.huiwan.gdata.modules.gdata.base.charset.bean.common;
 
 /**
  * 通用bean Object类型

@@ -1,4 +1,4 @@
-package com.huiwan.gdata.common.utils.charset.conver;
+package com.huiwan.gdata.modules.gdata.base.charset.conver;
 
 import java.math.BigDecimal;
 

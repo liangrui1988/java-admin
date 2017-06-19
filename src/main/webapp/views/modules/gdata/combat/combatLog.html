@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 	<title>用户管理</title> -->
+<link href="../../../common/all.css" rel="stylesheet">
+<!-- <link href="../../../common/bootstrap/pagination/bootstrap-table.css" rel="stylesheet"> -->
+
+<script type="text/javascript" src="../../../common/all.js"></script>
+
+<script type="text/javascript" src="../../../common/My97DatePicker/WdatePicker.js"></script>
+
+
+</head>
+<body>
+
+<!-- breadcrumb  form-search-->
+	<form action="" class="form-inline   " id="_search_form">
+		<div class="form-group">
+		&nbsp;副本id: <input class="input-xlarge" name="copyId" id="_copyId"
+			type="text" /> &nbsp;
+	</div>
+    
+	<div class="form-group">
+	<div class="input-daterange input-group" id="datepicker">
+		 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text"
+		     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" /> 
+		结束时间: <input name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
+	</div>
+	</div>
+		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		<input id="_refTime"	class="btn btn-primary" type="button" value="刷新/暂停" />
+	</form>
+
+	<table class="rl-page-table" data-height="900"
+		table-data-url="/combat/log/combatList">
+		<thead>
+			<!--  data-height="500" data-sortable="true" -->
+			<tr>
+				<!-- 					<th data-formatter="xuhao" width="10%">序号</th> -->
+				<th data-field="dt" data-sortable="true" width="10%">时间</th>
+				<th data-field="dungeon_id" width="50%">arg1</th>
+				<th data-field="add_hp" width="10%">arg1</th>
+				<!-- 											<a href="business/device/device_crash/log_detail" target="blank" style="color: blue; cursor: pointer;">详情</a> -->
+			</tr>
+		</thead>
+	</table>
+	<!-- newx -->
+
+<!-- 	<script type="text/javascript" -->
+<!-- 		src="../../../common/bootstrap/pagination/bootstrap-table.js" /> -->
+<!-- 	<script type="text/javascript" -->
+<!-- 		src="../../../common/bootstrap/pagination/bootstrap-table-zh-CN.js" /> -->
+
+  <link href="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.css" rel="stylesheet">
+	<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
+	
+	
+	
+	
+
+	<script type="text/javascript">
+		//设置传入参数  
+		function queryParams(parma) {
+			// 获取查询条件  
+		    var dt1 =$("#d5221").val();  
+		    var dt2 = $("#d5222").val();  
+		    if (dt1 != "" && dt1 != null && dt1 != 'undefined') {  
+		        parma = $.extend(parma, {  
+		        	dt1 : dt1,  
+		        });  
+		    }  
+
+		    if (dt2 != "" && dt2 != null && dt2 != 'undefined') {  
+		        parma = $.extend(parma, {  
+		        	dt2 : dt2,  
+		        });  
+		    } 
+			//版本
+			var _copyId = $("#_copyId").val();
+			if (_copyId != "" && _copyId != null && _copyId != 'undefined') {
+				parma = $.extend(parma, {
+					copyId : _copyId,
+				});
+			}
+
+			return parma;
+		}
+
+		$(function() {
+
+			//		function xuhao(r, v, i) {
+			//		return i + 1;
+			//	}
+			//初始化表  
+			getPaginationTable(".rl-page-table", false);
+
+		});
+		
+		//查询
+		$("#_search_submit").click(
+			function(){
+				getPaginationTable(".rl-page-table",true);
+		});
+		
+
+		/**
+		*分页
+		**/
+		function getPaginationTable(table, flag) {
+			$(table).bootstrapTable('removeAll');
+			var uri = $(table).attr('table-data-url');
+			if (flag) {// null undefinded "" NaN typeof
+				$(table).bootstrapTable('refresh', queryParams);//刷新
+				return;
+			}
+
+			$(table).bootstrapTable({
+				method : 'get', // 这里要设置为get，不知道为什么 设置post获取不了
+				url : getContextPath() + uri,
+				cache : false,
+				striped : true,
+				silent : true,
+				pagination : true,
+				pageList : [ 5, 10, 20, 50, 100, 200 ],
+				// contentType: "application/x-www-form-urlencoded",
+				pageSize : 10,
+				// pageNumber : 1,
+				queryParamsType : 'limit',
+				// search : true,
+				sidePagination : 'server',// 设置为服务器端分页
+				queryParams : queryParams
+			// ,// 参数
+			// showColumns : true,
+			// showRefresh : true
+			});
+		};
+		
+		
+		
+		
+	//定时
+	var ref = "true";
+	var refInterval="";
+	$("#_refTime").click(function(){
+		if(ref=="true"){
+			ref="false"//切换
+			refInterval=setInterval(function(){
+				getPaginationTable(".rl-page-table",true);
+			},2000);
+		}else{
+			
+			clearInterval(refInterval);
+			ref="true"
+		}
+		
+	});
+
+		
+	</script>
+
+
+
+	<!-- <script type="text/javascript" -->
+	<!-- 			src="../../../common/bootstrap/pagination/page.js" /> -->
+
+
+
+</body>
+</html>
+
+

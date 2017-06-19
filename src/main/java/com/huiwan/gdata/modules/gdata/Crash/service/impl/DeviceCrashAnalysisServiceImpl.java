@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import com.huiwan.gdata.common.utils.charset.CharsetDataUtil;
-import com.huiwan.gdata.common.utils.charset.bean.ChartsQueryVo;
-import com.huiwan.gdata.common.utils.charset.bean.common.CharsetBeanCommon;
 import com.huiwan.gdata.common.utils.pagination.Paginator;
 import com.huiwan.gdata.common.utils.pagination.PaginatorResult;
 import com.huiwan.gdata.modules.gdata.Crash.entity.CrashLog;
@@ -26,6 +23,9 @@ import com.huiwan.gdata.modules.gdata.Crash.entity.DeviceCrashAny;
 import com.huiwan.gdata.modules.gdata.Crash.service.DeviceCrashAnalysisService;
 import com.huiwan.gdata.modules.gdata.base.GDataDao;
 import com.huiwan.gdata.modules.gdata.base.XLog4Dao;
+import com.huiwan.gdata.modules.gdata.base.charset.CharsetDataUtil;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.QueryCommBean;
+import com.huiwan.gdata.modules.gdata.base.charset.bean.common.CharsetBeanCommon;
 //import com.uc.db.base.dao.DBCrashLogDao;
 //import com.uc.db.business.dao.XLog4Dao;
 //import com.uc.db.business.service.device.DeviceCrashAnalysisService;
@@ -55,8 +55,8 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	private XLog4Dao mydb;
 
 	@Override
-	public List<CharsetBeanCommon> getData(ChartsQueryVo vo) {
-		ChartsQueryVo query = (ChartsQueryVo) vo.clone2();
+	public List<CharsetBeanCommon> getData(QueryCommBean vo) {
+		QueryCommBean query = (QueryCommBean) vo.clone2();
 		// 相等安小时取
 		// if (query.getDt1().equals(query.getDt2())) {
 		// return getHourData(query);
@@ -92,7 +92,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	 * @param vo
 	 * @return
 	 */
-	public List<CharsetBeanCommon> getHourData(ChartsQueryVo vo) {
+	public List<CharsetBeanCommon> getHourData(QueryCommBean vo) {
 		String table = "x8_crash_log";
 		if (StringUtils.isNotBlank(vo.getGameMark())) {
 			table = vo.getGameMark() + "_crash_log";
@@ -122,7 +122,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 		}
 	};
 
-	private StringBuffer getSQLString(ChartsQueryVo vo) {
+	private StringBuffer getSQLString(QueryCommBean vo) {
 		// 条件语句
 		StringBuffer sbWhere = new StringBuffer();
 		if (vo != null) {
@@ -175,7 +175,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	 * 获取总数据
 	 */
 	@Override
-	public DeviceCrashAny getAny(ChartsQueryVo vo) {
+	public DeviceCrashAny getAny(QueryCommBean vo) {
 		// 影响用户数-----------------------------------------------------
 		String table_1 = "x8_crash_log";
 		if (StringUtils.isNotBlank(vo.getGameMark())) {
@@ -240,7 +240,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 		return null;
 	}
 
-	private StringBuffer getAnySQLString(ChartsQueryVo vo) {
+	private StringBuffer getAnySQLString(QueryCommBean vo) {
 		// 条件语句
 		StringBuffer sbWhere = new StringBuffer();
 		if (vo != null) {
@@ -298,13 +298,13 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	 * 启动数数据
 	 */
 	@Override
-	public List<CharsetBeanCommon> getInitData(ChartsQueryVo vo) {
+	public List<CharsetBeanCommon> getInitData(QueryCommBean vo) {
 		// 如果是同一天
 		if (vo.getDt1().equals(vo.getDt2())) {
 			Map<String, Integer> mapNullData = CharsetDataUtil.getDayIntervalToCommonASC_OR_time_hour24(vo.getDt1(),
 					vo.getDt2(), Integer.class);
 			List<CharsetBeanCommon> lists = new ArrayList<>();
-			ChartsQueryVo queryVo = (ChartsQueryVo) vo.clone2();
+			QueryCommBean queryVo = (QueryCommBean) vo.clone2();
 			for (Entry<String, Integer> entry : mapNullData.entrySet()) {
 				// 取1小时之内的数据
 				queryVo.setDt1(vo.getDt1() + " " + entry.getKey() + ":00:00");
@@ -322,7 +322,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 		Map<String, Integer> mapNullData = CharsetDataUtil.getDayIntervalToCommonASC(vo.getDt1(), vo.getDt2(),
 				Integer.class);
 		List<CharsetBeanCommon> lists = new ArrayList<>();
-		ChartsQueryVo queryVo = (ChartsQueryVo) vo.clone2();
+		QueryCommBean queryVo = (QueryCommBean) vo.clone2();
 		for (Entry<String, Integer> entry : mapNullData.entrySet()) {
 			queryVo.setDt1(entry.getKey());
 			queryVo.setDt2(entry.getKey());
@@ -342,7 +342,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	 * @param vo
 	 * @return
 	 */
-	public int singleDayInitData(ChartsQueryVo vo) {
+	public int singleDayInitData(QueryCommBean vo) {
 		String table = SQLUtil.getTable1("log_client_init_v2", vo.getDt1());
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
@@ -376,8 +376,8 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	 * @return
 	 */
 	@Override
-	public List<CharsetBeanCommon> getEffectData(ChartsQueryVo vo) {
-		ChartsQueryVo query = (ChartsQueryVo) vo.clone2();
+	public List<CharsetBeanCommon> getEffectData(QueryCommBean vo) {
+		QueryCommBean query = (QueryCommBean) vo.clone2();
 		// 相等安小时取
 		// if (query.getDt1().equals(query.getDt2())) {
 		// return getHourData(query);
@@ -406,7 +406,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	}
 
 	@Override
-	public Map<String, String> getAppVersion(ChartsQueryVo vo) {
+	public Map<String, String> getAppVersion(QueryCommBean vo) {
 		String table = SQLUtil.getTable1("log_client_init_v2", vo.getDt1());
 		String table2 = SQLUtil.getTable1("log_client_init_v2", vo.getDt2());
 		// 参数
@@ -439,7 +439,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 		return map;
 	}
 
-	private StringBuffer getAppVersionSQLString(ChartsQueryVo vo) {
+	private StringBuffer getAppVersionSQLString(QueryCommBean vo) {
 		// 条件语句
 		StringBuffer sbWhere = new StringBuffer();
 		if (vo != null) {
@@ -496,7 +496,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	 * @return
 	 */
 	@Override
-	public PaginatorResult getPaginatorList(Paginator paginator, ChartsQueryVo vo) {
+	public PaginatorResult getPaginatorList(Paginator paginator, QueryCommBean vo) {
 		PaginatorResult result = new PaginatorResult();
 		String table = "x8_crash_log";
 		if (StringUtils.isNotBlank(vo.getGameMark())) {
@@ -571,7 +571,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 	 * @param vo
 	 * @return
 	 */
-	public int getLogTotal(ChartsQueryVo vo) {
+	public int getLogTotal(QueryCommBean vo) {
 		String table = "x8_crash_log";
 		if (StringUtils.isNotBlank(vo.getGameMark())) {
 			table = vo.getGameMark() + "_crash_log";

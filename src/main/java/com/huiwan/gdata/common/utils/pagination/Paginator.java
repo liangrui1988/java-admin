@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 public class Paginator {
 
 	private String order;// 排序方式
-	private int limit;// 限制取多少行
+	private int limit=10;// 限制取多少行
 	private int offset;// 起始行,忽略前面行数
 	private String sort;// 排序名称
 	private Object bean;

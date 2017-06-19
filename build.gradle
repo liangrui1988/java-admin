@@ -73,7 +73,7 @@ dependencies {
         compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
         compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
         compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.2'
-        compile 'com.alibaba:druid:1.0.9'
+        compile 'com.alibaba:druid:1.0.31'
 		compile 'org.aspectj:aspectjweaver:1.7.3'
 		compile 'org.aspectj:aspectjrt:1.7.3'
         compile 'junit:junit:4.11'        
