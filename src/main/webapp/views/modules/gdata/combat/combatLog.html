@@ -13,6 +13,7 @@
 
 .table {
   table-layout: fixed;
+ word-wrap: break-word; word-break: normal;
 }
 
 </style>
@@ -213,40 +214,42 @@
 					sortable:true,
 					title: '时间',
 					align: 'center',
-					width:'80',
+					width:'60',
 					valign: 'middle'
 				},{
 					field: 'uuid',
 					title: 'uuid',
 					align: 'center',
-					width:'80',
+					width:'60',
 					valign: 'middle'
 				},{
 					field: 'file',
 					title: '日志类型',
 					align: 'center',
-					width:'80',
+					width:'60',
 					valign: 'middle'
 				},{
 					field: 'cont',
-					title: '原始日志',
+					title: '详细',
 					width:'500',
 // 					align: 'center',
 					valign: 'middle',
 			       formatter:function(value,row,index){  
 			    	   var cont=row.cont;
-//  			    	   alert(JSON.stringify(row));
-			           var cr= cont.substring(0,151)+".....";
-			           return cr;  
+// 			    	   var obj = cont.parseJSON(); //由JSON字符串转换为JSON对象
+//  			       alert(JSON.stringify(row));
+// 			           var cr= cont.substring(0,151)+".....";
+				       var _detail_table=getTableDetail(cont);
+			           return _detail_table;  
 			        }
 				},{
 					title: '操作',
                     field: 'id',
-					width:'80',
+					width:'60',
                     align: 'center',
                     formatter:function(value,row,index){  
 //                                   var e = '<a href="#" mce_href="#" onclick="detali(\''+ row.id + '\')"  target="_blank" >查看详情</a> '; 
-                                  var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看详情</a> ';  
+                                  var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看日志</a> ';  
 
                       return e;  
                       }
@@ -286,6 +289,278 @@
 		
 	});
 
+	
+	//构建小表格
+	function getTableDetail(cont){
+// 		name 角色名字
+// 		actor_id 角色ID(角色表中的ID)
+// 		actor_type 角色类型(human=玩家, mon=怪物, partner=人物的招唤物)
+// 		dungeon_id 副本ID
+// 		race 角色种族
+// 		hp 血量
+// 		en 蓝量
+// 		buffs buff列表(例如 [102,104,123])
+// 		status 特殊状态列表
+// 		skill_id 技能ID
+// 		target 目标ID
+// 	 var obj_JSON = cont.parseJSON(); //由JSON字符串转换为JSON对象
+	 var obj_JSON =  JSON.parse(cont);
+	var _table_html="<table class='table-bordered'>";
+		_table_html+="<tr>"
+// 			alert(JSON.stringify(obj_JSON));
+	 if(obj_JSON.hasOwnProperty("name")){
+			_table_html+="<td>角色名字：";
+				_table_html+=obj_JSON.name;
+			_table_html+="</td>";
+	  }
+	 if(obj_JSON.hasOwnProperty("actor_id")){
+			_table_html+="<td>角色ID：";
+				_table_html+=obj_JSON.actor_id;
+			_table_html+="</td>";
+	  }	
+	 if("dungeon_id" in obj_JSON){
+		 _table_html+="<td>副本ID：";
+			_table_html+=obj_JSON.dungeon_id;
+		_table_html+="</td>";
+	 }
+	 
+	 if("race" in obj_JSON){
+		 _table_html+="<td>角色种族：";
+			_table_html+=obj_JSON.race;
+		_table_html+="</td>";
+	 }
+	 
+	 if("hp" in obj_JSON){
+		 _table_html+="<td>血量：";
+			_table_html+=obj_JSON.hp;
+		_table_html+="</td>";
+	 }
+	 
+	 
+	 if("en" in obj_JSON){
+		 _table_html+="<td>蓝量：";
+			_table_html+=obj_JSON.en;
+		_table_html+="</td>";
+	 }
+	 
+	 //6
+	_table_html+="</tr><tr>";
+
+	 if("buffs" in obj_JSON){
+		 _table_html+="<td>buff列表：";
+			_table_html+=obj_JSON.buffs;
+		_table_html+="</td>";
+	 }
+	 
+	 if("status" in obj_JSON){
+		 _table_html+="<td>特殊状态列表：";
+			_table_html+=obj_JSON.status;
+		_table_html+="</td>";
+	 }
+	  
+	 if("skill_id" in obj_JSON){
+		 _table_html+="<td>技能ID：";
+			_table_html+=obj_JSON.skill_id;
+		_table_html+="</td>";
+	 }
+	 
+	 if("target" in obj_JSON){
+		 _table_html+="<td>目标ID：";
+			_table_html+=obj_JSON.target;
+		_table_html+="</td>";
+	 }
+	 
+	 if("actor_type" in obj_JSON){
+			_table_html+="<td>角色类型：";
+			var v_actory_type=obj_JSON.actor_type;
+			if(obj_JSON.actor_type=="human"){
+				v_actory_type="玩家";
+			}
+			if(obj_JSON.actor_type=="mon"){
+				v_actory_type="怪物";
+			}
+			if(obj_JSON.actor_type=="partner"){
+				v_actory_type="人物的招唤物";
+			}
+			_table_html+=v_actory_type;
+			_table_html+="</td>";
+	  }	
+		_table_html+="<td></td>";
+		//
+	_table_html+="</tr><tr>";
+	
+	
+    //个别几个有的
+//  kill_by 杀人者ID
+// add_bufs buff列表(例如 [102,104,123])
+// adder 添加者ID
+// del_buff_ids 删除BuffID列表(例如 [102,104,123])
+// del_buff_ids 删除BuffID列表(例如 [102,104,123])
+// effect_id 效果ID
+// effect_type 效果类型
+// effect_ids 效果ID列表
+// effect_ids 效果ID列表
+// add_hp 加血量
+// final_hp 加血后的血量
+// add_hp 加血量
+// final_hp 加血后的血量
+// sub_hp 扣血
+// final_hp 扣血后的血量
+// event 触发监听的事件类型
+// skill_id 技能ID
+// target_id 目标ID
+// target_name 目标名字
+
+// hit 命中判定-------=================
+// hurt 伤害值
+// hit_type 伤害类型(位运算叠加) 1 招架 2 暴击 4 闪避 8 生命偷取 16 能量偷取 32 伤害反弹 64 伤害吸收
+// rehurt 反伤
+// hp_steal 偷取HP
+// en_steal 偷取EN
+
+	 if("kill_by" in obj_JSON){
+		 _table_html+="<td> 杀人者ID：";
+			_table_html+=obj_JSON.kill_by;
+		_table_html+="</td>";
+	 }
+	 if("add_bufs" in obj_JSON){
+		 _table_html+="<td>buff列表：";
+			_table_html+=obj_JSON.add_bufs;
+		_table_html+="</td>";
+	 }
+	 if("adder" in obj_JSON){
+		 _table_html+="<td>添加者ID：";
+			_table_html+=obj_JSON.adder;
+		_table_html+="</td>";
+	 }
+	 if("del_buff_ids" in obj_JSON){
+		 _table_html+="<td> 删除BuffID列表：";
+			_table_html+=obj_JSON.del_buff_ids;
+		_table_html+="</td>";
+	 } 
+	 
+	 
+	 if("effect_id" in obj_JSON){
+		 _table_html+="<td> 效果ID：";
+			_table_html+=obj_JSON.effect_id;
+		_table_html+="</td>";
+	 } 
+	 
+	 if("effect_type" in obj_JSON){
+		 _table_html+="<td>效果类型：";
+			_table_html+=obj_JSON.effect_type;
+		_table_html+="</td>";
+	 } 
+	 if("effect_ids" in obj_JSON){
+		 _table_html+="<td>效果ID列表：";
+			_table_html+=obj_JSON.effect_ids;
+		_table_html+="</td>";
+	 } 
+	 if("add_hp" in obj_JSON){
+		 _table_html+="<td>加血量：";
+			_table_html+=obj_JSON.add_hp;
+		_table_html+="</td>";
+	 } 
+	 if("final_hp" in obj_JSON){
+		 _table_html+="<td>加血后的血量：";
+			_table_html+=obj_JSON.final_hp;
+		_table_html+="</td>";
+	 } 
+	 
+// 	 if("add_hp" in obj_JSON){
+// 		 _table_html+="<td>加血量：";
+// 			_table_html+=obj_JSON.add_hp;
+// 		_table_html+="</td>";
+// 	 } 
+// 	 if("final_hp" in obj_JSON){
+// 		 _table_html+="<td>加血后的血量：";
+// 			_table_html+=obj_JSON.final_hp;
+// 		_table_html+="</td>";
+// 	 } 
+	 if("sub_hp" in obj_JSON){
+		 _table_html+="<td>扣血：";
+			_table_html+=obj_JSON.sub_hp;
+		_table_html+="</td>";
+	 } 
+	 if("final_hp" in obj_JSON){
+		 _table_html+="<td>扣血后的血量：";
+			_table_html+=obj_JSON.final_hp;
+		_table_html+="</td>";
+	 } 
+	 if("event" in obj_JSON){
+		 _table_html+="<td>触发监听的事件类型：";
+			_table_html+=obj_JSON.event;
+		_table_html+="</td>";
+	 } 
+// 	 if("skill_id" in obj_JSON){
+// 		 _table_html+="<td>技能ID：";
+// 			_table_html+=obj_JSON.skill_id;
+// 		_table_html+="</td>";
+// 	 } 
+	 if("target_id" in obj_JSON){
+		 _table_html+="<td> 目标ID：";
+			_table_html+=obj_JSON.target_id;
+		_table_html+="</td>";
+	 } 
+	 if("target_name" in obj_JSON){
+		 _table_html+="<td>目标名字：";
+			_table_html+=obj_JSON.target_name;
+		_table_html+="</td>";
+	 } 
+
+	 if("hurt" in obj_JSON){
+		 _table_html+="<td>伤害值：";
+			_table_html+=obj_JSON.hurt;
+		_table_html+="</td>";
+	 } 
+	 if("hit_type" in obj_JSON){
+		 _table_html+="<td>伤害类型：";
+		 var hit_v=obj_JSON.hit_type;
+		 if(hit_v=="1"){
+			 hit_v="招架"; 
+		 }
+		 if(hit_v=="2"){
+			 hit_v="暴击"; 
+		 }
+		 if(hit_v=="4"){
+			 hit_v="闪避"; 
+		 }
+		 if(hit_v=="8"){
+			 hit_v="生命偷取"; 
+		 }
+		 if(hit_v=="16"){
+			 hit_v="能量偷取"; 
+		 }
+		 if(hit_v=="32"){
+			 hit_v="伤害反弹"; 
+		 }
+		 if(hit_v=="64"){
+			 hit_v="伤害吸收"; 
+		 }
+		_table_html+=hit_v;
+		_table_html+="</td>";
+	 } 
+	 
+	 if("rehurt" in obj_JSON){
+		 _table_html+="<td>反伤：";
+			_table_html+=obj_JSON.rehurt;
+		_table_html+="</td>";
+	 } 
+	 if("hp_steal" in obj_JSON){
+		 _table_html+="<td>偷取HP：";
+			_table_html+=obj_JSON.hp_steal;
+		_table_html+="</td>";
+	 } 
+	 if("en_steal" in obj_JSON){
+		 _table_html+="<td>偷取EN：";
+			_table_html+=obj_JSON.en_steal;
+		_table_html+="</td>";
+	 }
+		_table_html+="</tr>";
+		_table_html+="</table>";
+		return _table_html;
+	}
+	
 	
 	$(function(){
 		//初始服务器
