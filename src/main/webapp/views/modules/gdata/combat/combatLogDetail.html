@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 	<title>用户管理</title> -->
+<link href="../../../common/all.css" rel="stylesheet">
+<!-- <link href="../../../common/bootstrap/pagination/bootstrap-table.css" rel="stylesheet"> -->
+<script type="text/javascript" src="../../../common/all.js"></script>
+
+<style type="text/css">
+
+
+
+</style>
+
+</head>
+<body>
+<script type="text/javascript">
+
+var id=getUrlParam("id");
+
+	if(id==null||id==""){
+		alert("id无效");
+	}
+
+	
+$.ajax({
+	url : getContextPath()+"/combat/log/getDetail",
+	type : "GET",
+	//contentType: "application/json; charset=utf-8",
+	dataType : "json",
+	//data :{productVoJson:JSON.stringify(objVo)},
+	data :{"id":id},
+	success : function(returnData,status,XMLHttpRequest)
+	{	
+		$("#_cont").html(returnData);
+	},
+	error : function() {
+		alert("异常！");
+	}
+});
+
+
+
+
+</script>
+
+
+<div id="_cont" style="width: 800px;"></div>
+</body>
+</html>
+
+

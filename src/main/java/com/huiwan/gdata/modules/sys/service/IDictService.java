@@ -1,6 +1,7 @@
 package com.huiwan.gdata.modules.sys.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.huiwan.gdata.common.bean.page.QueryResult;
 import com.huiwan.gdata.modules.sys.entity.Dict;
@@ -25,4 +26,5 @@ public interface IDictService {
 
 	List<Dict> getByType(String type);
 
+	Map<String,String> getByTypeMaps(String type);
 }

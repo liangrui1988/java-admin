@@ -1,6 +1,8 @@
 package com.huiwan.gdata.modules.sys.service.impl;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,6 @@ import com.huiwan.gdata.modules.sys.entity.Dict;
 import com.huiwan.gdata.modules.sys.exception.ObjectExistException;
 import com.huiwan.gdata.modules.sys.mapper.DictMapper;
 import com.huiwan.gdata.modules.sys.service.IDictService;
-
-import freemarker.template.utility.StringUtil;
 
 @Service
 public class DictService implements IDictService {
@@ -96,6 +96,19 @@ public class DictService implements IDictService {
 	@Override
 	public List<Dict> getByType(String type) {
 		return dictMapper.getByType(type);
+	}
+
+	@Override
+	public Map<String, String> getByTypeMaps(String type) {
+		Map<String, String> mpas=new LinkedHashMap<String, String>();
+		List<Dict>  dicts= dictMapper.getByType(type);
+		if(dicts!=null&&dicts.size()>0){
+			for(Dict dict:dicts){
+				mpas.put(dict.getValue(), dict.getName());
+			}
+		}
+
+		return mpas;
 	}
 
 }

@@ -209,12 +209,12 @@ function initRoleCehcked(rolelist,roles){
 // 			    resolveResultBeanIsOk(returnData,status);
 			    if(status!="success")
 			    {
-		    	 alert("请求失败："+data.message);
+		    	 alert("请求失败："+returnData.message);
 			  	 return;
 			    }
 			    if(!returnData.success)
 			  	{
-			      alert("操作失败："+data.message);
+			      alert("操作失败："+returnData.message);
 			      return;
 			  	}
 			  	  alert("操作成功");

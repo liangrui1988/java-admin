@@ -2,10 +2,59 @@ package com.huiwan.gdata.modules.gdata.combat.entity;
 
 public class CombatLog {
 
+	private Long id;
 	private String dt;
+	private String uuid;
+	private Integer serverId;
 	private String server;
+	private String file;
+	private String cont;
 	private String add_hp;
 	private String dungeon_id;
+	
+	
+	
+
+	
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public Integer getServerId() {
+		return serverId;
+	}
+
+	public void setServerId(Integer serverId) {
+		this.serverId = serverId;
+	}
+
+	public String getCont() {
+		return cont;
+	}
+
+	public void setCont(String cont) {
+		this.cont = cont;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getDt() {
 		return dt;

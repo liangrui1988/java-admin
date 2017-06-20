@@ -41,11 +41,8 @@ public class UserService implements IUserService {
 	@Autowired
 	private MenuMapper menuMapper;
 
-
-
 	@Override
-	public QueryResult<UserBean> getUserList(int page, int pagesize,
-			UserVo userVo) {
+	public QueryResult<UserBean> getUserList(int page, int pagesize, UserVo userVo) {
 		Query query = new Query();
 		query.setBean(userVo);
 		query.setPageIndex(page);
@@ -76,15 +73,14 @@ public class UserService implements IUserService {
 	@Override
 	public UserBean get(int userId) {
 		UserBean cacheBean = getCacheUser(userId);
-		//暂不考虑穿透 +暂位
-		if (cacheBean == null || cacheBean.getId() == null
-				|| cacheBean.getId() <= 0) {
+		// 暂不考虑穿透 +暂位
+		if (cacheBean == null || cacheBean.getId() == null || cacheBean.getId() <= 0) {
 			User user = userMapper.get(userId);
-			cacheBean=new UserBean();
+			cacheBean = new UserBean();
 			BeanCopierUtils.copyProperties(user, cacheBean);
 			putCacheUser(userId, cacheBean);
-		}else{
-			logger.debug("get user cache test key:userId:{}=value:{}",userId,cacheBean);
+		} else {
+			logger.debug("get user cache test key:userId:{}=value:{}", userId, cacheBean);
 		}
 		return cacheBean;
 	}
@@ -92,10 +88,11 @@ public class UserService implements IUserService {
 	private UserBean getCacheUser(int userId) {
 		SpringCacheManagerWrapper cacheManager = (SpringCacheManagerWrapper) SysApplicationContext
 				.getBean("cacheManager");
-		if(cacheManager==null){return null;}
+		if (cacheManager == null) {
+			return null;
+		}
 
-		Cache<String, UserBean> cache = cacheManager
-				.getCache(EhCacheKeys.SYS_USER_BEAN);
+		Cache<String, UserBean> cache = cacheManager.getCache(EhCacheKeys.SYS_USER_BEAN);
 		return cache.get(String.valueOf(userId));
 
 	}
@@ -103,34 +100,35 @@ public class UserService implements IUserService {
 	private void putCacheUser(int userId, UserBean cacheBean) {
 		SpringCacheManagerWrapper cacheManager = (SpringCacheManagerWrapper) SysApplicationContext
 				.getBean("cacheManager");
-		if(cacheManager==null){
+		if (cacheManager == null) {
 			return;
 		}
-		if (cacheBean != null && cacheBean.getId() != null
-				&& cacheBean.getId() > 0) {
-			Cache<String, UserBean> cache = cacheManager
-					.getCache(EhCacheKeys.SYS_USER_BEAN);
+		if (cacheBean != null && cacheBean.getId() != null && cacheBean.getId() > 0) {
+			Cache<String, UserBean> cache = cacheManager.getCache(EhCacheKeys.SYS_USER_BEAN);
 			cache.put(String.valueOf(userId), cacheBean);
 		}
 	}
-	
-	
+
 	private void delCacheUser(int userId) {
 		SpringCacheManagerWrapper cacheManager = (SpringCacheManagerWrapper) SysApplicationContext
 				.getBean("cacheManager");
-		if(cacheManager==null){return;}
-		
-			Cache<String, UserBean> cache = cacheManager
-					.getCache(EhCacheKeys.SYS_USER_BEAN);
-			cache.remove(String.valueOf(userId));
+		if (cacheManager == null) {
+			return;
+		}
 
-		
+		Cache<String, UserBean> cache = cacheManager.getCache(EhCacheKeys.SYS_USER_BEAN);
+		cache.remove(String.valueOf(userId));
+
 	}
 
 	@Override
 	public int del(int userId) {
 		delCacheUser(userId);
-		return userMapper.del(userId);
+		int i = userMapper.del(userId);
+		if (i > 0) {
+			return userMapper.delUserRole(userId);
+		}
+		return i;
 	}
 
 	@Override
@@ -141,16 +139,14 @@ public class UserService implements IUserService {
 		// false);
 		// copier.copy(userVo, user, null);
 
-		if (user == null || StringUtils.isBlank(user.getUserName())
-				|| StringUtils.isBlank(user.getPassword())
+		if (user == null || StringUtils.isBlank(user.getUserName()) || StringUtils.isBlank(user.getPassword())
 				|| user.getRoles() == null || user.getRoles().size() <= 0) {
 			return 0;
 		}
 		int count = 0;
 		if (user.getId() != null && user.getId() > 0) {// 修改
 			if (!StringUtils.isBlank(user.getPassword())) {
-				user.setPassword(PassUtil.encryptPassword(user.getPassword(),
-						user.getUserName()));
+				user.setPassword(PassUtil.encryptPassword(user.getPassword(), user.getUserName()));
 			}
 			count = userMapper.updateByPrimaryKeySelective(user);
 			// 用户拥有的角色
@@ -178,15 +174,13 @@ public class UserService implements IUserService {
 				throw new UserExistException("用户已存在");
 			}
 			//
-			user.setPassword(PassUtil.encryptPassword(user.getPassword(),
-					user.getUserName()));
+			user.setPassword(PassUtil.encryptPassword(user.getPassword(), user.getUserName()));
 			count = userMapper.insertSelective(user);
 			if (count > 0) {
 				// 用户拥有的角色
 				for (Role role : user.getRoles()) {
 					if (role.getId() != null && role.getId() > 0) {
-						int countx = userMapper.addUserRole(user.getId(),
-								role.getId());
+						int countx = userMapper.addUserRole(user.getId(), role.getId());
 						// if(countx<=0){
 						// throw new SysRuntimeException("添加角色失败");
 						// }
@@ -210,8 +204,7 @@ public class UserService implements IUserService {
 		}
 
 		if (!StringUtils.isBlank(user.getPassword())) {
-			user.setPassword(PassUtil.encryptPassword(user.getPassword(),
-					user.getUserName()));
+			user.setPassword(PassUtil.encryptPassword(user.getPassword(), user.getUserName()));
 		}
 		int count = userMapper.updateByPrimaryKeySelective(user);
 		// 用户拥有的角色

@@ -87,7 +87,12 @@ public class RoleService implements IRoleService {
 
 	@Override
 	public int del(int id) {
-		return roleMapper.del(id);
+		//删除角色关联
+		int i= roleMapper.del(id);
+		if(i>0){
+			return roleMapper.delRoleMenu(id);
+		}
+		return i;
 	}
 	
 	  /**

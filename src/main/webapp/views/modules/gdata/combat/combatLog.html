@@ -9,41 +9,83 @@
 
 <script type="text/javascript" src="../../../common/My97DatePicker/WdatePicker.js"></script>
 
+<style type="text/css">
+
+.table {
+  table-layout: fixed;
+}
+
+</style>
 
 </head>
 <body>
 
 <!-- breadcrumb  form-search-->
 	<form action="" class="form-inline   " id="_search_form">
+	
+<!-- 	<div class="form-group"> -->
+<!-- 		副本id: <input class="input-xlarge" name="copyId" id="_copyId" -->
+<!-- 			type="text" /> &nbsp; -->
+<!-- 	</div> -->
+	
+		<!-- 服务器 -->
+	   <div class="form-group" >
+<!--                <label class="">服务器：</label> -->
+               <div class="input-group">
+                 服务器： <select name="types" id="_type_servers" class="chosen-select" style="width: 150px;">
+<!--                  <option value="">全服</option> -->
+                  </select>
+               </div>
+      </div>
+      
+      
+   <div class="form-group" >
+         <div class="input-group">
+                 类型： <select name="types" id="_file_types" class="chosen-select" style="width: 150px;">
+            </select>
+      </div>
+    </div>
+    
+    
+    <div class="form-group" >
+         <div class="input-group">
+                 监听对象id： <select name="types" id="_objetc_types" class="chosen-select" style="width: 150px;">
+                 <option value="-2">手动输入</option>
+            </select>
+      </div>
+    </div>
+      
+	<form action="" class="form-inline   " id="_search_form">
 		<div class="form-group">
-		&nbsp;副本id: <input class="input-xlarge" name="copyId" id="_copyId"
-			type="text" /> &nbsp;
+		   监听对象id： <input class="input-xlarge" name="_object_sd_id" id="_object_sd_id" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
 	</div>
     
 	<div class="form-group">
 	<div class="input-daterange input-group" id="datepicker">
 		 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text"
 		     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" /> 
-		结束时间: <input name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
+		结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
 	</div>
 	</div>
+	      
+            
 		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
 			&nbsp;&nbsp;&nbsp;&nbsp;
 		<input id="_refTime"	class="btn btn-primary" type="button" value="刷新/暂停" />
 	</form>
 
-	<table class="rl-page-table" data-height="900"
+	<table class="rl-page-table ui celled structured table span11" data-height="900" data-width="800px"
 		table-data-url="/combat/log/combatList">
-		<thead>
-			<!--  data-height="500" data-sortable="true" -->
-			<tr>
-				<!-- 					<th data-formatter="xuhao" width="10%">序号</th> -->
-				<th data-field="dt" data-sortable="true" width="10%">时间</th>
-				<th data-field="dungeon_id" width="50%">arg1</th>
-				<th data-field="add_hp" width="10%">arg1</th>
-				<!-- 											<a href="business/device/device_crash/log_detail" target="blank" style="color: blue; cursor: pointer;">详情</a> -->
-			</tr>
-		</thead>
+<!-- 		<thead> -->
+<!-- 			<tr> -->
+<!-- 				<th data-field="dt" data-sortable="true" data-width="10%">时间</th> -->
+<!-- 				<th data-field="uuid" data-width="10%">uuid</th> -->
+<!-- 				<th data-field="cont"  data-width="70%" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">原始数据</th> -->
+<!-- 			    <th data-formatter="xuhao"  data-width="10%">序号</th> -->
+				
+<!-- 				<a href="combat/log/log_detail?id=" target="blank" style="color: blue; cursor: pointer;">详情</a> -->
+<!-- 			</tr> -->
+<!-- 		</thead> -->
 	</table>
 	<!-- newx -->
 
@@ -77,12 +119,45 @@
 		        	dt2 : dt2,  
 		        });  
 		    } 
-			//版本
+			//副本
 			var _copyId = $("#_copyId").val();
 			if (_copyId != "" && _copyId != null && _copyId != 'undefined') {
 				parma = $.extend(parma, {
 					copyId : _copyId,
 				});
+			}
+			
+			//服务器
+			var server=$("#_type_servers").val();
+			if (server != "" && server != null && server != 'undefined') {
+				parma = $.extend(parma, {
+					server : server,
+				});
+			}
+			
+			//文件
+			var _file_types=$("#_file_types").val();
+			if (_file_types != "" && _file_types != null && _file_types != 'undefined') {
+				parma = $.extend(parma, {
+					file : _file_types,
+				});
+			}
+			
+			//监听对象
+			var _objetc_types=$("#_objetc_types").val();
+			if (_objetc_types != "" && _objetc_types != null && _objetc_types != 'undefined') {
+				
+				var _uuid="";
+				if(_objetc_types=="-2"){
+					_uuid=$("#_object_sd_id").val();
+				}else{
+					_uuid=_objetc_types;
+				}
+				if (_uuid != "" && _uuid != null && _uuid != 'undefined') {
+					parma = $.extend(parma, {
+						type : _uuid,
+					});
+				}
 			}
 
 			return parma;
@@ -123,6 +198,8 @@
 				striped : true,
 				silent : true,
 				pagination : true,
+				//是否启用排序  
+                sortable: true,  
 				pageList : [ 5, 10, 20, 50, 100, 200 ],
 				// contentType: "application/x-www-form-urlencoded",
 				pageSize : 10,
@@ -130,6 +207,59 @@
 				queryParamsType : 'limit',
 				// search : true,
 				sidePagination : 'server',// 设置为服务器端分页
+				silent: true,  //刷新事件必须设置  
+				columns:[{
+					field: 'dt',
+					sortable:true,
+					title: '时间',
+					align: 'center',
+					width:'80',
+					valign: 'middle'
+				},{
+					field: 'uuid',
+					title: 'uuid',
+					align: 'center',
+					width:'80',
+					valign: 'middle'
+				},{
+					field: 'file',
+					title: '日志类型',
+					align: 'center',
+					width:'80',
+					valign: 'middle'
+				},{
+					field: 'cont',
+					title: '原始日志',
+					width:'500',
+// 					align: 'center',
+					valign: 'middle',
+			       formatter:function(value,row,index){  
+			    	   var cont=row.cont;
+//  			    	   alert(JSON.stringify(row));
+			           var cr= cont.substring(0,151)+".....";
+			           return cr;  
+			        }
+				},{
+					title: '操作',
+                    field: 'id',
+					width:'80',
+                    align: 'center',
+                    formatter:function(value,row,index){  
+//                                   var e = '<a href="#" mce_href="#" onclick="detali(\''+ row.id + '\')"  target="_blank" >查看详情</a> '; 
+                                  var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看详情</a> ';  
+
+                      return e;  
+                      }
+				}],
+				formatLoadingMessage: function () {  
+					return "请稍等，正在加载中...";  
+				},  
+				formatNoMatches: function () {  //没有匹配的结果  
+					return '无符合条件的记录';  
+				},  
+				onLoadError: function (data) {  
+					$('#rl-page-table').bootstrapTable('removeAll');  
+				},  				
 				queryParams : queryParams
 			// ,// 参数
 			// showColumns : true,
@@ -150,20 +280,80 @@
 				getPaginationTable(".rl-page-table",true);
 			},2000);
 		}else{
-			
 			clearInterval(refInterval);
 			ref="true"
 		}
 		
 	});
 
-		
+	
+	$(function(){
+		//初始服务器
+		initDictByType('servers_type',"_type_servers");
+		//初始文件类型
+		initDictByType('_file_types',"_file_types");
+		//初始监听对像
+		initJianTingType();
+	})
+	
+
+	
+	/**
+	*请求监听对象
+	*/
+	function initJianTingType(){
+	
+// 	$("#"+selectId).empty();
+	
+	$.ajax({
+		url : getContextPath()+"/combat/log/getUuids",
+		type : "GET",
+//		contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+// 		data :{"type":type},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+				var data=returnData.data;
+				if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+				{
+					for(var i=0;i<data.length;i++)
+					{
+						var dict=data[i];
+						
+						var html="";
+						html+="<option value='"+dict.value+"' ";
+						//(typeof type_value)!="undefined"&&type_value!=null&&type_value!=""&&
+// 						if(type_value==dict.value)
+// 						{
+// 							html+=" selected='selected' ";
+// 						}
+						
+						html+=">";
+						html+= dict.value+"</option>";
+						
+						$("#_objetc_types").append(html);
+						
+					}
+				}
+				return returnData.data;
+			}
+		},
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+}
+	
+	
+	
+	function detali(id){
+		location.href=getContextPath() + "/combat/log/getDetail?id="+id;
+	}
 	</script>
 
 
-
-	<!-- <script type="text/javascript" -->
-	<!-- 			src="../../../common/bootstrap/pagination/page.js" /> -->
 
 
 
