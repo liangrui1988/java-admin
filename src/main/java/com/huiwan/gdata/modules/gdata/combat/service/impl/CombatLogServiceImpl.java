@@ -193,11 +193,22 @@ public class CombatLogServiceImpl implements CombatLogService {
 	}
 
 	@Override
-	public List<Dict> getObjTypes() {
-		String sql="SELECT DISTINCT(cont->>'uuid') uuid,time FROM zl_log order by time desc LIMIT 10";
-		log.info("sql:>>>\n{}", sql.toString() );
-		List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
-		return data;
+	public List<Dict> getObjTypes(int type) {
+		if(type==1){
+//			String sql="SELECT DISTINCT(cont->>'uuid') uuid,time FROM zl_log order by time desc LIMIT 10";
+			String sql="SELECT DISTINCT (cont->>'uuid') arg1 FROM(select * from zl_log order by time)  as t1 LIMIT 10";
+			log.info("sql:>>>\n{}", sql.toString() );
+			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
+			return data;
+		}
+		if(type==2)
+		{
+			String sql="SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log order by time)  as t1 LIMIT 10";
+			log.info("sql:>>>\n{}", sql.toString() );
+			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
+			return data;
+		}
+		return null;
 	}
 	
 	
@@ -205,7 +216,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		@Override
 		public Dict mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Dict bean = new Dict();
-			bean.setValue(rs.getString("uuid"));
+			bean.setValue(rs.getString("arg1"));
 			return bean;
 		}
 	};

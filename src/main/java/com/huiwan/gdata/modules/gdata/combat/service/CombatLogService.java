@@ -23,5 +23,5 @@ public interface CombatLogService {
 
 	CombatLog getDetail(Integer id);
 
-	List<Dict> getObjTypes();
+	List<Dict> getObjTypes(int type);
 }

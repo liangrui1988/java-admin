@@ -1,6 +1,7 @@
 package com.huiwan.gdata.modules.sys.web.interceptor;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,11 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.huiwan.gdata.common.annotatiions.PermissionAnnot;
 import com.huiwan.gdata.common.bean.ResultBean;
 import com.huiwan.gdata.common.constants.RespHeaderConstans;
+import com.huiwan.gdata.common.constants.enums.MenuReadWrite;
 import com.huiwan.gdata.common.exception.MessageCode;
 import com.huiwan.gdata.common.utils.IpUtil;
 import com.huiwan.gdata.common.utils.http.WebHelp;
@@ -49,6 +53,26 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 		if (!isUserLogin(request, response)) {
 			return false;
 		}
+		// 要限处理
+		// 只有当GET请求是请求静态文件时(在spring配置文件里会配置静态文件的URI)，handler的实际类型会是DefaultServletHttpRequestHandler
+		if (handler instanceof HandlerMethod) {
+			HandlerMethod method = (HandlerMethod) handler;
+			PermissionAnnot permissionAnnot = method.getMethod().getAnnotation(PermissionAnnot.class);
+			if(permissionAnnot!=null){
+				// 如果这个权限标记为只写，就不会做为一个权限拦截了
+				if (permissionAnnot.readWrite().getValue() != MenuReadWrite.Write.getValue()) {
+					Set<String> set = userUtils.getUserPermisson();
+					if (!set.contains(permissionAnnot.id())) {// 如果没有权限
+						logger.error(
+								"permissionAnnotResolver >>> resolveArgument throw new org.apache.shiro.authz.AuthorizationException(\"没有访问权限\")==id:{}",
+								permissionAnnot.id());
+						throw new org.apache.shiro.authz.AuthorizationException("没有访问权限");
+						// return false;
+					}
+				}
+			}
+		}
+
 		try {
 			// 日志处理
 			UserBean user = userUtils.getUserBean();
@@ -65,9 +89,9 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 			String parameters = WebHelp.requestParametersToString(request);
 			log.setParameters(parameters);
 			log.setMethod(request.getMethod());
-			ExecutorService cachedThreadPool = Executors.newCachedThreadPool();  
+			ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 			cachedThreadPool.execute(new SysLogRunnable(log));
-//			new Thread(new SysLogRunnable(log)).start();
+			// new Thread(new SysLogRunnable(log)).start();
 		} catch (Exception e) {
 			logger.error("写入系统日志异常!");
 			e.printStackTrace();

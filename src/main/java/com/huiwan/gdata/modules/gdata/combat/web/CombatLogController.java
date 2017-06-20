@@ -54,7 +54,21 @@ public class CombatLogController {
 	public ResultBean getUuids() {
 		ResultBean rb = new ResultBean();
 		try {
-			List<Dict> result = combatLogService.getObjTypes();
+			List<Dict> result = combatLogService.getObjTypes(1);
+			rb.setData(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
+		}
+		return rb;
+	}
+	
+	@RequestMapping(value = { "getCopyids" }, method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean getCopyids() {
+		ResultBean rb = new ResultBean();
+		try {
+			List<Dict> result = combatLogService.getObjTypes(2);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();

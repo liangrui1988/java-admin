@@ -39,7 +39,7 @@
 	<mvc:argument-resolvers>
 	<bean class="com.huiwan.gdata.common.utils.converter.JSONConverter" />
 	<bean class="com.huiwan.gdata.modules.sys.web.converter.permissionAnnotResolver" />
-	<bean class="com.huiwan.gdata.modules.sys.shiro.CurrentUserMethodArgumentResolver" />
+<!-- 	<bean class="com.huiwan.gdata.modules.sys.shiro.CurrentUserMethodArgumentResolver" /> -->
 <!-- 	<bean class="com.huiwan.gdata.modules.sys.web.converter.ValidateHandlerResolver" /> -->
 	<bean class="com.huiwan.gdata.modules.sys.web.converter.ValidateMethodParamHandlerResolver" />
 	</mvc:argument-resolvers>

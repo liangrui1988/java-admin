@@ -60,6 +60,20 @@
 		<div class="form-group">
 		   监听对象id： <input class="input-xlarge" name="_object_sd_id" id="_object_sd_id" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
 	</div>
+	
+	 <div class="form-group" >
+         <div class="input-group">
+                 副本id： <select name="copyId" id="_copy_types" class="chosen-select" style="width: 150px;">
+                 <option value="-2">手动输入</option>
+            </select>
+      </div>
+    </div>
+      
+	<form action="" class="form-inline   " id="_search_form">
+		<div class="form-group">
+		   副本id： <input class="input-xlarge" name="copy_sd_types" id="_copy_sd_types" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
+	</div>
+	
     
 	<div class="form-group">
 	<div class="input-daterange input-group" id="datepicker">
@@ -67,9 +81,10 @@
 		     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" /> 
 		结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
 	</div>
-	</div>
-	      
-            
+	
+
+	
+	</div> 
 		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
 			&nbsp;&nbsp;&nbsp;&nbsp;
 		<input id="_refTime"	class="btn btn-primary" type="button" value="刷新/暂停" />
@@ -157,6 +172,22 @@
 				if (_uuid != "" && _uuid != null && _uuid != 'undefined') {
 					parma = $.extend(parma, {
 						type : _uuid,
+					});
+				}
+			}
+			//副本id
+					//监听对象
+			var _copy_types=$("#_copy_types").val();
+			if (_copy_types != "" && _copy_types != null && _copy_types != 'undefined') {
+				var _copyId="";
+				if(_copy_types=="-2"){
+					_copyId=$("#_copy_sd_types").val();
+				}else{
+					_copyId=_objetc_types;
+				}
+				if (_copyId != "" && _copyId != null && _copyId != 'undefined') {
+					parma = $.extend(parma, {
+						copyId : _copyId,
 					});
 				}
 			}
@@ -269,9 +300,6 @@
 			// showRefresh : true
 			});
 		};
-		
-		
-		
 		
 	//定时
 	var ref = "true";
@@ -569,6 +597,8 @@
 		initDictByType('_file_types',"_file_types");
 		//初始监听对像
 		initJianTingType();
+		//初始副本
+		initCopyIDsType();
 	})
 	
 
@@ -576,7 +606,7 @@
 	/**
 	*请求监听对象
 	*/
-	function initJianTingType(){
+function initJianTingType(){
 	
 // 	$("#"+selectId).empty();
 	
@@ -620,8 +650,36 @@
 		}
 	});
 }
-	
-	
+
+function initCopyIDsType(){
+		$.ajax({
+			url : getContextPath()+"/combat/log/getCopyids",
+			type : "GET",
+			dataType : "json",
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+					var data=returnData.data;
+					if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+					{
+						for(var i=0;i<data.length;i++)
+						{
+							var dict=data[i];
+							var html="";
+							html+="<option value='"+dict.value+"' ";
+							html+=">";
+							html+= dict.value+"</option>";
+							$("#_copy_types").append(html);
+						}
+					}
+					return returnData.data;
+				}
+			},
+			error : function() {
+				alert("请求异常！");
+			}
+		});
+}
 	
 	function detali(id){
 		location.href=getContextPath() + "/combat/log/getDetail?id="+id;
