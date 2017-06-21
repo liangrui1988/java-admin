@@ -16,6 +16,10 @@
  word-wrap: break-word; word-break: normal;
 }
 
+#exampleModal {
+ word-wrap: break-word; word-break: normal;
+}
+
 </style>
 
 </head>
@@ -87,7 +91,7 @@
 	</div> 
 		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
 			&nbsp;&nbsp;&nbsp;&nbsp;
-		<input id="_refTime"	class="btn btn-primary" type="button" value="刷新/暂停" />
+		<input id="_refTime"	class="btn btn-primary" type="button" value="互斥自动替换" />
 	</form>
 
 	<table class="rl-page-table ui celled structured table span11" data-height="900" data-width="800px"
@@ -103,6 +107,27 @@
 <!-- 			</tr> -->
 <!-- 		</thead> -->
 	</table>
+	
+	
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >  
+    <div class="modal-dialog" role="document">  
+        <div class="modal-content">  
+            <div class="modal-header">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  
+                        aria-hidden="true">×</span></button>  
+                <h4 class="modal-title" id="exampleModalLabel">日志信息</h4>  
+            </div>  
+            <div class="modal-body" >  
+      
+            </div>  
+            <div class="modal-footer">  
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+
+
 	<!-- newx -->
 
 <!-- 	<script type="text/javascript" -->
@@ -279,8 +304,9 @@
 					width:'60',
                     align: 'center',
                     formatter:function(value,row,index){  
-//                                   var e = '<a href="#" mce_href="#" onclick="detali(\''+ row.id + '\')"  target="_blank" >查看详情</a> '; 
-                                  var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看日志</a> ';  
+//                                   var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看日志</a> ';  
+                                  var e = '<a   data-toggle="modal" data-target="#exampleModal"   data-whatever="'+row.id+'" >查看日志</a> '; 
+                                     
 
                       return e;  
                       }
@@ -680,6 +706,57 @@ function initCopyIDsType(){
 			}
 		});
 }
+
+//禁用 启用
+$("#_objetc_types").change(function(){
+	var t_v= $(this).val();
+	if(t_v=="-2"){
+		$("#_object_sd_id").removeAttr("disabled");
+	}else{
+		$("#_object_sd_id").val("");
+		$("#_object_sd_id").attr("disabled","disabled");
+	}
+});
+
+//禁用 启用
+$("#_copy_types").change(function(){
+	var t_v= $(this).val();
+	if(t_v=="-2"){
+		$("#_copy_sd_types").removeAttr("disabled");
+	}else{
+		$("#_copy_sd_types").val("");
+		$("#_copy_sd_types").attr("disabled","disabled");
+	}
+});
+
+
+//弹出层
+
+ $('#exampleModal').on('show.bs.modal', function (event) {  
+        var button = $(event.relatedTarget) // 触发事件的按钮  
+        var id = button.data('whatever') // 解析出data-whatever内容  
+        var modal = $(this)  
+   	if(id==null||id==""){
+   		alert("id无效");
+   	}
+        
+    $.ajax({
+    	url : getContextPath()+"/combat/log/getDetail",
+    	type : "GET",
+    	dataType : "json",
+    	data :{"id":id},
+    	success : function(returnData,status,XMLHttpRequest)
+    	{	
+//     		$("#_cont").html(returnData);
+            $('.modal-body').html(returnData)  
+    	},
+    	error : function() {
+    		alert("异常！");
+    	}
+    });
+        
+    })  
+    
 	
 	function detali(id){
 		location.href=getContextPath() + "/combat/log/getDetail?id="+id;
