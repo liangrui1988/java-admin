@@ -508,6 +508,12 @@
 			_table_html+=obj_JSON.effect_id;
 		_table_html+="</td>";
 	 } 
+	 if("effect_ids" in obj_JSON){
+		 _table_html+="<td> 效果ID列表：";
+			_table_html+=obj_JSON.effect_ids;
+		_table_html+="</td>";
+	 }
+	 
 	 
 	 if("effect_type" in obj_JSON){
 		 _table_html+="<td>效果类型：";
