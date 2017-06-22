@@ -12,15 +12,21 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <import resource="core/application-core.xml" />
     
-    <!-- 数据库 -->
-	<bean id="dataSource"  parent="baseDataSource" p:url="${jdbc.url}" />
+    <!--系统 数据库 -->
+	<bean id="dataSource"  parent="baseDataSource" p:url="${jdbc.url}" p:username="${jdbc.username}"  p:password="${jdbc.password}"/>
+	<!-- 日志数据库 -->
+    <bean id="psqlGDataSource"  parent="baseDataSource" p:url="${jdbc.psql_game_log.url}" p:username="${jdbc.psql_game_log.username}"  p:password="${jdbc.psql_game_log.password}"/>
+	
 	<!-- mybatis映射 配置-->
 	 <import resource="mybatis/application-data-dao.xml"/>
-<!-- 	<bean id="txManager" -->
-<!-- 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
-<!-- 		<property name="dataSource" ref="dataSource" /> -->
-<!-- 	</bean> -->
-<!-- 	<tx:annotation-driven transaction-manager="txManager" /> -->
+<!-- postgres 暂不用mybatis处理 用spring dao	 <import resource="mybatis/application-psql-gdata-dao.xml"/> -->
+
+
+
+	<!-- 控制服务器日志数据源配置 -->
+		<bean id="xLogDataSource"  parent="baseDataSource" p:url="${jdbc.log_x_url}" p:username="${jdbc.log_x_username}"  p:password="${jdbc.log_x_password}"/>
+	
+	
     <!-- 定时任务 -->
 	<task:annotation-driven  executor="myExecutor" scheduler="myScheduler" />
     <task:executor id="myExecutor" pool-size="5" />
@@ -29,20 +35,19 @@
     <aop:aspectj-autoproxy />
     <!-- AutowiredAnnotationBeanPostProcessor、CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor 以及 RequiredAnnotationBeanPostProcessor 这 4 个BeanPostProcessor。 -->
     <context:annotation-config/>
-    <!--<mvc:annotation-driven/> -->
     <mvc:annotation-driven>
 	<mvc:argument-resolvers>
-	<bean class="com.rui.pro1.common.utils.converter.JSONConverter" />
-	<bean class="com.rui.pro1.modules.sys.web.converter.permissionAnnotResolver" />
-	<bean class="com.rui.pro1.modules.sys.shiro.CurrentUserMethodArgumentResolver" />
-<!-- 	<bean class="com.rui.pro1.modules.sys.web.converter.ValidateHandlerResolver" /> -->
-	<bean class="com.rui.pro1.modules.sys.web.converter.ValidateMethodParamHandlerResolver" />
+	<bean class="com.huiwan.gdata.common.utils.converter.JSONConverter" />
+	<bean class="com.huiwan.gdata.modules.sys.web.converter.permissionAnnotResolver" />
+<!-- 	<bean class="com.huiwan.gdata.modules.sys.shiro.CurrentUserMethodArgumentResolver" /> -->
+<!-- 	<bean class="com.huiwan.gdata.modules.sys.web.converter.ValidateHandlerResolver" /> -->
+	<bean class="com.huiwan.gdata.modules.sys.web.converter.ValidateMethodParamHandlerResolver" />
 	</mvc:argument-resolvers>
 	<mvc:message-converters>
 		<bean
 			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 			<property name="objectMapper">
-				<bean class="com.rui.pro1.common.utils.converter.ResponseNullUtil"></bean>
+				<bean class="com.huiwan.gdata.common.utils.converter.ResponseNullUtil"></bean>
 			</property>
 		</bean>
 	</mvc:message-converters>  
@@ -60,19 +65,8 @@
 			<mvc:exclude-mapping path="/unauthorized"/>
 			<mvc:exclude-mapping path="/jcaptcha.jpg"/>
 			<mvc:exclude-mapping path="/loginPage"/>
-			<bean class="com.rui.pro1.modules.sys.web.interceptor.SysWebRequestInterceptor"/> 
+			<bean class="com.huiwan.gdata.modules.sys.web.interceptor.SysWebRequestInterceptor"/> 
 		</mvc:interceptor>
-<!-- 			<mvc:interceptor> -->
-<!-- 		     <mvc:mapping path="/**"/> -->
-<!-- 			<mvc:exclude-mapping path="/views/**"/> -->
-<!-- 			<mvc:exclude-mapping path="/login"/> -->
-<!-- 			<mvc:exclude-mapping path="/favicon.ico"/> -->
-<!-- 			<mvc:exclude-mapping path="/logout"/> -->
-<!-- 			<mvc:exclude-mapping path="/unauthorized"/> -->
-<!-- 			<mvc:exclude-mapping path="/jcaptcha.jpg"/> -->
-<!-- 			<mvc:exclude-mapping path="/loginPage"/> -->
-<!-- 			<bean class="com.rui.pro1.modules.sys.web.interceptor.VailInterceptor"/>  -->
-<!-- 		</mvc:interceptor> -->
 	</mvc:interceptors>  
 
 	<bean id="viewResolver"
@@ -95,7 +89,7 @@
 </bean>  
 	
 <!-- 获取bean -->
-<bean id="sysApplicationContext" class="com.rui.pro1.common.utils.spring.SysApplicationContext">
+<bean id="sysApplicationContext" class="com.huiwan.gdata.common.utils.spring.SysApplicationContext">
 </bean>
 
 </beans>

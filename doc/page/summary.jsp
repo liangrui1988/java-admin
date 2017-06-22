@@ -21,8 +21,7 @@
 	
 	<style type="text/css">
 	.ui.selection.dropdown{
-	 width: 260px;
-	}
+	 width: 260px;	}
 	</style>
 </head>
 

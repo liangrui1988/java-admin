@@ -38,7 +38,7 @@
 	</listener>
 	
 	<listener>
-		<listener-class>com.rui.pro1.modules.sys.web.listener.ProRequestListener</listener-class>
+		<listener-class>com.huiwan.gdata.modules.sys.web.listener.ProRequestListener</listener-class>
 	</listener>
 
 	<!-- alibaba -->
@@ -111,7 +111,7 @@
 
 	<filter>  
 		  <filter-name>JCaptchaFilter</filter-name>  
-		  <filter-class>com.rui.pro1.modules.sys.shiro.jcaptcha.JCaptchaFilter</filter-class>  
+		  <filter-class>com.huiwan.gdata.modules.sys.shiro.jcaptcha.JCaptchaFilter</filter-class>  
 	 </filter>
 	<filter-mapping>  
 	    <filter-name>JCaptchaFilter</filter-name>  
@@ -121,7 +121,7 @@
 
 <!-- 	<filter> -->
 <!-- 		<filter-name>sitemeshFilter</filter-name> -->
-<!-- 		<filter-class>com.rui.pro1.common.web.filter.SiteMeshFilter</filter-class> -->
+<!-- 		<filter-class>com.huiwan.gdata.common.web.filter.SiteMeshFilter</filter-class> -->
 <!-- 	</filter> -->
 <!-- 	<filter-mapping> -->
 <!-- 		<filter-name>sitemeshFilter</filter-name> -->
@@ -132,8 +132,8 @@
 
 	
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
 		<welcome-file>views/index.html</welcome-file>
+<!-- 		<welcome-file>/</welcome-file> -->
 	</welcome-file-list>
 
 

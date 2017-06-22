@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rui.pro1.modules.sys.mapper.RoleMapper">
+<mapper namespace="com.huiwan.gdata.modules.sys.mapper.RoleMapper">
 
 	<!--=========================查询数据返回集合 配置====================================================== -->
-	<resultMap type="com.rui.pro1.modules.sys.entity.Role" id="resultMapId">
+	<resultMap type="com.huiwan.gdata.modules.sys.entity.Role" id="resultMapId">
 		    <id column="id" jdbcType="INTEGER" property="id" />
 		    <result column="name" jdbcType="VARCHAR" property="name" />
 		    <result column="status" jdbcType="INTEGER" property="status" />
@@ -37,7 +37,7 @@
 		</where>
 	</sql>
 	<!--=========================查询搜索 ============================================================================= -->
-	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"
+	<select id="queryPages" parameterType="com.huiwan.gdata.common.bean.page.Query"
 		resultMap="resultMapId">
 		select * from sys_role
 		<include refid="searchField" />
@@ -48,7 +48,7 @@
 
 
 	<select id="getCount" resultType="long"
-		parameterType="com.rui.pro1.common.bean.page.Query">
+		parameterType="com.huiwan.gdata.common.bean.page.Query">
 		select count(*) from sys_role
 		<include refid="searchField" />
 	</select>
@@ -71,7 +71,7 @@
 
 
 
-<insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Role" useGeneratedKeys="true" keyProperty="id">
+<insert id="insert" parameterType="com.huiwan.gdata.modules.sys.entity.Role" useGeneratedKeys="true" keyProperty="id">
     insert into sys_role (id, name, status, 
       types, create_time, update_time, 
       create_by_id, update_by_id, office_id, 
@@ -81,7 +81,7 @@
       #{createById,jdbcType=INTEGER}, #{updateById,jdbcType=INTEGER}, #{officeId,jdbcType=INTEGER}, 
       #{remake,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.Role" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.huiwan.gdata.modules.sys.entity.Role" useGeneratedKeys="true" keyProperty="id">
     insert into sys_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -167,7 +167,7 @@
 <!-- 		</set> -->
 <!-- 	</sql> -->
 
-<!-- 	<update id="update" parameterType="com.rui.pro1.modules.sys.entity.Role"> -->
+<!-- 	<update id="update" parameterType="com.huiwan.gdata.modules.sys.entity.Role"> -->
 <!-- 		update sys_role -->
 <!-- 		<include refid="dbUpdateField" /> -->
 <!-- 		where id=#{id} -->
@@ -175,7 +175,7 @@
 
 
 
-<update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.Role">
+<update id="updateByPrimaryKeySelective" parameterType="com.huiwan.gdata.modules.sys.entity.Role">
     update sys_role
     <set>
       <if test="name != null">
@@ -208,7 +208,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.Role">
+  <update id="updateByPrimaryKey" parameterType="com.huiwan.gdata.modules.sys.entity.Role">
     update sys_role
     set name = #{name,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 	<title>用户管理</title> -->
+<link href="../../../common/all.css" rel="stylesheet">
+<!-- <link href="../../../common/bootstrap/pagination/bootstrap-table.css" rel="stylesheet"> -->
+
+<script type="text/javascript" src="../../../common/all.js"></script>
+
+<script type="text/javascript" src="../../../common/My97DatePicker/WdatePicker.js"></script>
+
+<style type="text/css">
+
+.table {
+  table-layout: fixed;
+ word-wrap: break-word; word-break: normal;
+}
+
+#exampleModal {
+ word-wrap: break-word; word-break: normal;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- breadcrumb  form-search-->
+	<form action="" class="form-inline   " id="_search_form">
+	
+<!-- 	<div class="form-group"> -->
+<!-- 		副本id: <input class="input-xlarge" name="copyId" id="_copyId" -->
+<!-- 			type="text" /> &nbsp; -->
+<!-- 	</div> -->
+	
+		<!-- 服务器 -->
+	   <div class="form-group" >
+<!--                <label class="">服务器：</label> -->
+               <div class="input-group">
+                 服务器： <select name="types" id="_type_servers" class="chosen-select" style="width: 150px;">
+<!--                  <option value="">全服</option> -->
+                  </select>
+               </div>
+      </div>
+      
+      
+   <div class="form-group" >
+         <div class="input-group">
+                 类型： <select name="types" id="_file_types" class="chosen-select" style="width: 150px;">
+            </select>
+      </div>
+    </div>
+    
+    
+    <div class="form-group" >
+         <div class="input-group">
+                 监听对象id： <select name="types" id="_objetc_types" class="chosen-select" style="width: 150px;">
+                 <option value="-2">手动输入</option>
+            </select>
+      </div>
+    </div>
+      
+	<form action="" class="form-inline   " id="_search_form">
+		<div class="form-group">
+		   监听对象id： <input class="input-xlarge" name="_object_sd_id" id="_object_sd_id" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
+	</div>
+	
+	 <div class="form-group" >
+         <div class="input-group">
+                 副本id： <select name="copyId" id="_copy_types" class="chosen-select" style="width: 150px;">
+                 <option value="-2">手动输入</option>
+            </select>
+      </div>
+    </div>
+      
+	<form action="" class="form-inline   " id="_search_form">
+		<div class="form-group">
+		   副本id： <input class="input-xlarge" name="copy_sd_types" id="_copy_sd_types" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
+	</div>
+	
+    
+	<div class="form-group">
+	<div class="input-daterange input-group" id="datepicker">
+		 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text"
+		     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" /> 
+		结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
+	</div>
+	
+
+	
+	</div> 
+		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		<input id="_refTime"	class="btn btn-primary" type="button" value="互斥自动替换" />
+	</form>
+
+	<table class="rl-page-table ui celled structured table span11" data-height="900" data-width="800px"
+		table-data-url="/combat/log/combatList">
+<!-- 		<thead> -->
+<!-- 			<tr> -->
+<!-- 				<th data-field="dt" data-sortable="true" data-width="10%">时间</th> -->
+<!-- 				<th data-field="uuid" data-width="10%">uuid</th> -->
+<!-- 				<th data-field="cont"  data-width="70%" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">原始数据</th> -->
+<!-- 			    <th data-formatter="xuhao"  data-width="10%">序号</th> -->
+				
+<!-- 				<a href="combat/log/log_detail?id=" target="blank" style="color: blue; cursor: pointer;">详情</a> -->
+<!-- 			</tr> -->
+<!-- 		</thead> -->
+	</table>
+	
+	
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >  
+    <div class="modal-dialog" role="document">  
+        <div class="modal-content">  
+            <div class="modal-header">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  
+                        aria-hidden="true">×</span></button>  
+                <h4 class="modal-title" id="exampleModalLabel">日志信息</h4>  
+            </div>  
+            <div class="modal-body" >  
+      
+            </div>  
+            <div class="modal-footer">  
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+
+
+	<!-- newx -->
+
+<!-- 	<script type="text/javascript" -->
+<!-- 		src="../../../common/bootstrap/pagination/bootstrap-table.js" /> -->
+<!-- 	<script type="text/javascript" -->
+<!-- 		src="../../../common/bootstrap/pagination/bootstrap-table-zh-CN.js" /> -->
+
+  <link href="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.css" rel="stylesheet">
+	<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
+	
+	
+	
+	
+
+	<script type="text/javascript">
+		//设置传入参数  
+		function queryParams(parma) {
+			// 获取查询条件  
+		    var dt1 =$("#d5221").val();  
+		    var dt2 = $("#d5222").val();  
+		    if (dt1 != "" && dt1 != null && dt1 != 'undefined') {  
+		        parma = $.extend(parma, {  
+		        	dt1 : dt1,  
+		        });  
+		    }  
+
+		    if (dt2 != "" && dt2 != null && dt2 != 'undefined') {  
+		        parma = $.extend(parma, {  
+		        	dt2 : dt2,  
+		        });  
+		    } 
+			//副本
+			var _copyId = $("#_copyId").val();
+			if (_copyId != "" && _copyId != null && _copyId != 'undefined') {
+				parma = $.extend(parma, {
+					copyId : _copyId,
+				});
+			}
+			
+			//服务器
+			var server=$("#_type_servers").val();
+			if (server != "" && server != null && server != 'undefined') {
+				parma = $.extend(parma, {
+					server : server,
+				});
+			}
+			
+			//文件
+			var _file_types=$("#_file_types").val();
+			if (_file_types != "" && _file_types != null && _file_types != 'undefined') {
+				parma = $.extend(parma, {
+					file : _file_types,
+				});
+			}
+			
+			//监听对象
+			var _objetc_types=$("#_objetc_types").val();
+			if (_objetc_types != "" && _objetc_types != null && _objetc_types != 'undefined') {
+				
+				var _uuid="";
+				if(_objetc_types=="-2"){
+					_uuid=$("#_object_sd_id").val();
+				}else{
+					_uuid=_objetc_types;
+				}
+				if (_uuid != "" && _uuid != null && _uuid != 'undefined') {
+					parma = $.extend(parma, {
+						type : _uuid,
+					});
+				}
+			}
+			//副本id
+					//监听对象
+			var _copy_types=$("#_copy_types").val();
+			if (_copy_types != "" && _copy_types != null && _copy_types != 'undefined') {
+				var _copyId="";
+				if(_copy_types=="-2"){
+					_copyId=$("#_copy_sd_types").val();
+				}else{
+					_copyId=_objetc_types;
+				}
+				if (_copyId != "" && _copyId != null && _copyId != 'undefined') {
+					parma = $.extend(parma, {
+						copyId : _copyId,
+					});
+				}
+			}
+
+			return parma;
+		}
+
+		$(function() {
+
+			//		function xuhao(r, v, i) {
+			//		return i + 1;
+			//	}
+			//初始化表  
+			getPaginationTable(".rl-page-table", false);
+
+		});
+		
+		//查询
+		$("#_search_submit").click(
+			function(){
+				getPaginationTable(".rl-page-table",true);
+		});
+		
+
+		/**
+		*分页
+		**/
+		function getPaginationTable(table, flag) {
+			$(table).bootstrapTable('removeAll');
+			var uri = $(table).attr('table-data-url');
+			if (flag) {// null undefinded "" NaN typeof
+				$(table).bootstrapTable('refresh', queryParams);//刷新
+				return;
+			}
+
+			$(table).bootstrapTable({
+				method : 'get', // 这里要设置为get，不知道为什么 设置post获取不了
+				url : getContextPath() + uri,
+				cache : false,
+				striped : true,
+				silent : true,
+				pagination : true,
+				//是否启用排序  
+                sortable: true,  
+				pageList : [ 5, 10, 20, 50, 100, 200 ],
+				// contentType: "application/x-www-form-urlencoded",
+				pageSize : 10,
+				// pageNumber : 1,
+				queryParamsType : 'limit',
+				// search : true,
+				sidePagination : 'server',// 设置为服务器端分页
+				silent: true,  //刷新事件必须设置  
+				columns:[{
+					field: 'dt',
+					sortable:true,
+					title: '时间',
+					align: 'center',
+					width:'60',
+					valign: 'middle'
+				},{
+					field: 'uuid',
+					title: 'uuid',
+					align: 'center',
+					width:'60',
+					valign: 'middle'
+				},{
+					field: 'file',
+					title: '日志类型',
+					align: 'center',
+					width:'60',
+					valign: 'middle'
+				},{
+					field: 'cont',
+					title: '详细',
+					width:'500',
+// 					align: 'center',
+					valign: 'middle',
+			       formatter:function(value,row,index){  
+			    	   var cont=row.cont;
+// 			    	   var obj = cont.parseJSON(); //由JSON字符串转换为JSON对象
+//  			       alert(JSON.stringify(row));
+// 			           var cr= cont.substring(0,151)+".....";
+				       var _detail_table=getTableDetail(cont);
+			           return _detail_table;  
+			        }
+				},{
+					title: '操作',
+                    field: 'id',
+					width:'60',
+                    align: 'center',
+                    formatter:function(value,row,index){  
+//                                   var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看日志</a> ';  
+                                  var e = '<a   data-toggle="modal" data-target="#exampleModal"   data-whatever="'+row.id+'" >查看日志</a> '; 
+                                     
+
+                      return e;  
+                      }
+				}],
+				formatLoadingMessage: function () {  
+					return "请稍等，正在加载中...";  
+				},  
+				formatNoMatches: function () {  //没有匹配的结果  
+					return '无符合条件的记录';  
+				},  
+				onLoadError: function (data) {  
+					$('#rl-page-table').bootstrapTable('removeAll');  
+				},  				
+				queryParams : queryParams
+			// ,// 参数
+			// showColumns : true,
+			// showRefresh : true
+			});
+		};
+		
+	//定时
+	var ref = "true";
+	var refInterval="";
+	$("#_refTime").click(function(){
+		if(ref=="true"){
+			ref="false"//切换
+			refInterval=setInterval(function(){
+				getPaginationTable(".rl-page-table",true);
+			},2000);
+		}else{
+			clearInterval(refInterval);
+			ref="true"
+		}
+		
+	});
+
+	
+	//构建小表格
+	function getTableDetail(cont){
+// 		name 角色名字
+// 		actor_id 角色ID(角色表中的ID)
+// 		actor_type 角色类型(human=玩家, mon=怪物, partner=人物的招唤物)
+// 		dungeon_id 副本ID
+// 		race 角色种族
+// 		hp 血量
+// 		en 蓝量
+// 		buffs buff列表(例如 [102,104,123])
+// 		status 特殊状态列表
+// 		skill_id 技能ID
+// 		target 目标ID
+// 	 var obj_JSON = cont.parseJSON(); //由JSON字符串转换为JSON对象
+	 var obj_JSON =  JSON.parse(cont);
+	var _table_html="<table class='table-bordered'>";
+		_table_html+="<tr>"
+// 			alert(JSON.stringify(obj_JSON));
+	 if(obj_JSON.hasOwnProperty("name")){
+			_table_html+="<td>角色名字：";
+				_table_html+=obj_JSON.name;
+			_table_html+="</td>";
+	  }
+	 if(obj_JSON.hasOwnProperty("actor_id")){
+			_table_html+="<td>角色ID：";
+				_table_html+=obj_JSON.actor_id;
+			_table_html+="</td>";
+	  }	
+	 if("dungeon_id" in obj_JSON){
+		 _table_html+="<td>副本ID：";
+			_table_html+=obj_JSON.dungeon_id;
+		_table_html+="</td>";
+	 }
+	 
+	 if("race" in obj_JSON){
+		 _table_html+="<td>角色种族：";
+			_table_html+=obj_JSON.race;
+		_table_html+="</td>";
+	 }
+	 
+	 if("hp" in obj_JSON){
+		 _table_html+="<td>血量：";
+			_table_html+=obj_JSON.hp;
+		_table_html+="</td>";
+	 }
+	 
+	 
+	 if("en" in obj_JSON){
+		 _table_html+="<td>蓝量：";
+			_table_html+=obj_JSON.en;
+		_table_html+="</td>";
+	 }
+	 
+	 //6
+	_table_html+="</tr><tr>";
+
+	 if("buffs" in obj_JSON){
+		 _table_html+="<td>buff列表：";
+			_table_html+=obj_JSON.buffs;
+		_table_html+="</td>";
+	 }
+	 
+	 if("status" in obj_JSON){
+		 _table_html+="<td>特殊状态列表：";
+			_table_html+=obj_JSON.status;
+		_table_html+="</td>";
+	 }
+	  
+	 if("skill_id" in obj_JSON){
+		 _table_html+="<td>技能ID：";
+			_table_html+=obj_JSON.skill_id;
+		_table_html+="</td>";
+	 }
+	 
+	 if("target" in obj_JSON){
+		 _table_html+="<td>目标ID：";
+			_table_html+=obj_JSON.target;
+		_table_html+="</td>";
+	 }
+	 
+	 if("actor_type" in obj_JSON){
+			_table_html+="<td>角色类型：";
+			var v_actory_type=obj_JSON.actor_type;
+			if(obj_JSON.actor_type=="human"){
+				v_actory_type="玩家";
+			}
+			if(obj_JSON.actor_type=="mon"){
+				v_actory_type="怪物";
+			}
+			if(obj_JSON.actor_type=="partner"){
+				v_actory_type="人物的招唤物";
+			}
+			_table_html+=v_actory_type;
+			_table_html+="</td>";
+	  }	
+		_table_html+="<td></td>";
+		//
+	_table_html+="</tr><tr>";
+	
+	
+    //个别几个有的
+//  kill_by 杀人者ID
+// add_bufs buff列表(例如 [102,104,123])
+// adder 添加者ID
+// del_buff_ids 删除BuffID列表(例如 [102,104,123])
+// del_buff_ids 删除BuffID列表(例如 [102,104,123])
+// effect_id 效果ID
+// effect_type 效果类型
+// effect_ids 效果ID列表
+// effect_ids 效果ID列表
+// add_hp 加血量
+// final_hp 加血后的血量
+// add_hp 加血量
+// final_hp 加血后的血量
+// sub_hp 扣血
+// final_hp 扣血后的血量
+// event 触发监听的事件类型
+// skill_id 技能ID
+// target_id 目标ID
+// target_name 目标名字
+
+// hit 命中判定-------=================
+// hurt 伤害值
+// hit_type 伤害类型(位运算叠加) 1 招架 2 暴击 4 闪避 8 生命偷取 16 能量偷取 32 伤害反弹 64 伤害吸收
+// rehurt 反伤
+// hp_steal 偷取HP
+// en_steal 偷取EN
+
+	 if("kill_by" in obj_JSON){
+		 _table_html+="<td> 杀人者ID：";
+			_table_html+=obj_JSON.kill_by;
+		_table_html+="</td>";
+	 }
+	 if("add_bufs" in obj_JSON){
+		 _table_html+="<td>buff列表：";
+			_table_html+=obj_JSON.add_bufs;
+		_table_html+="</td>";
+	 }
+	 if("adder" in obj_JSON){
+		 _table_html+="<td>添加者ID：";
+			_table_html+=obj_JSON.adder;
+		_table_html+="</td>";
+	 }
+	 if("del_buff_ids" in obj_JSON){
+		 _table_html+="<td> 删除BuffID列表：";
+			_table_html+=obj_JSON.del_buff_ids;
+		_table_html+="</td>";
+	 } 
+	 
+	 
+	 if("effect_id" in obj_JSON){
+		 _table_html+="<td> 效果ID：";
+			_table_html+=obj_JSON.effect_id;
+		_table_html+="</td>";
+	 } 
+	 
+	 if("effect_type" in obj_JSON){
+		 _table_html+="<td>效果类型：";
+			_table_html+=obj_JSON.effect_type;
+		_table_html+="</td>";
+	 } 
+	 if("effect_ids" in obj_JSON){
+		 _table_html+="<td>效果ID列表：";
+			_table_html+=obj_JSON.effect_ids;
+		_table_html+="</td>";
+	 } 
+	 if("add_hp" in obj_JSON){
+		 _table_html+="<td>加血量：";
+			_table_html+=obj_JSON.add_hp;
+		_table_html+="</td>";
+	 } 
+	 if("final_hp" in obj_JSON){
+		 _table_html+="<td>加血后的血量：";
+			_table_html+=obj_JSON.final_hp;
+		_table_html+="</td>";
+	 } 
+	 
+// 	 if("add_hp" in obj_JSON){
+// 		 _table_html+="<td>加血量：";
+// 			_table_html+=obj_JSON.add_hp;
+// 		_table_html+="</td>";
+// 	 } 
+// 	 if("final_hp" in obj_JSON){
+// 		 _table_html+="<td>加血后的血量：";
+// 			_table_html+=obj_JSON.final_hp;
+// 		_table_html+="</td>";
+// 	 } 
+	 if("sub_hp" in obj_JSON){
+		 _table_html+="<td>扣血：";
+			_table_html+=obj_JSON.sub_hp;
+		_table_html+="</td>";
+	 } 
+	 if("final_hp" in obj_JSON){
+		 _table_html+="<td>扣血后的血量：";
+			_table_html+=obj_JSON.final_hp;
+		_table_html+="</td>";
+	 } 
+	 if("event" in obj_JSON){
+		 _table_html+="<td>触发监听的事件类型：";
+			_table_html+=obj_JSON.event;
+		_table_html+="</td>";
+	 } 
+// 	 if("skill_id" in obj_JSON){
+// 		 _table_html+="<td>技能ID：";
+// 			_table_html+=obj_JSON.skill_id;
+// 		_table_html+="</td>";
+// 	 } 
+	 if("target_id" in obj_JSON){
+		 _table_html+="<td> 目标ID：";
+			_table_html+=obj_JSON.target_id;
+		_table_html+="</td>";
+	 } 
+	 if("target_name" in obj_JSON){
+		 _table_html+="<td>目标名字：";
+			_table_html+=obj_JSON.target_name;
+		_table_html+="</td>";
+	 } 
+
+	 if("hurt" in obj_JSON){
+		 _table_html+="<td>伤害值：";
+			_table_html+=obj_JSON.hurt;
+		_table_html+="</td>";
+	 } 
+	 if("hit_type" in obj_JSON){
+		 _table_html+="<td>伤害类型：";
+		 var hit_v=obj_JSON.hit_type;
+		 if(hit_v=="1"){
+			 hit_v="招架"; 
+		 }
+		 if(hit_v=="2"){
+			 hit_v="暴击"; 
+		 }
+		 if(hit_v=="4"){
+			 hit_v="闪避"; 
+		 }
+		 if(hit_v=="8"){
+			 hit_v="生命偷取"; 
+		 }
+		 if(hit_v=="16"){
+			 hit_v="能量偷取"; 
+		 }
+		 if(hit_v=="32"){
+			 hit_v="伤害反弹"; 
+		 }
+		 if(hit_v=="64"){
+			 hit_v="伤害吸收"; 
+		 }
+		_table_html+=hit_v;
+		_table_html+="</td>";
+	 } 
+	 
+	 if("rehurt" in obj_JSON){
+		 _table_html+="<td>反伤：";
+			_table_html+=obj_JSON.rehurt;
+		_table_html+="</td>";
+	 } 
+	 if("hp_steal" in obj_JSON){
+		 _table_html+="<td>偷取HP：";
+			_table_html+=obj_JSON.hp_steal;
+		_table_html+="</td>";
+	 } 
+	 if("en_steal" in obj_JSON){
+		 _table_html+="<td>偷取EN：";
+			_table_html+=obj_JSON.en_steal;
+		_table_html+="</td>";
+	 }
+		_table_html+="</tr>";
+		_table_html+="</table>";
+		return _table_html;
+	}
+	
+	
+	$(function(){
+		//初始服务器
+		initDictByType('servers_type',"_type_servers");
+		//初始文件类型
+		initDictByType('_file_types',"_file_types");
+		//初始监听对像
+		initJianTingType();
+		//初始副本
+		initCopyIDsType();
+	})
+	
+
+	
+	/**
+	*请求监听对象
+	*/
+function initJianTingType(){
+	
+// 	$("#"+selectId).empty();
+	
+	$.ajax({
+		url : getContextPath()+"/combat/log/getUuids",
+		type : "GET",
+//		contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+// 		data :{"type":type},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+				var data=returnData.data;
+				if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+				{
+					for(var i=0;i<data.length;i++)
+					{
+						var dict=data[i];
+						
+						var html="";
+						html+="<option value='"+dict.value+"' ";
+						//(typeof type_value)!="undefined"&&type_value!=null&&type_value!=""&&
+// 						if(type_value==dict.value)
+// 						{
+// 							html+=" selected='selected' ";
+// 						}
+						
+						html+=">";
+						html+= dict.value+"</option>";
+						
+						$("#_objetc_types").append(html);
+						
+					}
+				}
+				return returnData.data;
+			}
+		},
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+}
+
+function initCopyIDsType(){
+		$.ajax({
+			url : getContextPath()+"/combat/log/getCopyids",
+			type : "GET",
+			dataType : "json",
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+					var data=returnData.data;
+					if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+					{
+						for(var i=0;i<data.length;i++)
+						{
+							var dict=data[i];
+							var html="";
+							html+="<option value='"+dict.value+"' ";
+							html+=">";
+							html+= dict.value+"</option>";
+							$("#_copy_types").append(html);
+						}
+					}
+					return returnData.data;
+				}
+			},
+			error : function() {
+				alert("请求异常！");
+			}
+		});
+}
+
+//禁用 启用
+$("#_objetc_types").change(function(){
+	var t_v= $(this).val();
+	if(t_v=="-2"){
+		$("#_object_sd_id").removeAttr("disabled");
+	}else{
+		$("#_object_sd_id").val("");
+		$("#_object_sd_id").attr("disabled","disabled");
+	}
+});
+
+//禁用 启用
+$("#_copy_types").change(function(){
+	var t_v= $(this).val();
+	if(t_v=="-2"){
+		$("#_copy_sd_types").removeAttr("disabled");
+	}else{
+		$("#_copy_sd_types").val("");
+		$("#_copy_sd_types").attr("disabled","disabled");
+	}
+});
+
+
+//弹出层
+
+ $('#exampleModal').on('show.bs.modal', function (event) {  
+        var button = $(event.relatedTarget) // 触发事件的按钮  
+        var id = button.data('whatever') // 解析出data-whatever内容  
+        var modal = $(this)  
+   	if(id==null||id==""){
+   		alert("id无效");
+   	}
+        
+    $.ajax({
+    	url : getContextPath()+"/combat/log/getDetail",
+    	type : "GET",
+    	dataType : "json",
+    	data :{"id":id},
+    	success : function(returnData,status,XMLHttpRequest)
+    	{	
+//     		$("#_cont").html(returnData);
+            $('.modal-body').html(returnData)  
+    	},
+    	error : function() {
+    		alert("异常！");
+    	}
+    });
+        
+    })  
+    
+	
+	function detali(id){
+		location.href=getContextPath() + "/combat/log/getDetail?id="+id;
+	}
+	</script>
+
+
+
+
+
+</body>
+</html>
+
+
