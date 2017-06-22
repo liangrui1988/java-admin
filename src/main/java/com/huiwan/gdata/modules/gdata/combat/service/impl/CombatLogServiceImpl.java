@@ -74,12 +74,21 @@ public class CombatLogServiceImpl implements CombatLogService {
 		List<CombatLog> data = gdataDao.selectObjectList(sql.toString(), rowMapper);
 		
 		Map<String,String> dicts=dictService.getByTypeMaps("_file_types");
-		
+		Map<String,String> servers_type=dictService.getByTypeMaps("servers_type");
+
 		//转换中文
 		if(data!=null&&data.size()>0){
 			for(CombatLog log:data){
+				//转换文件名
 				if(dicts.containsKey(log.getFile())){
 					log.setFile(dicts.get(log.getFile()));
+					
+				}
+				//转换服务器
+				if(servers_type.containsKey(String.valueOf(log.getServerId()))){
+					log.setServer(servers_type.get(String.valueOf(log.getServerId())));
+				}else{
+					log.setServer(String.valueOf(log.getServerId()));
 				}
 			}
 		}
