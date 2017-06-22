@@ -91,10 +91,10 @@
 	</div> 
 		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
 			&nbsp;&nbsp;&nbsp;&nbsp;
-		<input id="_refTime"	class="btn btn-primary" type="button" value="互斥自动替换" />
+		<input id="_refTime"	class="btn btn-primary" type="button" value="开 始 " />
 	</form>
 
-	<table class="rl-page-table ui celled structured table span11" data-height="900" data-width="800px"
+	<table class="rl-page-table ui celled structured table span11" data-height="880" data-width="800px"
 		table-data-url="/combat/log/combatList">
 <!-- 		<thead> -->
 <!-- 			<tr> -->
@@ -332,11 +332,13 @@
 	var refInterval="";
 	$("#_refTime").click(function(){
 		if(ref=="true"){
+			$("#_refTime").val("暂停");
 			ref="false"//切换
 			refInterval=setInterval(function(){
 				getPaginationTable(".rl-page-table",true);
 			},2000);
 		}else{
+			$("#_refTime").val("继续");
 			clearInterval(refInterval);
 			ref="true"
 		}
