@@ -40,7 +40,7 @@ configurations {
 }
 	
 //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
-archivesBaseName = "gdata-1.0.0.jar"
+archivesBaseName = "gdata-1.0.0"
 	
 dependencies { 
         testCompile group: 'junit', name: 'junit', version: '4.+'    
