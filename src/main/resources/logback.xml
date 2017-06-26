@@ -7,10 +7,12 @@
         <File>work/log/app.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
                 <FileNamePattern>work/log/app.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+                  <!-- 最多30个文件 --> 
                 <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-                <pattern>%d{HH:mm:ss} %-5level ${version} [%thread]%logger{16} - %msg%n
+<!--       <pattern>%d{HH:mm:ss} %-5level ${version} [%thread]%logger{16} - %msg%n -->
+                    <pattern>%d{HH:mm:ss} %-5level 0.0.1 [%thread]%logger{16} - %msg%n
                 </pattern>
         </encoder>
     </appender>
