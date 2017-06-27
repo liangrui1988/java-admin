@@ -10,89 +10,97 @@
 <script type="text/javascript" src="../../../common/My97DatePicker/WdatePicker.js"></script>
 
 <style type="text/css">
-
 .table {
   table-layout: fixed;
  word-wrap: break-word; word-break: normal;
 }
-
 #exampleModal {
  word-wrap: break-word; word-break: normal;
 }
-
+.search_table tr{height: 35px;
+}
 </style>
-
 </head>
 <body>
-
 <!-- breadcrumb  form-search-->
-	<form action="" class="form-inline   " id="_search_form">
-	
-<!-- 	<div class="form-group"> -->
-<!-- 		副本id: <input class="input-xlarge" name="copyId" id="_copyId" -->
-<!-- 			type="text" /> &nbsp; -->
-<!-- 	</div> -->
-	
+<div style="width: 100%;">
+	<div style="width: 50%;float:left;padding-left: 10px;padding-top: 10px;">
+		<form action="" class="form-inline   " id="_search_form">
 		<!-- 服务器 -->
-	   <div class="form-group" >
-<!--                <label class="">服务器：</label> -->
-               <div class="input-group">
-                 服务器： <select name="types" id="_type_servers" class="chosen-select" style="width: 150px;">
-<!--                  <option value="">全服</option> -->
-                  </select>
-               </div>
-      </div>
-      
-      
-   <div class="form-group" >
-         <div class="input-group">
-                 类型： <select name="types" id="_file_types" class="chosen-select" style="width: 150px;">
-            </select>
-      </div>
-    </div>
-    
-    
-    <div class="form-group" >
-         <div class="input-group">
-                 监听对象id： <select name="types" id="_objetc_types" class="chosen-select" style="width: 150px;">
-                 <option value="-2">手动输入</option>
-            </select>
-      </div>
-    </div>
-      
-	<form action="" class="form-inline   " id="_search_form">
+		<table class="search_table">
+		<tr>
+		<td>
+			   <div class="form-group" >
+		               <div class="input-group">
+		                 服务器： <select name="types" id="_type_servers" class="chosen-select" style="width: 150px;">
+		              </select>
+		      </div> </div>
+		 </td>
+		 <td>
+		    <div class="form-group" >
+		         <div class="input-group">
+		                 监听对象id： <select name="types" id="_objetc_types" class="chosen-select" style="width: 150px;">
+		                 <option value="-2">手动输入</option>
+		            </select>
+		      </div>
+		    </div>
+		 </td>
+		<td>
+		 <div class="form-group">
+		     监听对象id： <input class="input-xlarge" name="_object_sd_id" id="_object_sd_id" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
+		</div>
+	    </td> 
+	    </tr>
+	   <tr>
+		<td>
+		 <div class="form-group" >
+	         <div class="input-group">
+	                 类&nbsp;&nbsp;型&nbsp;： <select name="types" id="_file_types" class="chosen-select" style="width: 150px;">
+	            </select>
+	      </div>
+	    </div>
+		</td>
+		<td>
+		 <div class="form-group" >
+	         <div class="input-group">
+	                 副本id： <select name="copyId" id="_copy_types" class="chosen-select" style="width: 150px;">
+	                 <option value="-2">手动输入</option>
+	            </select>
+	      </div>
+	    </div>
+	    </td>
+	    <td>
 		<div class="form-group">
-		   监听对象id： <input class="input-xlarge" name="_object_sd_id" id="_object_sd_id" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
-	</div>
-	
-	 <div class="form-group" >
-         <div class="input-group">
-                 副本id： <select name="copyId" id="_copy_types" class="chosen-select" style="width: 150px;">
-                 <option value="-2">手动输入</option>
-            </select>
-      </div>
-    </div>
-      
-	<form action="" class="form-inline   " id="_search_form">
-		<div class="form-group">
-		   副本id： <input class="input-xlarge" name="copy_sd_types" id="_copy_sd_types" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
-	</div>
-	
-    
-	<div class="form-group">
-	<div class="input-daterange input-group" id="datepicker">
-		 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text"
-		     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" /> 
-		结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
-	</div>
-	
-
-	
-	</div> 
+			   副本id： <input class="input-xlarge" name="copy_sd_types" id="_copy_sd_types" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
+		</div>
+		</td>
+		</tr>
+	  <tr>
+	    <td colspan="2">
+			<div class="form-group">
+			<div class="input-daterange input-group" id="datepicker">
+				 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text"
+				     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" /> 
+			   结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
+			</div>
+			</div> 
+		</td>
+		<td>
 		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
-			&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;
 		<input id="_refTime"	class="btn btn-primary" type="button" value="开 始 " />
-	</form>
+		</td>
+	</tr>
+</table>
+</form>
+</div>
+
+<div style="width: 50%;height: 200px;float:left;background:  red;">
+	<input id="_open_attrs_div"	 data-toggle="modal" data-target="#openAttrsDivModal"   data-whatever="" class="btn btn-primary" type="button" value="弹窗 " style="float: right;" />
+
+aaaabb
+</div>
+</div>
 
 	<table class="rl-page-table ui celled structured table span11" data-height="880" data-width="800px"
 		table-data-url="/combat/log/combatList">
@@ -108,7 +116,8 @@
 <!-- 		</thead> -->
 	</table>
 	
-	
+
+<!-- 日志详情弹出层 -->	
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >  
     <div class="modal-dialog" role="document">  
         <div class="modal-content">  
@@ -126,7 +135,23 @@
         </div>  
     </div>  
 </div>  
-
+<!-- 属性弹出层 -->
+<div class="modal fade" id="openAttrsDivModal" tabindex="-1" role="dialog" aria-labelledby="openAttrsDivModalLabel" >  
+    <div class="modal-dialog" role="document">  
+        <div class="modal-content">  
+            <div class="modal-header">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  
+                        aria-hidden="true">×</span></button>  
+                <h4 class="modal-title" id="openAttrsDivModalLabel">对象基础属性</h4>  
+            </div>  
+            <div class="modal-body" >  
+            </div>  
+            <div class="modal-footer">  
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
 
 	<!-- newx -->
 
