@@ -73,7 +73,7 @@ dependencies {
         compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
         compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
         compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.2'
-        compile 'com.alibaba:druid:1.0.31'
+        compile 'com.alibaba:druid:1.1.0'
 		compile 'org.aspectj:aspectjweaver:1.7.3'
 		compile 'org.aspectj:aspectjrt:1.7.3'
         compile 'junit:junit:4.11'        
@@ -117,7 +117,7 @@ dependencies {
 		//compile group: 'com.octo.captcha', name: 'jcaptcha', version: '1.0'
 	    //compile group: 'javax.enterprise', name: 'cdi-api', version: '2.0-EDR1'
 		compile group: 'org.postgresql', name: 'postgresql', version: '42.0.0'
-
+        compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.19.3'
 		
 }
 

@@ -21,11 +21,31 @@
 	 <import resource="mybatis/application-data-dao.xml"/>
 <!-- postgres 暂不用mybatis处理 用spring dao	 <import resource="mybatis/application-psql-gdata-dao.xml"/> -->
 
-
-
 	<!-- 控制服务器日志数据源配置 -->
-		<bean id="xLogDataSource"  parent="baseDataSource" p:url="${jdbc.log_x_url}" p:username="${jdbc.log_x_username}"  p:password="${jdbc.log_x_password}"/>
+	<bean id="xLogDataSource"  parent="baseDataSource" p:url="${jdbc.log_x_url}" p:username="${jdbc.log_x_username}"  p:password="${jdbc.log_x_password}"/>
 	
+	<!-- sqlite数据源配置 -->
+<!-- 	<bean id="sqliteDataSource"  parent="baseDataSource" p:url="${sqlite.jdbc.path}" /> -->
+	
+	
+	<bean id="sqliteDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+     <property name="driverClassName" value="org.sqlite.JDBC" />
+     <property name="url" value="${sqlite.jdbc.path}" />
+     <property name="filters" value="stat" />
+     <property name="maxActive" value="20" />
+     <property name="initialSize" value="1" />
+     <property name="maxWait" value="60000" />
+     <property name="minIdle" value="1" />
+     <property name="timeBetweenEvictionRunsMillis" value="60000" />
+     <property name="minEvictableIdleTimeMillis" value="300000" />
+     <property name="testWhileIdle" value="true" />
+     <property name="testOnBorrow" value="false" />
+     <property name="testOnReturn" value="false" />
+     <property name="poolPreparedStatements" value="true" />
+     <property name="maxOpenPreparedStatements" value="20" />
+     
+    </bean>
+    
 	
     <!-- 定时任务 -->
 	<task:annotation-driven  executor="myExecutor" scheduler="myScheduler" />
