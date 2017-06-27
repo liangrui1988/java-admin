@@ -3,9 +3,9 @@ function getContextPath()
 	
 	if(document.location.href.indexOf("rui.com/")!=-1)
 	{
-		return "";
+		return "/zdata";
 	}
-	return "";
+	return "/zdata";
 }
 /**
  * 判斷是否是正整數
