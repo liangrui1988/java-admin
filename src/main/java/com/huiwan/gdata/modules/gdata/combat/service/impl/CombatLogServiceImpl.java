@@ -47,7 +47,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append(
 				"SELECT id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont ");
 		
-		sql.append(" FROM zl_log ");
+		sql.append(" FROM zl_log_info ");
 		sql.append(sqlWhere);
 		// 排序
 		if (StringUtils.isNotBlank(paginator.getSort())) {
@@ -74,12 +74,21 @@ public class CombatLogServiceImpl implements CombatLogService {
 		List<CombatLog> data = gdataDao.selectObjectList(sql.toString(), rowMapper);
 		
 		Map<String,String> dicts=dictService.getByTypeMaps("_file_types");
-		
+		Map<String,String> servers_type=dictService.getByTypeMaps("servers_type");
+
 		//转换中文
 		if(data!=null&&data.size()>0){
 			for(CombatLog log:data){
+				//转换文件名
 				if(dicts.containsKey(log.getFile())){
 					log.setFile(dicts.get(log.getFile()));
+					
+				}
+				//转换服务器
+				if(servers_type.containsKey(String.valueOf(log.getServerId()))){
+					log.setServer(servers_type.get(String.valueOf(log.getServerId())));
+				}else{
+					log.setServer(String.valueOf(log.getServerId()));
 				}
 			}
 		}
@@ -116,7 +125,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		StringBuffer sqlWhere = getSQLString(vo);// 完成
 		StringBuffer sql = new StringBuffer(512);
 		sql.append("select  count(*) ");
-		sql.append(" FROM zl_log ");
+		sql.append(" FROM zl_log_info ");
 		sql.append(sqlWhere);
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		int total = gdataDao.selectForRows(sql.toString());
@@ -186,7 +195,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 	@Override
 	public CombatLog getDetail(Integer id) {
-		String sql="select  id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont from zl_log where id="+id;
+		String sql="select  id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont from zl_log_info where id="+id;
 		log.info("sql:>>>\n{}", sql.toString() );
 		CombatLog data = gdataDao.selectObject(sql.toString(), rowMapper);
 		return data;
@@ -195,15 +204,15 @@ public class CombatLogServiceImpl implements CombatLogService {
 	@Override
 	public List<Dict> getObjTypes(int type) {
 		if(type==1){
-//			String sql="SELECT DISTINCT(cont->>'uuid') uuid,time FROM zl_log order by time desc LIMIT 10";
-			String sql="SELECT DISTINCT (cont->>'uuid') arg1 FROM(select * from zl_log order by time)  as t1 LIMIT 10";
+//			String sql="SELECT DISTINCT(cont->>'uuid') uuid,time FROM zl_log_info order by time desc LIMIT 10";
+			String sql="SELECT DISTINCT (cont->>'uuid') arg1 FROM(select * from zl_log_info order by time)  as t1 LIMIT 10";
 			log.info("sql:>>>\n{}", sql.toString() );
 			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
 			return data;
 		}
 		if(type==2)
 		{
-			String sql="SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log order by time)  as t1 LIMIT 10";
+			String sql="SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log_info order by time)  as t1 LIMIT 10";
 			log.info("sql:>>>\n{}", sql.toString() );
 			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
 			return data;

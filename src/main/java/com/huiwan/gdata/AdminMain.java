@@ -25,7 +25,7 @@ public class AdminMain {
 		Server server = new Server(port);
 		// 关联一个已经存在的上下文 src/main/webapp
 		//WebAppContext webAppContext = new WebAppContext("webapp", "/main");
-		WebAppContext webAppContext = new WebAppContext(getWebAppPath(), "/");
+		WebAppContext webAppContext = new WebAppContext(getWebAppPath(), "/zdata");
 		//设置描述符位置  
 		webAppContext.setDescriptor("webapp/WEB-INF/web.xml");
         // 设置Web内容上下文路径  

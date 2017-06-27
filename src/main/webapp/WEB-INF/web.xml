@@ -130,9 +130,14 @@
 
 
 
+<error-page>  
+    <error-code>404</error-code>  
+    <location>/views/404.html</location>  
+</error-page>  
+
 	
 	<welcome-file-list>
-		<welcome-file>views/index.html</welcome-file>
+		<welcome-file>/views/index.html</welcome-file>
 <!-- 		<welcome-file>/</welcome-file> -->
 	</welcome-file-list>
 
