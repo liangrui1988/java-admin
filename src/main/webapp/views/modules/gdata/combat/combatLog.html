@@ -160,18 +160,13 @@ aaaabb
 </div>  
 
 	<!-- newx -->
-
 <!-- 	<script type="text/javascript" -->
 <!-- 		src="../../../common/bootstrap/pagination/bootstrap-table.js" /> -->
 <!-- 	<script type="text/javascript" -->
 <!-- 		src="../../../common/bootstrap/pagination/bootstrap-table-zh-CN.js" /> -->
-
-  <link href="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.css" rel="stylesheet">
-	<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
-	<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
-	
-	
-	
+<link href="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
 	
 
 	<script type="text/javascript">
@@ -218,7 +213,6 @@ aaaabb
 			//监听对象
 			var _objetc_types=$("#_objetc_types").val();
 			if (_objetc_types != "" && _objetc_types != null && _objetc_types != 'undefined') {
-				
 				var _uuid="";
 				if(_objetc_types=="-2"){
 					_uuid=$("#_object_sd_id").val();
@@ -232,7 +226,7 @@ aaaabb
 				}
 			}
 			//副本id
-					//监听对象
+			//监听对象
 			var _copy_types=$("#_copy_types").val();
 			if (_copy_types != "" && _copy_types != null && _copy_types != 'undefined') {
 				var _copyId="";
@@ -252,12 +246,9 @@ aaaabb
 		}
 
 		$(function() {
-
-			//		function xuhao(r, v, i) {
-			//		return i + 1;
-			//	}
 			//初始化表  
 			getPaginationTable(".rl-page-table", false);
+			initAttrs();//属性刷新
 
 		});
 		
@@ -265,8 +256,37 @@ aaaabb
 		$("#_search_submit").click(
 			function(){
 				getPaginationTable(".rl-page-table",true);
+				initAttrs();//属性刷新
+
 		});
 		
+		//显示属性
+		function initAttrs(){
+			//获取查询条件
+			var qp="";
+			var qeruP=queryParams(qp);
+			var qeruPStr=JSON.stringify(qeruP);
+			alert(qeruPStr);
+			$.ajax({
+				url : getContextPath()+"/combat/log/getAttrs",
+				type : "GET",
+				dataType : "json",
+				data : qeruPStr,
+				success : function(returnData,status,XMLHttpRequest)
+				{	
+					if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+						var data=returnData.data;
+						if(data!=null&&data!=""&&(typeof data)!='undefined')
+						{
+							alert(JSON.stringify(data));
+						}
+					}
+				},
+				error : function() {
+					alert("请求异常！");
+				}
+			});
+		}
 
 		/**
 		*分页
@@ -671,7 +691,10 @@ aaaabb
 		initJianTingType();
 		//初始副本
 		initCopyIDsType();
+
 	})
+	
+	
 	
 
 	
@@ -777,7 +800,6 @@ $("#_copy_types").change(function(){
 
 
 //弹出层
-
  $('#exampleModal').on('show.bs.modal', function (event) {  
         var button = $(event.relatedTarget) // 触发事件的按钮  
         var id = button.data('whatever') // 解析出data-whatever内容  

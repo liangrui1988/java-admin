@@ -15,6 +15,7 @@ import com.huiwan.gdata.common.exception.MessageCode;
 import com.huiwan.gdata.common.utils.pagination.Paginator;
 import com.huiwan.gdata.common.utils.pagination.PaginatorResult;
 import com.huiwan.gdata.modules.gdata.base.charset.bean.QueryCommBean;
+import com.huiwan.gdata.modules.gdata.combat.entity.CombatAttr;
 import com.huiwan.gdata.modules.gdata.combat.entity.CombatLog;
 import com.huiwan.gdata.modules.gdata.combat.service.CombatLogService;
 import com.huiwan.gdata.modules.sys.entity.Dict;
@@ -69,6 +70,24 @@ public class CombatLogController {
 		ResultBean rb = new ResultBean();
 		try {
 			List<Dict> result = combatLogService.getObjTypes(2);
+			rb.setData(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rb = new ResultBean(false, MessageCode.SYS_ERROR, "异统异常");
+		}
+		return rb;
+	}
+	
+	/**
+	 * 获取属性面板
+	 * @return
+	 */
+	@RequestMapping(value = { "getAttrs" }, method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean getAttrs(QueryCommBean bean) {
+		ResultBean rb = new ResultBean();
+		try {
+			CombatAttr result = combatLogService.getAttrs( bean);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();

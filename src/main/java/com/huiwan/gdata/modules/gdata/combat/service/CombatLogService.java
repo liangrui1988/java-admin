@@ -5,6 +5,7 @@ import java.util.List;
 import com.huiwan.gdata.common.utils.pagination.Paginator;
 import com.huiwan.gdata.common.utils.pagination.PaginatorResult;
 import com.huiwan.gdata.modules.gdata.base.charset.bean.QueryCommBean;
+import com.huiwan.gdata.modules.gdata.combat.entity.CombatAttr;
 import com.huiwan.gdata.modules.gdata.combat.entity.CombatLog;
 import com.huiwan.gdata.modules.sys.entity.Dict;
 
@@ -24,4 +25,6 @@ public interface CombatLogService {
 	CombatLog getDetail(Integer id);
 
 	List<Dict> getObjTypes(int type);
+	
+	CombatAttr getAttrs(QueryCommBean bean);
 }
