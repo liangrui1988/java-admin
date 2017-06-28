@@ -29,6 +29,7 @@
 	
 	
 	<bean id="sqliteDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+<!--       <property name="password" value="test" /> -->
      <property name="driverClassName" value="org.sqlite.JDBC" />
      <property name="url" value="${sqlite.jdbc.path}" />
      <property name="filters" value="stat" />
@@ -42,8 +43,7 @@
      <property name="testOnBorrow" value="false" />
      <property name="testOnReturn" value="false" />
      <property name="poolPreparedStatements" value="true" />
-     <property name="maxOpenPreparedStatements" value="20" />
-     
+<!--      <property name="maxOpenPreparedStatements" value="20" /> -->
     </bean>
     
 	
