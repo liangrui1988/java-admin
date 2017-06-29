@@ -24,7 +24,7 @@ public interface CombatLogService {
 
 	CombatLog getDetail(Integer id);
 
-	List<Dict> getObjTypes(int type);
+	List<Dict> getObjTypes(int type,String severId);
 	
 	CombatAttr getAttrs(QueryCommBean bean);
 }

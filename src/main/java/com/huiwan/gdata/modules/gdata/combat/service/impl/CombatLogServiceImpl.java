@@ -2,9 +2,12 @@ package com.huiwan.gdata.modules.gdata.combat.service.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -202,29 +205,84 @@ public class CombatLogServiceImpl implements CombatLogService {
 	}
 
 	@Override
-	public List<Dict> getObjTypes(int type) {
+	public List<Dict> getObjTypes(int type, String severId) {
 		if (type == 1) {
 			// String sql="SELECT DISTINCT(cont->>'uuid') uuid,time FROM
 			// zl_log_info order by time desc LIMIT 10";
-			String sql = "SELECT DISTINCT (cont->>'uuid') arg1 FROM(select * from zl_log_info order by time)  as t1 LIMIT 10";
+			String sql = "select cont->>'uuid' uuid,cont->>'name' namea,cont->>'actor_type' actory from zl_log_info ";
+			if (StringUtils.isNotBlank(severId)) {
+				sql += " where server_id='" + severId + "'";
+			}
+			sql += " order by id desc  LIMIT 600";
 			log.info("sql:>>>\n{}", sql.toString());
 			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
-			return data;
+			// 排序去重
+
+			Map<String, Dict> data_new = new LinkedHashMap<String, Dict>();
+
+			if (data != null && data.size() > 0) {
+				for (Dict dict : data) {
+					data_new.put(dict.getValue(), dict);
+					if (data_new.size() >= 10) {
+						break;
+					}
+				}
+			}
+			List<Dict> data_result = new ArrayList<Dict>();
+			for (Entry<String, Dict> entry : data_new.entrySet()) {
+				data_result.add(entry.getValue());
+			}
+			return data_result;
 		}
 		if (type == 2) {
-			String sql = "SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log_info order by time)  as t1 LIMIT 10";
+			String sql = "SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log_info ";
+			if (StringUtils.isNotBlank(severId)) {
+				sql += " where server_id='" + severId + "'";
+			}
+			sql += " order by id desc  LIMIT 5000 )  as t1 LIMIT 10";
 			log.info("sql:>>>\n{}", sql.toString());
-			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
+			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper_cpoy);
 			return data;
 		}
 		return null;
 	}
 
-	private RowMapper<Dict> type_rowMapper = new RowMapper<Dict>() {
+	private RowMapper<Dict> type_rowMapper_cpoy = new RowMapper<Dict>() {
 		@Override
 		public Dict mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Dict bean = new Dict();
 			bean.setValue(rs.getString("arg1"));
+			return bean;
+		}
+	};
+
+	private RowMapper<Dict> type_rowMapper = new RowMapper<Dict>() {
+		@Override
+		public Dict mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Dict bean = new Dict();
+			bean.setValue(rs.getString("uuid"));
+			// actor_type 角色类型(human=玩家, mon=怪物, partner=人物的招唤物)
+			String type = rs.getString("actory");
+			String name=rs.getString("namea");
+			if (StringUtils.isBlank(type)) {
+				type = "";
+			}
+			if (StringUtils.isBlank(name)) {
+				name = "";
+			}
+			if (type.equals("human")) {
+				type = "玩家";
+			}
+			if (type.equals("mon")) {
+				type = "怪物";
+			}
+			if (type.equals("partner")) {
+				type = "人物的招唤物";
+			}
+
+			String var = type + "-" + name + "-" + rs.getString("uuid");
+			bean.setName(var);
+			// bean.setType(rs.getString("actory"));
 			return bean;
 		}
 	};
@@ -260,6 +318,10 @@ public class CombatLogServiceImpl implements CombatLogService {
 		bean.setFile("attrs");
 		// 获取最大的时间
 		String maxDate = getMaxTime(bean);
+		if (StringUtils.isBlank(maxDate)) {
+			return new CombatAttr();
+		}
+
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
 		// 条件组装
@@ -277,16 +339,14 @@ public class CombatLogServiceImpl implements CombatLogService {
 		System.out.println(data);
 		return data;
 	}
-	
-	
-	
+
 	private RowMapper<CombatAttr> rowMapper_attrs = new RowMapper<CombatAttr>() {
 		@Override
 		public CombatAttr mapRow(ResultSet rs, int rowNum) throws SQLException {
 			CombatAttr bean = new CombatAttr();
 			bean.setCont(rs.getString("cont"));
-//			bean.setUuid(rs.getString("uuid"));
-//			bean.setName(rs.getString(columnIndex));
+			// bean.setUuid(rs.getString("uuid"));
+			// bean.setName(rs.getString(columnIndex));
 			return bean;
 		}
 	};

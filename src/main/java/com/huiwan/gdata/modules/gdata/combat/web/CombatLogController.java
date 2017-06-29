@@ -2,6 +2,7 @@ package com.huiwan.gdata.modules.gdata.combat.web;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,10 +53,10 @@ public class CombatLogController {
 
 	@RequestMapping(value = { "getUuids" }, method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getUuids() {
+	public ResultBean getUuids(String severId) {
 		ResultBean rb = new ResultBean();
 		try {
-			List<Dict> result = combatLogService.getObjTypes(1);
+			List<Dict> result = combatLogService.getObjTypes(1,severId);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,10 +67,10 @@ public class CombatLogController {
 	
 	@RequestMapping(value = { "getCopyids" }, method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getCopyids() {
+	public ResultBean getCopyids(String severId) {
 		ResultBean rb = new ResultBean();
 		try {
-			List<Dict> result = combatLogService.getObjTypes(2);
+			List<Dict> result = combatLogService.getObjTypes(2,severId);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,8 +86,14 @@ public class CombatLogController {
 	@RequestMapping(value = { "getAttrs" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean getAttrs(QueryCommBean bean) {
+		
+
 		ResultBean rb = new ResultBean();
 		try {
+			if(StringUtils.isBlank(bean.getType())){
+				//uuid
+				return new ResultBean(false,"uuid为空");
+			}
 			CombatAttr result = combatLogService.getAttrs( bean);
 			rb.setData(result);
 		} catch (Exception e) {

@@ -272,7 +272,6 @@
 			//初始化表  
 			getPaginationTable(".rl-page-table", false);
 			initAttrs();//属性刷新
-			
 			//托动
 		    $("#openAttrsDivModal").draggable({
 		        handle: ".modal-header"
@@ -292,15 +291,39 @@
 		
 		//显示属性
 		function initAttrs(){
+			$(".attrs_table_clz").html("");
+			var showAttr=false;
+			//监听对象
+			var _objetc_types=$("#_objetc_types").val();
+			if (_objetc_types != "" && _objetc_types != null && _objetc_types != 'undefined') {
+				var _uuid="";
+				if(_objetc_types=="-2"){
+					_uuid=$("#_object_sd_id").val();
+				}else{
+					_uuid=_objetc_types;
+				}
+// 				alert(_uuid);
+				if (_uuid != "" && _uuid != null && _uuid != 'undefined') {
+// 					parma = $.extend(parma, {
+// 						type : _uuid,
+// 					});
+					showAttr=true;
+				}
+			}
+			
+			if(!showAttr){
+				return;
+			}
+			
 			//获取查询条件
-			var qp="";
-			var qeruP=queryParams(qp);
-			var qeruPStr=JSON.stringify(qeruP);
+// 			var qeruP=queryParams();
+// 			var qeruPStr=JSON.stringify(qeruP);
+// 			console.log(qp);
 			$.ajax({
 				url : getContextPath()+"/combat/log/getAttrs",
 				type : "GET",
 				dataType : "json",
-				data : qeruPStr,
+				data :queryParams(),
 				success : function(returnData,status,XMLHttpRequest)
 				{	
 					if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
@@ -308,6 +331,10 @@
 						if(data!=null&&data!=""&&(typeof data)!='undefined')
 						{
 							var contStr=data.cont;
+							if(contStr==null||contStr==""||(typeof contStr)=='undefined'){
+								return;
+							}
+							
 							var contJson=JSON.parse(contStr);
 // 							alert(JSON.stringify(contJson));
 							var attrs_html="";
@@ -568,6 +595,7 @@
 			ref="false"//切换
 			refInterval=setInterval(function(){
 				getPaginationTable(".rl-page-table",true);
+				initAttrs();//属性刷新
 			},2000);
 		}else{
 			$("#_refTime").val("继续");
@@ -865,6 +893,9 @@
 function initJianTingType(){
 	
 // 	$("#"+selectId).empty();
+
+//获取服务器  
+var server_id=$("#_type_servers").val();
 	
 	$.ajax({
 		url : getContextPath()+"/combat/log/getUuids",
@@ -872,7 +903,7 @@ function initJianTingType(){
 //		contentType: "application/json; charset=utf-8",
 		dataType : "json",
 		//data :{productVoJson:JSON.stringify(objVo)},
-// 		data :{"type":type},
+		data :{"severId":server_id},
 		success : function(returnData,status,XMLHttpRequest)
 		{	
 			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
@@ -892,7 +923,7 @@ function initJianTingType(){
 // 						}
 						
 						html+=">";
-						html+= dict.value+"</option>";
+						html+= dict.name+"</option>";
 						
 						$("#_objetc_types").append(html);
 						
