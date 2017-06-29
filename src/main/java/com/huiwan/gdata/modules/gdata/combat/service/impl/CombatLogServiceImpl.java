@@ -213,7 +213,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 			if (StringUtils.isNotBlank(severId)) {
 				sql += " where server_id='" + severId + "'";
 			}
-			sql += " order by id desc  LIMIT 600";
+			sql += " order by id desc  LIMIT 1000";
 			log.info("sql:>>>\n{}", sql.toString());
 			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
 			// 排序去重
@@ -335,10 +335,45 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append(" LIMIT 1");
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		CombatAttr data = gdataDao.selectObject(sql.toString(), rowMapper_attrs);
+		
+		//取下一条
+//		select * from zl_log_info  where file='attrs' and cont->>'uuid'='10000114' and time<'2017-06-29 17:32:13' order by time desc LIMIT 1
+		CombatAttr dif=getDifAttrs(bean,maxDate);
+		if(dif!=null&&StringUtils.isNotBlank(dif.getCont())){
+			//对比数据
+			data.setContDif(dif.getCont());
+		}
 		data.setTime(maxDate);
-		System.out.println(data);
 		return data;
 	}
+	
+	//取下一条
+//	select * from zl_log_info  where file='attrs' and cont->>'uuid'='10000114' and time<'2017-06-29 17:32:13' order by time desc LIMIT 1
+	public CombatAttr getDifAttrs(QueryCommBean bean,String time) {
+		bean.setFile("attrs");
+		// 获取最大的时间
+		String maxDate = getMaxTime(bean);
+		if (StringUtils.isBlank(maxDate)) {
+			return new CombatAttr();
+		}
+
+		// 参数
+		List<Object> paramArray = new LinkedList<Object>();
+		// 条件组装
+		StringBuffer sqlWhere = getSQLString(bean);// 完成
+		StringBuffer sql = new StringBuffer(512);
+		sql.append("select * from zl_log_info ");
+		sql.append(sqlWhere);
+		sql.append(" and time<'");
+		sql.append(maxDate);
+		sql.append("'");
+		sql.append(" order by time desc LIMIT 1");
+		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
+		CombatAttr data = gdataDao.selectObject(sql.toString(), rowMapper_attrs);
+		data.setTime(maxDate);
+		return data;
+	}
+	
 
 	private RowMapper<CombatAttr> rowMapper_attrs = new RowMapper<CombatAttr>() {
 		@Override

@@ -10,6 +10,7 @@ public class CombatAttr {
 
 	private String uuid;
 	private String cont; //json值
+	private String contDif; //json值
 	private String name; //名称
 	private String lv;//等级
 	
@@ -42,6 +43,12 @@ public class CombatAttr {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public String getContDif() {
+		return contDif;
+	}
+	public void setContDif(String contDif) {
+		this.contDif = contDif;
 	}
 	@Override
 	public String toString() {
