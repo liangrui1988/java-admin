@@ -122,7 +122,7 @@
 
 	<div style="width: 50%;height: 200px;float:left;border-style:solid;  border-color: #dddddd;overflow:auto;">
 		<input id="_open_attrs_div"	 data-toggle="modal" data-target="#openAttrsDivModal"    data-whatever="" class="btn btn-primary" type="button" value="弹窗 " style="float: right;" />
-		<h4>对象基础信息</h4>
+		<h4>对象基础信息</h4> 
 		<div id="_attrs_table" class="attrs_table_clz"></div>
 	</div>
 
@@ -314,6 +314,22 @@
 
 							attrs_html+="<table border='0' cellspacing='10'> ";
 							
+							attrs_html+="<tr><td>名称:</td> <td>";
+							attrs_html+=contJson.name;
+							attrs_html+="</td>";
+							
+							attrs_html+="<td>等级:</td> <td>";
+							if(typeof(contJson.lv)=="undefined"){
+								attrs_html+="";
+							}else{
+								attrs_html+=contJson.lv;
+							}
+							attrs_html+="</td>";
+							
+							attrs_html+="<td></td> <td>";
+							attrs_html+="";
+							attrs_html+="</td></tr>";
+							//----------												
 							attrs_html+="<tr><td>基础生命上限:</td> <td>";
 							attrs_html+=contJson.A_5;
 							attrs_html+="</td>";
