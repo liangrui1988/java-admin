@@ -19,6 +19,8 @@ public class SysUri extends Modules {
 	public static final String SYS_DEPARTMENT = "sys/department";
 	/** 字典管理 **/
 	public static final String SYS_DICT = "sys/dict";
+	/** 字典管理 **/
+	public static final String SYS_GAMEDICT = "sys/gamedict";
 	/** 系统日志 **/
 	public static final String SYS_LOG = "sys/log";
 	/** 系统参数 **/

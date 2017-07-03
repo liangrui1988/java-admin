@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户管理</title>
+<link href="../../../common/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="../../../common/style/pager.css"	rel="stylesheet">
+<script src="../../../common/jquery/jquery-1.12.3.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script>
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/sys.js"></script>
+<script src="../../../common/util/common.js"></script>
+
+<style type="text/css">
+
+.form-actions{
+     padding-right: 1000px;
+}
+#messageBox{
+ color: red;
+}
+</style>
+
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		
+	      initDict();
+		
+		$("#inputForm").validate({
+			submitHandler: function(form){
+				//loading('正在提交，请稍等...');
+				update();
+			},
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+	
+	
+	function initDict(){
+		var id=getUrlParam("id");
+		if(id==null||id==""){
+			alert("参数异常，无法修改！");
+			return;
+		}
+		$("#_dictId").val(id);
+		
+		$.ajax({
+			url : getContextPath()+"/sys/dict/get",
+			type : "GET",
+			dataType : "json",
+			data :{"id":id},
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				
+			   // resolveResultBeanIsOk(returnData,status);
+			    if(handleAjaxRequest(returnData,status,XMLHttpRequest))
+			    {
+			    	var data=returnData.data;
+			    	$("#_type").val(data.type);
+			    	$("#_name").val(data.name);
+			    	$("#_value").val(data.value);
+			    	$("#_remake").text(data.remake);
+			    	
+			    	 //状态redio
+					  var status=data.status;
+					  if(status==0){
+						  $("input[name=status]:eq(0)").attr("checked",'checked'); 
+					  }else if(status==1)
+					  {
+						  $("input[name=status]:eq(1)").attr("checked",'checked'); 
+
+					  }
+
+			    	
+			    }
+			},
+			error:function() {
+				alert("请求异常！");
+			}
+		});
+		
+	}
+
+	
+	//
+	function update(){
+		
+		var jobj=$("#inputForm").serialize();
+		$.ajax({
+			url : getContextPath()+"/sys/dict/update",
+			type : "POST",
+			dataType : "json",
+			data :jobj,
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+			    resolveResultBeanIsOk(returnData,status);
+			},
+			error:function() {
+				alert("请求异常！");
+			}
+		});
+		
+	}
+			
+
+</script>
+
+</head>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+	
+<!-- 	<ul class="nav nav-tabs"> -->
+<!-- 		<li > -->
+<!-- 			<a href="dictlist.html">字典列表</a> -->
+<!-- 		</li> -->
+<!-- 		<li class="active"> -->
+<!-- 			<a href="dictAdd.html">添加字典</a> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+	
+ <div class="dictClz">
+             
+      <form id="inputForm" action="" class="form-horizontal" role="form">
+      
+       <input id="_dictId" name="id" type="hidden">
+      
+          <div class="form-group">
+               <label class="col-sm-2 control-label" > <span class="help-inline"><font color="red">*</font> </span>类型：   
+               </label>
+               <div class="col-sd-1">
+                  <input class="required input-xlarge" maxlength="20" name="type"  id="_type" type="text" />
+               </div>
+         
+            </div>
+            
+
+            <div class="form-group">
+               <label class="col-sm-2 control-label" > <span class="help-inline"><font color="red">*</font> </span>名称：   
+               </label>
+               <div class="col-sd-1">
+                  <input class="required input-xlarge" maxlength="20" name="name"  id="_name" type="text" />
+               </div>
+         
+            </div>
+            
+            
+            <div class="form-group">
+               <label class="col-sm-2 control-label "> <span class="help-inline"><font color="red">*</font>值：</label>
+               <div class="col-sd-1">
+                  <input class="required" maxlength="20" type="text"  name="value" id="_value"/>
+               </div>
+           
+            </div>
+            
+            
+              <div class="form-group">
+               <label class="col-sm-2 control-label " >
+               <span class="help-inline"><font color="red">*</font>状态：</label>
+               <div class="col-sd-1">
+			      &nbsp;  &nbsp;&nbsp;启用 <input type="radio" name="status" value="0" checked="checked"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="status" value="1"/>
+               </div>
+            </div>
+            
+            
+            <div class="form-group">
+               <label class="col-sm-2 control-label " >
+                                            备注：</label>
+               <div class="col-sm-2">
+               <textarea rows="6" cols="60"  maxlength="200" name="remake" id="_remake"></textarea>
+               </div>
+            </div>
+            
+         
+            <div class="form-actions">
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		    </div>    
+         </form>
+         
+    </div>
+
+</body>
+</html>

@@ -10,12 +10,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.jetty.util.ajax.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.huiwan.gdata.common.utils.pagination.Paginator;
 import com.huiwan.gdata.common.utils.pagination.PaginatorResult;
 import com.huiwan.gdata.modules.gdata.base.GDataDao;
@@ -25,6 +27,7 @@ import com.huiwan.gdata.modules.gdata.combat.entity.CombatLog;
 import com.huiwan.gdata.modules.gdata.combat.service.CombatLogService;
 import com.huiwan.gdata.modules.sys.entity.Dict;
 import com.huiwan.gdata.modules.sys.service.IDictService;
+import com.huiwan.gdata.modules.sys.service.IGameDictService;
 
 @Service
 public class CombatLogServiceImpl implements CombatLogService {
@@ -34,6 +37,8 @@ public class CombatLogServiceImpl implements CombatLogService {
 	private GDataDao gdataDao;
 	@Autowired
 	private IDictService dictService;
+	@Autowired
+	private IGameDictService gameDictService;
 
 	@Override
 	public PaginatorResult getPaginatorList(Paginator paginator, QueryCommBean bean) {
@@ -79,14 +84,18 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 		Map<String, String> dicts = dictService.getByTypeMaps("_file_types");
 		Map<String, String> servers_type = dictService.getByTypeMaps("servers_type");
+		
+		//技能列表 
+		Map<String,String> zl_skill_type=	gameDictService.getByTypeMaps("zl_skill_type");
 
 		// 转换中文
 		if (data != null && data.size() > 0) {
 			for (CombatLog log : data) {
+				//有些需要做判单
+//				log.setFileSrc(log.getFile());
 				// 转换文件名
 				if (dicts.containsKey(log.getFile())) {
-					log.setFile(dicts.get(log.getFile()));
-
+					log.setFileName(dicts.get(log.getFile()));
 				}
 				// 转换服务器
 				if (servers_type.containsKey(String.valueOf(log.getServerId()))) {
@@ -94,6 +103,24 @@ public class CombatLogServiceImpl implements CombatLogService {
 				} else {
 					log.setServer(String.valueOf(log.getServerId()));
 				}
+				//技能名转换
+				if(StringUtils.isBlank(log.getCont())){
+					continue;
+				}
+				if("skill".equals(log.getFile())){
+					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
+					if(!jsonCont.containsKey("skill_id")||StringUtils.isBlank(jsonCont.getString("skill_id"))){
+						continue;
+					}
+					String skill_id=jsonCont.getString("skill_id");
+					String skill_name=zl_skill_type.get(skill_id);
+					jsonCont.put("skill_name", skill_name);
+					log.setCont(jsonCont.toJSONString());
+				}
+				
+				
+				
+				
 			}
 		}
 

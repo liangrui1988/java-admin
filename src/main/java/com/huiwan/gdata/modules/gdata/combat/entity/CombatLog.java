@@ -7,6 +7,7 @@ public class CombatLog {
 	private String uuid;
 	private Integer serverId;
 	private String server;
+	private String fileName;
 	private String file;
 	private String cont;
 	private String add_hp;
@@ -16,6 +17,16 @@ public class CombatLog {
 	
 
 	
+
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public String getFile() {
 		return file;
 	}

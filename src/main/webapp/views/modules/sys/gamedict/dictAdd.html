@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户管理</title>
+<link href="../../../common/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="../../../common/style/pager.css"	rel="stylesheet">
+<script src="../../../common/jquery/jquery-1.12.3.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script>
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/sys.js"></script>
+<script src="../../../common/util/common.js"></script>
+
+<style type="text/css">
+
+.form-actions{
+     padding-right: 1000px;
+}
+#messageBox{
+ color: red;
+}
+</style>
+
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		
+// 		initAddUser();
+		
+		$("#inputForm").validate({
+			submitHandler: function(form){
+				//loading('正在提交，请稍等...');
+				addDict();
+			},
+			errorContainer: "#messageBox",
+			errorPlacement: function(error, element) {
+				$("#messageBox").text("输入有误，请先更正。");
+				if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+					error.appendTo(element.parent().parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+	
+	
+
+	function addDict(){
+		
+		var jobj=$("#inputForm").serialize();
+		$.ajax({
+			url : getContextPath()+"/sys/dict/add",
+			type : "POST",
+			dataType : "json",
+			data :jobj,
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+			    resolveResultBeanIsOk(returnData,status);
+			}
+		});
+		
+	}
+			
+
+</script>
+
+</head>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+	
+	<ul class="nav nav-tabs">
+		<li >
+			<a href="dictlist.html">字典列表</a>
+		</li>
+		<li class="active">
+			<a href="dictAdd.html">添加字典</a>
+		</li>
+	</ul>
+	
+             <br/>
+ <div class="userAddClz">
+             
+      <form id="inputForm" action="" class="form-horizontal" role="form">
+      
+      
+      
+          <div class="form-group">
+               <label class="col-sm-2 control-label" > <span class="help-inline"><font color="red">*</font> </span>类型：   
+               </label>
+               <div class="col-sd-1">
+                  <input class="required input-xlarge" maxlength="20" name="type"  id="_type" type="text" />
+               </div>
+         
+            </div>
+            
+
+            <div class="form-group">
+               <label class="col-sm-2 control-label" > <span class="help-inline"><font color="red">*</font> </span>名称：   
+               </label>
+               <div class="col-sd-1">
+                  <input class="required input-xlarge" maxlength="20" name="name"  id="_name" type="text" />
+               </div>
+         
+            </div>
+            
+            
+            <div class="form-group">
+               <label class="col-sm-2 control-label "> <span class="help-inline"><font color="red">*</font>值：</label>
+               <div class="col-sd-1">
+                  <input class="required" maxlength="20" type="text"  name="value" id="_value"/>
+               </div>
+           
+            </div>
+            
+            
+              <div class="form-group">
+               <label class="col-sm-2 control-label " >
+               <span class="help-inline"><font color="red">*</font>状态：</label>
+               <div class="col-sd-1">
+			      &nbsp;  &nbsp;&nbsp;启用 <input type="radio" name="status" value="0" checked="checked"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="status" value="1"/>
+               </div>
+            </div>
+            
+            
+            <div class="form-group">
+               <label class="col-sm-2 control-label " >
+                                            备注：</label>
+               <div class="col-sm-2">
+               <textarea rows="6" cols="60"  maxlength="200" name="remake" id="_remake"></textarea>
+               </div>
+            </div>
+            
+         
+            <div class="form-actions">
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		    </div>    
+         </form>
+         
+    </div>
+
+</body>
+</html>
