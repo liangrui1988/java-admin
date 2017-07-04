@@ -67,11 +67,11 @@ public class CombatLogServiceImpl implements CombatLogService {
 			}
 			if ("dt".equals(paginator.getSort())) {
 				sql.append(" order by ");
-				sql.append(" dt ");
+				sql.append(" id ");
 				sql.append(paginator.getOrder());
 			}
 		} else {
-			sql.append(" order by dt desc");
+			sql.append(" order by id desc");
 		}
 		// 分页
 		sql.append(" LIMIT ");
@@ -481,7 +481,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append(" and time<'");
 		sql.append(maxDate);
 		sql.append("'");
-		sql.append(" order by time desc LIMIT 1");
+		sql.append(" order by id desc LIMIT 1");
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		CombatAttr data = gdataDao.selectObject(sql.toString(), rowMapper_attrs);
 		data.setTime(maxDate);
