@@ -111,4 +111,18 @@ public class GameDictService implements IGameDictService {
 		return mpas;
 	}
 
+	
+	
+	public Map<String, Dict> getByTypeMapsDicts(String type) {
+		Map<String, Dict> mpas=new LinkedHashMap<String, Dict>();
+		List<Dict>  dicts= dictMapper.getByType(type);
+		if(dicts!=null&&dicts.size()>0){
+			for(Dict dict:dicts){
+				mpas.put(dict.getValue(), dict);
+			}
+		}
+
+		return mpas;
+	}
+	
 }

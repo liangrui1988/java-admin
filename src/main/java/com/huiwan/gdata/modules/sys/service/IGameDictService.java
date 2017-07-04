@@ -27,4 +27,6 @@ public interface IGameDictService {
 	List<Dict> getByType(String type);
 
 	Map<String,String> getByTypeMaps(String type);
+	
+	Map<String, Dict> getByTypeMapsDicts(String type);
 }

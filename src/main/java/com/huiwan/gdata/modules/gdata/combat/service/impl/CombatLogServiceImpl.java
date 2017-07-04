@@ -87,7 +87,13 @@ public class CombatLogServiceImpl implements CombatLogService {
 		
 		//技能列表 
 		Map<String,String> zl_skill_type=	gameDictService.getByTypeMaps("zl_skill_type");
-
+		//监听列表 
+		Map<String,Dict> zl_event_type=	gameDictService.getByTypeMapsDicts("zl_event_type");
+		//效果概率
+		Map<String,String> zl_effect_type=	gameDictService.getByTypeMaps("zl_effect_type");
+		//BUFF
+		Map<String,Dict> zl_buff_types=	gameDictService.getByTypeMapsDicts("zl_buff_types");
+		
 		// 转换中文
 		if (data != null && data.size() > 0) {
 			for (CombatLog log : data) {
@@ -117,7 +123,88 @@ public class CombatLogServiceImpl implements CombatLogService {
 					jsonCont.put("skill_name", skill_name);
 					log.setCont(jsonCont.toJSONString());
 				}
+				//监听转换
+				if("opport".equals(log.getFile())){
+					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
+					if(!jsonCont.containsKey("opports")||StringUtils.isBlank(jsonCont.getString("opports"))){
+						continue;
+					}
+					String key=jsonCont.getString("opports");//是一个数组，需转换
+					String arrs_str=key.replace("[", "").replace("]", "");
+					String[] arrs=arrs_str.split(",");
+					if(arrs!=null&&arrs.length>0){
+						List<Dict> d_temp=new ArrayList<>();
+						for(String arr_key:arrs){
+							if(zl_event_type.containsKey(arr_key)){
+								Dict dict=zl_event_type.get(arr_key);
+								d_temp.add(dict);
+							}else{//没有找到，则显示为id
+								Dict dict=new Dict();
+								dict.setValue(arr_key);
+								dict.setName(arr_key);
+								dict.setRemake(arr_key);
+							}
+						}
+						jsonCont.put("opports_josn", d_temp);
+					}
+					log.setCont(jsonCont.toJSONString());
+				}
+				//效果转换
+				if("effect".equals(log.getFile())){
+					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
+					if(!jsonCont.containsKey("effect_id")||StringUtils.isBlank(jsonCont.getString("effect_id"))){
+						continue;
+					}
+					String key=jsonCont.getString("effect_id");
+					if(zl_effect_type.containsKey(key)){
+						String skill_name=zl_effect_type.get(key);
+						jsonCont.put("effect_Prob", skill_name);
+					}else{
+						jsonCont.put("effect_Prob", key);
+					}
+					log.setCont(jsonCont.toJSONString());
+				}
 				
+				//BUFF处理效果  把file转换 add_buf 添加Buf del_buf 删除Buf  buf_expire Buf过期删除
+				if("add_buf".equals(log.getFile())||"del_buf".equals(log.getFile())||"buf_expire".equals(log.getFile())){
+					log.setFileName("BUFF处理效果");
+//					log.setFile("buff_all");
+					//查询buffstatus
+					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
+//					if(!jsonCont.containsKey("add_bufs")||StringUtils.isBlank(jsonCont.getString("add_bufs"))){
+//						continue;
+//					}
+					String key="";
+					
+					if(jsonCont.containsKey("add_bufs")){
+						 key=jsonCont.getString("add_bufs");//是一个数组，需转换
+					}
+					if(jsonCont.containsKey("del_buff_ids")){
+						 key=jsonCont.getString("del_buff_ids");//是一个数组，需转换
+					}
+					if(jsonCont.containsKey("del_buff_ids")){
+						 key=jsonCont.getString("del_buff_ids");//是一个数组，需转换
+					}
+					String arrs_str=key.replace("[", "").replace("]", "");
+					String[] arrs=arrs_str.split(",");
+					if(arrs!=null&&arrs.length>0){
+						List<Dict> d_temp=new ArrayList<>();
+						for(String arr_key:arrs){
+							if(zl_buff_types.containsKey(arr_key)){
+								Dict dict=zl_buff_types.get(arr_key);
+								d_temp.add(dict);
+							}else{//没有找到，则显示为id
+								Dict dict=new Dict();
+								dict.setValue(arr_key);
+								dict.setName(arr_key);
+								dict.setRemake(arr_key);
+							}
+						}
+						jsonCont.put("buff_all_json", d_temp);
+					}
+					log.setCont(jsonCont.toJSONString());
+					
+				}
 				
 				
 				

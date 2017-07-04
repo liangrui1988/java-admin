@@ -929,6 +929,223 @@ background: #d8ccd5;
 				return _table_html;
 			
 		}
+		//------------------触发监听-----------------------
+		if(obj_JSON.file=='opport'){
+			 if(obj_JSON.hasOwnProperty("uuid")){
+					_table_html+="<td>监听ID：";
+						_table_html+=obj_JSON.uuid;
+					_table_html+="</td>";
+			  }
+			 if("name" in obj_JSON){
+				 _table_html+="<td>触发者自身name：";
+					_table_html+=obj_JSON.name;
+				_table_html+="</td>";
+			 }
+			 if("target_name" in obj_JSON){
+				 _table_html+="<td>触发者目标name：";
+					_table_html+=obj_JSON.target_name;
+				_table_html+="</td>";
+			 }
+			 
+			 //数组 opports			 
+			 if("opports_josn" in obj_JSON)
+			 {
+// 				 alert(obj_JSON.opports_josn);
+				 //JSON.parse(
+				var  opportsArrs= obj_JSON.opports_josn;
+				if(opportsArrs!=null&&opportsArrs!="")
+				{
+				  for(var i=0;i<opportsArrs.length;i++)
+				  {
+				    _table_html+="<td>触发事件id：";
+						_table_html+=opportsArrs[i].value;
+					_table_html+="</td>";
+					//
+					 _table_html+="<td>触发事件名称：";
+						_table_html+=opportsArrs[i].name;
+					_table_html+="</td>";
+					//
+					_table_html+="<td>触发事件描述：";
+						_table_html+=opportsArrs[i].remake;
+					_table_html+="</td>";
+					}
+				 }
+			 }
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+			
+		}
+		//------------------触发监听-----------------------
+		if(obj_JSON.file=='effect'){//技能
+			 if(obj_JSON.hasOwnProperty("effect_id")){
+					_table_html+="<td>效果id：";
+						_table_html+=obj_JSON.effect_id;
+					_table_html+="</td>";
+			  }
+			 if("effect_type" in obj_JSON){
+				 _table_html+="<td>效果类型：";
+					_table_html+=obj_JSON.effect_type;
+				_table_html+="</td>";
+			 }
+			 
+			 if("effect_Prob" in obj_JSON){
+				 _table_html+="<td>效果概率：";
+					_table_html+=obj_JSON.effect_Prob;
+				_table_html+="</td>";
+			 }
+		
+			 _table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//------------------命中判定-----------------------
+		if(obj_JSON.file=='hit'){
+			 if(obj_JSON.hasOwnProperty("hurt")){
+					_table_html+="<td>伤害值：";
+						_table_html+=obj_JSON.hurt;
+					_table_html+="</td>";
+			  }
+			 if("rehurt" in obj_JSON){
+				 _table_html+="<td>反伤：";
+					_table_html+=obj_JSON.rehurt;
+				_table_html+="</td>";
+			 }
+			 if("hp_steal" in obj_JSON){
+				 _table_html+="<td>偷取HP：";
+					_table_html+=obj_JSON.hp_steal;
+				_table_html+="</td>";
+			 }
+			 if("en_steal" in obj_JSON){
+				 _table_html+="<td>偷取EN：";
+					_table_html+=obj_JSON.en_steal;
+				_table_html+="</td>";
+			 }
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//------------------角色特殊-----------------------
+		if(obj_JSON.file=='player_join'||obj_JSON.file=='player_leave'||obj_JSON.file=='mon_dead'||obj_JSON.file=='player_dead'){
+			
+			if(obj_JSON.file=='player_join'){
+					_table_html+="<td>类别：";
+						_table_html+="玩家进入";
+					_table_html+="</td>";
+			  }else if(obj_JSON.file=='player_leave'){
+				  _table_html+="<td>类别：玩家离开</td>";
+				  
+			  }else if(obj_JSON.file=='mon_dead'){
+				  _table_html+="<td>类别：怪物死亡</td>";
+// 					 if("name" in obj_JSON){
+// 						 _table_html+="<td>名称：";
+// 							_table_html+=obj_JSON.name;
+// 						_table_html+="</td>";
+// 					 }
+			  }else if(obj_JSON.file=='player_dead'){
+				  _table_html+="<td>类别：玩家死亡</td>";
+				  if("kill_by" in obj_JSON){
+						 _table_html+="<td>击杀者ID：";
+							_table_html+=obj_JSON.kill_by;
+						_table_html+="</td>";
+					}
+					 if("kill_by_name" in obj_JSON){
+						 _table_html+="<td>杀人者名称：";
+							_table_html+=obj_JSON.kill_by_name;
+						_table_html+="</td>";
+					 }
+			  }
+
+			 if("name" in obj_JSON){
+				 _table_html+="<td>名称：";
+					_table_html+=obj_JSON.name;
+				_table_html+="</td>";
+			 }
+			 if("uuid" in obj_JSON){
+				 _table_html+="<td>id：";
+					_table_html+=obj_JSON.uuid;
+				_table_html+="</td>";
+			 }
+			
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		
+		//------------------BUFF处理效果-----------------------
+		if(obj_JSON.file=='add_buf'||obj_JSON.file=='del_buf'||obj_JSON.file=='buf_expire'){
+			 if(obj_JSON.file=='add_buf'){
+				        //添加/撤销/删除
+					_table_html+="<td>类别：添加</td>";
+					 if("target_name" in obj_JSON){
+						 _table_html+="<td>目标名称：";
+							_table_html+=obj_JSON.target_name;
+						_table_html+="</td>";
+					 }
+			  }
+			 if(obj_JSON.file=='del_buf'){
+				_table_html+="<td>类别：删除</td>";
+		       }
+			 if(obj_JSON.file=='buf_expire'){
+					_table_html+="<td>类别：Buf过期删除</td>";
+			   }
+			 if("name" in obj_JSON){
+				 _table_html+="<td>name：";
+					_table_html+=obj_JSON.name;
+				_table_html+="</td>";
+			 }
+			 //数组 opports			 
+			 if("buff_all_json" in obj_JSON)
+			 {
+				var  buff_allArrs= obj_JSON.buff_all_json;
+				if(buff_allArrs!=null&&buff_allArrs!="")
+				{
+				  for(var i=0;i<buff_allArrs.length;i++)
+				  {
+				    _table_html+="<td>BUFFid：";
+						_table_html+=buff_allArrs[i].value;
+					_table_html+="</td>";
+					//
+					 _table_html+="<td>BUFFid名称：";
+						_table_html+=buff_allArrs[i].name;
+					_table_html+="</td>";
+					//
+					_table_html+="<td>监听ID：";
+						_table_html+=buff_allArrs[i].remake;
+					_table_html+="</td>";
+					}
+				 }
+			 }
+			 
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//------------------受用力-----------------------
+		if(obj_JSON.file=='sub_hp'){
+			 if(obj_JSON.hasOwnProperty("sub_hp")){
+					_table_html+="<td>伤害值：";
+						_table_html+=obj_JSON.effect_id;
+					_table_html+="</td>";
+			  }
+			 //伤害临时变更属性
+			 if("sub_hp" in obj_JSON){
+				 _table_html+="<td>伤害临时变更属性：";
+					_table_html+=obj_JSON.sub_hp;
+				_table_html+="</td>";
+			 }
+			 //伤害临时变更属性值
+			 if("final_hp" in obj_JSON){
+				 _table_html+="<td>伤害临时变更属性值：";
+					_table_html+=obj_JSON.final_hp;
+				_table_html+="</td>";
+			 }
+		
+			 _table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		
 		
 //	 			alert(JSON.stringify(obj_JSON));
 		 if(obj_JSON.hasOwnProperty("name")){
@@ -968,7 +1185,6 @@ background: #d8ccd5;
 		 
 		 //6
 		_table_html+="</tr><tr>";
-
 		 if("buffs" in obj_JSON){
 			 _table_html+="<td>buff列表：";
 				_table_html+=obj_JSON.buffs;
@@ -1017,6 +1233,7 @@ background: #d8ccd5;
 				_table_html+=obj_JSON.kill_by;
 			_table_html+="</td>";
 		 }
+
 		 if("add_bufs" in obj_JSON){
 			 _table_html+="<td>buff列表：";
 				_table_html+=obj_JSON.add_bufs;
