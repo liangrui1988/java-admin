@@ -1049,9 +1049,9 @@ background: #d8ccd5;
 							_table_html+=obj_JSON.kill_by;
 						_table_html+="</td>";
 					}
-					 if("kill_by_name" in obj_JSON){
+					 if("killer_name" in obj_JSON){
 						 _table_html+="<td>杀人者名称：";
-							_table_html+=obj_JSON.kill_by_name;
+							_table_html+=obj_JSON.killer_name;
 						_table_html+="</td>";
 					 }
 			  }
@@ -1121,26 +1121,24 @@ background: #d8ccd5;
 			_table_html+="</table>";
 			return _table_html;
 		}
-		//------------------受用力-----------------------
-		if(obj_JSON.file=='sub_hp'){
-			 if(obj_JSON.hasOwnProperty("sub_hp")){
-					_table_html+="<td>伤害值：";
-						_table_html+=obj_JSON.effect_id;
-					_table_html+="</td>";
-			  }
-			 //伤害临时变更属性
-			 if("sub_hp" in obj_JSON){
-				 _table_html+="<td>伤害临时变更属性：";
-					_table_html+=obj_JSON.sub_hp;
-				_table_html+="</td>";
-			 }
-			 //伤害临时变更属性值
-			 if("final_hp" in obj_JSON){
-				 _table_html+="<td>伤害临时变更属性值：";
-					_table_html+=obj_JSON.final_hp;
-				_table_html+="</td>";
-			 }
-		
+		//------------------属性变更-----------------------
+		if(obj_JSON.file=='attrs'){
+// 			 if(obj_JSON.hasOwnProperty("name")){
+// 					_table_html+="<td>名称：";
+// 						_table_html+=obj_JSON.name;
+// 					_table_html+="</td>";
+// 			  }
+			 
+			 //伤
+			 _table_html+="<td>变更属性：";
+				_table_html+=JSON.stringify(obj_JSON);
+			_table_html+="</td>";
+			
+// 			 if("cont" in obj_JSON){
+// 				 _table_html+="<td>变更属性：";
+// 					_table_html+=obj_JSON.cont;
+// 				_table_html+="</td>";
+// 			 }
 			 _table_html+="</tr>";
 			_table_html+="</table>";
 			return _table_html;

@@ -2,6 +2,9 @@ package com.huiwan.gdata.modules.gdata.combat.service.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -84,21 +87,28 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 		Map<String, String> dicts = dictService.getByTypeMaps("_file_types");
 		Map<String, String> servers_type = dictService.getByTypeMaps("servers_type");
+
+		// 技能列表
+		Map<String, String> zl_skill_type = gameDictService.getByTypeMaps("zl_skill_type");
+		// 监听列表
+		Map<String, Dict> zl_event_type = gameDictService.getByTypeMapsDicts("zl_event_type");
+		// 效果概率
+		Map<String, String> zl_effect_type = gameDictService.getByTypeMaps("zl_effect_type");
+		// BUFF
+		Map<String, Dict> zl_buff_types = gameDictService.getByTypeMapsDicts("zl_buff_types");
+
+		// 属性
+		Map<String, Dict> zl_attrs_types = gameDictService.getByTypeMapsDicts("zl_attrs_types");
+
 		
-		//技能列表 
-		Map<String,String> zl_skill_type=	gameDictService.getByTypeMaps("zl_skill_type");
-		//监听列表 
-		Map<String,Dict> zl_event_type=	gameDictService.getByTypeMapsDicts("zl_event_type");
-		//效果概率
-		Map<String,String> zl_effect_type=	gameDictService.getByTypeMaps("zl_effect_type");
-		//BUFF
-		Map<String,Dict> zl_buff_types=	gameDictService.getByTypeMapsDicts("zl_buff_types");
-		
+		//去掉空的。主要是属性对比
+//		List<CombatLog> data_new = new LinkedList<CombatLog>();
+		System.out.println(JSONObject.toJSONString(data));
 		// 转换中文
 		if (data != null && data.size() > 0) {
 			for (CombatLog log : data) {
-				//有些需要做判单
-//				log.setFileSrc(log.getFile());
+				// 有些需要做判单
+				// log.setFileSrc(log.getFile());
 				// 转换文件名
 				if (dicts.containsKey(log.getFile())) {
 					log.setFileName(dicts.get(log.getFile()));
@@ -109,37 +119,37 @@ public class CombatLogServiceImpl implements CombatLogService {
 				} else {
 					log.setServer(String.valueOf(log.getServerId()));
 				}
-				//技能名转换
-				if(StringUtils.isBlank(log.getCont())){
+				// 技能名转换
+				if (StringUtils.isBlank(log.getCont())) {
 					continue;
 				}
-				if("skill".equals(log.getFile())){
-					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
-					if(!jsonCont.containsKey("skill_id")||StringUtils.isBlank(jsonCont.getString("skill_id"))){
+				if ("skill".equals(log.getFile())) {
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					if (!jsonCont.containsKey("skill_id") || StringUtils.isBlank(jsonCont.getString("skill_id"))) {
 						continue;
 					}
-					String skill_id=jsonCont.getString("skill_id");
-					String skill_name=zl_skill_type.get(skill_id);
+					String skill_id = jsonCont.getString("skill_id");
+					String skill_name = zl_skill_type.get(skill_id);
 					jsonCont.put("skill_name", skill_name);
 					log.setCont(jsonCont.toJSONString());
 				}
-				//监听转换
-				if("opport".equals(log.getFile())){
-					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
-					if(!jsonCont.containsKey("opports")||StringUtils.isBlank(jsonCont.getString("opports"))){
+				// 监听转换
+				if ("opport".equals(log.getFile())) {
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					if (!jsonCont.containsKey("opports") || StringUtils.isBlank(jsonCont.getString("opports"))) {
 						continue;
 					}
-					String key=jsonCont.getString("opports");//是一个数组，需转换
-					String arrs_str=key.replace("[", "").replace("]", "");
-					String[] arrs=arrs_str.split(",");
-					if(arrs!=null&&arrs.length>0){
-						List<Dict> d_temp=new ArrayList<>();
-						for(String arr_key:arrs){
-							if(zl_event_type.containsKey(arr_key)){
-								Dict dict=zl_event_type.get(arr_key);
+					String key = jsonCont.getString("opports");// 是一个数组，需转换
+					String arrs_str = key.replace("[", "").replace("]", "");
+					String[] arrs = arrs_str.split(",");
+					if (arrs != null && arrs.length > 0) {
+						List<Dict> d_temp = new ArrayList<>();
+						for (String arr_key : arrs) {
+							if (zl_event_type.containsKey(arr_key)) {
+								Dict dict = zl_event_type.get(arr_key);
 								d_temp.add(dict);
-							}else{//没有找到，则显示为id
-								Dict dict=new Dict();
+							} else {// 没有找到，则显示为id
+								Dict dict = new Dict();
 								dict.setValue(arr_key);
 								dict.setName(arr_key);
 								dict.setRemake(arr_key);
@@ -149,52 +159,53 @@ public class CombatLogServiceImpl implements CombatLogService {
 					}
 					log.setCont(jsonCont.toJSONString());
 				}
-				//效果转换
-				if("effect".equals(log.getFile())){
-					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
-					if(!jsonCont.containsKey("effect_id")||StringUtils.isBlank(jsonCont.getString("effect_id"))){
+				// 效果转换
+				if ("effect".equals(log.getFile())) {
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					if (!jsonCont.containsKey("effect_id") || StringUtils.isBlank(jsonCont.getString("effect_id"))) {
 						continue;
 					}
-					String key=jsonCont.getString("effect_id");
-					if(zl_effect_type.containsKey(key)){
-						String skill_name=zl_effect_type.get(key);
+					String key = jsonCont.getString("effect_id");
+					if (zl_effect_type.containsKey(key)) {
+						String skill_name = zl_effect_type.get(key);
 						jsonCont.put("effect_Prob", skill_name);
-					}else{
+					} else {
 						jsonCont.put("effect_Prob", key);
 					}
 					log.setCont(jsonCont.toJSONString());
 				}
-				
-				//BUFF处理效果  把file转换 add_buf 添加Buf del_buf 删除Buf  buf_expire Buf过期删除
-				if("add_buf".equals(log.getFile())||"del_buf".equals(log.getFile())||"buf_expire".equals(log.getFile())){
+				// BUFF处理效果 把file转换 add_buf 添加Buf del_buf 删除Buf buf_expire
+				// Buf过期删除
+				if ("add_buf".equals(log.getFile()) || "del_buf".equals(log.getFile())
+						|| "buf_expire".equals(log.getFile())) {
 					log.setFileName("BUFF处理效果");
-//					log.setFile("buff_all");
-					//查询buffstatus
-					JSONObject jsonCont=(JSONObject) JSONObject.parse(log.getCont());
-//					if(!jsonCont.containsKey("add_bufs")||StringUtils.isBlank(jsonCont.getString("add_bufs"))){
-//						continue;
-//					}
-					String key="";
-					
-					if(jsonCont.containsKey("add_bufs")){
-						 key=jsonCont.getString("add_bufs");//是一个数组，需转换
+					// log.setFile("buff_all");
+					// 查询buffstatus
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					// if(!jsonCont.containsKey("add_bufs")||StringUtils.isBlank(jsonCont.getString("add_bufs"))){
+					// continue;
+					// }
+					String key = "";
+
+					if (jsonCont.containsKey("add_bufs")) {
+						key = jsonCont.getString("add_bufs");// 是一个数组，需转换
 					}
-					if(jsonCont.containsKey("del_buff_ids")){
-						 key=jsonCont.getString("del_buff_ids");//是一个数组，需转换
+					if (jsonCont.containsKey("del_buff_ids")) {
+						key = jsonCont.getString("del_buff_ids");// 是一个数组，需转换
 					}
-					if(jsonCont.containsKey("del_buff_ids")){
-						 key=jsonCont.getString("del_buff_ids");//是一个数组，需转换
+					if (jsonCont.containsKey("del_buff_ids")) {
+						key = jsonCont.getString("del_buff_ids");// 是一个数组，需转换
 					}
-					String arrs_str=key.replace("[", "").replace("]", "");
-					String[] arrs=arrs_str.split(",");
-					if(arrs!=null&&arrs.length>0){
-						List<Dict> d_temp=new ArrayList<>();
-						for(String arr_key:arrs){
-							if(zl_buff_types.containsKey(arr_key)){
-								Dict dict=zl_buff_types.get(arr_key);
+					String arrs_str = key.replace("[", "").replace("]", "");
+					String[] arrs = arrs_str.split(",");
+					if (arrs != null && arrs.length > 0) {
+						List<Dict> d_temp = new ArrayList<>();
+						for (String arr_key : arrs) {
+							if (zl_buff_types.containsKey(arr_key)) {
+								Dict dict = zl_buff_types.get(arr_key);
 								d_temp.add(dict);
-							}else{//没有找到，则显示为id
-								Dict dict=new Dict();
+							} else {// 没有找到，则显示为id
+								Dict dict = new Dict();
 								dict.setValue(arr_key);
 								dict.setName(arr_key);
 								dict.setRemake(arr_key);
@@ -203,19 +214,138 @@ public class CombatLogServiceImpl implements CombatLogService {
 						jsonCont.put("buff_all_json", d_temp);
 					}
 					log.setCont(jsonCont.toJSONString());
-					
 				}
-				
-				
-				
+				// 属性变更 最当前的一条和，最近的一条比较
+				if ("attrs".equals(log.getFile())) {
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					if (!jsonCont.containsKey("uuid") || StringUtils.isBlank(jsonCont.getString("uuid"))) {
+						log.setCont("");
+						continue;
+					}
+					try {
+						log = diffAttrs(log, zl_attrs_types);
+					} catch (ParseException e) {
+						e.printStackTrace();
+						continue;
+					}
+					// log.setCont(jsonCont.toJSONString());
+				}
+
 			}
+			
+//			for (CombatLog log : data) {
+//				if(StringUtils.isNotBlank(log.getCont())){
+//					data_new.add(log);
+//				}
+//			}
 		}
 
 		result.setRows(data);
 		return result;
 	}
 
+	/**
+	 * 比较属性变化，并显示
+	 * 
+	 * @param src
+	 * @return
+	 * @throws ParseException
+	 */
+	public CombatLog diffAttrs(CombatLog log_src, Map<String, Dict> zl_attrs_types) throws ParseException {
+
+		if (zl_attrs_types == null || zl_attrs_types.size() <= 0) {
+			log_src.setCont("{\"msg\":\"字典为空\"}");
+			return log_src;
+		}
+
+		String uuid = log_src.getUuid();
+		String dt = log_src.getDt();
+
+		String diff_dt = "";
+		if (StringUtils.isNotBlank(dt)) {
+			DateFormat df = (DateFormat) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			long d_long = df.parse(dt).getTime() - 120000;// 二分钟类的日志
+			diff_dt = df.format(d_long);
+		}
+		if (StringUtils.isBlank(diff_dt)) {
+			log_src.setCont("");
+			return log_src;
+		}
+		StringBuffer sql = new StringBuffer();
+		sql.append(
+				"SELECT id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont FROM zl_log_info where file='attrs' ");
+		sql.append(" and cont->>'uuid'='");
+		sql.append(uuid);
+		sql.append("'");
+		// 取二分钟内的
+		sql.append(" and time<'");
+		sql.append(dt);
+		sql.append("'");
+
+		sql.append(" and time>'");
+		sql.append(diff_dt);
+		sql.append("'");
+		sql.append(" order by id desc limit 1");
+		log.info("sql:>>>\n{}\n", sql.toString());
+
+		CombatLog datax = gdataDao.selectObject(sql.toString(), rowMapper2);
+		if (datax == null) {
+			log_src.setCont("{\"msg\":\"末能找到下一条做比较\"}");
+			return log_src;
+
+		}
+
+		JSONObject jsonCont_dif = (JSONObject) JSONObject.parse(datax.getCont());
+		JSONObject jsonCont_src = (JSONObject) JSONObject.parse(log_src.getCont());
+		// 比较
+		JSONObject cont = new JSONObject();
+
+
+		for (Entry<String, Dict> entry : zl_attrs_types.entrySet()) {
+			String dif = jsonCont_dif.getString(entry.getKey());
+			String src = jsonCont_src.getString(entry.getKey());
+
+			if (StringUtils.isBlank(src)) {
+				continue;
+			}
+			if (StringUtils.isBlank(dif)) {
+				cont.put(entry.getValue().getName(), "当前值：" + src + "｜变更前值：空");
+			} else if (!dif.equals(src)) {
+				cont.put(entry.getValue().getName(), "当前值：" + src + "｜变更前值：" + dif);
+			}
+		}
+		
+		
+
+		
+		if (StringUtils.isBlank(cont.toJSONString())||"{}".equals(cont.toJSONString())) {
+//			conts="{\"msg\":\"无变化\"}";
+			cont.put("msg", "无变化");
+		}
+		//必要信息
+		cont.put("file", log_src.getFile());
+		JSONObject contJSON=(JSONObject) JSONObject.parse(log_src.getCont());
+		cont.put("name", contJSON.getString("name"));
+		
+		log_src.setCont(cont.toJSONString());
+		return log_src;
+	}
+
 	private RowMapper<CombatLog> rowMapper = new RowMapper<CombatLog>() {
+		@Override
+		public CombatLog mapRow(ResultSet rs, int rowNum) throws SQLException {
+			CombatLog bean = new CombatLog();
+			bean.setId(rs.getLong("id"));
+			bean.setServerId(rs.getInt("server_id"));
+			bean.setDt(rs.getString("dt"));
+			bean.setUuid(rs.getString("uuid"));
+			bean.setFile(rs.getString("file"));
+			bean.setCont(rs.getString("cont"));
+			return bean;
+		}
+	};
+
+	private RowMapper<CombatLog> rowMapper2 = new RowMapper<CombatLog>() {
 		@Override
 		public CombatLog mapRow(ResultSet rs, int rowNum) throws SQLException {
 			CombatLog bean = new CombatLog();
@@ -377,7 +507,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 			bean.setValue(rs.getString("uuid"));
 			// actor_type 角色类型(human=玩家, mon=怪物, partner=人物的招唤物)
 			String type = rs.getString("actory");
-			String name=rs.getString("namea");
+			String name = rs.getString("namea");
 			if (StringUtils.isBlank(type)) {
 				type = "";
 			}
@@ -449,21 +579,24 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append(" LIMIT 1");
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		CombatAttr data = gdataDao.selectObject(sql.toString(), rowMapper_attrs);
-		
-		//取下一条
-//		select * from zl_log_info  where file='attrs' and cont->>'uuid'='10000114' and time<'2017-06-29 17:32:13' order by time desc LIMIT 1
-		CombatAttr dif=getDifAttrs(bean,maxDate);
-		if(dif!=null&&StringUtils.isNotBlank(dif.getCont())){
-			//对比数据
+
+		// 取下一条
+		// select * from zl_log_info where file='attrs' and
+		// cont->>'uuid'='10000114' and time<'2017-06-29 17:32:13' order by time
+		// desc LIMIT 1
+		CombatAttr dif = getDifAttrs(bean, maxDate);
+		if (dif != null && StringUtils.isNotBlank(dif.getCont())) {
+			// 对比数据
 			data.setContDif(dif.getCont());
 		}
 		data.setTime(maxDate);
 		return data;
 	}
-	
-	//取下一条
-//	select * from zl_log_info  where file='attrs' and cont->>'uuid'='10000114' and time<'2017-06-29 17:32:13' order by time desc LIMIT 1
-	public CombatAttr getDifAttrs(QueryCommBean bean,String time) {
+
+	// 取下一条
+	// select * from zl_log_info where file='attrs' and cont->>'uuid'='10000114'
+	// and time<'2017-06-29 17:32:13' order by time desc LIMIT 1
+	public CombatAttr getDifAttrs(QueryCommBean bean, String time) {
 		bean.setFile("attrs");
 		// 获取最大的时间
 		String maxDate = getMaxTime(bean);
@@ -487,7 +620,6 @@ public class CombatLogServiceImpl implements CombatLogService {
 		data.setTime(maxDate);
 		return data;
 	}
-	
 
 	private RowMapper<CombatAttr> rowMapper_attrs = new RowMapper<CombatAttr>() {
 		@Override
