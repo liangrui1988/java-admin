@@ -215,20 +215,20 @@ public class CombatLogServiceImpl implements CombatLogService {
 					log.setCont(jsonCont.toJSONString());
 				}
 				// 属性变更 最当前的一条和，最近的一条比较
-				if ("attrs".equals(log.getFile())) {
-					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
-					if (!jsonCont.containsKey("uuid") || StringUtils.isBlank(jsonCont.getString("uuid"))) {
-						log.setCont("");
-						continue;
-					}
-					try {
-						log = diffAttrs(log, zl_attrs_types);
-					} catch (ParseException e) {
-						e.printStackTrace();
-						continue;
-					}
-					// log.setCont(jsonCont.toJSONString());
-				}
+//				if ("attrs".equals(log.getFile())) {
+//					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+//					if (!jsonCont.containsKey("uuid") || StringUtils.isBlank(jsonCont.getString("uuid"))) {
+//						log.setCont("");
+//						continue;
+//					}
+//					try {
+//						log = diffAttrs(log, zl_attrs_types);
+//					} catch (ParseException e) {
+//						e.printStackTrace();
+//						continue;
+//					}
+//					// log.setCont(jsonCont.toJSONString());
+//				}
 
 				// 属性变化
 				if ("attrs_diff".equals(log.getFile())) {
