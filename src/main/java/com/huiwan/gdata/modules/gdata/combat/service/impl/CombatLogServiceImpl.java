@@ -100,9 +100,8 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 属性
 		Map<String, Dict> zl_attrs_types = gameDictService.getByTypeMapsDicts("zl_attrs_types");
 
-		
-		//去掉空的。主要是属性对比
-//		List<CombatLog> data_new = new LinkedList<CombatLog>();
+		// 去掉空的。主要是属性对比
+		// List<CombatLog> data_new = new LinkedList<CombatLog>();
 		System.out.println(JSONObject.toJSONString(data));
 		// 转换中文
 		if (data != null && data.size() > 0) {
@@ -231,13 +230,34 @@ public class CombatLogServiceImpl implements CombatLogService {
 					// log.setCont(jsonCont.toJSONString());
 				}
 
+				// 属性变化
+				if ("attrs_diff".equals(log.getFile())) {
+					JSONObject jsonCont_new = new JSONObject();
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					if (!jsonCont.containsKey("uuid") || StringUtils.isBlank(jsonCont.getString("uuid"))) {
+						continue;
+					}
+
+					for (Entry<String, Dict> entry : zl_attrs_types.entrySet()) {
+						if (jsonCont.containsKey(entry.getKey())) {
+							jsonCont_new.put(entry.getValue().getName(), jsonCont.getString(entry.getKey()));
+						} else {
+							jsonCont_new.put(entry.getKey(), jsonCont.getString(entry.getKey()));
+						}
+
+						jsonCont.put("attrs_dif_v2", jsonCont_new.toJSONString());
+					}
+
+					log.setCont(jsonCont.toJSONString());
+				}
+
 			}
-			
-//			for (CombatLog log : data) {
-//				if(StringUtils.isNotBlank(log.getCont())){
-//					data_new.add(log);
-//				}
-//			}
+
+			// for (CombatLog log : data) {
+			// if(StringUtils.isNotBlank(log.getCont())){
+			// data_new.add(log);
+			// }
+			// }
 		}
 
 		result.setRows(data);
@@ -300,7 +320,6 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 比较
 		JSONObject cont = new JSONObject();
 
-
 		for (Entry<String, Dict> entry : zl_attrs_types.entrySet()) {
 			String dif = jsonCont_dif.getString(entry.getKey());
 			String src = jsonCont_src.getString(entry.getKey());
@@ -314,19 +333,16 @@ public class CombatLogServiceImpl implements CombatLogService {
 				cont.put(entry.getValue().getName(), "当前值：" + src + "｜变更前值：" + dif);
 			}
 		}
-		
-		
 
-		
-		if (StringUtils.isBlank(cont.toJSONString())||"{}".equals(cont.toJSONString())) {
-//			conts="{\"msg\":\"无变化\"}";
+		if (StringUtils.isBlank(cont.toJSONString()) || "{}".equals(cont.toJSONString())) {
+			// conts="{\"msg\":\"无变化\"}";
 			cont.put("msg", "无变化");
 		}
-		//必要信息
+		// 必要信息
 		cont.put("file", log_src.getFile());
-		JSONObject contJSON=(JSONObject) JSONObject.parse(log_src.getCont());
+		JSONObject contJSON = (JSONObject) JSONObject.parse(log_src.getCont());
 		cont.put("name", contJSON.getString("name"));
-		
+
 		log_src.setCont(cont.toJSONString());
 		return log_src;
 	}
