@@ -215,20 +215,22 @@ public class CombatLogServiceImpl implements CombatLogService {
 					log.setCont(jsonCont.toJSONString());
 				}
 				// 属性变更 最当前的一条和，最近的一条比较
-//				if ("attrs".equals(log.getFile())) {
-//					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
-//					if (!jsonCont.containsKey("uuid") || StringUtils.isBlank(jsonCont.getString("uuid"))) {
-//						log.setCont("");
-//						continue;
-//					}
-//					try {
-//						log = diffAttrs(log, zl_attrs_types);
-//					} catch (ParseException e) {
-//						e.printStackTrace();
-//						continue;
-//					}
-//					// log.setCont(jsonCont.toJSONString());
-//				}
+				// if ("attrs".equals(log.getFile())) {
+				// JSONObject jsonCont = (JSONObject)
+				// JSONObject.parse(log.getCont());
+				// if (!jsonCont.containsKey("uuid") ||
+				// StringUtils.isBlank(jsonCont.getString("uuid"))) {
+				// log.setCont("");
+				// continue;
+				// }
+				// try {
+				// log = diffAttrs(log, zl_attrs_types);
+				// } catch (ParseException e) {
+				// e.printStackTrace();
+				// continue;
+				// }
+				// // log.setCont(jsonCont.toJSONString());
+				// }
 
 				// 属性变化
 				if ("attrs_diff".equals(log.getFile())) {
@@ -438,7 +440,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append(vo.getType());
 				sbWhere.append("'");
 			}
-			
+
 			if (StringUtils.isNotBlank(vo.getName())) {// 如果不为空，
 				sbWhere.append(" and cont->>'name'='");
 				sbWhere.append(vo.getName());
@@ -475,30 +477,35 @@ public class CombatLogServiceImpl implements CombatLogService {
 		if (type == 1) {
 			// String sql="SELECT DISTINCT(cont->>'uuid') uuid,time FROM
 			// zl_log_info order by time desc LIMIT 10";
-			String sql = "select cont->>'uuid' uuid,cont->>'name' namea,cont->>'actor_type' actory from zl_log_info ";
+			// String sql = "select cont->>'uuid' uuid,cont->>'name'
+			// namea,cont->>'actor_type' actory from zl_log_info ";
+
+			String sql = "	select max(id) maxid,uuid,namea,actory from ( ";
+			sql += " select id,cont ->> 'uuid' uuid, cont ->> 'name' namea,	cont ->> 'actor_type' actory  from zl_log_info ";
 			if (StringUtils.isNotBlank(severId)) {
 				sql += " where server_id='" + severId + "'";
 			}
-			sql += " order by id desc  LIMIT 1500";
+			sql += " order by id desc limit 3000 ";
+			sql += " )as t1 GROUP BY uuid,namea,actory   order by maxid limit 20";
 			log.info("sql:>>>\n{}", sql.toString());
 			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
 			// 排序去重
 
-			Map<String, Dict> data_new = new LinkedHashMap<String, Dict>();
-
-			if (data != null && data.size() > 0) {
-				for (Dict dict : data) {
-					data_new.put(dict.getValue(), dict);
-					if (data_new.size() >= 20) {
-						break;
-					}
-				}
-			}
-			List<Dict> data_result = new ArrayList<Dict>();
-			for (Entry<String, Dict> entry : data_new.entrySet()) {
-				data_result.add(entry.getValue());
-			}
-			return data_result;
+			// Map<String, Dict> data_new = new LinkedHashMap<String, Dict>();
+			//
+			// if (data != null && data.size() > 0) {
+			// for (Dict dict : data) {
+			// data_new.put(dict.getValue(), dict);
+			// if (data_new.size() >= 20) {
+			// break;
+			// }
+			// }
+			// }
+//			List<Dict> data_result = new ArrayList<Dict>();
+//			for (Entry<String, Dict> entry : data.entrySet()) {
+//				data_result.add(entry.getValue());
+//			}
+			return data;
 		}
 		if (type == 2) {
 			String sql = "SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log_info ";
