@@ -66,6 +66,14 @@ background: #d8ccd5;
 		      </div> </div>
 		 </td>
 		 <td>
+		 </td>
+		<td>
+	    </td> 
+	    </tr>
+	    
+	    <tr>
+
+		 <td>
 		    <div class="form-group" >
 		         <div class="input-group">
 		                 监听对象id： <select name="types" id="_objetc_types" class="chosen-select" style="width: 150px;width: 200px;"   >
@@ -79,7 +87,16 @@ background: #d8ccd5;
 		     监听对象id： <input class="input-xlarge" name="_object_sd_id" id="_object_sd_id" placeholder="请先把下拉选择设为手动输入"	type="text"/> 
 		</div>
 	    </td> 
+	    
+    	 <td>
+		   <div class="form-group" >
+	               <div class="input-group">
+	                对象名称： <input name="types" id="_object_name" class="chosen-select" style="width: 150px;"/>
+	      </div> </div>
+	   </td>
+	    
 	    </tr>
+	    
 	   <tr>
 		<td>
 		 <div class="form-group" >
@@ -268,6 +285,15 @@ background: #d8ccd5;
 					});
 				}
 			}
+			//名称
+			var _object_name=$("#_object_name").val();
+			if (_object_name != "" && _object_name != null && _object_name != 'undefined') {
+				parma = $.extend(parma, {
+					name : _object_name,
+				});
+			}
+			
+			
 
 			return parma;
 		}
@@ -290,6 +316,8 @@ background: #d8ccd5;
 			function(){
 				getPaginationTable(".rl-page-table",true);
 				initAttrs();//属性刷新
+				//监听对像 刷新
+				initJianTingType();
 
 		});
 		

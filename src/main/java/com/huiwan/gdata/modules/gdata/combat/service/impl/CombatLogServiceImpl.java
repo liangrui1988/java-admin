@@ -438,6 +438,12 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append(vo.getType());
 				sbWhere.append("'");
 			}
+			
+			if (StringUtils.isNotBlank(vo.getName())) {// 如果不为空，
+				sbWhere.append(" and cont->>'name'='");
+				sbWhere.append(vo.getName());
+				sbWhere.append("'");
+			}
 			//
 			// if (StringUtils.isNotBlank(vo.getCommQueryString())) {// 见听对象
 			// sbWhere.append(" and cont->>copyId='");
@@ -473,7 +479,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 			if (StringUtils.isNotBlank(severId)) {
 				sql += " where server_id='" + severId + "'";
 			}
-			sql += " order by id desc  LIMIT 1000";
+			sql += " order by id desc  LIMIT 1500";
 			log.info("sql:>>>\n{}", sql.toString());
 			List<Dict> data = gdataDao.selectObjectList(sql.toString(), type_rowMapper);
 			// 排序去重
@@ -483,7 +489,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 			if (data != null && data.size() > 0) {
 				for (Dict dict : data) {
 					data_new.put(dict.getValue(), dict);
-					if (data_new.size() >= 10) {
+					if (data_new.size() >= 20) {
 						break;
 					}
 				}
