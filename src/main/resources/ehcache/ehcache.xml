@@ -76,4 +76,14 @@
            statistics="true">
     </cache>
 
+  <cache name="selectCount"
+           maxEntriesLocalHeap="5000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+
 </ehcache>

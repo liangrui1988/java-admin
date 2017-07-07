@@ -22,6 +22,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.huiwan.gdata.common.cache.CacheUtils;
 import com.huiwan.gdata.common.utils.pagination.Paginator;
 import com.huiwan.gdata.common.utils.pagination.PaginatorResult;
 import com.huiwan.gdata.modules.gdata.base.GDataDao;
@@ -62,6 +63,11 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 		sql.append(" FROM zl_log_info ");
 		sql.append(sqlWhere);
+		//用id做查询条件
+		if(StringUtils.isNotBlank(paginator.getPageId())){
+			sql.append(" and id< ");
+			sql.append(Long.parseLong(paginator.getPageId()));
+		}
 		// 排序
 		if (StringUtils.isNotBlank(paginator.getSort())) {
 			if ("logType".equals(paginator.getSort())) {
@@ -78,11 +84,14 @@ public class CombatLogServiceImpl implements CombatLogService {
 			sql.append(" order by id desc");
 		}
 		// 分页
+		if(StringUtils.isBlank(paginator.getPageId())){
+			sql.append(" offset ");
+			sql.append(paginator.getOffset());
+		}
+		
 		sql.append(" LIMIT ");
 		sql.append(paginator.getLimit());
-		sql.append(" offset ");
-		sql.append(paginator.getOffset());
-
+		
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		List<CombatLog> data = gdataDao.selectObjectList(sql.toString(), rowMapper);
 
@@ -262,7 +271,12 @@ public class CombatLogServiceImpl implements CombatLogService {
 			// }
 			// }
 		}
+		
+		CombatLog logPage=data.get(data.size()-1);
+		logPage.setPageId(logPage.getId());
 
+		
+		
 		result.setRows(data);
 		return result;
 	}
@@ -393,8 +407,16 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append("select  count(*) ");
 		sql.append(" FROM zl_log_info ");
 		sql.append(sqlWhere);
+		
+		Object totCache=CacheUtils.get("selectCount",sql.toString());
+		if(totCache!=null&&StringUtils.isNotBlank(totCache.toString())){
+			int tot=Integer.parseInt(totCache.toString());
+			return tot;
+		}
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		int total = gdataDao.selectForRows(sql.toString());
+		//做缓存
+		CacheUtils.put("selectCount",sql.toString(), total);
 		return total;
 	}
 
@@ -408,22 +430,15 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append(vo.getFile());
 				sbWhere.append("'");
 			}
-			
 //			 not exists (select 1 from table2 tbl2 where tbl1.id = tbl2.id);
-			sbWhere.append(" and file not in('attrs','target_temp_eff','attack_temp_eff','temp_targetor','temp_attacker') ");
+//			sbWhere.append(" and file not in('attrs','target_temp_eff','attack_temp_eff','temp_targetor','temp_attacker') ");
 //			sbWhere.append("  and not exists(select 1 from zl_log_info where file='attrs' and file='target_temp_eff' and file='attack_temp_eff' and file='temp_targetor' and file='temp_attacker') ");
-
-
 			// 服务器
 			if (vo.getServer() != null && vo.getServer() > 0) {
 				sbWhere.append(" and server_id=");
 				sbWhere.append(vo.getServer());
 			}
-			
-			
-			
 			// 日期
-			
 			if(StringUtils.isBlank(vo.getDt1())){
 		      	DateFormat df=	new SimpleDateFormat("yyyy-MM-dd");
 		      	vo.setDt1(df.format(new Date()));
@@ -482,73 +497,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 	}
 	
 	
-	private StringBuffer getSQLStringNotNF(QueryCommBean vo) {
-		// 条件语句
-		StringBuffer sbWhere = new StringBuffer();
-
-		if (vo != null) {
-			if (StringUtils.isNotBlank(vo.getFile())) {
-				sbWhere.append(" and file='");
-				sbWhere.append(vo.getFile());
-				sbWhere.append("'");
-			}
-			
 	
-
-			// 服务器
-			if (vo.getServer() != null && vo.getServer() > 0) {
-				sbWhere.append(" and server_id=");
-				sbWhere.append(vo.getServer());
-			}
-			// 日期
-			if (StringUtils.isNotBlank(vo.getDt1())) {// 如果不为空，
-				sbWhere.append(" and time>='");
-				sbWhere.append(vo.getDt1());
-				sbWhere.append("'");
-			}
-
-			if (StringUtils.isNotBlank(vo.getDt2())) {// 如果不为空，
-				sbWhere.append(" and time<='");
-				sbWhere.append(vo.getDt2());
-				// sbWhere.append(" 23:59:59'");
-				sbWhere.append("'");
-			}
-
-			// 副本
-			if (StringUtils.isNotBlank(vo.getCopyId())) {// 如果不为空，
-				sbWhere.append(" and cont->>'copyId'='");
-				sbWhere.append(vo.getCopyId());
-				sbWhere.append("'");
-			}
-
-			// uuid
-			if (StringUtils.isNotBlank(vo.getType())) {// 如果不为空，
-				sbWhere.append(" and cont->>'uuid'='");
-				sbWhere.append(vo.getType());
-				sbWhere.append("'");
-			}
-
-			if (StringUtils.isNotBlank(vo.getName())) {// 如果不为空，
-				sbWhere.append(" and cont->>'name'='");
-				sbWhere.append(vo.getName());
-				sbWhere.append("'");
-			}
-			//
-			// if (StringUtils.isNotBlank(vo.getCommQueryString())) {// 见听对象
-			// sbWhere.append(" and cont->>copyId='");
-			// sbWhere.append(vo.getCommQueryString());
-			// sbWhere.append("'");
-			// }
-
-		}
-		if (StringUtils.isNotBlank(sbWhere.toString())) {
-			// 删除 and 前4位
-			sbWhere.delete(0, 5);
-			sbWhere.insert(0, " where ");
-		}
-		// 转数组
-		return sbWhere;
-	}
 
 	@Override
 	public CombatLog getDetail(Integer id) {
@@ -657,9 +606,9 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
 		// 条件组装
-		StringBuffer sqlWhere = getSQLStringNotNF(bean);// 完成
+		StringBuffer sqlWhere = getSQLString(bean);// 完成
 		StringBuffer sql = new StringBuffer(512);
-		sql.append("SELECT to_char(MAX(time),'YYYY-MM-DD HH24:MI:SS') tdata FROM zl_log_info ");
+		sql.append("SELECT to_char(MAX(time),'YYYY-MM-DD HH24:MI:SS') tdata FROM zl_log_info_attrs ");
 		sql.append(sqlWhere);
 		log.debug("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		String data = gdataDao.selectObject(sql.toString(), str_rowMapper);
@@ -685,9 +634,9 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
 		// 条件组装
-		StringBuffer sqlWhere = getSQLStringNotNF(bean);// 完成
+		StringBuffer sqlWhere = getSQLString(bean);// 完成
 		StringBuffer sql = new StringBuffer(512);
-		sql.append("select * from zl_log_info ");
+		sql.append("select * from zl_log_info_attrs ");
 		sql.append(sqlWhere);
 		sql.append(" and time='");
 		sql.append(maxDate);
@@ -723,9 +672,9 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
 		// 条件组装
-		StringBuffer sqlWhere = getSQLStringNotNF(bean);// 完成
+		StringBuffer sqlWhere = getSQLString(bean);// 完成
 		StringBuffer sql = new StringBuffer(512);
-		sql.append("select * from zl_log_info ");
+		sql.append("select * from zl_log_info_attrs ");
 		sql.append(sqlWhere);
 		sql.append(" and time<'");
 		sql.append(maxDate);

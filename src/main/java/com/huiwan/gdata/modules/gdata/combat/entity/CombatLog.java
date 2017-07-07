@@ -13,11 +13,22 @@ public class CombatLog {
 	private String add_hp;
 	private String dungeon_id;
 	
+	private long pageId;
+	
+	
 	
 	
 
 	
 
+
+	public long getPageId() {
+		return pageId;
+	}
+
+	public void setPageId(long pageId) {
+		this.pageId = pageId;
+	}
 
 	public String getFileName() {
 		return fileName;

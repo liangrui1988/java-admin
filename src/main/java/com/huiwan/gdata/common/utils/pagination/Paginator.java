@@ -16,6 +16,7 @@ public class Paginator {
 	private int limit=10;// 限制取多少行
 	private int offset;// 起始行,忽略前面行数
 	private String sort;// 排序名称
+	private String pageId;// 排序名称
 	private Object bean;
 
 	public String getOrder() {
@@ -44,6 +45,14 @@ public class Paginator {
 
 	public String getSort() {
 		return sort;
+	}
+
+	public String getPageId() {
+		return pageId;
+	}
+
+	public void setPageId(String pageId) {
+		this.pageId = pageId;
 	}
 
 	public String getSortAppendOrderBy() {

@@ -151,7 +151,7 @@ background: #d8ccd5;
 </div>
 
 	<div style="width: 50%;height: 200px;float:left;border-style:solid;  border-color: #dddddd;overflow:auto;">
-		<input id="_open_attrs_div"	 data-toggle="modal" data-target="#openAttrsDivModal"    data-whatever="" class="btn btn-primary" type="button" value="弹窗 " style="float: right;" />
+		<input id="_open_attrs_div" data-toggle="modal" data-target="#openAttrsDivModal"    data-whatever="" class="btn btn-primary" type="button" value="弹窗 " style="float: right;" />
 		<h4>对象基础信息</h4> 
 		<div id="_attrs_table" class="attrs_table_clz"></div>
 	</div>
@@ -302,6 +302,13 @@ background: #d8ccd5;
 				});
 			}
 			
+			
+			var page_id=$("#page_id").val();
+			if (page_id != "" && page_id != null && page_id != 'undefined') {
+				parma = $.extend(parma, {
+					pageId : page_id,
+				});
+			}
 			
 
 			return parma;
@@ -755,11 +762,17 @@ background: #d8ccd5;
 					width:'60',
                     align: 'center',
                     formatter:function(value,row,index){  
-//                                   var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看日志</a> ';  
-                                  var e = '<a   data-toggle="modal" data-target="#exampleModal"   data-whatever="'+row.id+'" >查看日志</a> '; 
-                                     
+//               var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看日志</a> ';  
 
-                      return e;  
+                         var ee="";
+						if(row.pageId!=null&&row.pageId!=""&&(typeof row.pageId)!='undefined')
+						{
+							ee+='<input  type="hidden" id="page_id"	 value="'+row.pageId+'">';
+						}     
+						var e = '<a   data-toggle="modal" data-target="#exampleModal"   data-whatever="'+row.id+'" >查看日志</a> '; 
+						                                     
+
+                      return e+ee;  
                       }
 				}],
 				formatLoadingMessage: function () {  
