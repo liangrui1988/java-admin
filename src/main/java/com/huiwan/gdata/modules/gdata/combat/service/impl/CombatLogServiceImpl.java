@@ -408,17 +408,79 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append("'");
 			}
 			
-			if (StringUtils.isNotBlank(vo.getFile())) {
-				sbWhere.append(" and file!='attrs' ");
-			}
 //			 not exists (select 1 from table2 tbl2 where tbl1.id = tbl2.id);
 			sbWhere.append(" and file not in('attrs','target_temp_eff','attack_temp_eff','temp_targetor','temp_attacker') ");
 //			sbWhere.append("  and not exists(select 1 from zl_log_info where file='attrs' and file='target_temp_eff' and file='attack_temp_eff' and file='temp_targetor' and file='temp_attacker') ");
+
+
+			// 服务器
+			if (vo.getServer() != null && vo.getServer() > 0) {
+				sbWhere.append(" and server_id=");
+				sbWhere.append(vo.getServer());
+			}
+			// 日期
+			if (StringUtils.isNotBlank(vo.getDt1())) {// 如果不为空，
+				sbWhere.append(" and time>='");
+				sbWhere.append(vo.getDt1());
+				sbWhere.append("'");
+			}
+
+			if (StringUtils.isNotBlank(vo.getDt2())) {// 如果不为空，
+				sbWhere.append(" and time<='");
+				sbWhere.append(vo.getDt2());
+				// sbWhere.append(" 23:59:59'");
+				sbWhere.append("'");
+			}
+
+			// 副本
+			if (StringUtils.isNotBlank(vo.getCopyId())) {// 如果不为空，
+				sbWhere.append(" and cont->>'copyId'='");
+				sbWhere.append(vo.getCopyId());
+				sbWhere.append("'");
+			}
+
+			// uuid
+			if (StringUtils.isNotBlank(vo.getType())) {// 如果不为空，
+				sbWhere.append(" and cont->>'uuid'='");
+				sbWhere.append(vo.getType());
+				sbWhere.append("'");
+			}
+
+			if (StringUtils.isNotBlank(vo.getName())) {// 如果不为空，
+				sbWhere.append(" and cont->>'name'='");
+				sbWhere.append(vo.getName());
+				sbWhere.append("'");
+			}
+			//
+			// if (StringUtils.isNotBlank(vo.getCommQueryString())) {// 见听对象
+			// sbWhere.append(" and cont->>copyId='");
+			// sbWhere.append(vo.getCommQueryString());
+			// sbWhere.append("'");
+			// }
+
+		}
+		if (StringUtils.isNotBlank(sbWhere.toString())) {
+			// 删除 and 前4位
+			sbWhere.delete(0, 5);
+			sbWhere.insert(0, " where ");
+		}
+		// 转数组
+		return sbWhere;
+	}
+	
+	
+	private StringBuffer getSQLStringNotNF(QueryCommBean vo) {
+		// 条件语句
+		StringBuffer sbWhere = new StringBuffer();
+
+		if (vo != null) {
 			if (StringUtils.isNotBlank(vo.getFile())) {
 				sbWhere.append(" and file='");
 				sbWhere.append(vo.getFile());
 				sbWhere.append("'");
 			}
+			
+	
 
 			// 服务器
 			if (vo.getServer() != null && vo.getServer() > 0) {
@@ -610,7 +672,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
 		// 条件组装
-		StringBuffer sqlWhere = getSQLString(bean);// 完成
+		StringBuffer sqlWhere = getSQLStringNotNF(bean);// 完成
 		StringBuffer sql = new StringBuffer(512);
 		sql.append("select * from zl_log_info ");
 		sql.append(sqlWhere);
@@ -648,7 +710,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
 		// 条件组装
-		StringBuffer sqlWhere = getSQLString(bean);// 完成
+		StringBuffer sqlWhere = getSQLStringNotNF(bean);// 完成
 		StringBuffer sql = new StringBuffer(512);
 		sql.append("select * from zl_log_info ");
 		sql.append(sqlWhere);
