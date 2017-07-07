@@ -272,10 +272,11 @@ public class CombatLogServiceImpl implements CombatLogService {
 			// }
 		}
 		
-		CombatLog logPage=data.get(data.size()-1);
-		logPage.setPageId(logPage.getId());
+		if(data!=null&&data.size()>0){
+		  CombatLog logPage=data.get(data.size()-1);
+			logPage.setPageId(logPage.getId());
+		}
 
-		
 		
 		result.setRows(data);
 		return result;
