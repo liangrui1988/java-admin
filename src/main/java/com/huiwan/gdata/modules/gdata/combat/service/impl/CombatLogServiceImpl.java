@@ -644,7 +644,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 参数
 		List<Object> paramArray = new LinkedList<Object>();
 		// 条件组装
-		StringBuffer sqlWhere = getSQLString(bean);// 完成
+		StringBuffer sqlWhere = getSQLStringNotNF(bean);// 完成
 		StringBuffer sql = new StringBuffer(512);
 		sql.append("SELECT to_char(MAX(time),'YYYY-MM-DD HH24:MI:SS') tdata FROM zl_log_info ");
 		sql.append(sqlWhere);
