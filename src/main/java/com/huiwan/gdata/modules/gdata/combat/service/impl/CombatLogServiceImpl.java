@@ -407,6 +407,18 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append(vo.getFile());
 				sbWhere.append("'");
 			}
+			
+			if (StringUtils.isNotBlank(vo.getFile())) {
+				sbWhere.append(" and file!='attrs' ");
+			}
+//			 not exists (select 1 from table2 tbl2 where tbl1.id = tbl2.id);
+			sbWhere.append(" and file not in('attrs','target_temp_eff','attack_temp_eff','temp_targetor','temp_attacker') ");
+//			sbWhere.append("  and not exists(select 1 from zl_log_info where file='attrs' and file='target_temp_eff' and file='attack_temp_eff' and file='temp_targetor' and file='temp_attacker') ");
+			if (StringUtils.isNotBlank(vo.getFile())) {
+				sbWhere.append(" and file='");
+				sbWhere.append(vo.getFile());
+				sbWhere.append("'");
+			}
 
 			// 服务器
 			if (vo.getServer() != null && vo.getServer() > 0) {
