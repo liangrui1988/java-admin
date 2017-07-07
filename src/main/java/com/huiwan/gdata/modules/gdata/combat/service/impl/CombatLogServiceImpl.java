@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -418,19 +419,31 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append(" and server_id=");
 				sbWhere.append(vo.getServer());
 			}
+			
+			
+			
 			// 日期
+			
+			if(StringUtils.isBlank(vo.getDt1())){
+		      	DateFormat df=	new SimpleDateFormat("yyyy-MM-dd");
+		      	vo.setDt1(df.format(new Date()));
+			}
 			if (StringUtils.isNotBlank(vo.getDt1())) {// 如果不为空，
 				sbWhere.append(" and time>='");
 				sbWhere.append(vo.getDt1());
 				sbWhere.append("'");
+				
+				sbWhere.append(" and time<='");
+				sbWhere.append(vo.getDt1());
+				sbWhere.append(" 23:59:59'");
 			}
 
-			if (StringUtils.isNotBlank(vo.getDt2())) {// 如果不为空，
-				sbWhere.append(" and time<='");
-				sbWhere.append(vo.getDt2());
-				// sbWhere.append(" 23:59:59'");
-				sbWhere.append("'");
-			}
+//			if (StringUtils.isNotBlank(vo.getDt2())) {// 如果不为空，
+//				sbWhere.append(" and time<='");
+//				sbWhere.append(vo.getDt2());
+//				// sbWhere.append(" 23:59:59'");
+//				sbWhere.append("'");
+//			}
 
 			// 副本
 			if (StringUtils.isNotBlank(vo.getCopyId())) {// 如果不为空，

@@ -125,11 +125,20 @@ background: #d8ccd5;
 	    <td colspan="2">
 			<div class="form-group">
 			<div class="input-daterange input-group" id="datepicker">
-				 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text"
-				     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" /> 
-			   结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" />
+				日期(默认当天): <input name="dt1" id="d5221" class="Wdate" type="text"
+				     onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"style="width: 150px" /> 
 			</div>
 			</div> 
+			
+			
+<!-- 					<div class="form-group"> -->
+<!-- 			<div class="input-daterange input-group" id="datepicker"> -->
+<!-- 				 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text" -->
+<!-- 				     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" />  -->
+<!-- 			   结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" /> -->
+<!-- 			</div> -->
+<!-- 			</div>  -->
+			
 		</td>
 		<td>
 		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
