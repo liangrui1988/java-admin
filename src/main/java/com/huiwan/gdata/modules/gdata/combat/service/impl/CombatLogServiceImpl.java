@@ -7,14 +7,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.jetty.util.ajax.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +44,34 @@ public class CombatLogServiceImpl implements CombatLogService {
 	@Autowired
 	private IGameDictService gameDictService;
 
+	/**
+	 * 通过时间获取分区表
+	 * 
+	 * @param dt
+	 * @return
+	 */
+	public static String getTable(String dt) {
+		String table_suffix = "2017_07";
+		DateFormat df = new SimpleDateFormat("yyyy_MM");
+		if (StringUtils.isBlank(dt)) {
+			table_suffix = df.format(new Date());
+		} else {
+			DateFormat df_ssrc = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				table_suffix = df.format(df_ssrc.parse(dt));
+			} catch (ParseException e) {
+				table_suffix = df.format(new Date());
+				e.printStackTrace();
+			}
+		}
+		String t = " zl_log_info" + table_suffix+" ";
+		return t;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(getTable("2018-08-10 12:50:30"));
+	}
+
 	@Override
 	public PaginatorResult getPaginatorList(Paginator paginator, QueryCommBean bean) {
 		PaginatorResult result = new PaginatorResult();
@@ -62,7 +88,10 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 		sql.append("SELECT id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont ");
 
-		sql.append(" FROM zl_log_info ");
+		sql.append(" FROM  ");
+		sql.append(getTable(bean.getDt1()));
+
+		
 		sql.append(sqlWhere);
 		// 用id做查询条件
 		// if(StringUtils.isNotBlank(paginator.getPageId())){
@@ -329,7 +358,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 								exotics_array.add(exotics_json);
 								continue;
 							}
-							if("EXOTIC_RAND_ATTR".equals(exotics_Dict.getName())){//他才有属性
+							if ("EXOTIC_RAND_ATTR".equals(exotics_Dict.getName())) {// 他才有属性
 								String attrs_key = "A_" + exotics_Dict.getArg1();
 								if (zl_attrs_types.containsKey(attrs_key)) {
 									exotics_json.put("attr", zl_attrs_types.get(attrs_key).getName());
@@ -395,7 +424,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		}
 		StringBuffer sql = new StringBuffer();
 		sql.append(
-				"SELECT id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont FROM zl_log_info where file='attrs' ");
+				"SELECT id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont FROM zl_log_info_attrs where file='attrs' ");
 		sql.append(" and cont->>'uuid'='");
 		sql.append(uuid);
 		sql.append("'");
@@ -490,7 +519,9 @@ public class CombatLogServiceImpl implements CombatLogService {
 		StringBuffer sqlWhere = getSQLString(vo);// 完成
 		StringBuffer sql = new StringBuffer(512);
 		sql.append("select  count(*) ");
-		sql.append(" FROM zl_log_info ");
+		sql.append(" FROM  ");
+		sql.append(getTable(vo.getDt1()));
+		
 		sql.append(sqlWhere);
 
 		Object totCache = CacheUtils.get("selectCount", sql.toString());
@@ -529,27 +560,39 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append(vo.getServer());
 			}
 			// 日期
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			if (StringUtils.isBlank(vo.getDt1())) {
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				vo.setDt1(df.format(new Date()));
 			}
 			if (StringUtils.isNotBlank(vo.getDt1())) {// 如果不为空，
-				sbWhere.append(" and time>='");
-				sbWhere.append(vo.getDt1());
-				sbWhere.append("'");
 
-				sbWhere.append(" and time<='");
-				sbWhere.append(vo.getDt1());
-				sbWhere.append(" 23:59:59'");
+				long time_log = new Date().getTime();
+				try {
+					time_log = df.parse(vo.getDt1()).getTime();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				sbWhere.append(" and time_log>=");
+				sbWhere.append(time_log);
+
+				DateFormat df_t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				long time_log_end = new Date().getTime() + 10000;
+				try {
+					time_log_end = df_t.parse(vo.getDt1() + " 23:59:59").getTime();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				sbWhere.append(" and time_log<=");
+				sbWhere.append(time_log_end);
 			}
-
 			// if (StringUtils.isNotBlank(vo.getDt2())) {// 如果不为空，
 			// sbWhere.append(" and time<='");
 			// sbWhere.append(vo.getDt2());
 			// // sbWhere.append(" 23:59:59'");
 			// sbWhere.append("'");
 			// }
-
 			// 副本
 			if (StringUtils.isNotBlank(vo.getCopyId())) {// 如果不为空，
 				sbWhere.append(" and cont->>'copyId'='");
@@ -586,24 +629,23 @@ public class CombatLogServiceImpl implements CombatLogService {
 	}
 
 	@Override
-	public CombatLog getDetail(Integer id) {
-		String sql = "select  id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont from zl_log_info where id="
+	public CombatLog getDetail(Integer id,String dt) {
+		String sql = "select  id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont from "+getTable(dt)+" where id="
 				+ id;
+		
+		
+		
 		log.info("sql:>>>\n{}", sql.toString());
 		CombatLog data = gdataDao.selectObject(sql.toString(), rowMapper);
 		return data;
 	}
 
 	@Override
-	public List<Dict> getObjTypes(int type, String severId) {
+	public List<Dict> getObjTypes(int type, String severId,String dt) {
 		if (type == 1) {
-			// String sql="SELECT DISTINCT(cont->>'uuid') uuid,time FROM
-			// zl_log_info order by time desc LIMIT 10";
-			// String sql = "select cont->>'uuid' uuid,cont->>'name'
-			// namea,cont->>'actor_type' actory from zl_log_info ";
-
-			String sql = "	select max(id) maxid,uuid,namea,actory from ( ";
-			sql += " select id,cont ->> 'uuid' uuid, cont ->> 'name' namea,	cont ->> 'actor_type' actory  from zl_log_info ";
+				String sql = "	select max(id) maxid,uuid,namea,actory from ( ";
+			sql += " select id,cont ->> 'uuid' uuid, cont ->> 'name' namea,	cont ->> 'actor_type' actory  from  ";
+			sql += getTable(dt);
 			if (StringUtils.isNotBlank(severId)) {
 				sql += " where server_id='" + severId + "'";
 			}
@@ -630,7 +672,8 @@ public class CombatLogServiceImpl implements CombatLogService {
 			return data;
 		}
 		if (type == 2) {
-			String sql = "SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log_info ";
+			String sql = "SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from  ";
+			sql += getTable(dt);
 			if (StringUtils.isNotBlank(severId)) {
 				sql += " where server_id='" + severId + "'";
 			}
@@ -732,9 +775,6 @@ public class CombatLogServiceImpl implements CombatLogService {
 		CombatAttr data = gdataDao.selectObject(sql.toString(), rowMapper_attrs);
 
 		// 取下一条
-		// select * from zl_log_info where file='attrs' and
-		// cont->>'uuid'='10000114' and time<'2017-06-29 17:32:13' order by time
-		// desc LIMIT 1
 		CombatAttr dif = getDifAttrs(bean, maxDate);
 		if (dif != null && StringUtils.isNotBlank(dif.getCont())) {
 			// 对比数据
@@ -745,8 +785,6 @@ public class CombatLogServiceImpl implements CombatLogService {
 	}
 
 	// 取下一条
-	// select * from zl_log_info where file='attrs' and cont->>'uuid'='10000114'
-	// and time<'2017-06-29 17:32:13' order by time desc LIMIT 1
 	public CombatAttr getDifAttrs(QueryCommBean bean, String time) {
 		bean.setFile("attrs");
 		// 获取最大的时间

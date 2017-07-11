@@ -22,9 +22,9 @@ public interface CombatLogService {
 	 */
 	PaginatorResult getPaginatorList(Paginator paginator, QueryCommBean bean);
 
-	CombatLog getDetail(Integer id);
+	CombatLog getDetail(Integer id,String dt);
 
-	List<Dict> getObjTypes(int type,String severId);
+	List<Dict> getObjTypes(int type,String severId,String dt);
 	
 	CombatAttr getAttrs(QueryCommBean bean);
 }

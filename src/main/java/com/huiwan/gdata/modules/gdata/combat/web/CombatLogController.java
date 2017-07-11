@@ -46,17 +46,17 @@ public class CombatLogController {
 
 	@RequestMapping(value = { "getDetail" }, method = RequestMethod.GET)
 	@ResponseBody
-	public String getDetail(Integer id) {
-		CombatLog result = combatLogService.getDetail(id);
+	public String getDetail(Integer id,String dt) {
+		CombatLog result = combatLogService.getDetail(id, dt);
 		return result.getCont();
 	}
 
 	@RequestMapping(value = { "getUuids" }, method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getUuids(String severId) {
+	public ResultBean getUuids(String severId,String dt) {
 		ResultBean rb = new ResultBean();
 		try {
-			List<Dict> result = combatLogService.getObjTypes(1,severId);
+			List<Dict> result = combatLogService.getObjTypes(1,severId,dt);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,10 +67,10 @@ public class CombatLogController {
 	
 	@RequestMapping(value = { "getCopyids" }, method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getCopyids(String severId) {
+	public ResultBean getCopyids(String severId,String dt) {
 		ResultBean rb = new ResultBean();
 		try {
-			List<Dict> result = combatLogService.getObjTypes(2,severId);
+			List<Dict> result = combatLogService.getObjTypes(2,severId,dt);
 			rb.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();
