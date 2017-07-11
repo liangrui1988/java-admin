@@ -45,6 +45,35 @@ public class CombatLogServiceImpl implements CombatLogService {
 	private IDictService dictService;
 	@Autowired
 	private IGameDictService gameDictService;
+	
+	/**
+	 * 通过时间获取分区表
+	 * 
+	 * @param dt
+	 * @return
+	 */
+	public static String getTable(String dt) {
+		String table_suffix = "2017_07";
+		DateFormat df = new SimpleDateFormat("yyyy_MM");
+		if (StringUtils.isBlank(dt)) {
+			table_suffix = df.format(new Date());
+		} else {
+			DateFormat df_ssrc = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				table_suffix = df.format(df_ssrc.parse(dt));
+			} catch (ParseException e) {
+				table_suffix = df.format(new Date());
+				e.printStackTrace();
+			}
+		}
+		String t = " zl_log_info" + table_suffix+" ";
+		return t;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(getTable("2018-08-10 12:50:30"));
+	}
+	
 
 	@Override
 	public PaginatorResult getPaginatorList(Paginator paginator, QueryCommBean bean) {
@@ -395,7 +424,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		}
 		StringBuffer sql = new StringBuffer();
 		sql.append(
-				"SELECT id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont FROM zl_log_info where file='attrs' ");
+				"SELECT id,server_id,file,to_char(time,'YYYY-MM-DD HH24:MI:SS') dt,cont->>'uuid' uuid,cont cont FROM zl_log_info_attrs where file='attrs' ");
 		sql.append(" and cont->>'uuid'='");
 		sql.append(uuid);
 		sql.append("'");
