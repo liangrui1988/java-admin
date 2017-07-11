@@ -131,3 +131,16 @@ EXECUTE PROCEDURE fn_zl_log_info_main_insert_trigger();
 
 -- 
 drop TRIGGER trigger_insert_zl_log_info_main on zl_log_info
+
+-- 确保postgresql.conf 里的配置参数constraint_exclusion 是打开的。没有这个参数，查询不会按照需要进行优化。
+-- 这里我们需要做的是确保该选项在配置文件中没有被注释掉。
+--如果没有约束排除，查询会扫描tbl_partition 表中的每一个分区
+constraint_exclusion = on;       
+
+-- 测试效果 
+
+EXPLAIN
+SELECT * FROM "public"."zl_log_info" where time>='2017-09-10' and   time<='2017-11-10'
+
+EXPLAIN
+SELECT * FROM "public"."zl_log_info" where time_log>=1505001600
