@@ -14,6 +14,12 @@
     <result column="create_by_id" property="createById" jdbcType="INTEGER" />
     <result column="update_by_id" property="updateById" jdbcType="INTEGER" />
     <result column="remake" property="remake" jdbcType="VARCHAR" />
+        <result column="arg1" property="arg1" jdbcType="VARCHAR" />
+        <result column="arg2" property="arg2" jdbcType="VARCHAR" />
+        <result column="arg3" property="arg3" jdbcType="VARCHAR" />
+        <result column="arg4" property="arg4" jdbcType="VARCHAR" />
+         <result column="arg5" property="arg5" jdbcType="VARCHAR" />
+    
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -46,7 +52,7 @@
 	</select>
 	
 	<select id="getByType" 	resultMap="BaseResultMap">
-		select * from sys_dict where type=#{type}
+		select * from sys_dict where status=0 and type=#{type}
 		order by  sort
 	</select>
 	

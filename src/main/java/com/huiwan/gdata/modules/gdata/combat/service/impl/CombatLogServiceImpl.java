@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huiwan.gdata.common.cache.CacheUtils;
 import com.huiwan.gdata.common.utils.pagination.Paginator;
@@ -63,11 +64,11 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 		sql.append(" FROM zl_log_info ");
 		sql.append(sqlWhere);
-		//用id做查询条件
-		if(StringUtils.isNotBlank(paginator.getPageId())){
-			sql.append(" and id< ");
-			sql.append(Long.parseLong(paginator.getPageId()));
-		}
+		// 用id做查询条件
+		// if(StringUtils.isNotBlank(paginator.getPageId())){
+		// sql.append(" and id< ");
+		// sql.append(Long.parseLong(paginator.getPageId()));
+		// }
 		// 排序
 		if (StringUtils.isNotBlank(paginator.getSort())) {
 			if ("logType".equals(paginator.getSort())) {
@@ -81,17 +82,17 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sql.append(paginator.getOrder());
 			}
 		} else {
-			sql.append(" order by id desc");
+			sql.append(" order by time_log desc ,id desc");
 		}
 		// 分页
-		if(StringUtils.isBlank(paginator.getPageId())){
-			sql.append(" offset ");
-			sql.append(paginator.getOffset());
-		}
-		
+		// if(StringUtils.isBlank(paginator.getPageId())){
+		sql.append(" offset ");
+		sql.append(paginator.getOffset());
+		// }
+
 		sql.append(" LIMIT ");
 		sql.append(paginator.getLimit());
-		
+
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		List<CombatLog> data = gdataDao.selectObjectList(sql.toString(), rowMapper);
 
@@ -110,9 +111,14 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 属性
 		Map<String, Dict> zl_attrs_types = gameDictService.getByTypeMapsDicts("zl_attrs_types");
 
+		// 被动技能
+		Map<String, Dict> zl_passive_skill_type = gameDictService.getByTypeMapsDicts("zl_passive_skill_type");
+		// 独特属性
+		Map<String, Dict> zl_exotics_type = gameDictService.getByTypeMapsDicts("zl_exotics_type");
+
 		// 去掉空的。主要是属性对比
 		// List<CombatLog> data_new = new LinkedList<CombatLog>();
-		System.out.println(JSONObject.toJSONString(data));
+		// System.out.println(JSONObject.toJSONString(data));
 		// 转换中文
 		if (data != null && data.size() > 0) {
 			for (CombatLog log : data) {
@@ -263,6 +269,85 @@ public class CombatLogServiceImpl implements CombatLogService {
 					log.setCont(jsonCont.toJSONString());
 				}
 
+				// 添加被动技能
+				if ("add_pass".equals(log.getFile())) {
+					JSONObject add_pass_passive_skill_type = new JSONObject();
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					if (!jsonCont.containsKey("uuid") || StringUtils.isBlank(jsonCont.getString("uuid"))) {
+						continue;
+					}
+					if (!jsonCont.containsKey("pass_ids") || StringUtils.isBlank(jsonCont.getString("pass_ids"))) {
+						continue;
+					}
+					String pass_id = jsonCont.getString("pass_ids");
+					if (zl_passive_skill_type.containsKey(pass_id)) {
+						Dict pass_skill_dict = zl_passive_skill_type.get(pass_id);
+						// 第一层找 被动技能
+						jsonCont.put("pass_skill_name", pass_skill_dict.getName());
+						// 再通过参数去找
+						String exotics_ids = "";
+						// 是否有等级区间
+						String lv_src = pass_skill_dict.getArg1();
+						if (StringUtils.isNotBlank(lv_src)) {
+							jsonCont.put("lveare", lv_src);
+							// 独特属性bids数组折分
+							// 按等级取{1,10}= ids
+							String[] lv_arr = lv_src.replace("{", "").replace("}", "").trim().split(",");
+							Integer lv = jsonCont.getInteger("lv");
+							// 如果在这个等级范围里
+							if (lv >= Integer.parseInt(lv_arr[0]) && lv <= Integer.parseInt(lv_arr[1])) {
+								exotics_ids = pass_skill_dict.getArg2();
+							}
+						} else {// 没有区间直接取
+							exotics_ids = pass_skill_dict.getArg2();
+						}
+						// 没有id
+						if (StringUtils.isBlank(exotics_ids)) {
+							continue;
+						}
+						// 拆分数组，并取相应值
+						String[] exotics_ids_arr = exotics_ids.replace("[", "").replace("]", "").trim().split(",");
+						JSONArray exotics_array = new JSONArray();
+						for (String e_id : exotics_ids_arr) {
+							if (StringUtils.isBlank(e_id)) {
+								continue;
+							}
+							if (!zl_exotics_type.containsKey(e_id)) {
+								add_pass_passive_skill_type.put("pass_list", "翻译未能找到-" + e_id);
+								continue;
+							}
+							Dict exotics_Dict = zl_exotics_type.get(e_id);
+							JSONObject exotics_json = new JSONObject();
+							// 独特属性
+							exotics_json.put("id", exotics_Dict.getValue());
+							exotics_json.put("type", exotics_Dict.getName());
+							exotics_json.put("arg2", exotics_Dict.getArg2());
+							exotics_json.put("arg3", exotics_Dict.getArg3());
+							// 接着翻译
+							if (StringUtils.isBlank(exotics_Dict.getArg1())) {
+								exotics_json.put("attr", "空");
+								exotics_array.add(exotics_json);
+								continue;
+							}
+							if("EXOTIC_RAND_ATTR".equals(exotics_Dict.getName())){//他才有属性
+								String attrs_key = "A_" + exotics_Dict.getArg1();
+								if (zl_attrs_types.containsKey(attrs_key)) {
+									exotics_json.put("attr", zl_attrs_types.get(attrs_key).getName());
+								} else {
+									exotics_json.put("属性:配置表末能翻译-", attrs_key);
+								}
+							}
+							exotics_array.add(exotics_json);
+						}
+						add_pass_passive_skill_type.put("pass_list", exotics_array);
+					} else {
+						add_pass_passive_skill_type.put("pass_list", pass_id + ":表中未能找到");
+					}
+					// 加入一层
+					jsonCont.put("add_pass_passive_skill_type", add_pass_passive_skill_type.toJSONString());
+					log.setCont(jsonCont.toJSONString());
+				}
+
 			}
 
 			// for (CombatLog log : data) {
@@ -271,13 +356,12 @@ public class CombatLogServiceImpl implements CombatLogService {
 			// }
 			// }
 		}
-		
-		if(data!=null&&data.size()>0){
-		  CombatLog logPage=data.get(data.size()-1);
+
+		if (data != null && data.size() > 0) {
+			CombatLog logPage = data.get(data.size() - 1);
 			logPage.setPageId(logPage.getId());
 		}
 
-		
 		result.setRows(data);
 		return result;
 	}
@@ -408,16 +492,16 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append("select  count(*) ");
 		sql.append(" FROM zl_log_info ");
 		sql.append(sqlWhere);
-		
-		Object totCache=CacheUtils.get("selectCount",sql.toString());
-		if(totCache!=null&&StringUtils.isNotBlank(totCache.toString())){
-			int tot=Integer.parseInt(totCache.toString());
+
+		Object totCache = CacheUtils.get("selectCount", sql.toString());
+		if (totCache != null && StringUtils.isNotBlank(totCache.toString())) {
+			int tot = Integer.parseInt(totCache.toString());
 			return tot;
 		}
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		int total = gdataDao.selectForRows(sql.toString());
-		//做缓存
-		CacheUtils.put("selectCount",sql.toString(), total);
+		// 做缓存
+		CacheUtils.put("selectCount", sql.toString(), total);
 		return total;
 	}
 
@@ -431,35 +515,40 @@ public class CombatLogServiceImpl implements CombatLogService {
 				sbWhere.append(vo.getFile());
 				sbWhere.append("'");
 			}
-//			 not exists (select 1 from table2 tbl2 where tbl1.id = tbl2.id);
-//			sbWhere.append(" and file not in('attrs','target_temp_eff','attack_temp_eff','temp_targetor','temp_attacker') ");
-//			sbWhere.append("  and not exists(select 1 from zl_log_info where file='attrs' and file='target_temp_eff' and file='attack_temp_eff' and file='temp_targetor' and file='temp_attacker') ");
+			// not exists (select 1 from table2 tbl2 where tbl1.id = tbl2.id);
+			// sbWhere.append(" and file not
+			// in('attrs','target_temp_eff','attack_temp_eff','temp_targetor','temp_attacker')
+			// ");
+			// sbWhere.append(" and not exists(select 1 from zl_log_info where
+			// file='attrs' and file='target_temp_eff' and
+			// file='attack_temp_eff' and file='temp_targetor' and
+			// file='temp_attacker') ");
 			// 服务器
 			if (vo.getServer() != null && vo.getServer() > 0) {
 				sbWhere.append(" and server_id=");
 				sbWhere.append(vo.getServer());
 			}
 			// 日期
-			if(StringUtils.isBlank(vo.getDt1())){
-		      	DateFormat df=	new SimpleDateFormat("yyyy-MM-dd");
-		      	vo.setDt1(df.format(new Date()));
+			if (StringUtils.isBlank(vo.getDt1())) {
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				vo.setDt1(df.format(new Date()));
 			}
 			if (StringUtils.isNotBlank(vo.getDt1())) {// 如果不为空，
 				sbWhere.append(" and time>='");
 				sbWhere.append(vo.getDt1());
 				sbWhere.append("'");
-				
+
 				sbWhere.append(" and time<='");
 				sbWhere.append(vo.getDt1());
 				sbWhere.append(" 23:59:59'");
 			}
 
-//			if (StringUtils.isNotBlank(vo.getDt2())) {// 如果不为空，
-//				sbWhere.append(" and time<='");
-//				sbWhere.append(vo.getDt2());
-//				// sbWhere.append(" 23:59:59'");
-//				sbWhere.append("'");
-//			}
+			// if (StringUtils.isNotBlank(vo.getDt2())) {// 如果不为空，
+			// sbWhere.append(" and time<='");
+			// sbWhere.append(vo.getDt2());
+			// // sbWhere.append(" 23:59:59'");
+			// sbWhere.append("'");
+			// }
 
 			// 副本
 			if (StringUtils.isNotBlank(vo.getCopyId())) {// 如果不为空，
@@ -470,9 +559,8 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 			// uuid
 			if (StringUtils.isNotBlank(vo.getType())) {// 如果不为空，
-				sbWhere.append(" and cont->>'uuid'='");
+				sbWhere.append(" and uuid=");
 				sbWhere.append(vo.getType());
-				sbWhere.append("'");
 			}
 
 			if (StringUtils.isNotBlank(vo.getName())) {// 如果不为空，
@@ -496,9 +584,6 @@ public class CombatLogServiceImpl implements CombatLogService {
 		// 转数组
 		return sbWhere;
 	}
-	
-	
-	
 
 	@Override
 	public CombatLog getDetail(Integer id) {
@@ -538,10 +623,10 @@ public class CombatLogServiceImpl implements CombatLogService {
 			// }
 			// }
 			// }
-//			List<Dict> data_result = new ArrayList<Dict>();
-//			for (Entry<String, Dict> entry : data.entrySet()) {
-//				data_result.add(entry.getValue());
-//			}
+			// List<Dict> data_result = new ArrayList<Dict>();
+			// for (Entry<String, Dict> entry : data.entrySet()) {
+			// data_result.add(entry.getValue());
+			// }
 			return data;
 		}
 		if (type == 2) {
