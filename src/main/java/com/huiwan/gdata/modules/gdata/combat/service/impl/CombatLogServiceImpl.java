@@ -156,6 +156,8 @@ public class CombatLogServiceImpl implements CombatLogService {
 				// 转换文件名
 				if (dicts.containsKey(log.getFile())) {
 					log.setFileName(dicts.get(log.getFile()));
+				}else{
+					log.setFileName(log.getFile());
 				}
 				// 转换服务器
 				if (servers_type.containsKey(String.valueOf(log.getServerId()))) {
