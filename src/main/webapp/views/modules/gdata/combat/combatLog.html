@@ -940,6 +940,34 @@ background: #d8ccd5;
 					_table_html+=obj_JSON.en_steal;
 				_table_html+="</td>";
 			 }
+			 if("hit_type" in obj_JSON){
+				 _table_html+="<td>伤害类型：";
+				 var hit_v=obj_JSON.hit_type;
+				 if(hit_v=="1"){
+					 hit_v="招架"; 
+				 }
+				 if(hit_v=="2"){
+					 hit_v="暴击"; 
+				 }
+				 if(hit_v=="4"){
+					 hit_v="闪避"; 
+				 }
+				 if(hit_v=="8"){
+					 hit_v="生命偷取"; 
+				 }
+				 if(hit_v=="16"){
+					 hit_v="能量偷取"; 
+				 }
+				 if(hit_v=="32"){
+					 hit_v="伤害反弹"; 
+				 }
+				 if(hit_v=="64"){
+					 hit_v="伤害吸收"; 
+				 }
+				_table_html+=hit_v;
+				_table_html+="</td>";
+			 } 
+			 
 			_table_html+="</tr>";
 			_table_html+="</table>";
 			return _table_html;
@@ -1018,6 +1046,77 @@ background: #d8ccd5;
 						 _pass_table_html+="</td>";
 					  }
 					 
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("attr")){
+// 						 _pass_table_html+="<td>属性:";
+// 						 _pass_table_html+=_pass_obj_JSON_v.attr;
+// 						 _pass_table_html+="</td>";
+// 					  }else{
+// 							 _pass_table_html+="<td>属性:无";
+// 							 _pass_table_html+="</td>";
+// 					  }
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("type")){
+// 						 _pass_table_html+="<td>效果type:";
+// 						 _pass_table_html+=_pass_obj_JSON_v.type;
+// 						 _pass_table_html+="</td>";
+// 					  }
+					 
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("arg3")){
+// 						 _pass_table_html+="<td>特效名称：";
+// 						 _pass_table_html+=_pass_obj_JSON_v.arg3;
+// 						 _pass_table_html+="</td>";
+// 					  }
+					_pass_table_html+="</tr>";
+				}
+				_pass_table_html+="</table>";
+			   _table_html+=_pass_table_html;
+			 }
+			_table_html+="</td>";
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//-----------------独特属性-----------------------
+		if(obj_JSON.file=='exotics'){//技能
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>name：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 if("exotics_ids" in obj_JSON){
+				 _table_html+="<td>exotics_ids：";
+					_table_html+=obj_JSON.exotics_ids;
+				_table_html+="</td>";
+			 }
+			 
+			 
+			 
+			 _table_html+="</tr><tr>";
+			 if("add_pass_passive_skill_type" in obj_JSON){
+				 _table_html+="<td colspan='2'>";
+				var pass_obj_=JSON.parse(obj_JSON.add_pass_passive_skill_type);
+				var _pass_obj_JSON=pass_obj_.pass_list;
+				 if((typeof _pass_obj_JSON)=='undefined'){
+						_table_html+="undefined-xx</td>";
+						_table_html+="</tr>";
+						_table_html+="</table>";
+						return _table_html;
+				 }
+				var _pass_table_html="<table>";
+				for(var j=0;j<_pass_obj_JSON.length;j++){
+				var _pass_obj_JSON_v= _pass_obj_JSON[j];
+				_pass_table_html+="<tr>";
+					 if(_pass_obj_JSON_v.hasOwnProperty("id")){
+						 _pass_table_html+="<td>id:";
+						 _pass_table_html+=_pass_obj_JSON_v.id;
+						 _pass_table_html+="</td>";
+					  }
+					 
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("arg2")){
+// 						 _pass_table_html+="<td>参数：";
+// 						 _pass_table_html+=_pass_obj_JSON_v.arg2;
+// 						 _pass_table_html+="</td>";
+// 					  }
+					 
 					 if(_pass_obj_JSON_v.hasOwnProperty("attr")){
 						 _pass_table_html+="<td>属性:";
 						 _pass_table_html+=_pass_obj_JSON_v.attr;
@@ -1047,6 +1146,7 @@ background: #d8ccd5;
 			_table_html+="</table>";
 			return _table_html;
 		}
+		
 		//------------------角色特殊-----------------------
 		if(obj_JSON.file=='player_join'||obj_JSON.file=='player_leave'||obj_JSON.file=='mon_dead'||obj_JSON.file=='player_dead'){
 			

@@ -45,7 +45,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 	private IDictService dictService;
 	@Autowired
 	private IGameDictService gameDictService;
-	
+
 	/**
 	 * 通过时间获取分区表
 	 * 
@@ -66,14 +66,13 @@ public class CombatLogServiceImpl implements CombatLogService {
 				e.printStackTrace();
 			}
 		}
-		String t = " zl_log_info" + table_suffix+" ";
+		String t = " zl_log_info" + table_suffix + " ";
 		return t;
 	}
 
 	public static void main(String[] args) {
 		System.out.println(getTable("2018-08-10 12:50:30"));
 	}
-	
 
 	@Override
 	public PaginatorResult getPaginatorList(Paginator paginator, QueryCommBean bean) {
@@ -156,7 +155,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 				// 转换文件名
 				if (dicts.containsKey(log.getFile())) {
 					log.setFileName(dicts.get(log.getFile()));
-				}else{
+				} else {
 					log.setFileName(log.getFile());
 				}
 				// 转换服务器
@@ -216,7 +215,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 						String skill_name = zl_effect_type.get(key);
 						jsonCont.put("effect_Prob", skill_name);
 					} else {
-						jsonCont.put("effect_Prob", key);
+						jsonCont.put("effect_Prob", "末能翻译：" + key);
 					}
 					log.setCont(jsonCont.toJSONString());
 				}
@@ -360,7 +359,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 								exotics_array.add(exotics_json);
 								continue;
 							}
-							if("EXOTIC_RAND_ATTR".equals(exotics_Dict.getName())){//他才有属性
+							if ("EXOTIC_RAND_ATTR".equals(exotics_Dict.getName())) {// 他才有属性
 								String attrs_key = "A_" + exotics_Dict.getArg1();
 								if (zl_attrs_types.containsKey(attrs_key)) {
 									exotics_json.put("attr", zl_attrs_types.get(attrs_key).getName());
@@ -378,7 +377,55 @@ public class CombatLogServiceImpl implements CombatLogService {
 					jsonCont.put("add_pass_passive_skill_type", add_pass_passive_skill_type.toJSONString());
 					log.setCont(jsonCont.toJSONString());
 				}
+				// 独特属性转换
+				if ("exotics_ids".equals(log.getFile())) {
+					JSONObject jsonCont = (JSONObject) JSONObject.parse(log.getCont());
+					if (!jsonCont.containsKey("exotics_ids")) {
+						continue;
+					}
+					String exotics_ids = jsonCont.get("exotics_ids").toString();
+					if (StringUtils.isBlank(exotics_ids)) {
+						continue;
+					}
+					String[] ids = exotics_ids.replace("[", "").replace("]", "").split(",");
+					JSONArray exotics_array = new JSONArray();
 
+					for (String id : ids) {
+						JSONObject jsonCont_new = new JSONObject();
+						if (!zl_exotics_type.containsKey(id)) {
+							jsonCont_new.put("msg", "配置表末能找到对应的id_" + id);
+							exotics_array.add(jsonCont_new);
+							continue;
+						}
+						Dict exotics_Dict = zl_exotics_type.get(id);
+						// 独特属性
+						jsonCont_new.put("id", exotics_Dict.getValue());
+						jsonCont_new.put("type", exotics_Dict.getName());
+						jsonCont_new.put("arg2", exotics_Dict.getArg2());
+						jsonCont_new.put("arg3", exotics_Dict.getArg3());
+						// 接着翻译
+						if (StringUtils.isBlank(exotics_Dict.getArg1())) {
+							jsonCont_new.put("attr", "空");
+							exotics_array.add(jsonCont_new);
+							continue;
+						}
+						if ("EXOTIC_RAND_ATTR".equals(exotics_Dict.getName())) {// 他才有属性
+							String attrs_key = "A_" + exotics_Dict.getArg1();
+							if (zl_attrs_types.containsKey(attrs_key)) {
+								jsonCont_new.put("attr", zl_attrs_types.get(attrs_key).getName());
+							} else {
+								jsonCont_new.put("属性:配置表末能翻译-", attrs_key);
+							}
+						}
+
+						exotics_array.add(jsonCont_new);
+					}
+					
+					JSONObject add_pass_passive_skill_type = new JSONObject();
+					add_pass_passive_skill_type.put("pass_list", exotics_array);
+					jsonCont.put("add_pass_passive_skill_type", add_pass_passive_skill_type.toJSONString());
+					log.setCont(jsonCont.toJSONString());
+				}
 			}
 
 			// for (CombatLog log : data) {
