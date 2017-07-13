@@ -1261,7 +1261,42 @@ background: #d8ccd5;
 			_table_html+="</table>";
 			return _table_html;
 		}
-		
+		//------------------召唤物出生	-----------------------
+		if(obj_JSON.file=='partner_spawn'){
+			 if("inherit_type" in obj_JSON){
+				 _table_html+="<td>继承类型：";
+					_table_html+=obj_JSON.inherit_type;
+				_table_html+="</td>";
+			 }
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>角色名字：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 if("actor_type" in obj_JSON){
+					_table_html+="<td>角色类型：";
+					var v_actory_type=obj_JSON.actor_type;
+					if(obj_JSON.actor_type=="human"){
+						v_actory_type="玩家";
+					}
+					if(obj_JSON.actor_type=="mon"){
+						v_actory_type="怪物";
+					}
+					if(obj_JSON.actor_type=="partner"){
+						v_actory_type="人物的招唤物";
+					}
+					_table_html+=v_actory_type;
+					_table_html+="</td>";
+			  }	
+			 if(obj_JSON.hasOwnProperty("actor_id")){
+					_table_html+="<td>角色ID：";
+						_table_html+=obj_JSON.actor_id;
+					_table_html+="</td>";
+			  }	
+			 _table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
 		
 //	 			alert(JSON.stringify(obj_JSON));
 		 if(obj_JSON.hasOwnProperty("name")){
