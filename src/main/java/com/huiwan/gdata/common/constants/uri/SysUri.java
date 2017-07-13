@@ -19,10 +19,15 @@ public class SysUri extends Modules {
 	public static final String SYS_DEPARTMENT = "sys/department";
 	/** 字典管理 **/
 	public static final String SYS_DICT = "sys/dict";
+	/** 字典管理 **/
+	public static final String SYS_GAMEDICT = "sys/gamedict";
 	/** 系统日志 **/
 	public static final String SYS_LOG = "sys/log";
 	/** 系统参数 **/
 	public static final String SYS_PARAMETER = "sys/parameter";
+	
+	/** 数据库监控 **/
+	public static final String SYS_DRUID = "druid";
 
 	/** 临时操作区 **/
 	public static final String SYS_TEMP_SERVICE = "sys/temp_service";

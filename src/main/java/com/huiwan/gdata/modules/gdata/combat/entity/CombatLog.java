@@ -7,15 +7,37 @@ public class CombatLog {
 	private String uuid;
 	private Integer serverId;
 	private String server;
+	private String fileName;
 	private String file;
 	private String cont;
 	private String add_hp;
 	private String dungeon_id;
 	
+	private long pageId;
+	
+	
 	
 	
 
 	
+
+
+	public long getPageId() {
+		return pageId;
+	}
+
+	public void setPageId(long pageId) {
+		this.pageId = pageId;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	public String getFile() {
 		return file;
 	}

@@ -35,6 +35,8 @@ public class QueryCommBean implements Cloneable {
 	
 	public String copyId;//副本id
 	public String file;//文件类型
+	public String name;
+	
 
 
 	public String getDt1() {
@@ -234,6 +236,17 @@ public class QueryCommBean implements Cloneable {
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+	
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

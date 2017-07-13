@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.huiwan.gdata.modules.sys.mapper.DictMapper" >
+<mapper namespace="com.huiwan.gdata.modules.sys.mapper.GameDictMapper" >
   <resultMap id="BaseResultMap" type="com.huiwan.gdata.modules.sys.entity.Dict" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -14,12 +14,6 @@
     <result column="create_by_id" property="createById" jdbcType="INTEGER" />
     <result column="update_by_id" property="updateById" jdbcType="INTEGER" />
     <result column="remake" property="remake" jdbcType="VARCHAR" />
-        <result column="arg1" property="arg1" jdbcType="VARCHAR" />
-        <result column="arg2" property="arg2" jdbcType="VARCHAR" />
-        <result column="arg3" property="arg3" jdbcType="VARCHAR" />
-        <result column="arg4" property="arg4" jdbcType="VARCHAR" />
-         <result column="arg5" property="arg5" jdbcType="VARCHAR" />
-    
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -37,7 +31,7 @@
 	<!--=========================查询搜索 ============================================================================= -->
 	<select id="queryPages" parameterType="com.huiwan.gdata.common.bean.page.Query"
 		resultMap="BaseResultMap">
-		select * from sys_dict
+		select * from game_dict
 		<include refid="searchField" />
 		order by type,sort asc,value asc
 		LIMIT
@@ -47,12 +41,12 @@
 
 	<select id="getCount" resultType="long"
 		parameterType="com.huiwan.gdata.common.bean.page.Query">
-		select count(*) from sys_dict
+		select count(*) from game_dict
 		<include refid="searchField" />
 	</select>
 	
 	<select id="getByType" 	resultMap="BaseResultMap">
-		select * from sys_dict where status=0 and type=#{type}
+		select * from game_dict where type=#{type}
 		order by  sort
 	</select>
 	
@@ -61,17 +55,17 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from sys_dict
+    from game_dict
     where id = #{id,jdbcType=INTEGER}
   </select>
   
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from sys_dict
+    delete from game_dict
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.huiwan.gdata.modules.sys.entity.Dict" useGeneratedKeys="true" keyProperty="id">
-    insert into sys_dict (id, name, value, 
+    insert into game_dict (id, name, value, 
       type, sort, parent_id, 
       status, create_time, update_time, 
       create_by_id, update_by_id, remake
@@ -83,7 +77,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.huiwan.gdata.modules.sys.entity.Dict" useGeneratedKeys="true" keyProperty="id">
-    insert into sys_dict
+    insert into game_dict
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -162,7 +156,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.huiwan.gdata.modules.sys.entity.Dict" >
-    update sys_dict
+    update game_dict
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -201,7 +195,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.huiwan.gdata.modules.sys.entity.Dict" >
-    update sys_dict
+    update game_dict
     set name = #{name,jdbcType=VARCHAR},
       value = #{value,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},

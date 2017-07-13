@@ -11,6 +11,8 @@
 <script src="../../../common/bootstrap/js/bootstrap.js"></script>
 <script src="../../../common/sys.js"></script>
 <script src="../../../common/util/common.js"></script>
+
+</script>
 </head>
 
 <body style="overflow-x: hidden; overflow-y: hidden;">
@@ -22,24 +24,24 @@
 		
 	<ul class="nav nav-tabs">
 		<li class="active">
-			<a href="parameterlist.html">列表</a>
+			<a href="dictlist.html">字典列表</a>
 		</li>
 		<li>
-			<a href="parameterAdd.html">新增</a>
+			<a href="dictAdd.html">新增字典</a>
 		</li>
 	</ul>
 	
 		
 
 	<div class="panel panel-default">
-		<table id="_parameter_table" class="table table-striped">
+		<table id="_dict_table" class="table table-striped">
 			<thead>
 				<tr>
 <!-- 					<th width="10%">id</th> -->
-					<th width="20%">健</th>
+					<th width="10%">类型</th>
+					<th width="20%">名称</th>
 					<th width="20%">值</th>
 				    <th width="10%">状态</th>
-				    <th width="10%">排序</th>
 				    <th width="20%">备注</th>
 					<th width="20%">操作</th>
 				</tr>
@@ -64,7 +66,7 @@ $(function() {
 	var param=new Object();	
 	    param.status="0";
 	//初始化数据	
-	pageFn(getContextPath()+"/sys/parameter/list",param,"get");
+	pageFn(getContextPath()+"/sys/gamedict/list",param,"get");
 })
 
 
@@ -74,9 +76,9 @@ function callbak_page(returnDatas)
 	//alert(JSON.stringify(returnDatas));
 	
 	var tableHTML = "";
-	var trContext = $("#_parameter_table");
+	var trContext = $("#_dict_table");
 	//$("#_user_table tbody tr").eq(0).nextAll().remove();
-	$("#_parameter_table tbody tr").remove();
+	$("#_dict_table tbody tr").remove();
 	var returnData = returnDatas.data.items;
 	
 	if(returnData==null){
@@ -89,30 +91,24 @@ function callbak_page(returnDatas)
 	var staName="";
 	//<a href="#">查看</a>
 	var operation=''
-				   +'&nbsp;&nbsp;<a href="parameterUpdate.html?id='+returnData[i].id+'">修改</a>'
-				   +'&nbsp;&nbsp;<a href="#" onclick="delparameter(this,'+returnData[i].id+')">删除</a>';
-				   
-				   
-   var statusText="启用";
-   if(returnData[i].status!=0){
-	   statusText="禁用";
-   }
+				   +'&nbsp;&nbsp;<a href="dictUpdate.html?id='+returnData[i].id+'">修改</a>'
+				   +'&nbsp;&nbsp;<a href="#" onclick="delDict(this,'+returnData[i].id+')">删除</a>';
 				   
 	tableHTML += "<tr>" + "<td>"
 // 				+ returnData[i].id
 // 				+ "</td>"
-// 				+ "<td>"		
-				+ returnData[i].keyx
+// 				+ "<td>"
+				+ returnData[i].type
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].name
 				+ "</td>"	
 				+ "<td>"
 				+ returnData[i].value
 				+ "</td>"										
 				+ "<td>"
-				+ statusText
+				+ returnData[i].status
 				+ "</td>"
-				+ "<td>"
-				+ returnData[i].sort
-				+ "</td>"	
 				+ "<td>"
 				+ returnData[i].remake
 				+ "</td>"						
@@ -130,7 +126,7 @@ function callbak_page(returnDatas)
 $("#_search_submit").click(
 	function(){
 	 var param=getParam();
-	 sendPageRequst(getContextPath()+"/sys/parameter/list",param);
+	 sendPageRequst(getContextPath()+"/sys/gamedict/list",param);
 	   
 	  // sendGetReq(getContextPath()+"/sys/user/list",param,"");
 });
@@ -149,10 +145,10 @@ function getParam()
 }
 
 //删除用户
-function delparameter(obj,id)
+function delDict(obj,id)
 {
 	
-	var result=confirm("确定要删除系统参数吗？");
+	var result=confirm("确定要删除字典吗？");
 
 	if(!result){
 		return;
@@ -163,7 +159,7 @@ function delparameter(obj,id)
 		return;
 	}
 	$.ajax({
-		url : getContextPath()+"/sys/parameter/del",
+		url : getContextPath()+"/sys/gamedict/del",
 		type : "POST",
 		//contentType: "application/json; charset=utf-8",
 		dataType : "json",
