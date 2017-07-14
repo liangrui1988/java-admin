@@ -846,6 +846,9 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append(" order by id desc LIMIT 1");
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		CombatAttr data = gdataDao.selectObject(sql.toString(), rowMapper_attrs);
+		if(data==null){
+			return new CombatAttr();
+		}
 		data.setTime(maxDate);
 		return data;
 	}
