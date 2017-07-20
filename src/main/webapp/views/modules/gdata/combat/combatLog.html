@@ -440,249 +440,325 @@ background: #d8ccd5;
 			attrs_html+="";
 			attrs_html+="</td></tr>";
 			//----------												
-			attrs_html+="<tr><td>基础生命上限:</td> <td";
-			if(contJson.A_5!=contJsonDif.A_5){
+			attrs_html+="<tr><td>【最终】生命:</td> <td";
+			if(contJson.A_100!=contJsonDif.A_100){
 			 attrs_html+="   class='dif_clz'   ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_5;
+			attrs_html+=contJson.A_100;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>基础物理最小攻击:</td> <td";
-			if(contJson.A_9!=contJsonDif.A_9){
+			attrs_html+="<td>【最终】魔法:</td> <td";
+			if(contJson.A_101!=contJsonDif.A_101){
 				attrs_html+="  class='dif_clz'  ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_9;
+			attrs_html+=contJson.A_101;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>基础物理最大攻击:</td> <td";
-			if(contJson.A_11!=contJsonDif.A_11){
+			attrs_html+="<td>【最终】最小物攻:</td> <td";
+			if(contJson.A_102!=contJsonDif.A_102){
 				attrs_html+=" class='dif_clz'  " 
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_11;
+			attrs_html+=contJson.A_102;
 			attrs_html+="</td></tr>";
 			//----------
-			attrs_html+="<tr><td>基础防御:</td> <td";
-			if(contJson.A_17!=contJsonDif.A_17){
+			attrs_html+="<tr><td>【最终】最大物攻:</td> <td";
+			if(contJson.A_103!=contJsonDif.A_103){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_17;
+			attrs_html+=contJson.A_103;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【加成】防御%:</td> <td";
-			if(contJson.A_18!=contJsonDif.A_18){
+			attrs_html+="<td>【最终】最小法攻:</td> <td";
+			if(contJson.A_104!=contJsonDif.A_104){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_18;
+			attrs_html+=contJson.A_104;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【基础】命中:</td> <td";
-			if(contJson.A_19!=contJsonDif.A_19){
+			attrs_html+="<td>【最终】最大法攻:</td> <td";
+			if(contJson.A_105!=contJsonDif.A_105){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_19;
+			attrs_html+=contJson.A_105;
 			attrs_html+="</td></tr>";
 			//----------
-			attrs_html+="<tr><td>【加成】命中%:</td> <td";
-			if(contJson.A_20!=contJsonDif.A_20){
+			attrs_html+="<tr><td>【最终】防御%:</td> <td";
+			if(contJson.A_106!=contJsonDif.A_106){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_20;
+			attrs_html+=contJson.A_106;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【基础】闪避:</td> <td";
-			if(contJson.A_21!=contJsonDif.A_21){
+			attrs_html+="<td>【最终】命中:</td> <td";
+			if(contJson.A_107!=contJsonDif.A_107){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_21;
+			attrs_html+=contJson.A_107;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【加成】闪避%:</td> <td";
-			if(contJson.A_22!=contJsonDif.A_22){
+			attrs_html+="<td>【最终】闪避:</td> <td";
+			if(contJson.A_108!=contJsonDif.A_108){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_22;
+			attrs_html+=contJson.A_108;
 			attrs_html+="</td></tr>";
 			//----------
-			attrs_html+="<tr><td>【基础】格挡减伤系数%:</td> <td";
-			if(contJson.A_33!=contJsonDif.A_33){
+			attrs_html+="<tr><td>【最终】暴击率%：</td> <td";
+			if(contJson.A_109!=contJsonDif.A_109){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_33;
+			attrs_html+=contJson.A_109;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【加成】格挡减伤系数%:</td> <td";
-			if(contJson.A_34!=contJsonDif.A_34){
+			attrs_html+="<td>【最终】暴击伤害加成:</td> <td";
+			if(contJson.A_110!=contJsonDif.A_110){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_34;
+			attrs_html+=contJson.A_110;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【加成】最终增加伤害%:</td> <td";
-			if(contJson.A_38!=contJsonDif.A_38){
+			attrs_html+="<td>【最终】暴击抗性%:</td> <td";
+			if(contJson.A_111!=contJsonDif.A_111){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_38;
+			attrs_html+=contJson.A_111;
 			attrs_html+="</td></tr>";
 			//----------
-			attrs_html+="<tr><td>【基础】最终减少伤害%:</td> <td";
-			if(contJson.A_76!=contJsonDif.A_39){
+			attrs_html+="<tr><td>【最终】格挡率%:</td> <td";
+			if(contJson.A_112!=contJsonDif.A_112){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_39;
+			attrs_html+=contJson.A_112;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【加成】最终减少伤害%:</td> <td";
-			if(contJson.A_40!=contJsonDif.A_40){
+			attrs_html+="<td>【最终】格挡减伤系数%:</td> <td";
+			if(contJson.A_113!=contJsonDif.A_113){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_40;
+			attrs_html+=contJson.A_113;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【基础】伤害反射%:</td> <td";
-			if(contJson.A_41!=contJsonDif.A_41){
+			attrs_html+="<td>【最终】暴击伤害系数:</td> <td";
+			if(contJson.A_114!=contJsonDif.A_114){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_41;
+			attrs_html+=contJson.A_114;
 			attrs_html+="</td></tr>";
 			//----------
-			attrs_html+="<tr><td>【加成】伤害反射%:</td> <td";
-			if(contJson.A_42!=contJsonDif.A_42){
+			attrs_html+="<tr><td>【最终】技能伤害加成%:</td> <td";
+			if(contJson.A_115!=contJsonDif.A_115){
 				attrs_html+=" class='dif_clz' ";
 			}
 		
 			attrs_html+=">";
-			attrs_html+=contJson.A_42;
+			attrs_html+=contJson.A_115;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【基础】元素攻击:</td> <td";
-			if(contJson.A_43!=contJsonDif.A_43){
+			attrs_html+="<td>【最终】最终增加伤害%:</td> <td";
+			if(contJson.A_116!=contJsonDif.A_116){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_43;
+			attrs_html+=contJson.A_116;
 			attrs_html+="</td>";
 			
 			
 	
-			attrs_html+="<td>【基础】元素伤害%:</td> <td";
-			if(contJson.A_47!=contJsonDif.A_47){
+			attrs_html+="<td>【最终】最终减少伤害%:</td> <td";
+			if(contJson.A_117!=contJsonDif.A_117){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_47;
+			attrs_html+=contJson.A_117;
 			attrs_html+="</td></tr>";							
 			//----------
-			attrs_html+="<tr><td>【加成】元素伤害%:</td> <td";
-			if(contJson.A_48!=contJsonDif.A_48){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_48;
-			attrs_html+="</td>";
-			
-			attrs_html+="<td>【基础】无视防御%:</td> <td";
-			if(contJson.A_49!=contJsonDif.A_49){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_49;
-			attrs_html+="</td>";
-			
-			attrs_html+="<td>【加成】无视防御%:</td> <td";
-			if(contJson.A_50!=contJsonDif.A_50){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_50;
-			attrs_html+="</td></tr>";							
-			//----------
-
-
-			attrs_html+="<tr><td>【加成】攻击回血%（吸血%）:</td> <td";
-			if(contJson.A_54!=contJsonDif.A_54){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_54;
-			attrs_html+="</td>";
-			
-			attrs_html+="<td>【基础】输出伤害:</td> <td";
-			if(contJson.A_55!=contJsonDif.A_55){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_55;
-			attrs_html+="</td>";
-			
-			attrs_html+="<td>【加成】输出伤害%:</td> <td";
-			if(contJson.A_56!=contJsonDif.A_56){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_56;
-			attrs_html+="</td></tr>";
-			//----------
-			attrs_html+="<tr><td>【基础】减少承受伤害:</td> <td";
-			if(contJson.A_57!=contJsonDif.A_57){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_57;
-			attrs_html+="</td>";
-			attrs_html+="<td>【基础】控制抵抗%:</td> <td";
-			if(contJson.A_59!=contJsonDif.A_59){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_59;
-			attrs_html+="</td>";
-			
-			attrs_html+="<td>【基础】会心一击率%:</td> <td";
-			if(contJson.A_61!=contJsonDif.A_61){
-				attrs_html+=" class='dif_clz' ";
-			}
-			attrs_html+=">";
-			attrs_html+=contJson.A_61;
-			attrs_html+="</td></tr>";
-			//----------
-			attrs_html+="<tr><td>【加成】会心一击率%:</td> <td";
-			if(contJson.A_62!=contJsonDif.A_62){
+			attrs_html+="<tr><td>【最终】伤害反射%:</td> <td";
+			if(contJson.A_118!=contJsonDif.A_118){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
 			attrs_html+=contJson.A_118;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【基础】会心伤害%:</td> <td";
-			if(contJson.A_63!=contJsonDif.A_63){
+			attrs_html+="<td>【最终】元素攻击:</td> <td";
+			if(contJson.A_119!=contJsonDif.A_119){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_63;
+			attrs_html+=contJson.A_119;
 			attrs_html+="</td>";
 			
-			attrs_html+="<td>【加成】会心伤害%:</td> <td";
-			if(contJson.A_64!=contJsonDif.A_64){
+			attrs_html+="<td>【最终】元素防御:</td> <td";
+			if(contJson.A_120!=contJsonDif.A_120){
 				attrs_html+=" class='dif_clz' ";
 			}
 			attrs_html+=">";
-			attrs_html+=contJson.A_64;
+			attrs_html+=contJson.A_120;
+			attrs_html+="</td></tr>";							
+			//----------
+
+
+			attrs_html+="<tr><td>【最终】元素伤害%:</td> <td";
+			if(contJson.A_121!=contJsonDif.A_121){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_121;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】无视防御%:</td> <td";
+			if(contJson.A_122!=contJsonDif.A_122){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_122;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】无视防御抗性%:</td> <td";
+			if(contJson.A_123!=contJsonDif.A_123){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_123;
 			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】攻击回血（吸血）:</td> <td";
+			if(contJson.A_124!=contJsonDif.A_124){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_124;
+			attrs_html+="</td>";
+			attrs_html+="<td>【最终】输出伤害:</td> <td";
+			if(contJson.A_125!=contJsonDif.A_125){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_125;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】减少承受伤害:</td> <td";
+			if(contJson.A_126!=contJsonDif.A_126){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_126;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】控制抵抗%:</td> <td";
+			if(contJson.A_127!=contJsonDif.A_127){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_127;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】会心一击率%:</td> <td";
+			if(contJson.A_128!=contJsonDif.A_128){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_128;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】会心伤害%:</td> <td";
+			if(contJson.A_129!=contJsonDif.A_129){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_129;
+			attrs_html+="</td></tr>";
+			
+			//----------
+			attrs_html+="<tr><td>【最终】伤害吸收:</td> <td";
+			if(contJson.A_130!=contJsonDif.A_130){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_130;
+			attrs_html+="</td>";
+			attrs_html+="<td>【最终】每秒回复生命:</td> <td";
+			if(contJson.A_131!=contJsonDif.A_131){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_131;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】杀怪经验加成%:</td> <td";
+			if(contJson.A_132!=contJsonDif.A_132){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_132;
+			attrs_html+="</td></tr>";
+			//----------
+			
+			//----------
+			attrs_html+="<tr><td>杀怪魔法恢复%:</td> <td";
+			if(contJson.A_133!=contJsonDif.A_133){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_133;
+			attrs_html+="</td>";
+			attrs_html+="<td>【最终】攻击速度:</td> <td";
+			if(contJson.A_134!=contJsonDif.A_134){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_134;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】血瓶恢复:</td> <td";
+			if(contJson.A_135!=contJsonDif.A_135){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_135;
+			attrs_html+="</td></tr>";
+			//----------
+			
+			//----------
+			attrs_html+="<tr><td>【最终】移动速度:</td> <td";
+			if(contJson.A_136!=contJsonDif.A_136){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_136;
+			attrs_html+="</td>";
+			attrs_html+="<td>战力:</td> <td";
+			if(contJson.A_137!=contJsonDif.A_137){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_137;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】装备掉率%:</td> <td";
+			if(contJson.A_138!=contJsonDif.A_138){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_138;
+			attrs_html+="</td></tr>";
+			//----------
+			
 			
 			attrs_html+="</table>"; 
 			$(".attrs_table_clz").html(attrs_html);

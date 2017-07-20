@@ -602,7 +602,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 			// file='attack_temp_eff' and file='temp_targetor' and
 			// file='temp_attacker') ");
 			// 服务器
-			if (vo.getServer() != null && vo.getServer() > 0) {
+			if (vo.getServer() != null && vo.getServer() > 0&&!"-1".equals(vo.getServer())) {
 				sbWhere.append(" and server_id=");
 				sbWhere.append(vo.getServer());
 			}
@@ -682,7 +682,9 @@ public class CombatLogServiceImpl implements CombatLogService {
 
 			String sql = "	select max(id) maxid,uuid,namea,actory from ( ";
 			sql += " select id,cont ->> 'uuid' uuid, cont ->> 'name' namea,	cont ->> 'actor_type' actory  from zl_log_info ";
-			if (StringUtils.isNotBlank(severId)) {
+			
+
+			if (StringUtils.isNotBlank(severId)&&!"-1".equals(severId)) {
 				sql += " where server_id='" + severId + "'";
 			}
 			sql += " order by id desc limit 3000 ";
@@ -709,7 +711,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		}
 		if (type == 2) {
 			String sql = "SELECT DISTINCT (cont->>'dungeon_id') arg1 FROM(select * from zl_log_info ";
-			if (StringUtils.isNotBlank(severId)) {
+			if (StringUtils.isNotBlank(severId)&&!"-1".equals(severId)) {
 				sql += " where server_id='" + severId + "'";
 			}
 			sql += " order by id desc  LIMIT 5000 )  as t1 LIMIT 10";
@@ -774,7 +776,7 @@ public class CombatLogServiceImpl implements CombatLogService {
 		StringBuffer sql = new StringBuffer(512);
 		sql.append("SELECT to_char(MAX(time),'YYYY-MM-DD HH24:MI:SS') tdata FROM zl_log_info_attrs ");
 		sql.append(sqlWhere);
-		log.debug("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
+		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		String data = gdataDao.selectObject(sql.toString(), str_rowMapper);
 		return data;
 	}
@@ -846,6 +848,9 @@ public class CombatLogServiceImpl implements CombatLogService {
 		sql.append(" order by id desc LIMIT 1");
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		CombatAttr data = gdataDao.selectObject(sql.toString(), rowMapper_attrs);
+		if(data==null){
+			return new CombatAttr();
+		}
 		data.setTime(maxDate);
 		return data;
 	}

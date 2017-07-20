@@ -6,7 +6,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/**
+ * x_log
+ * @author rui
+ *
+ */
 
 @Repository
 @Transactional(rollbackFor = Exception.class)
