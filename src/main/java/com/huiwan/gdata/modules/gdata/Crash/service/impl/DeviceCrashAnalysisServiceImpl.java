@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
@@ -108,6 +109,7 @@ public class DeviceCrashAnalysisServiceImpl implements DeviceCrashAnalysisServic
 		sql.append(" GROUP BY fla,dt_x order by fla,dt_x");
 		log.info("sql:>>>\n{}\n param={}", sql.toString(), paramArray.toArray());
 		List<CharsetBeanCommon> data = gdataDao.selectObjectList(sql.toString(), rowMapper);
+//		List<CharsetBeanCommon> data2 = gdataDao.selectObjectList(sql.toString(), new BeanPropertyRowMapper<CharsetBeanCommon>(CharsetBeanCommon.class));
 		return data;
 	}
 

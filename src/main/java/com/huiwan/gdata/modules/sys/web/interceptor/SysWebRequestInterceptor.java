@@ -50,17 +50,22 @@ public class SysWebRequestInterceptor implements HandlerInterceptor {
 		// return true;
 		// }
 		// perm
-		if (!isUserLogin(request, response)) {
-			return false;
-		}
+		// if (!isUserLogin(request, response)) {
+		// return false;
+		// }
 		// 要限处理
 		// 只有当GET请求是请求静态文件时(在spring配置文件里会配置静态文件的URI)，handler的实际类型会是DefaultServletHttpRequestHandler
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod method = (HandlerMethod) handler;
 			PermissionAnnot permissionAnnot = method.getMethod().getAnnotation(PermissionAnnot.class);
-			if(permissionAnnot!=null){
+			if (permissionAnnot != null) {
 				// 如果这个权限标记为只写，就不会做为一个权限拦截了
 				if (permissionAnnot.readWrite().getValue() != MenuReadWrite.Write.getValue()) {
+					// 先判断用户是否登陆
+					if (!isUserLogin(request, response)) {
+						return false;
+					}
+
 					Set<String> set = userUtils.getUserPermisson();
 					if (!set.contains(permissionAnnot.id())) {// 如果没有权限
 						logger.error(
