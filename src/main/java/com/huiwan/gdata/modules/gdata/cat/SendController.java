@@ -32,6 +32,7 @@ public class SendController {
 		System.out.println(bean);
 		try {
 			EmailUtil.sendContextEmail(bean.getValue(), "cat监控平台email", bean.getRe(), "cat发送");
+			EmailUtil.sendContextEmail(bean.getValue(), "cat监控平台email", bean.getTo(), "cat发送");
 		} catch (EmailException e) {
 			e.printStackTrace();
 			return new ResultBean(false, e.getMessage());
