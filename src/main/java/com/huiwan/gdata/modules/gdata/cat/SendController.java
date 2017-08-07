@@ -31,8 +31,8 @@ public class SendController {
 	public ResultBean email(Paginator paginator, EmailBean bean) {
 		System.out.println(bean);
 		try {
-			EmailUtil.sendContextEmail(bean.getValue(), "cat监控平台email", bean.getRe(), "cat发送");
-			EmailUtil.sendContextEmail(bean.getValue(), "cat监控平台email", bean.getTo(), "cat发送");
+			EmailUtil.sendContextEmailHTML(bean.getValue(), "cat监控平台email", bean.getRe(), "cat发送");
+//			EmailUtil.sendContextEmail(bean.getValue(), "cat监控平台email", bean.getTo(), "cat发送");
 		} catch (EmailException e) {
 			e.printStackTrace();
 			return new ResultBean(false, e.getMessage());
@@ -44,7 +44,7 @@ public class SendController {
 	public ResultBean sms(Paginator paginator, EmailBean bean) {
 		System.out.println(bean);
 		try {
-			EmailUtil.sendContextEmail(bean.getValue(), "cat监控平台sms", "1067165280@qq.com", "cat发送sms");
+			EmailUtil.sendContextEmailHTML(bean.getValue(), "cat监控平台sms", "1067165280@qq.com", "cat发送sms");
 		} catch (EmailException e) {
 			e.printStackTrace();
 			return new ResultBean(false, e.getMessage());
@@ -56,7 +56,7 @@ public class SendController {
 	public ResultBean weixin(Paginator paginator, EmailBean bean) {
 		System.out.println(bean);
 		try {
-			EmailUtil.sendContextEmail(bean.getValue(), "cat监控平台weixin", "1067165280@qq.com", "cat发送weixin");
+			EmailUtil.sendContextEmailHTML(bean.getValue(), "cat监控平台weixin", "1067165280@qq.com", "cat发送weixin");
 		} catch (EmailException e) {
 			e.printStackTrace();
 			return new ResultBean(false, e.getMessage());
