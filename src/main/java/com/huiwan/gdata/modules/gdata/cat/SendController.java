@@ -39,7 +39,7 @@ public class SendController {
 		}
 		return new ResultBean(true);
 	}
-
+	@ResponseBody
 	@RequestMapping(value = { "sms" })
 	public ResultBean sms(Paginator paginator, EmailBean bean) {
 		System.out.println(bean);
@@ -51,7 +51,7 @@ public class SendController {
 		}
 		return new ResultBean(true);
 	}
-
+	@ResponseBody
 	@RequestMapping(value = "weixin")
 	public ResultBean weixin(Paginator paginator, EmailBean bean) {
 		System.out.println(bean);
