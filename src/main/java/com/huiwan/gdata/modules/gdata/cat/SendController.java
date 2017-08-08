@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huiwan.gdata.common.bean.ResultBean;
-import com.huiwan.gdata.common.utils.pagination.Paginator;
 import com.huiwan.gdata.common.utils.web.EmailUtil;
-import com.huiwan.gdata.email.service.mainServiceTest;
 import com.huiwan.gdata.modules.gdata.cat.bean.EmailBean;
 
 /**
