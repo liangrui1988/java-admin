@@ -34,7 +34,7 @@ public class EmailUtil {
 	public final static String hostName = "smtp.163.com";// 协议
 	public final static String from = "rui_dev@163.com";// 发件人
 	public final static String userName = "rui_dev";// 登陆名
-	public final static String password = "ruidev123456";// smt协议 密码
+	public final static String password = "ruidev123456";// smt协议 密码  网页 ruidev123456!
 	public final static int smtpPort = 25;//
 	public final static String sslSmtpPort = "465";//
 
@@ -162,7 +162,7 @@ public class EmailUtil {
 		try {
 			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
 			email.setSubject(subject);
-			email.setHostName(context);
+			email.setHtmlMsg(context);
 			if (StringUtils.isBlank(toEmailName)) {
 				// 接收人
 				email.addTo(toEmail);
@@ -360,7 +360,7 @@ public class EmailUtil {
 
 		email.setMsg("发邮件simple test");
 		// 接收人
-		email.addTo("rui_dev@126.com", "toName");// 382453602@qq.com
+		email.addTo("1067165280@qq.com", "toName");// 382453602@qq.com
 													// rui_dev@126.com
 		email.send();
 

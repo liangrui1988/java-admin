@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.huiwan.gdata.common.bean.ResultBean;
 import com.huiwan.gdata.common.utils.pagination.Paginator;
 import com.huiwan.gdata.common.utils.web.EmailUtil;
+import com.huiwan.gdata.email.service.mainServiceTest;
 import com.huiwan.gdata.modules.gdata.cat.bean.EmailBean;
 
 /**
@@ -28,7 +29,7 @@ public class SendController {
 	 */
 	@RequestMapping("email")
 	@ResponseBody
-	public ResultBean email(Paginator paginator, EmailBean bean) {
+	public ResultBean email( EmailBean bean) {
 		System.out.println(bean);
 		try {
 			EmailUtil.sendContextEmailHTML(bean.getValue(), "cat监控平台email", bean.getRe(), "cat发送");
@@ -41,7 +42,7 @@ public class SendController {
 	}
 	@ResponseBody
 	@RequestMapping(value = { "sms" })
-	public ResultBean sms(Paginator paginator, EmailBean bean) {
+	public ResultBean sms( EmailBean bean) {
 		System.out.println(bean);
 		try {
 			EmailUtil.sendContextEmailHTML(bean.getValue(), "cat监控平台sms", "1067165280@qq.com", "cat发送sms");
@@ -53,7 +54,7 @@ public class SendController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "weixin")
-	public ResultBean weixin(Paginator paginator, EmailBean bean) {
+	public ResultBean weixin(EmailBean bean) {
 		System.out.println(bean);
 		try {
 			EmailUtil.sendContextEmailHTML(bean.getValue(), "cat监控平台weixin", "1067165280@qq.com", "cat发送weixin");
@@ -64,4 +65,13 @@ public class SendController {
 		return new ResultBean(true);
 
 	}
+	
+	
+	public static void main(String[] args) throws EmailException {
+		System.out.println("xx");
+		EmailUtil.sendContextEmailHTML("abcd", "cat监控平台email", "1067165280@qq.com", "cat发送");
+
+	}
+	
+
 }
