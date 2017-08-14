@@ -3,8 +3,10 @@ package com.huiwan.gdata;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.thread.ExecutorThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,9 @@ public class AdminMain {
 			ignored.printStackTrace();
 		}
 		Server server = new Server(port);
+		server.setThreadPool(new ExecutorThreadPool(Executors.newFixedThreadPool(200)));
+		server.setThreadPool(new ExecutorThreadPool());
+
 		// 关联一个已经存在的上下文 src/main/webapp
 		//WebAppContext webAppContext = new WebAppContext("webapp", "/main");
 		WebAppContext webAppContext = new WebAppContext(getWebAppPath(), "/zdata");

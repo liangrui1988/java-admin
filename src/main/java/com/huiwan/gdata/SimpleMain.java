@@ -15,12 +15,12 @@ public class SimpleMain {
 		// 设置线程
 		server.setThreadPool(new ExecutorThreadPool());
 		// 端口
-		connector.setPort(9808);
+		connector.setPort(9899);
 		// 设置handler
-		//项目目录名/src/main/webapp
-		//lib/webapp
-		//demo
-		Handler handler=new WebAppContext("src/main/webapp", "/");
+		// 项目目录名/src/main/webapp
+		// lib/webapp
+		// demo
+		// Handler handler=new WebAppContext("src/main/webapp", "/");
 
 		server.setHandler(new WebAppContext("src/main/webapp", "/"));
 		// 连接器
