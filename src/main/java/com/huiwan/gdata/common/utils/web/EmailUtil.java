@@ -34,12 +34,11 @@ public class EmailUtil {
 	public final static String hostName = "smtp.163.com";// 协议
 	public final static String from = "rui_dev@163.com";// 发件人
 	public final static String userName = "rui_dev";// 登陆名
-	public final static String password = "ruidev123456";// smt协议 密码
+	public final static String password = "ruidev123456";// smt协议 密码  网页 ruidev123456!
 	public final static int smtpPort = 25;//
 	public final static String sslSmtpPort = "465";//
 
-	public static Email getDefaultEmailConfig(Email email)
-			throws EmailException {
+	public static Email getDefaultEmailConfig(Email email) throws EmailException {
 		// Email email = new SimpleEmail();
 		email.setHostName(hostName);
 		email.setSslSmtpPort(sslSmtpPort);
@@ -69,29 +68,25 @@ public class EmailUtil {
 
 		if (!StringUtils.isBlank(email.getFtlName())) {
 			if (email.getEmailAttachment() != null) {// 发送ftl模板邮件 +附件
-				sendMultiPartEmailAndFtl(email.getMap(), email.getFtlName(),
-						email.getSubject(), email.getToEmail(),
+				sendMultiPartEmailAndFtl(email.getMap(), email.getFtlName(), email.getSubject(), email.getToEmail(),
 						email.getToEmailName(), email.getEmailAttachment());
 				return;
 			}
 			// 发送ftl模板邮件
-			sendFtlEmail(email.getMap(), email.getFtlName(),
-					email.getSubject(), email.getToEmail(),
+			sendFtlEmail(email.getMap(), email.getFtlName(), email.getSubject(), email.getToEmail(),
 					email.getToEmailName());
 			return;
 		}
 
 		// 发送普通带符件的邮件
 		if (email.getEmailAttachment() != null) {
-			sendMultiPartEmail(email.getContext(), email.getSubject(),
-					email.getToEmail(), email.getToEmailName(),
+			sendMultiPartEmail(email.getContext(), email.getSubject(), email.getToEmail(), email.getToEmailName(),
 					email.getEmailAttachment());
 			return;
 		}
 
 		// 普通文本邮件
-		sendContextEmail(email.getContext(), email.getSubject(),
-				email.getToEmail(), email.getToEmailName());
+		sendContextEmail(email.getContext(), email.getSubject(), email.getToEmail(), email.getToEmailName());
 
 	}
 
@@ -107,8 +102,8 @@ public class EmailUtil {
 	 *            名称
 	 * @throws EmailException
 	 */
-	public static void sendContextEmail(String context, String subject,
-			String toEmail, String toEmailName) throws EmailException {
+	public static void sendContextEmail(String context, String subject, String toEmail, String toEmailName)
+			throws EmailException {
 		if (StringUtils.isBlank(context)) {
 			throw new EmailException("邮件文本不能为空");
 		}
@@ -142,6 +137,50 @@ public class EmailUtil {
 	}
 
 	/**
+	 * 发送简单文本邮件
+	 * 
+	 * @param context邮件文本
+	 * @param subject
+	 *            主题
+	 * @param toEmail
+	 *            发送给谁的邮件地址
+	 * @param toEmailName
+	 *            名称
+	 * @throws EmailException
+	 */
+	public static void sendContextEmailHTML(String context, String subject, String toEmail, String toEmailName)
+			throws EmailException {
+		if (StringUtils.isBlank(context)) {
+			throw new EmailException("邮件文本不能为空");
+		}
+		if (StringUtils.isBlank(toEmail)) {
+			throw new EmailException("邮件接收人不能为空");
+		}
+		if (StringUtils.isBlank(subject)) {
+			throw new EmailException("邮件主题不能为空");
+		}
+		try {
+			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
+			email.setSubject(subject);
+			email.setHtmlMsg(context);
+			if (StringUtils.isBlank(toEmailName)) {
+				// 接收人
+				email.addTo(toEmail);
+			} else {
+				// 接收人
+				email.addTo(toEmail, toEmailName);// 1067165280@qq.com
+													// rui_dev@126.com
+			}
+
+			email.send();
+		} catch (EmailException e) {
+			logger.error("邮件发送异常!{}" + e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
 	 * 发送带符件邮件的简单文本邮件
 	 * 
 	 * @param context
@@ -154,9 +193,8 @@ public class EmailUtil {
 	 *            名称
 	 * @throws EmailException
 	 */
-	public static void sendMultiPartEmail(String context, String subject,
-			String toEmail, String toEmailName, EmailAttachment emailAttachment)
-			throws EmailException {
+	public static void sendMultiPartEmail(String context, String subject, String toEmail, String toEmailName,
+			EmailAttachment emailAttachment) throws EmailException {
 		if (StringUtils.isBlank(context)) {
 			throw new EmailException("邮件文本不能为空");
 		}
@@ -206,9 +244,8 @@ public class EmailUtil {
 	 *            附件
 	 * @throws EmailException
 	 */
-	public static void sendMultiPartEmailAndFtl(Map<String, Object> map,
-			String ftlName, String subject, String toEmail, String toEmailName,
-			EmailAttachment emailAttachment) throws EmailException {
+	public static void sendMultiPartEmailAndFtl(Map<String, Object> map, String ftlName, String subject, String toEmail,
+			String toEmailName, EmailAttachment emailAttachment) throws EmailException {
 		if (StringUtils.isBlank(toEmail)) {
 			throw new EmailException("邮件接收人不能为空");
 		}
@@ -220,14 +257,12 @@ public class EmailUtil {
 		}
 
 		try {
-			FreeMarkerConfigurer configurer = FreeMarkerUtil
-					.getFreeMarkerConfigurer();
+			FreeMarkerConfigurer configurer = FreeMarkerUtil.getFreeMarkerConfigurer();
 			Template tpl = configurer.getConfiguration().getTemplate(ftlName);
 			// if (map==null||map.size()<=0) {
 			// }
-			String ftlContext = FreeMarkerTemplateUtils
-					.processTemplateIntoString(tpl, map);
-//			System.out.println(ftlContext);
+			String ftlContext = FreeMarkerTemplateUtils.processTemplateIntoString(tpl, map);
+			// System.out.println(ftlContext);
 			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
 			// MimeMultipart multipart = new MimeMultipart("related");
 			email.setHtmlMsg(ftlContext);
@@ -269,9 +304,8 @@ public class EmailUtil {
 	 *            名称
 	 * @throws EmailException
 	 */
-	public static void sendFtlEmail(Map<String, Object> map, String ftlName,
-			String subject, String toEmail, String toEmailName)
-			throws EmailException {
+	public static void sendFtlEmail(Map<String, Object> map, String ftlName, String subject, String toEmail,
+			String toEmailName) throws EmailException {
 		if (StringUtils.isBlank(toEmail)) {
 			throw new EmailException("邮件接收人不能为空");
 		}
@@ -280,14 +314,12 @@ public class EmailUtil {
 		}
 
 		try {
-			FreeMarkerConfigurer configurer = FreeMarkerUtil
-					.getFreeMarkerConfigurer();
+			FreeMarkerConfigurer configurer = FreeMarkerUtil.getFreeMarkerConfigurer();
 			Template tpl = configurer.getConfiguration().getTemplate(ftlName);
 			// if (map==null||map.size()<=0) {
 			// }
-			String ftlContext = FreeMarkerTemplateUtils
-					.processTemplateIntoString(tpl, map);
-//			System.out.println(ftlContext);
+			String ftlContext = FreeMarkerTemplateUtils.processTemplateIntoString(tpl, map);
+			// System.out.println(ftlContext);
 			HtmlEmail email = (HtmlEmail) getDefaultEmailConfig(new HtmlEmail());
 			// MimeMultipart multipart = new MimeMultipart("related");
 			email.setHtmlMsg(ftlContext);
@@ -328,7 +360,7 @@ public class EmailUtil {
 
 		email.setMsg("发邮件simple test");
 		// 接收人
-		email.addTo("rui_dev@126.com", "toName");// 382453602@qq.com
+		email.addTo("1067165280@qq.com", "toName");// 382453602@qq.com
 													// rui_dev@126.com
 		email.send();
 

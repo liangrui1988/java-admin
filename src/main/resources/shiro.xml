@@ -116,12 +116,13 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-			   /views/** = anon
-			   /logout = anon
-		      /login = anon
-		      /unauthorized= anon
-		      /jcaptcha.jpg=anon
-		      /loginPage = anon
+			 /views/** = anon
+			 /logout = anon
+		     /login = anon
+		     /unauthorized= anon
+		     /cat/send/** = anon
+		     /jcaptcha.jpg=anon
+		     /loginPage = anon
 		     /authenticated = authc
 		     /sys/** = user,sysUser
 		     /** = user
