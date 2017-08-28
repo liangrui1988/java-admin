@@ -29,7 +29,7 @@ public class AdminMain {
 
 		QueuedThreadPool threadPool = new QueuedThreadPool();
 		threadPool.setMaxThreads(500);
-		server.setThreadPool(new ExecutorThreadPool(Executors.newFixedThreadPool(200)));
+//		server.setThreadPool(new ExecutorThreadPool(Executors.newFixedThreadPool(200)));
 		server.setThreadPool(threadPool);
 
 		// 关联一个已经存在的上下文 src/main/webapp
