@@ -40,7 +40,7 @@ function initMenu(){
  * 菜单显示
  */
 function buildTreeMenuV2(menuList) {
-	console.log("resultBean.data>>>"+JSON.stringify(menuList));
+//	console.log("resultBean.data>>>"+JSON.stringify(menuList));
 	//在ul里添加菜单 
 	var sideMenu=$("#side-menu");
 	var menu_html_1="";
@@ -69,7 +69,7 @@ function buildTreeMenuV2(menuList) {
 							menu_html_1+='<li><a href="#">';
 							menu_html_1+=menu_3[k].name;
 							menu_html_1+='<span class="fa arrow"></span></a>';
-							menu_html_1+='<ul class="nav nav-third-level">';
+							menu_html_1+='<ul class="nav nav-four-level" style="padding-left:15px;">';
 							for (var p = 0; p < menu_4.length; p++) {
 								menu_html_1+='<li><a class="J_menuItem" href="';
 								var href_4=getHrefHtml(menu_4[p].href);

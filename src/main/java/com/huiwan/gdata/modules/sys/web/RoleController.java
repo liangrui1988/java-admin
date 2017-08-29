@@ -27,6 +27,7 @@ import com.huiwan.gdata.modules.sys.entity.Role;
 import com.huiwan.gdata.modules.sys.entity.RoleGroup;
 import com.huiwan.gdata.modules.sys.exception.ObjectExistException;
 import com.huiwan.gdata.modules.sys.service.IRoleService;
+import com.huiwan.gdata.modules.sys.utils.UserUtils;
 import com.huiwan.gdata.modules.sys.vo.RoleVo;
 
 /**
@@ -48,18 +49,59 @@ public class RoleController extends SysBaseController {
 	@PermissionAnnot(id = "sys:role:list", name = "查看列表")
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	@ResponseBody
-	public ResultBean getList(
-			@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
-			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize,
-			RoleVo roleVo) {
+	public ResultBean getList(@RequestParam(value = "pageIndex", defaultValue = "1") Integer page,
+			@RequestParam(value = "pagesize", defaultValue = "15") Integer pagesize, RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
-
-		QueryResult<Role> result = roleService.getRoleList(page, pagesize,
-				roleVo);
+		QueryResult<Role> result = roleService.getRoleList(page, pagesize, roleVo);
 		rb.setData(result);
-
 		return rb;
 
+	}
+
+	@RequestMapping(value = "indexRoleMark", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean getIndexRoleMark(RoleVo roleVo) {
+		ResultBean rb = new ResultBean();
+		QueryResult<Role> result = roleService.getRoleList(1, 20, roleVo);
+		// 如果没有会话角色标识
+		if (userUtils.getSession().getAttribute(UserUtils.ROLE_MARK) == null) {
+			List<Role> list = result.getItems();
+			if (list != null && list.size() > 0) {
+				Role roleinfo = list.get(0);
+				// 初始角色类型-标识
+				userUtils.getSession().setAttribute(UserUtils.ROLE_MARK, roleinfo.getTypes());
+			}
+		}
+		// 获取当前
+		Object rolemark = userUtils.getSession().getAttribute(UserUtils.ROLE_MARK);
+		if (rolemark != null) {
+			rb.setMessage(rolemark.toString());
+		}
+		rb.setData(result);
+		return rb;
+	}
+
+	@RequestMapping(value = "indexUpdateRoleMark")
+	@ResponseBody
+	public ResultBean indexUpdateRoleMark(String roleType) {
+		ResultBean rb = new ResultBean();
+		// 验证 略...
+		// RoleVo roleVo=new RoleVo();
+		// roleVo.setGroupId(2);
+		// QueryResult<Role> result = roleService.getRoleList(1, 20,
+		// roleVo);
+		// List<Role> list=result.getItems();
+		// 改变角色类型-标识
+		userUtils.getSession().setAttribute(UserUtils.ROLE_MARK, roleType);
+		return rb;
+	}
+
+	@RequestMapping(value = "getRoleMark")
+	@ResponseBody
+	public ResultBean getRoleMark() {
+		ResultBean rb = new ResultBean();
+		rb.setData(userUtils.getCurrentMark());
+		return rb;
 	}
 
 	// @PermissionAnnot(id = MenuSys.SYS_ROLE + ":list", name = "查看列表")
@@ -67,15 +109,11 @@ public class RoleController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getListAll() {
 		ResultBean rb = new ResultBean();
-
 		List<Role> result = roleService.getRoleListAll();
 		rb.setData(result);
-
 		return rb;
-
 	}
-	
-	
+
 	@RequestMapping(value = "listGroupAll", method = RequestMethod.GET)
 	@ResponseBody
 	public ResultBean listGroupAll() {
@@ -83,47 +121,37 @@ public class RoleController extends SysBaseController {
 		List<RoleGroup> result = roleService.getGroupListAll();
 		rb.setData(result);
 		return rb;
-
 	}
 
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	@PermissionAnnot(id = "sys:role:get", name = "查看")
 	@ResponseBody
-	public ResultBean get(HttpServletRequest request,
-			HttpServletResponse response, RoleVo roleVo) {
+	public ResultBean get(HttpServletRequest request, HttpServletResponse response, RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
-
 		RoleBean role = roleService.get(roleVo.getId());
 		rb.setData(role);
-
 		return rb;
 	}
 
 	@PermissionAnnot(id = "sys:role:del", name = "删除")
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean del(HttpServletRequest request,
-			HttpServletResponse response,
+	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-
 		int count = roleService.del(id);
 		if (count <= 0) {
 			rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 		}
-
 		return rb;
 	}
 
 	@PermissionAnnot(id = "sys:role:add", name = "添加")
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean add(HttpServletRequest request,
-			HttpServletResponse response, Role role) {
+	public ResultBean add(HttpServletRequest request, HttpServletResponse response, Role role) {
 		ResultBean rb = new ResultBean();
-
 		try {
-
 			UserBean user = userUtils.getUserBean();
 			role.setUpdateById(user.getId());
 			roleService.add(role);
@@ -140,8 +168,7 @@ public class RoleController extends SysBaseController {
 	@PermissionAnnot(id = "sys:role:update", name = "修改")
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultBean update(HttpServletRequest request,
-			HttpServletResponse response, Role role) {
+	public ResultBean update(HttpServletRequest request, HttpServletResponse response, Role role) {
 		ResultBean rb = new ResultBean();
 		roleService.update(role);
 		return rb;

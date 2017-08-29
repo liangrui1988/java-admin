@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.huiwan.gdata.common.annotatiions.MenuAnnot;
 import com.huiwan.gdata.common.bean.ResultBean;
 import com.huiwan.gdata.common.exception.MessageCode;
+import com.huiwan.gdata.modules.sys.utils.UserUtils;
 import com.huiwan.gdata.modules.sys.vo.UserVo;
 
 @Controller
@@ -23,6 +24,10 @@ public class ZxlActivityUserController extends PublBaseController {
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
 			UserVo user) {
+		String rolemark=userUtils.getCurrentMark();
+		System.out.println("rolemark="+rolemark);
+		
+		System.out.println("rolemark="+UserUtils.getStaticCurrentMark());
 		ResultBean rb = new ResultBean();
 		try {
 			// QueryResult<User> result = userService.getUserList(page,
