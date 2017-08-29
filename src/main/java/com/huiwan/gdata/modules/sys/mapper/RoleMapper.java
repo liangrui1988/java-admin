@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.huiwan.gdata.common.bean.page.Query;
 import com.huiwan.gdata.modules.sys.entity.Role;
+import com.huiwan.gdata.modules.sys.entity.RoleGroup;
 
 public interface RoleMapper {
 
@@ -37,4 +38,7 @@ public interface RoleMapper {
 
 
 	Role getByName(@Param("name")String name);
+
+
+	List<RoleGroup> getGroupListAll();
 }

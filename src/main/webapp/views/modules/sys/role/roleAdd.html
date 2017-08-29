@@ -99,8 +99,13 @@
                   </select>
                </div>
             </div>
-            
-            
+             <div class="form-group">
+               <label class="col-sm-1 control-label ">角色组：</label>
+               <div class="col-sd-1">
+                  <select name="groupId" id="_groupId">
+                  </select>
+               </div>
+            </div>
               <div class="form-group">
                <label class="col-sm-1 control-label ">权限分配：</label>
                <div class="col-sd-1" id="_permission_plan_div">
@@ -123,22 +128,14 @@
 		         <a href="javascript:enterSel()">确定</a> 
 			       <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 		        </div>
-			
                </div>
-
-               
-               
             </div>
-            
-            
 <!--           <div class="form-group"> -->
 <!--                <label class="col-sm-1 control-label ">部门：</label> -->
 <!--                <div class="col-sd-1"> -->
 <!--                   <input value="1"  type="checkbox"  name="department.id"/> -->
 <!--                </div> -->
 <!--             </div> -->
-           
-            
             <div class="form-group">
                <label class="col-sm-1 control-label " >
                                             备注：</label>
@@ -146,8 +143,6 @@
                <textarea rows="6" cols="60" name="remake" id="_remake"></textarea>
                </div>
             </div>
-            
-         
             <div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
@@ -157,18 +152,13 @@
     </div>
 		
 	<script type="text/javascript">
-	
-	
 	$(function(){
 		//初始字典
 		initDictByType('role_type',"_type");
-		
+		//角色组
+		initRoleGroup();
 	})
-	
-	
-	
 	function addRole(){
-		
 			var roleObj=$("#inputForm").serialize();
 			var menuIds=getCheckedAll();
 		   // alert(JSON.stringify(menuIds))
@@ -198,7 +188,45 @@
 			});
 			
 		}
-		
+	
+	/**
+	 *角色组
+	 */
+	function initRoleGroup(){
+		$("#_groupId").empty();
+		$.ajax({
+			url : getContextPath()+"/sys/role/listGroupAll",
+			type : "GET",
+			dataType : "json",
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+					var data=returnData.data;
+					if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+					{
+						for(var i=0;i<data.length;i++)
+						{
+							var dict=data[i];
+							var html="";
+							html+="<option value='"+dict.id+"' ";
+// 							if(type_value==dict.value)
+// 							{
+// 								html+=" selected='selected' ";
+// 							}
+							html+=">";
+							html+= dict.name+"</option>";
+							$("#_groupId").append(html);
+						}
+					}
+					return returnData.data;
+				}
+			},
+			error : function() {
+				alert("groupId请求异常！");
+			}
+		});
+	}
+	
 	</script>	
 
 </body>

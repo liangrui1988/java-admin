@@ -5,6 +5,7 @@ import java.util.List;
 import com.huiwan.gdata.common.bean.page.QueryResult;
 import com.huiwan.gdata.modules.sys.bean.RoleBean;
 import com.huiwan.gdata.modules.sys.entity.Role;
+import com.huiwan.gdata.modules.sys.entity.RoleGroup;
 import com.huiwan.gdata.modules.sys.exception.ObjectExistException;
 import com.huiwan.gdata.modules.sys.vo.RoleVo;
 
@@ -25,4 +26,6 @@ public interface IRoleService {
 	int add(Role role)throws ObjectExistException;
 
 	int update(Role role);
+
+	List<RoleGroup> getGroupListAll();
 }

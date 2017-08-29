@@ -24,6 +24,7 @@ import com.huiwan.gdata.common.exception.MessageCode;
 import com.huiwan.gdata.modules.sys.bean.RoleBean;
 import com.huiwan.gdata.modules.sys.bean.UserBean;
 import com.huiwan.gdata.modules.sys.entity.Role;
+import com.huiwan.gdata.modules.sys.entity.RoleGroup;
 import com.huiwan.gdata.modules.sys.exception.ObjectExistException;
 import com.huiwan.gdata.modules.sys.service.IRoleService;
 import com.huiwan.gdata.modules.sys.vo.RoleVo;
@@ -70,6 +71,17 @@ public class RoleController extends SysBaseController {
 		List<Role> result = roleService.getRoleListAll();
 		rb.setData(result);
 
+		return rb;
+
+	}
+	
+	
+	@RequestMapping(value = "listGroupAll", method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean listGroupAll() {
+		ResultBean rb = new ResultBean();
+		List<RoleGroup> result = roleService.getGroupListAll();
+		rb.setData(result);
 		return rb;
 
 	}

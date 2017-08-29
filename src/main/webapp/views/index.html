@@ -85,12 +85,57 @@
                             <h2>你好:<label id="userNameLabel"></label>欢迎使用后台管理系统！</h2>
 					      </div>
 					</div>
+					
+		
 					<!-- 右边 -->
 					 <ul class="nav navbar-top-links navbar-right">
+					    <li class="dropdown">
+					     <select class="col-sm-1 control-label" name="types" id="role_type" style="width: 180px">
+				          </select>
+				        </li> 
+				                  
                         <li class="dropdown">
                             <a  href="#" class="dropdown-toggle count-info" onclick="goLogout()"> 退出系统      </a>
                         </li>
                     </ul>
+                    
+                    <script type="text/javascript">
+					//初始化
+					$(function() {
+						var param=new Object();	
+						    param.status="0";
+						    param.groupId="2";
+						//初始化数据	
+						pageFn(getContextPath()+"/sys/role/list",param,"get");
+					})
+					
+					/**分页回调处理**/
+					function callbak_page(returnDatas)
+					{
+						var tableHTML = "";
+						var trContext = $("#_role_table tbody");
+						//$("#_role_table tbody tr").remove();
+						var returnData = returnDatas.data.items;
+						if(returnData==null){
+						  return;
+						}
+						for(var i=0;i<returnData.length;i++)
+						{
+							var dict=returnData[i];
+							var html="";
+							html+="<option value='"+dict.id+"' ";
+// 							if(type_value==dict.id)
+// 							{
+// 								html+=" selected='selected' ";
+// 							}
+							html+=">";
+							html+= dict.name+"</option>";
+							$("#role_type").append(html);
+						}
+					}
+					
+					</script>
+					
 				</nav>
 			</div>
 			<div class="row J_mainContent" id="content-main">

@@ -12,9 +12,8 @@
 		    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 		    <result column="create_by_id" jdbcType="INTEGER" property="createById" />
 		    <result column="update_by_id" jdbcType="INTEGER" property="updateById" />
-		    <result column="office_id" jdbcType="INTEGER" property="officeId" />
+		    <result column="group_id" jdbcType="INTEGER" property="groupId" />
 		    <result column="remake" jdbcType="VARCHAR" property="remake" />
-    
 	</resultMap>
 
 
@@ -34,6 +33,8 @@
 	<sql id="searchField">
 		<where>
 			<if test="bean.name != null and bean.name != ''">AND name LIKE CONCAT('%',#{bean.name},'%') </if>
+			<if test="bean.groupId != null and bean.groupId != ''">AND group_id=#{bean.groupId} </if>
+			
 		</where>
 	</sql>
 	<!--=========================查询搜索 ============================================================================= -->
@@ -59,8 +60,23 @@
 	</select>
 	
 	
-
-
+	
+	<!--=========================角色组 ============================================================================= -->
+	<resultMap type="com.huiwan.gdata.modules.sys.entity.RoleGroup" id="groupResultMapId">
+		    <id column="id" jdbcType="INTEGER" property="id" />
+		    <result column="name" jdbcType="VARCHAR" property="name" />
+		    <result column="status" jdbcType="INTEGER" property="status" />
+		    <result column="types" jdbcType="VARCHAR" property="types" />
+		    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		    <result column="create_by_id" jdbcType="INTEGER" property="createById" />
+		    <result column="update_by_id" jdbcType="INTEGER" property="updateById" />
+		    <result column="remake" jdbcType="VARCHAR" property="remake" />
+	</resultMap>
+	<select id="getGroupListAll"	resultMap="groupResultMapId">
+		select * from sys_role_group where status=0	order by id desc
+	</select>
+	
 	<!--=========================添加 ============================================================================= -->
 
 <!-- 	<insert id="add" useGeneratedKeys="true" keyProperty="id"> -->
@@ -108,8 +124,8 @@
       <if test="updateById != null">
         update_by_id,
       </if>
-      <if test="officeId != null">
-        office_id,
+      <if test="groupId != null">
+        group_id,
       </if>
       <if test="remake != null">
         remake,
@@ -140,8 +156,8 @@
       <if test="updateById != null">
         #{updateById,jdbcType=INTEGER},
       </if>
-      <if test="officeId != null">
-        #{officeId,jdbcType=INTEGER},
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
       </if>
       <if test="remake != null">
         #{remake,jdbcType=VARCHAR},
@@ -199,8 +215,8 @@
       <if test="updateById != null">
         update_by_id = #{updateById,jdbcType=INTEGER},
       </if>
-      <if test="officeId != null">
-        office_id = #{officeId,jdbcType=INTEGER},
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
       </if>
       <if test="remake != null">
         remake = #{remake,jdbcType=VARCHAR},
@@ -217,7 +233,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_by_id = #{createById,jdbcType=INTEGER},
       update_by_id = #{updateById,jdbcType=INTEGER},
-      office_id = #{officeId,jdbcType=INTEGER},
+      group_id = #{groupId,jdbcType=INTEGER},
       remake = #{remake,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

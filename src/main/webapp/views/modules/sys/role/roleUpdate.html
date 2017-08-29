@@ -32,9 +32,7 @@
 
 
 <script type="text/javascript">
-
 	$(document).ready(function() {
-		
 		$("#inputForm").validate({
 			submitHandler: function(form){
 				//loading('正在提交，请稍等...');
@@ -70,23 +68,15 @@
 <!-- 	</ul> -->
            
  <div class="addClz">
-             
       <form id="inputForm" action="" class="form-horizontal" role="form">
-
              <input  name="id"  id="_roleid" type="hidden" />
-  
             <div class="form-group">
                <label class="col-sm-1 control-label" > <span class="help-inline"><font color="red">*</font> </span>角色名称： 
                </label>
                <div class="col-sd-1">
                   <input class="required input-xlarge" maxlength="20"  name="name"  id="_roleName" type="text" />
                </div>
-         
             </div>
-            
-            
-            
-            
              <div class="form-group">
                <label class="col-sm-1 control-label " >
                <span class="help-inline"><font color="red">*</font>状态：</label>
@@ -94,8 +84,6 @@
 			      &nbsp;  &nbsp;&nbsp;启用 <input type="radio" name="status" value="0" checked="checked"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="status" value="1"/>
                </div>
             </div>
-            
-                 
             <div class="form-group">
                <label class="col-sm-1 control-label ">角色类型：</label>
                <div class="col-sd-1">
@@ -107,11 +95,17 @@
                </div>
             </div>
             
+           <div class="form-group">
+               <label class="col-sm-1 control-label ">角色组：</label>
+               <div class="col-sd-1">
+                  <select name="groupId" id="_groupId">
+                  </select>
+               </div>
+            </div>
             
               <div class="form-group">
                <label class="col-sm-1 control-label ">权限分配：</label>
                <div class="col-sd-1" id="_permission_plan_div">
-               
 				&nbsp;
 				<input id="citySel" type="text" readonly value="" placeholder="点击选择权限" style="width:220px;" onclick="showMenu(); return false;"/>
 				<input id="areaCodeV" type="hidden" >
@@ -130,10 +124,8 @@
 		         <a href="javascript:enterSel()">确定</a> 
 			       <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 		        </div>
-			
                </div>
             </div>
-            
             <div class="form-group">
                <label class="col-sm-1 control-label " >
                                             备注：</label>
@@ -141,21 +133,13 @@
                <textarea rows="6" cols="60"  maxlength="200" name="remake" id="_remake"></textarea>
                </div>
             </div>
-            
-         
             <div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		    </div>    
          </form>
-         
     </div>
-		
 	<script type="text/javascript">
-
-	
-	
-	
 	function addRole(){
 			var roleObj=$("#inputForm").serialize();
 			var menuIds=getCheckedAll();
@@ -184,19 +168,11 @@
 					alert("请求异常！");
 				}
 			});
-			
 		}
-	
-	
-	
 	//初始化
 	$(function(){
 		initUpdate();
 	})
-	
-
-	
-
 	function initUpdate(){
 		var id=getUrlParam("id");
 		//alert(id);
@@ -216,10 +192,8 @@
 			{	
 			   if(resolveResultBeanIsError(returnData,status))
 			   {
-				   
 				  var data=returnData.data;
 				  $("#_roleName").val(data.name);
-				  
 				  //状态redio
 				  var status=data.status;
 				  if(status==0){
@@ -229,15 +203,13 @@
 					  $("input[name=status]:eq(1)").attr("checked",'checked'); 
  
 				  }
-				  
-				 
 				  //初始字典
 		           initDictByType('role_type',"_type",data.types);
-				  
+				  //初始角色组
+		           initRoleGroup(data.groupId)
 				  //角色类型
 				 // $("#_type").attr("value",data.types);
 				  //$("#_type option[value='"+data.types+"']").attr("selected", "selected");  
-
 				  //权限
 			      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 			      if(treeObj==null){
@@ -250,19 +222,13 @@
 			    	  checkZTree(treeObj,data.menus);
 			      }
 				  //权限 end
-				  
-				  
-				  
-				  
 				  $("#_remake").val(data.remake);
-				   
 			   }
 			},
 			error : function() {
 				alert("请求异常！");
 			}
 		});
-		
 	}
 	
 /**
@@ -351,6 +317,45 @@
    		  }
       }
 	      
+	}
+	
+	
+	/**
+	 *角色组
+	 */
+	function initRoleGroup(type_value){
+		$("#_groupId").empty();
+		$.ajax({
+			url : getContextPath()+"/sys/role/listGroupAll",
+			type : "GET",
+			dataType : "json",
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+					var data=returnData.data;
+					if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+					{
+						for(var i=0;i<data.length;i++)
+						{
+							var dict=data[i];
+							var html="";
+							html+="<option value='"+dict.id+"' ";
+							if(type_value==dict.id)
+							{
+								html+=" selected='selected' ";
+							}
+							html+=">";
+							html+= dict.name+"</option>";
+							$("#_groupId").append(html);
+						}
+					}
+					return returnData.data;
+				}
+			},
+			error : function() {
+				alert("groupId请求异常！");
+			}
+		});
 	}
 	
 	</script>	

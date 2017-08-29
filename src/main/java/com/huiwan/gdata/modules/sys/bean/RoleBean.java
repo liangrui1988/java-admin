@@ -18,6 +18,7 @@ public class RoleBean {
 	private Integer status;
 	
 	private String types;
+	private Integer groupId;
 
 
 	private List<MenuBean> menus; // 拥有的菜单列表
@@ -71,6 +72,14 @@ public class RoleBean {
 
 	public void setTypes(String types) {
 		this.types = types;
+	}
+
+	public Integer getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
 	}
 	
 	
