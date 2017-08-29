@@ -177,6 +177,33 @@ public class MenuController extends SysBaseController {
 				}
 			}
 		}
+
+		// 四级转list
+		for (Menu m : result) {
+			if (m.getMenus() == null || m.getMenus().size() <= 0) {
+				continue;
+			}
+			// 二级
+			for (Menu m_3 : m.getMenus()) {
+				if (m_3.getMenus() == null || m_3.getMenus().size() <= 0) {
+					continue;
+				}
+				for (Menu m_4 : m_3.getMenus()) {
+					for (Entry<String, Menu> entry : map_2.entrySet()) {
+						String pid = entry.getValue().getParentId();
+						if (m_4.getId().equals(pid)) {// 寻找子
+							if (m_4.getMenus() == null || m_4.getMenus().size() <= 0) {// 第一次，先实例
+								m_4.setMenus(new ArrayList<Menu>());
+							}
+							// 加放孩子
+							m_4.getMenus().add(entry.getValue());
+						}
+					}
+				}
+
+			}
+		}
+
 		return result;
 	}
 
