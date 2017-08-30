@@ -1,12 +1,11 @@
 package com.huiwan.gdata.modules.sys.entity;
 
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.huiwan.gdata.common.utils.date.DateSerializer;
 
-public class Role {
+public class RoleGroup {
     private Integer id;
 
     private String name;
@@ -24,13 +23,10 @@ public class Role {
 
     private Integer updateById;
 
-    private Integer groupId;
 
     private String remake;
     
-	private List<String> menuIds; // 拥有的菜单列表
 	
-	private List<Menu> menus; // 拥有的菜单列表
 	
 
     public Integer getId() {
@@ -106,41 +102,8 @@ public class Role {
         this.remake = remake == null ? null : remake.trim();
     }
 
-	public List<String> getMenuIds() {
-		return menuIds;
-	}
 
-	public void setMenuIds(List<String> menuIds) {
-		this.menuIds = menuIds;
-	}
-
-	public List<Menu> getMenus() {
-		return menus;
-	}
-
-	public void setMenus(List<Menu> menus) {
-		this.menus = menus;
-	}
 	
-	
-
-	public Integer getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(Integer groupId) {
-		this.groupId = groupId;
-	}
-
-	@Override
-	public String toString() {
-		return "Role [id=" + id + ", name=" + name + ", status=" + status
-				+ ", types=" + types + ", createTime=" + createTime
-				+ ", updateTime=" + updateTime + ", createById=" + createById
-				+ ", updateById=" + updateById + ", groupId=" + groupId
-				+ ", remake=" + remake + ", menuIds=" + menuIds + ", menus="
-				+ menus + "]";
-	}
     
     
 }

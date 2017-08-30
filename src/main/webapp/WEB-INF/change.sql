@@ -194,12 +194,13 @@ create table sys_role
    update_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
    create_by_id         int comment '创建者',
    update_by_id         int comment '更新者',
-   office_id            int comment '归属机构',
+   group_id            int comment '角色组',
    remake               varchar(200) comment '备注',
    primary key (id)
 );
 
 alter table sys_role comment '角色';
+
 
 /*==============================================================*/
 /* Index: role_name_unique                                      */
@@ -300,4 +301,21 @@ CREATE TABLE `sys_parameter` (
   `remake` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统参数表';
+
+-- ----------------------------
+-- Table structure for sys_role_group
+-- ----------------------------
+CREATE TABLE `sys_role_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL COMMENT '角色组名称',
+  `status` int(11) DEFAULT '0' COMMENT '状态',
+  `types` varchar(100) DEFAULT NULL COMMENT '类型',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by_id` int(11) DEFAULT NULL COMMENT '创建者',
+  `update_by_id` int(11) DEFAULT NULL COMMENT '更新者',
+  `remake` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `role_name_unique` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色组';
 

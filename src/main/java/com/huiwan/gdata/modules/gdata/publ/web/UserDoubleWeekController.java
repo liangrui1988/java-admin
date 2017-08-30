@@ -1,4 +1,4 @@
-package com.huiwan.gdata.modules.pro.web;
+package com.huiwan.gdata.modules.gdata.publ.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,25 +7,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huiwan.gdata.common.annotatiions.MenuAnnot;
-import com.huiwan.gdata.common.annotatiions.PermissionAnnot;
 import com.huiwan.gdata.common.bean.ResultBean;
-import com.huiwan.gdata.common.constants.Modules;
-import com.huiwan.gdata.common.constants.uri.ProUri;
 import com.huiwan.gdata.common.exception.MessageCode;
 import com.huiwan.gdata.modules.sys.vo.UserVo;
 
-//@Controller
-//@RequestMapping(ProUri.PRO_MER)
-//@MenuAnnot(id = "pro2:mer", name = "商家商品维护", parentId = Modules.PRO2, href = "/views/modules/pro/merproduct/list", sortNo = 1)
-public class MerProductController extends ProBaseController {
+@Controller
+@RequestMapping("publ_yhl/user_double_week")
+@MenuAnnot(id = "publ:yhl:userdoubleweek", name = "用户双周总况", parentId = "publ_yhl", href = "/views/modules/pro/merproduct/list", sortNo = 1)
+public class UserDoubleWeekController extends PublBaseController {
 
-//	@PermissionAnnot(id = "pro:mer:list",name = "查询列表")
-//	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
-//	@ResponseBody
-	public ResultBean getList(
-			@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize,
-			UserVo user) {
+	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)
+	@ResponseBody
+	public ResultBean getList(@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "pagesize", defaultValue = "20") Integer pagesize, UserVo user) {
 		ResultBean rb = new ResultBean();
 		try {
 			// QueryResult<User> result = userService.getUserList(page,

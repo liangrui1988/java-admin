@@ -85,12 +85,77 @@
                             <h2>你好:<label id="userNameLabel"></label>欢迎使用后台管理系统！</h2>
 					      </div>
 					</div>
+					
+		
 					<!-- 右边 -->
 					 <ul class="nav navbar-top-links navbar-right">
+					    <li class="dropdown">
+					     <select class="col-sm-1 control-label" name="types" id="role_type" style="width: 180px">
+				          </select>
+				        </li> 
+				                  
                         <li class="dropdown">
                             <a  href="#" class="dropdown-toggle count-info" onclick="goLogout()"> 退出系统      </a>
                         </li>
                     </ul>
+                    
+                    <script type="text/javascript">
+					//初始化
+					$(function() {
+						var param=new Object();	
+						    param.status="0";
+						    param.groupId="2";
+						//初始化数据	
+						pageFn(getContextPath()+"/sys/role/indexRoleMark",param,"get");
+					})
+					
+					/**分页回调处理**/
+					function callbak_page(returnDatas)
+					{
+						//$("#_role_table tbody tr").remove();
+						var returnData = returnDatas.data.items;
+						if(returnData==null){
+						  return;
+						}
+						//当前角色标识 
+						var message=returnDatas.message;
+						for(var i=0;i<returnData.length;i++)
+						{
+							var dict=returnData[i];
+							var html="";
+							html+="<option value='"+dict.types+"' ";
+							if(message==dict.types)
+							{
+								html+=" selected='selected' ";
+							}
+							html+=">";
+							html+= dict.name+"</option>";
+							$("#role_type").append(html);
+						}
+					}
+					
+					
+					$("#role_type").change(function(){
+						var role_type=$("#role_type").val();
+// 						location.href=getContextPath()+"/sys/role/indexUpdateRoleMark?roleType="+role_type;
+						$.ajax({
+							url : getContextPath()+"/sys/role/indexUpdateRoleMark",
+							type : "POST",
+							dataType : "json",
+							data :"roleType="+role_type,
+							success : function(returnData,status,XMLHttpRequest)
+							{	
+								location.href=getContextPath();
+
+							},
+							error : function() {
+								alert("切换当前角色标识异常");
+							}
+						});
+					});
+					
+					</script>
+					
 				</nav>
 			</div>
 			<div class="row J_mainContent" id="content-main">

@@ -29,7 +29,6 @@ import com.huiwan.gdata.common.bean.page.QueryResult;
 import com.huiwan.gdata.common.constants.Modules;
 import com.huiwan.gdata.common.constants.uri.SysUri;
 import com.huiwan.gdata.common.exception.MessageCode;
-import com.huiwan.gdata.common.utils.json.JsonUtils;
 import com.huiwan.gdata.modules.sys.constants.enums.MenuStatusEnum;
 import com.huiwan.gdata.modules.sys.entity.Menu;
 import com.huiwan.gdata.modules.sys.service.IMenuService;
@@ -65,10 +64,8 @@ public class MenuController extends SysBaseController {
 	public ResultBean getList(@RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex,
 			@RequestParam(value = "pagesize", defaultValue = "12") Integer pagesize, MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
-
 		QueryResult<Menu> result = menuService.getMenuList(pageIndex, pagesize, menuVo);
 		rb.setData(result);
-
 		return rb;
 	}
 
@@ -76,20 +73,15 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getlistAll(String level) {
 		ResultBean rb = new ResultBean();
-
 		List<Menu> menus = menuService.getMenuListAll();
-
 		// List<Menu> menus = menuService.getMenuListAll(level);
-
 		// Menu[] ocAr = new Menu[menus.size()];
 		// for (int i = 0; i < menus.size(); i++) {
 		// ocAr[i] = menus.get(i);
 		// }
 		// Arrays.sort(ocAr, new MenuComparator());
 		// List<Menu> menusNew = Arrays.asList(ocAr);
-
 		rb.setData(menus);
-
 		return rb;
 
 	}
@@ -116,8 +108,8 @@ public class MenuController extends SysBaseController {
 		// 菜单归类
 		List<Menu> result = handlerMenuClassify(menusNew);
 		rb.setData(result);
-		String str = JsonUtils.toJsonString(rb);
-		System.out.println("getlistByCurentUser>json>>>:" + str);
+		// String str = JsonUtils.toJsonString(rb);
+		// System.out.println("getlistByCurentUser>json>>>:" + str);
 		return rb;
 
 	}
@@ -177,6 +169,31 @@ public class MenuController extends SysBaseController {
 				}
 			}
 		}
+		// 四级转list
+		for (Menu m : result) {
+			if (m.getMenus() == null || m.getMenus().size() <= 0) {
+				continue;
+			}
+			// 二级
+			for (Menu m_3 : m.getMenus()) {
+				if (m_3.getMenus() == null || m_3.getMenus().size() <= 0) {
+					continue;
+				}
+				for (Menu m_4 : m_3.getMenus()) {
+					for (Entry<String, Menu> entry : map_2.entrySet()) {
+						String pid = entry.getValue().getParentId();
+						if (m_4.getId().equals(pid)) {// 寻找子
+							if (m_4.getMenus() == null || m_4.getMenus().size() <= 0) {// 第一次，先实例
+								m_4.setMenus(new ArrayList<Menu>());
+							}
+							// 加放孩子
+							m_4.getMenus().add(entry.getValue());
+						}
+					}
+				}
+
+			}
+		}
 		return result;
 	}
 
@@ -185,10 +202,8 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean get(HttpServletRequest request, HttpServletResponse response, MenuVo menuVo) {
 		ResultBean rb = new ResultBean();
-
 		Menu menu = menuService.get(Integer.valueOf(menuVo.getId()));
 		rb.setData(menu);
-
 		return rb;
 	}
 
@@ -198,12 +213,10 @@ public class MenuController extends SysBaseController {
 	public ResultBean del(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(required = false, value = "id") Integer id) {
 		ResultBean rb = new ResultBean();
-
 		int count = menuService.del(id);
 		if (count <= 0) {
 			rb = new ResultBean(false, MessageCode.SYS_FAILURE, "操作失败");
 		}
-
 		return rb;
 	}
 
@@ -212,9 +225,7 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean add(HttpServletRequest request, HttpServletResponse response, Menu role) {
 		ResultBean rb = new ResultBean();
-
 		menuService.add(role);
-
 		return rb;
 	}
 
@@ -223,9 +234,7 @@ public class MenuController extends SysBaseController {
 	@ResponseBody
 	public ResultBean update(HttpServletRequest request, HttpServletResponse response, Menu menu) {
 		ResultBean rb = new ResultBean();
-
 		menuService.update(menu);
-
 		return rb;
 	}
 

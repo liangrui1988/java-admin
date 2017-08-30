@@ -14,6 +14,7 @@ import com.huiwan.gdata.modules.sys.bean.MenuBean;
 import com.huiwan.gdata.modules.sys.bean.RoleBean;
 import com.huiwan.gdata.modules.sys.entity.Menu;
 import com.huiwan.gdata.modules.sys.entity.Role;
+import com.huiwan.gdata.modules.sys.entity.RoleGroup;
 import com.huiwan.gdata.modules.sys.exception.ObjectExistException;
 import com.huiwan.gdata.modules.sys.mapper.MenuMapper;
 import com.huiwan.gdata.modules.sys.mapper.RoleMapper;
@@ -178,6 +179,11 @@ public class RoleService implements IRoleService {
 	public Role getByName(String name) {
 		return roleMapper.getByName(name);
 		
+	}
+
+	@Override
+	public List<RoleGroup> getGroupListAll() {
+		return roleMapper.getGroupListAll();
 	}
 
 }
