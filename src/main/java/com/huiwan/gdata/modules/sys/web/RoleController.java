@@ -62,6 +62,8 @@ public class RoleController extends SysBaseController {
 	@ResponseBody
 	public ResultBean getIndexRoleMark(RoleVo roleVo) {
 		ResultBean rb = new ResultBean();
+		//当前用户拥有的角色条件 ,暂略...
+//		roleVo.setUserId(userUtils.getUserBean().getId());
 		QueryResult<Role> result = roleService.getRoleList(1, 20, roleVo);
 		// 如果没有会话角色标识
 		if (userUtils.getSession().getAttribute(UserUtils.ROLE_MARK) == null) {
