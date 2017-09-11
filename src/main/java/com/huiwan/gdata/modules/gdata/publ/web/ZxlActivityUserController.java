@@ -14,7 +14,7 @@ import com.huiwan.gdata.modules.sys.vo.UserVo;
 
 @Controller
 @RequestMapping("publ_zxl_xyqk/dau")
-@MenuAnnot(id = "publ:zxl:dau", name = "活跃用户数", parentId = "publ_zxl_xyqk", href = "/views/modules/pro/merproduct/list", sortNo = 1)
+@MenuAnnot(id = "publ:zxl:dau", name = "活跃用户数", parentId = "publ:zxl:xyqk", href = "/views/modules/pro/merproduct/list", sortNo = 1)
 public class ZxlActivityUserController extends PublBaseController {
 
 //	@PermissionAnnot(id = "pro:mer:list",name = "查询列表")
