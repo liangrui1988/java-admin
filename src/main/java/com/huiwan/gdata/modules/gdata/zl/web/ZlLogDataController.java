@@ -13,7 +13,7 @@ import com.huiwan.gdata.modules.sys.vo.UserVo;
 
 @Controller
 @RequestMapping("zl/data")
-@MenuAnnot(id = "zl:data", name = "战斗日志", parentId = "zldata", href = "/views/modules/pro/merproduct/list", sortNo = 1)
+@MenuAnnot(id = "zl:data", name = "战斗日志", parentId = "zl", href = "/views/modules/pro/merproduct/list", sortNo = 1)
 public class ZlLogDataController extends ZlBaseController {
 
 //	@PermissionAnnot(id = "pro:mer:list",name = "查询列表")

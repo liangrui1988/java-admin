@@ -13,7 +13,7 @@ import com.huiwan.gdata.modules.sys.vo.UserVo;
 
 @Controller
 @RequestMapping("publ_yhl/user_double_week")
-@MenuAnnot(id = "publ:yhl:userdoubleweek", name = "用户双周总况", parentId = "publ_yhl", href = "/views/modules/pro/merproduct/list", sortNo = 1)
+@MenuAnnot(id = "publ:yhl:userdoubleweek", name = "用户双周总况", parentId = "publ:yhl", href = "/views/modules/pro/merproduct/list", sortNo = 1)
 public class UserDoubleWeekController extends PublBaseController {
 
 	@RequestMapping(value = { "list", "" }, method = RequestMethod.GET)

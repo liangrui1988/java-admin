@@ -13,7 +13,7 @@ import com.huiwan.gdata.modules.sys.vo.UserVo;
 
 @Controller
 @RequestMapping("publ_yhl/reg")
-@MenuAnnot(id = "publ:yhl:reg", name = "注册用户", parentId = "publ_yhl", href = "/views/modules/pro/merproduct/list", sortNo = 1)
+@MenuAnnot(id = "publ:yhl:reg", name = "注册用户", parentId = "publ:yhl", href = "/views/modules/pro/merproduct/list", sortNo = 1)
 public class PublRegDataController extends PublBaseController {
 
 //	@PermissionAnnot(id = "pro:mer:list",name = "查询列表")
