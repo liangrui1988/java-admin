@@ -22,7 +22,7 @@ public class SimpleMain {
 		// demo
 		// Handler handler=new WebAppContext("src/main/webapp", "/");
 
-		server.setHandler(new WebAppContext("src/main/webapp", "/"));
+		server.setHandler(new WebAppContext("src/main/webapp", "/zdata"));
 		// 连接器
 		server.addConnector(connector);
 		server.start();
