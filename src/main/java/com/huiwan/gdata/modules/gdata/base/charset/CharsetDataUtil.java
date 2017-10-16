@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,6 @@ import com.huiwan.gdata.modules.gdata.base.charset.bean.SeriesLong;
 import com.huiwan.gdata.modules.gdata.base.charset.bean.common.CharsetBeanCommon;
 import com.huiwan.gdata.modules.gdata.base.charset.bean.common.SeriesCommon;
 import com.huiwan.gdata.modules.gdata.base.charset.conver.ListConverMap;
-
 
 /**
  * 图表工具
@@ -667,7 +667,7 @@ public class CharsetDataUtil {
 				charsetType, timeType);
 		List<String> aisxName = new ArrayList<String>();
 		List<SeriesCommon> series = new ArrayList<SeriesCommon>();
-		// 有多少个map 就有多少个SeriesLong
+		// 有多少个map 就有多少个Series
 		int i = 0;
 		for (Entry<String, List<CharsetBeanCommon>> entry : map.entrySet()) {
 			List<Object> data = new ArrayList<>();
@@ -697,6 +697,68 @@ public class CharsetDataUtil {
 			s.setData(data);
 			s.setType(tempType);
 			s.setyAxis(tempYType);
+			series.add(s);
+		}
+		// 根据数据组装图表数据
+		ChartData chartData = new ChartData();
+		chartData.setAisxName(aisxName);
+		chartData.setSeriesCommon(series);
+		return chartData;
+	}
+
+	/**
+	 * 按vo条件中的日期，和数据结合，日期中没有数据并补0处理,
+	 * <p>
+	 * 会按照CharsetBeanCommon中定义的id和xName进行归类分组并按日期排序(从小到大)处理， 最后转换成图表对象
+	 * <p>
+	 * id=日期的情况，日期不为xname,而作为底图标识时
+	 * <p>
+	 * 日期在下面显示的时候用些方法
+	 * 
+	 * @date 2017/09/26
+	 * 
+	 * @param vo
+	 *            条件
+	 * @param lists
+	 *            数据集合
+	 * @param charsetType
+	 *            图表类型
+	 * @return
+	 */
+	public static ChartData commonBeanToCharsetCommonToDateHandlerV2ToId(QueryCommBean vo,
+			List<CharsetBeanCommon> comBeans, String charsetType, String timeType) {
+		if (comBeans == null || comBeans.size() <= 0) {
+			return new ChartData();
+		}
+		// 按日期排序，补0
+		Map<String, List<CharsetBeanCommon>> map = ListConverMap.beanConverMapToObject_to_date_toidEqDt(vo, comBeans,
+				charsetType, timeType);
+		List<String> aisxName = new ArrayList<String>();
+		List<SeriesCommon> series = new ArrayList<SeriesCommon>();
+
+		// dt={list=[1,2,3,4]}
+		Map<String, List<Object>> dt_dt_array = new LinkedHashMap<>();
+		// 先来一次硬转换
+		for (Entry<String, List<CharsetBeanCommon>> entry : map.entrySet()) {
+			aisxName.add(entry.getKey());// 非日期，
+			// 转 list
+			for (CharsetBeanCommon c : entry.getValue()) {
+				if (dt_dt_array.containsKey(c.getxName())) {// 如果日期相同，则保存为一个数组
+					List<Object> list_t = dt_dt_array.get(c.getxName());
+					list_t.add(c.getCount());
+					continue;
+				}
+				// 不存在,新加
+				List<Object> list_t = new ArrayList<>();
+				list_t.add(c.getCount());
+				dt_dt_array.put(c.getxName(), list_t);
+			}
+		}
+		// 组合SeriesCommon
+		for (Entry<String, List<Object>> entry : dt_dt_array.entrySet()) {
+			SeriesCommon s = new SeriesCommon();
+			s.setName(entry.getKey());// 日期
+			s.setData(entry.getValue());// 数据
 			series.add(s);
 		}
 		// 根据数据组装图表数据
