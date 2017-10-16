@@ -79,7 +79,7 @@
 				<div class="control-group" id="_captcha_div" style="display: none;">
 					 <label id="control-label" for="captcha"><span id="captcha_sapn" style="color: red;">请输入验证码：</span></label>
 					 <input  type="text" name="captcha" id="_captchaCode" style="width: 100px"/>  
-				    <img  class="jcaptcha-btn jcaptcha-img" id="_captchaCode_img" src="/jcaptcha.jpg" onclick="this.src='/jcaptcha.jpg?d='+new Date()*1" title="点击更换验证码"/>  
+				    <img  class="jcaptcha-btn jcaptcha-img" id="_captchaCode_img" src="/zdata/jcaptcha.jpg" onclick="this.src='/jcaptcha.jpg?d='+new Date()*1" title="点击更换验证码"/>  
 				</div>
 
 				<div class="pull-right">
@@ -92,7 +92,7 @@
 		
 		
 		<div id="login-extra">
-				<p>	Copyright © 2016-2017 v1.2 </p>
+<!-- 				<p>	Copyright © 2016-2017 v1.2 </p> -->
 <!-- 			<p>Don't have an account? <a href="javascript:;">Sign Up.</a></p> -->
 			
 <!-- 			<p>Remind Password? <a href="forgot_password.html">Retrieve.</a></p> -->
@@ -110,9 +110,14 @@
 
 
 <script type="text/javascript">
-
+   var v="this.src='"+getContextPath()+"/jcaptcha.jpg?d='+new Date()*1";
+//    var vj=getContextPath()+"/jcaptcha.jpg";
+// 	$("#_captchaCode_img").attr("src",vj);
 	$(function(){
 		initLogin();
+		//验证吗
+		$("#_captchaCode_img").attr("onclick",v);
+		
 	})
 
    $(document).keypress(function(e) {  
@@ -189,11 +194,14 @@
 				 if(data.success && data.messageCode == "001")
 				 {
                      //window.location.href = getContextPath()+"/views/main.html";
-					 window.location.href = getContextPath()+"/views/index.html";
+// 					 window.location.href = getContextPath()+"/views/index.html";
+					 window.location.href = getContextPath();
+
 					 return;
 				 }
 				 if(data.messageCode == "012" || data.messageCode == "013")
 				 {    //验证码处理
+					
 					 $("#_captcha_div").css("display","block");
 					 $('#_captchaCode_img').trigger("click");
 					 $("#captcha_sapn").text(data.message);

@@ -11,18 +11,18 @@
    
 	<import resource="cache.xml"/>
     <!-- 缓存管理器  封装到shiro-->
-    <bean id="cacheManager" class="com.rui.pro1.common.cache.SpringCacheManagerWrapper">
+    <bean id="cacheManager" class="com.huiwan.gdata.common.cache.SpringCacheManagerWrapper">
         <property name="cacheManager" ref="springCacheManager"/>
     </bean>
     <!-- 认证信息匹配器       login Validation username password to token-->
-    <bean id="credentialsMatcher" class="com.rui.pro1.modules.sys.shiro.CredentialsMatcher">
+    <bean id="credentialsMatcher" class="com.huiwan.gdata.modules.sys.shiro.CredentialsMatcher">
         <constructor-arg ref="cacheManager"/>
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="2"/>
         <property name="storedCredentialsHexEncoded" value="true"/>
     </bean>
     <!-- Realm实现   data -->
-    <bean id="userRealm" class="com.rui.pro1.modules.sys.shiro.UserRealm">
+    <bean id="userRealm" class="com.huiwan.gdata.modules.sys.shiro.UserRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
         <property name="cachingEnabled" value="false"/>
         <!--<property name="authenticationCachingEnabled" value="true"/>-->
@@ -92,14 +92,14 @@
     </bean>
 
     <!-- 基于Form表单的身份验证过滤器      login-->
-    <bean id="formsAuthenticationFilter" class="com.rui.pro1.modules.sys.shiro.FormsAuthenticationFilter">
+    <bean id="formsAuthenticationFilter" class="com.huiwan.gdata.modules.sys.shiro.FormsAuthenticationFilter">
         <property name="usernameParam" value="userName"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
         <property name="loginUrl" value="login"/>
     </bean>
 
-    <bean id="sysUserFilter" class="com.rui.pro1.modules.sys.shiro.SysUserFilter"/>
+    <bean id="sysUserFilter" class="com.huiwan.gdata.modules.sys.shiro.SysUserFilter"/>
 
     <!-- Shiro的Web过滤器 -->
     <!-- 访问一般网页，如个人在主页之类的，我们使用user拦截器即可，user拦截器只要用户登录(isRemembered()==true or isAuthenticated()==true)过即可访问成功；
@@ -116,12 +116,13 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-			   /views/** = anon
-			   /logout = anon
-		      /login = anon
-		      /unauthorized= anon
-		      /jcaptcha.jpg=anon
-		      /loginPage = anon
+			 /views/** = anon
+			 /logout = anon
+		     /login = anon
+		     /unauthorized= anon
+		     /cat/send/** = anon
+		     /jcaptcha.jpg=anon
+		     /loginPage = anon
 		     /authenticated = authc
 		     /sys/** = user,sysUser
 		     /** = user
@@ -156,7 +157,7 @@
 <!-- 			</props> -->
 <!-- 		</property> -->
 <!-- 	</bean> -->
-	<bean id="exceptionHandler" class="com.rui.pro1.modules.sys.web.converter.HandlerExceptionResolverImp"/>  
+	<bean id="exceptionHandler" class="com.huiwan.gdata.modules.sys.web.converter.HandlerExceptionResolverImp"/>  
 	
 
 </beans>

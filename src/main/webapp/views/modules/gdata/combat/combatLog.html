@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 	<title>用户管理</title> -->
+<!-- <link href="../../../common/all.css" rel="stylesheet"> -->
+<link href="../../../common/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="../../../common/style/pager.css" rel="stylesheet"> -->
+<!-- <script type="text/javascript" src="../../../common/all.js"></script> -->
+<script type="text/javascript" src="../../../common/jquery/jquery-1.12.3.js"></script>
+<script type="text/javascript" src="../../../common/jquery/jquery-ui.min.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script>
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/sys.js"></script>
+<script src="../../../common/util/common.js"></script>
+
+<script type="text/javascript" src="../../../common/My97DatePicker/WdatePicker.js"></script>
+
+<style type="text/css">
+.table {
+  table-layout: fixed;
+ word-wrap: break-word; word-break: normal;
+}
+#exampleModal {
+ word-wrap: break-word; word-break: normal;
+}
+.search_table tr{height: 35px;
+}
+
+#_attrs_table {padding: 2px;
+ 
+}
+
+#_attrs_table table{
+ 
+}
+
+
+#_attrs_table table tr td{ width: 140px;
+ 
+}
+#_attrs_table table tr{
+ 
+}
+
+.dif_clz{
+background: #d8ccd5;
+}
+
+
+</style>
+</head>
+<body>
+<!-- breadcrumb  form-search-->
+<div style="width: 100%;">
+	<div style="width: 50%;float:left;padding-left: 10px;padding-top: 10px;">
+		<form action="" class="form-inline   " id="_search_form">
+		<!-- 服务器 -->
+		<table class="search_table">
+		<tr>
+		<td>
+			   <div class="form-group" >
+		               <div class="input-group">
+		                 服务器： <select name="types" id="_type_servers" class="chosen-select" style="width: 150px;">
+		              </select>
+		      </div> </div>
+		 </td>
+		 <td>
+		 </td>
+		<td>
+	    </td> 
+	    </tr>
+	    
+	    <tr>
+
+		 <td>
+		    <div class="form-group" >
+		         <div class="input-group">
+		                 监听对象id： <select name="types" id="_objetc_types" class="chosen-select" style="width: 150px;width: 200px;"   >
+		                 <option value="-2">手动输入</option>
+		            </select>
+		      </div>
+		    </div>
+		 </td>
+		<td>
+		 <div class="form-group">
+		     监听对象id： <input class="input-xlarge" name="_object_sd_id" id="_object_sd_id" placeholder="请先把下拉选择设为手动输入"	type="text"/> 
+		</div>
+	    </td> 
+	    
+    	 <td>
+		   <div class="form-group" >
+	               <div class="input-group">
+	                对象名称： <input name="types" id="_object_name" class="chosen-select" style="width: 150px;"/>
+	      </div> </div>
+	   </td>
+	    
+	    </tr>
+	    
+	   <tr>
+		<td>
+		 <div class="form-group" >
+	         <div class="input-group">
+	                 类&nbsp;&nbsp;型&nbsp;： <select name="types" id="_file_types" class="chosen-select" style="width: 150px;">
+	            </select>
+	      </div>
+	    </div>
+		</td>
+		<td>
+		 <div class="form-group" >
+	         <div class="input-group">
+	                 副&nbsp;&nbsp;本&nbsp;&nbsp;id&nbsp;&nbsp;： <select name="copyId" id="_copy_types" class="chosen-select" style="width: 150px;width: 200px;">
+	                 <option value="-2">手动输入</option>
+	            </select>
+	      </div>
+	    </div>
+	    </td>
+	    <td>
+		<div class="form-group">
+			   副本id： <input class="input-xlarge" name="copy_sd_types" id="_copy_sd_types" placeholder="请先把下拉选择设为手动输入"	type="text" /> 
+		</div>
+		</td>
+		</tr>
+	  <tr>
+	    <td colspan="2">
+			<div class="form-group">
+			<div class="input-daterange input-group" id="datepicker">
+				日期(默认当天): <input name="dt1" id="d5221" class="Wdate" type="text"
+				     onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"style="width: 150px" /> 
+			</div>
+			</div> 
+			
+			
+<!-- 					<div class="form-group"> -->
+<!-- 			<div class="input-daterange input-group" id="datepicker"> -->
+<!-- 				 开始时间: <input name="dt1" id="d5221" class="Wdate" type="text" -->
+<!-- 				     onFocus="var d5222=$dp.$('d5222');WdatePicker({onpicked:function(){d5222.focus();},maxDate:'#F{$dp.$D(\'d5222\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"style="width: 150px" />  -->
+<!-- 			   结束时间: <input  name="dt2" id="d5222"	class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d5221\')}'})"style="width: 150px" /> -->
+<!-- 			</div> -->
+<!-- 			</div>  -->
+			
+		</td>
+		<td>
+		<input id="_search_submit"	class="btn btn-primary" type="button" value="查询" />
+				&nbsp;&nbsp;&nbsp;&nbsp;
+		<input id="_refTime"	class="btn btn-primary" type="button" value="开 始 " />
+		</td>
+	</tr>
+</table>
+</form>
+</div>
+
+	<div style="width: 50%;height: 200px;float:left;border-style:solid;  border-color: #dddddd;overflow:auto;">
+		<input id="_open_attrs_div" data-toggle="modal" data-target="#openAttrsDivModal"    data-whatever="" class="btn btn-primary" type="button" value="弹窗 " style="float: right;" />
+		<h4>对象基础信息</h4> 
+		<div id="_attrs_table" class="attrs_table_clz"></div>
+	</div>
+
+</div>
+
+	<table class="rl-page-table ui celled structured table span11" data-height="880" data-width="800px"
+		table-data-url="/combat/log/combatList">
+<!-- 		<thead> -->
+<!-- 			<tr> -->
+<!-- 				<th data-field="dt" data-sortable="true" data-width="10%">时间</th> -->
+<!-- 				<th data-field="uuid" data-width="10%">uuid</th> -->
+<!-- 				<th data-field="cont"  data-width="70%" style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">原始数据</th> -->
+<!-- 			    <th data-formatter="xuhao"  data-width="10%">序号</th> -->
+				
+<!-- 				<a href="combat/log/log_detail?id=" target="blank" style="color: blue; cursor: pointer;">详情</a> -->
+<!-- 			</tr> -->
+<!-- 		</thead> -->
+	</table>
+	
+
+<!-- 日志详情弹出层 -->	
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >  
+    <div class="modal-dialog" role="document">  
+        <div class="modal-content">  
+            <div class="modal-header">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  
+                        aria-hidden="true">×</span></button>  
+                <h4 class="modal-title" id="exampleModalLabel">日志信息</h4>  
+            </div>  
+            <div class="modal-body log-detail-div" >  
+      
+            </div>  
+            <div class="modal-footer">  
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+
+<!-- 属性弹出层 -->
+<div class="modal fade" id="openAttrsDivModal" tabindex="-1" role="dialog" aria-labelledby="openAttrsDivModalLabel" aria-hidden="true">  
+    <div class="modal-dialog" role="document">  
+        <div class="modal-content">  
+            <div class="modal-header">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  
+                        aria-hidden="true">×</span></button>  
+                <h4 class="modal-title" id="openAttrsDivModalLabel">对象基础属性</h4>  
+            </div>  
+            <div class="modal-body attrs_table_clz" >  
+            
+
+            </div>  
+            <div class="modal-footer">  
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+
+	<!-- newx -->
+<!-- 	<script type="text/javascript" -->
+<!-- 		src="../../../common/bootstrap/pagination/bootstrap-table.js" /> -->
+<!-- 	<script type="text/javascript" -->
+<!-- 		src="../../../common/bootstrap/pagination/bootstrap-table-zh-CN.js" /> -->
+<link href="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
+	
+
+	<script type="text/javascript">
+		//设置传入参数  
+		function queryParams(parma) {
+			// 获取查询条件  
+		    var dt1 =$("#d5221").val();  
+		    var dt2 = $("#d5222").val();  
+		    if (dt1 != "" && dt1 != null && dt1 != 'undefined') {  
+		        parma = $.extend(parma, {  
+		        	dt1 : dt1,  
+		        });  
+		    }  
+
+		    if (dt2 != "" && dt2 != null && dt2 != 'undefined') {  
+		        parma = $.extend(parma, {  
+		        	dt2 : dt2,  
+		        });  
+		    } 
+			//副本
+			var _copyId = $("#_copyId").val();
+			if (_copyId != "" && _copyId != null && _copyId != 'undefined') {
+				parma = $.extend(parma, {
+					copyId : _copyId,
+				});
+			}
+			
+			//服务器
+			var server=$("#_type_servers").val();
+			if (server != "" && server != null && server != 'undefined') {
+				parma = $.extend(parma, {
+					server : server,
+				});
+			}
+			
+			//文件
+			var _file_types=$("#_file_types").val();
+			if (_file_types != "" && _file_types != null && _file_types != 'undefined') {
+				parma = $.extend(parma, {
+					file : _file_types,
+				});
+			}
+			
+			//监听对象
+			var _objetc_types=$("#_objetc_types").val();
+			if (_objetc_types != "" && _objetc_types != null && _objetc_types != 'undefined') {
+				var _uuid="";
+				if(_objetc_types=="-2"){
+					_uuid=$("#_object_sd_id").val();
+				}else{
+					_uuid=_objetc_types;
+				}
+				if (_uuid != "" && _uuid != null && _uuid != 'undefined') {
+					parma = $.extend(parma, {
+						type : _uuid,
+					});
+				}
+			}
+			//副本id
+			//监听对象
+			var _copy_types=$("#_copy_types").val();
+			if (_copy_types != "" && _copy_types != null && _copy_types != 'undefined') {
+				var _copyId="";
+				if(_copy_types=="-2"){
+					_copyId=$("#_copy_sd_types").val();
+				}else{
+					_copyId=_objetc_types;
+				}
+				if (_copyId != "" && _copyId != null && _copyId != 'undefined') {
+					parma = $.extend(parma, {
+						copyId : _copyId,
+					});
+				}
+			}
+			//名称
+			var _object_name=$("#_object_name").val();
+			if (_object_name != "" && _object_name != null && _object_name != 'undefined') {
+				parma = $.extend(parma, {
+					name : _object_name,
+				});
+			}
+			
+			
+			var page_id=$("#page_id").val();
+			if (page_id != "" && page_id != null && page_id != 'undefined') {
+				parma = $.extend(parma, {
+					pageId : page_id,
+				});
+			}
+			
+
+			return parma;
+		}
+
+		$(function() {
+			//初始化表  
+			getPaginationTable(".rl-page-table", false);
+			initAttrs();//属性刷新
+			//托动
+		    $("#openAttrsDivModal").draggable({
+		        handle: ".modal-header"
+		    });
+			//托动
+		    $("#exampleModal").draggable();
+			
+		});
+		
+		//查询
+		$("#_search_submit").click(
+			function(){
+				getPaginationTable(".rl-page-table",true);
+				initAttrs();//属性刷新
+				//监听对像 刷新
+				initJianTingType();
+
+		});
+		
+		//显示属性
+		function initAttrs(){
+			$(".attrs_table_clz").html("");
+			var showAttr=false;
+			//监听对象
+			var _objetc_types=$("#_objetc_types").val();
+			if (_objetc_types != "" && _objetc_types != null && _objetc_types != 'undefined') {
+				var _uuid="";
+				if(_objetc_types=="-2"){
+					_uuid=$("#_object_sd_id").val();
+				}else{
+					_uuid=_objetc_types;
+				}
+// 				alert(_uuid);
+				if (_uuid != "" && _uuid != null && _uuid != 'undefined') {
+// 					parma = $.extend(parma, {
+// 						type : _uuid,
+// 					});
+					showAttr=true;
+				}
+			}
+			
+			if(!showAttr){
+				return;
+			}
+			
+			//获取查询条件
+// 			var qeruP=queryParams();
+// 			var qeruPStr=JSON.stringify(qeruP);
+// 			console.log(qp);
+			$.ajax({
+				url : getContextPath()+"/combat/log/getAttrs",
+				type : "GET",
+				dataType : "json",
+				data :queryParams(),
+				success : function(returnData,status,XMLHttpRequest)
+				{	
+					if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+						var data=returnData.data;
+						if(data!=null&&data!=""&&(typeof data)!='undefined')
+						{
+							var contStr=data.cont;
+							if(contStr==null||contStr==""||(typeof contStr)=='undefined'){
+								return;
+							}
+							
+							
+							var contStr=data.cont;
+							var contJson=JSON.parse(contStr);
+
+							//对比
+							var contStrDif=data.contDif;
+							if(contStrDif!=null&&contStrDif!=""&&(typeof contStrDif)!='undefined'){
+								
+								var contStrDifStr=data.contDif;
+								var contJsonDif=JSON.parse(contStrDifStr);
+								difShowFun(contJson,contJsonDif);
+								return;
+							}else{
+								difShowFun(contJson,contJson);
+							}
+							
+						}
+					}
+				},
+				error : function() {
+					alert("请求异常！");
+				}
+			});
+		}
+		
+		function difShowFun(contJson,contJsonDif){
+			
+// 			var contStr=data.cont;
+// 			var contStrDifStr=data.contDif;
+
+// 			var contJson=JSON.parse(contStr);
+// 			var contJsonDif=JSON.parse(contStrDifStr);
+
+//				alert(JSON.stringify(contJson));
+			var attrs_html="";
+
+			attrs_html+="<table border='0' cellspacing='10'> ";
+			
+			attrs_html+="<tr><td>名称:</td> <td>";
+			attrs_html+=contJson.name;
+			attrs_html+="</td>";
+			attrs_html+="<td>等级:</td> <td "
+			if(contJson.lv!=contJsonDif.lv){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			if(typeof(contJson.lv)=="undefined"){
+				attrs_html+="";
+			}else{
+				attrs_html+=contJson.lv;
+			}
+			attrs_html+="</td>";
+			
+			attrs_html+="<td></td> <td>";
+			attrs_html+="";
+			attrs_html+="</td></tr>";
+			//----------												
+			attrs_html+="<tr><td>【最终】生命:</td> <td";
+			if(contJson.A_100!=contJsonDif.A_100){
+			 attrs_html+="   class='dif_clz'   ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_100;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】魔法:</td> <td";
+			if(contJson.A_101!=contJsonDif.A_101){
+				attrs_html+="  class='dif_clz'  ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_101;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】最小物攻:</td> <td";
+			if(contJson.A_102!=contJsonDif.A_102){
+				attrs_html+=" class='dif_clz'  " 
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_102;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】最大物攻:</td> <td";
+			if(contJson.A_103!=contJsonDif.A_103){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_103;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】最小法攻:</td> <td";
+			if(contJson.A_104!=contJsonDif.A_104){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_104;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】最大法攻:</td> <td";
+			if(contJson.A_105!=contJsonDif.A_105){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_105;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】防御%:</td> <td";
+			if(contJson.A_106!=contJsonDif.A_106){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_106;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】命中:</td> <td";
+			if(contJson.A_107!=contJsonDif.A_107){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_107;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】闪避:</td> <td";
+			if(contJson.A_108!=contJsonDif.A_108){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_108;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】暴击率%：</td> <td";
+			if(contJson.A_109!=contJsonDif.A_109){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_109;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】暴击伤害加成:</td> <td";
+			if(contJson.A_110!=contJsonDif.A_110){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_110;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】暴击抗性%:</td> <td";
+			if(contJson.A_111!=contJsonDif.A_111){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_111;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】格挡率%:</td> <td";
+			if(contJson.A_112!=contJsonDif.A_112){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_112;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】格挡减伤系数%:</td> <td";
+			if(contJson.A_113!=contJsonDif.A_113){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_113;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】暴击伤害系数:</td> <td";
+			if(contJson.A_114!=contJsonDif.A_114){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_114;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】技能伤害加成%:</td> <td";
+			if(contJson.A_115!=contJsonDif.A_115){
+				attrs_html+=" class='dif_clz' ";
+			}
+		
+			attrs_html+=">";
+			attrs_html+=contJson.A_115;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】最终增加伤害%:</td> <td";
+			if(contJson.A_116!=contJsonDif.A_116){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_116;
+			attrs_html+="</td>";
+			
+			
+	
+			attrs_html+="<td>【最终】最终减少伤害%:</td> <td";
+			if(contJson.A_117!=contJsonDif.A_117){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_117;
+			attrs_html+="</td></tr>";							
+			//----------
+			attrs_html+="<tr><td>【最终】伤害反射%:</td> <td";
+			if(contJson.A_118!=contJsonDif.A_118){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_118;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】元素攻击:</td> <td";
+			if(contJson.A_119!=contJsonDif.A_119){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_119;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】元素防御:</td> <td";
+			if(contJson.A_120!=contJsonDif.A_120){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_120;
+			attrs_html+="</td></tr>";							
+			//----------
+
+
+			attrs_html+="<tr><td>【最终】元素伤害%:</td> <td";
+			if(contJson.A_121!=contJsonDif.A_121){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_121;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】无视防御%:</td> <td";
+			if(contJson.A_122!=contJsonDif.A_122){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_122;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】无视防御抗性%:</td> <td";
+			if(contJson.A_123!=contJsonDif.A_123){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_123;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】攻击回血（吸血）:</td> <td";
+			if(contJson.A_124!=contJsonDif.A_124){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_124;
+			attrs_html+="</td>";
+			attrs_html+="<td>【最终】输出伤害:</td> <td";
+			if(contJson.A_125!=contJsonDif.A_125){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_125;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】减少承受伤害:</td> <td";
+			if(contJson.A_126!=contJsonDif.A_126){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_126;
+			attrs_html+="</td></tr>";
+			//----------
+			attrs_html+="<tr><td>【最终】控制抵抗%:</td> <td";
+			if(contJson.A_127!=contJsonDif.A_127){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_127;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】会心一击率%:</td> <td";
+			if(contJson.A_128!=contJsonDif.A_128){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_128;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】会心伤害%:</td> <td";
+			if(contJson.A_129!=contJsonDif.A_129){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_129;
+			attrs_html+="</td></tr>";
+			
+			//----------
+			attrs_html+="<tr><td>【最终】伤害吸收:</td> <td";
+			if(contJson.A_130!=contJsonDif.A_130){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_130;
+			attrs_html+="</td>";
+			attrs_html+="<td>【最终】每秒回复生命:</td> <td";
+			if(contJson.A_131!=contJsonDif.A_131){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_131;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】杀怪经验加成%:</td> <td";
+			if(contJson.A_132!=contJsonDif.A_132){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_132;
+			attrs_html+="</td></tr>";
+			//----------
+			
+			//----------
+			attrs_html+="<tr><td>杀怪魔法恢复%:</td> <td";
+			if(contJson.A_133!=contJsonDif.A_133){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_133;
+			attrs_html+="</td>";
+			attrs_html+="<td>【最终】攻击速度:</td> <td";
+			if(contJson.A_134!=contJsonDif.A_134){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_134;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】血瓶恢复:</td> <td";
+			if(contJson.A_135!=contJsonDif.A_135){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_135;
+			attrs_html+="</td></tr>";
+			//----------
+			
+			//----------
+			attrs_html+="<tr><td>【最终】移动速度:</td> <td";
+			if(contJson.A_136!=contJsonDif.A_136){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_136;
+			attrs_html+="</td>";
+			attrs_html+="<td>战力:</td> <td";
+			if(contJson.A_137!=contJsonDif.A_137){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_137;
+			attrs_html+="</td>";
+			
+			attrs_html+="<td>【最终】装备掉率%:</td> <td";
+			if(contJson.A_138!=contJsonDif.A_138){
+				attrs_html+=" class='dif_clz' ";
+			}
+			attrs_html+=">";
+			attrs_html+=contJson.A_138;
+			attrs_html+="</td></tr>";
+			//----------
+			
+			
+			attrs_html+="</table>"; 
+			$(".attrs_table_clz").html(attrs_html);
+		}
+
+		/**
+		*分页
+		**/
+		function getPaginationTable(table, flag) {
+			$(table).bootstrapTable('removeAll');
+			var uri = $(table).attr('table-data-url');
+			if (flag) {// null undefinded "" NaN typeof
+				$(table).bootstrapTable('refresh', queryParams);//刷新
+				return;
+			}
+
+			$(table).bootstrapTable({
+				method : 'get', // 这里要设置为get，不知道为什么 设置post获取不了
+				url : getContextPath() + uri,
+				cache : false,
+				striped : true,
+				silent : true,
+				pagination : true,
+				//是否启用排序  
+                sortable: true,  
+				pageList : [ 5, 10, 20, 50, 100, 200 ],
+				// contentType: "application/x-www-form-urlencoded",
+				pageSize : 10,
+				// pageNumber : 1,
+				queryParamsType : 'limit',
+				// search : true,
+				sidePagination : 'server',// 设置为服务器端分页
+				silent: true,  //刷新事件必须设置  
+				columns:[{
+					field: 'server',
+// 					sortable:true,
+					title: '服务器',
+					align: 'center',
+					width:'40',
+					valign: 'middle'
+				},{
+					field: 'dt',
+					sortable:true,
+					title: '时间',
+					align: 'center',
+					width:'60',
+					valign: 'middle'
+				},{
+					field: 'uuid',
+					title: 'uuid',
+					align: 'center',
+					width:'60',
+					valign: 'middle'
+				},{
+					field: 'fileName',
+					title: '日志类型',
+					align: 'center',
+					width:'60',
+					valign: 'middle'
+				},{
+					field: 'cont',
+					title: '详细',
+					width:'500',
+// 					align: 'center',
+					valign: 'middle',
+			       formatter:function(value,row,index){  
+			    	   var cont=row.cont;
+// 			    	   var obj = cont.parseJSON(); //由JSON字符串转换为JSON对象
+//  			       alert(JSON.stringify(row));
+// 			           var cr= cont.substring(0,151)+".....";
+				       var _detail_table=getTableDetail_V2(cont);
+			           return _detail_table;  
+			        }
+				},{
+					title: '操作',
+                    field: 'id',
+					width:'60',
+                    align: 'center',
+                    formatter:function(value,row,index){  
+//               var e = '<a href="combatLogDetail.html?id='+row.id+'" target="_blank" >查看日志</a> ';  
+
+                         var ee="";
+						if(row.pageId!=null&&row.pageId!=""&&(typeof row.pageId)!='undefined')
+						{
+							ee+='<input  type="hidden" id="page_id"	 value="'+row.pageId+'">';
+						}     
+						var e = '<a   data-toggle="modal" data-target="#exampleModal"   data-whatever="'+row.id+'" >查看日志</a> '; 
+						                                     
+
+                      return e+ee;  
+                      }
+				}],
+				formatLoadingMessage: function () {  
+					return "请稍等，第一次会很慢...";  
+				},  
+				formatNoMatches: function () {  //没有匹配的结果  
+					return '无符合条件的记录';  
+				},  
+				onLoadError: function (data) {  
+					$('#rl-page-table').bootstrapTable('removeAll');  
+				},  				
+				queryParams : queryParams
+			// ,// 参数
+			// showColumns : true,
+			// showRefresh : true
+			});
+		};
+		
+	//定时
+	var ref = "true";
+	var refInterval="";
+	$("#_refTime").click(function(){
+		if(ref=="true"){
+			$("#_refTime").val("暂停");
+			ref="false"//切换
+			refInterval=setInterval(function(){
+				getPaginationTable(".rl-page-table",true);
+				initAttrs();//属性刷新
+			},5000);
+		}else{
+			$("#_refTime").val("继续");
+			clearInterval(refInterval);
+			ref="true"
+		}
+		
+	});
+
+	function getTableDetail_V2(cont){
+		var obj_JSON =  JSON.parse(cont);
+		var _table_html="<table class='table-bordered'>";
+		_table_html+="<tr>"
+		if(obj_JSON.file=='skill'){//技能
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>施法者名称：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 if("skill_id" in obj_JSON){
+				 _table_html+="<td>技能ID：";
+					_table_html+=obj_JSON.skill_id;
+				_table_html+="</td>";
+			 }
+			 if("skill_name" in obj_JSON){
+				 _table_html+="<td>技能名称：";
+					_table_html+=obj_JSON.skill_name;
+				_table_html+="</td>";
+			 }
+			 
+			 if("target_id" in obj_JSON){
+				 _table_html+="<td>技能对象ID：";
+					_table_html+=obj_JSON.target_id;
+				_table_html+="</td>";
+			 }
+			 
+			 if("target_name" in obj_JSON){
+				 _table_html+="<td>技能对象名称：";
+					_table_html+=obj_JSON.target_name;
+				_table_html+="</td>";
+			 }
+			 
+			 _table_html+="</tr>";
+				_table_html+="</table>";
+				return _table_html;
+			
+		}
+		//------------------触发监听-----------------------
+		if(obj_JSON.file=='opport'){
+			 if(obj_JSON.hasOwnProperty("uuid")){
+					_table_html+="<td>监听ID：";
+						_table_html+=obj_JSON.uuid;
+					_table_html+="</td>";
+			  }
+			 if("name" in obj_JSON){
+				 _table_html+="<td>触发者自身name：";
+					_table_html+=obj_JSON.name;
+				_table_html+="</td>";
+			 }
+			 if("target_name" in obj_JSON){
+				 _table_html+="<td>触发者目标name：";
+					_table_html+=obj_JSON.target_name;
+				_table_html+="</td>";
+			 }
+			 
+			 //数组 opports			 
+			 if("opports_josn" in obj_JSON)
+			 {
+// 				 alert(obj_JSON.opports_josn);
+				 //JSON.parse(
+				var  opportsArrs= obj_JSON.opports_josn;
+				if(opportsArrs!=null&&opportsArrs!="")
+				{
+				  for(var i=0;i<opportsArrs.length;i++)
+				  {
+				    _table_html+="<td>触发事件id：";
+						_table_html+=opportsArrs[i].value;
+					_table_html+="</td>";
+					//
+					 _table_html+="<td>触发事件名称：";
+						_table_html+=opportsArrs[i].name;
+					_table_html+="</td>";
+					//
+					_table_html+="<td>触发事件描述：";
+						_table_html+=opportsArrs[i].remake;
+					_table_html+="</td>";
+					}
+				 }
+			 }
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+			
+		}
+		//------------------触发监听-----------------------
+		if(obj_JSON.file=='effect'){//技能
+			 if(obj_JSON.hasOwnProperty("effect_id")){
+					_table_html+="<td>效果id：";
+						_table_html+=obj_JSON.effect_id;
+					_table_html+="</td>";
+			  }
+			 if("effect_type" in obj_JSON){
+				 _table_html+="<td>效果类型：";
+					_table_html+=obj_JSON.effect_type;
+				_table_html+="</td>";
+			 }
+			 
+			 if("effect_Prob" in obj_JSON){
+				 _table_html+="<td>效果概率：";
+					_table_html+=obj_JSON.effect_Prob;
+				_table_html+="</td>";
+			 }
+		
+			 _table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//------------------命中判定-----------------------
+		if(obj_JSON.file=='hit'){
+			 if(obj_JSON.hasOwnProperty("hurt")){
+					_table_html+="<td>伤害值：";
+						_table_html+=obj_JSON.hurt;
+					_table_html+="</td>";
+			  }
+			 if("rehurt" in obj_JSON){
+				 _table_html+="<td>反伤：";
+					_table_html+=obj_JSON.rehurt;
+				_table_html+="</td>";
+			 }
+			 if("hp_steal" in obj_JSON){
+				 _table_html+="<td>偷取HP：";
+					_table_html+=obj_JSON.hp_steal;
+				_table_html+="</td>";
+			 }
+			 if("en_steal" in obj_JSON){
+				 _table_html+="<td>偷取EN：";
+					_table_html+=obj_JSON.en_steal;
+				_table_html+="</td>";
+			 }
+			 if("hit_type" in obj_JSON){
+				 _table_html+="<td>伤害类型：";
+				 var hit_v=obj_JSON.hit_type;
+				 if(hit_v=="1"){
+					 hit_v="招架"; 
+				 }
+				 if(hit_v=="2"){
+					 hit_v="暴击"; 
+				 }
+				 if(hit_v=="4"){
+					 hit_v="闪避"; 
+				 }
+				 if(hit_v=="8"){
+					 hit_v="生命偷取"; 
+				 }
+				 if(hit_v=="16"){
+					 hit_v="能量偷取"; 
+				 }
+				 if(hit_v=="32"){
+					 hit_v="伤害反弹"; 
+				 }
+				 if(hit_v=="64"){
+					 hit_v="伤害吸收"; 
+				 }
+				_table_html+=hit_v;
+				_table_html+="</td>";
+			 } 
+			 
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//------------------删除被动技能-----------------------
+		if(obj_JSON.file=='del_pass'){
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>name：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 if(obj_JSON.hasOwnProperty("pass_ids")){
+					_table_html+="<td>被动技能ID：";
+						_table_html+=obj_JSON.pass_ids;
+					_table_html+="</td>";
+			  }
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		
+		//------------------添加被动技能-----------------------
+		if(obj_JSON.file=='add_pass'){
+			
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>name：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 if(obj_JSON.hasOwnProperty("lv")){
+					_table_html+="<td>玩家等级：";
+						_table_html+=obj_JSON.lv;
+					_table_html+="</td>";
+			  }
+			 if(obj_JSON.hasOwnProperty("pass_ids")){
+					_table_html+="<td>被动技能id：";
+						_table_html+=obj_JSON.pass_ids;
+					_table_html+="</td>";
+			  }
+			 if(obj_JSON.hasOwnProperty("pass_skill_name")){
+					_table_html+="<td>被动技能name：";
+						_table_html+=obj_JSON.pass_skill_name;
+					_table_html+="</td>";
+			  }
+			 
+			 if(obj_JSON.hasOwnProperty("lveare")){
+					_table_html+="<td>等级区间：";
+						_table_html+=obj_JSON.lveare;
+					_table_html+="</td>";
+			  }
+			 
+			_table_html+="</tr><tr>";
+			 if("add_pass_passive_skill_type" in obj_JSON){
+				 _table_html+="<td colspan='4'>";
+				var pass_obj_=JSON.parse(obj_JSON.add_pass_passive_skill_type);
+				var _pass_obj_JSON=pass_obj_.pass_list;
+				 if((typeof _pass_obj_JSON)=='undefined'){
+						_table_html+="undefined-xx</td>";
+						_table_html+="</tr>";
+						_table_html+="</table>";
+						return _table_html;
+				 }
+				var _pass_table_html="<table>";
+				for(var j=0;j<_pass_obj_JSON.length;j++){
+				var _pass_obj_JSON_v= _pass_obj_JSON[j];
+				_pass_table_html+="<tr>";
+					 if(_pass_obj_JSON_v.hasOwnProperty("id")){
+						 _pass_table_html+="<td>id:";
+						 _pass_table_html+=_pass_obj_JSON_v.id;
+						 _pass_table_html+="</td>";
+					  }
+					 
+					 if(_pass_obj_JSON_v.hasOwnProperty("arg2")){
+						 _pass_table_html+="<td>参数：";
+						 _pass_table_html+=_pass_obj_JSON_v.arg2;
+						 _pass_table_html+="</td>";
+					  }
+					 
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("attr")){
+// 						 _pass_table_html+="<td>属性:";
+// 						 _pass_table_html+=_pass_obj_JSON_v.attr;
+// 						 _pass_table_html+="</td>";
+// 					  }else{
+// 							 _pass_table_html+="<td>属性:无";
+// 							 _pass_table_html+="</td>";
+// 					  }
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("type")){
+// 						 _pass_table_html+="<td>效果type:";
+// 						 _pass_table_html+=_pass_obj_JSON_v.type;
+// 						 _pass_table_html+="</td>";
+// 					  }
+					 
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("arg3")){
+// 						 _pass_table_html+="<td>特效名称：";
+// 						 _pass_table_html+=_pass_obj_JSON_v.arg3;
+// 						 _pass_table_html+="</td>";
+// 					  }
+					_pass_table_html+="</tr>";
+				}
+				_pass_table_html+="</table>";
+			   _table_html+=_pass_table_html;
+			 }
+			_table_html+="</td>";
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//-----------------独特属性-----------------------
+		if(obj_JSON.file=='exotics'){//技能
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>name：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 if("exotics_ids" in obj_JSON){
+				 _table_html+="<td>exotics_ids：";
+					_table_html+=obj_JSON.exotics_ids;
+				_table_html+="</td>";
+			 }
+			 
+			 
+			 
+			 _table_html+="</tr><tr>";
+			 if("add_pass_passive_skill_type" in obj_JSON){
+				 _table_html+="<td colspan='2'>";
+				var pass_obj_=JSON.parse(obj_JSON.add_pass_passive_skill_type);
+				var _pass_obj_JSON=pass_obj_.pass_list;
+				 if((typeof _pass_obj_JSON)=='undefined'){
+						_table_html+="undefined-xx</td>";
+						_table_html+="</tr>";
+						_table_html+="</table>";
+						return _table_html;
+				 }
+				var _pass_table_html="<table>";
+				for(var j=0;j<_pass_obj_JSON.length;j++){
+				var _pass_obj_JSON_v= _pass_obj_JSON[j];
+				_pass_table_html+="<tr>";
+					 if(_pass_obj_JSON_v.hasOwnProperty("id")){
+						 _pass_table_html+="<td>id:";
+						 _pass_table_html+=_pass_obj_JSON_v.id;
+						 _pass_table_html+="</td>";
+					  }
+					 
+// 					 if(_pass_obj_JSON_v.hasOwnProperty("arg2")){
+// 						 _pass_table_html+="<td>参数：";
+// 						 _pass_table_html+=_pass_obj_JSON_v.arg2;
+// 						 _pass_table_html+="</td>";
+// 					  }
+					 
+					 if(_pass_obj_JSON_v.hasOwnProperty("attr")){
+						 _pass_table_html+="<td>属性:";
+						 _pass_table_html+=_pass_obj_JSON_v.attr;
+						 _pass_table_html+="</td>";
+					  }else{
+							 _pass_table_html+="<td>属性:无";
+							 _pass_table_html+="</td>";
+					  }
+					 if(_pass_obj_JSON_v.hasOwnProperty("type")){
+						 _pass_table_html+="<td>效果type:";
+						 _pass_table_html+=_pass_obj_JSON_v.type;
+						 _pass_table_html+="</td>";
+					  }
+					 
+					 if(_pass_obj_JSON_v.hasOwnProperty("arg3")){
+						 _pass_table_html+="<td>特效名称：";
+						 _pass_table_html+=_pass_obj_JSON_v.arg3;
+						 _pass_table_html+="</td>";
+					  }
+					_pass_table_html+="</tr>";
+				}
+				_pass_table_html+="</table>";
+			   _table_html+=_pass_table_html;
+			 }
+			_table_html+="</td>";
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		
+		//------------------角色特殊-----------------------
+		if(obj_JSON.file=='player_join'||obj_JSON.file=='player_leave'||obj_JSON.file=='mon_dead'||obj_JSON.file=='player_dead'){
+			
+			if(obj_JSON.file=='player_join'){
+					_table_html+="<td>类别：";
+						_table_html+="玩家进入";
+					_table_html+="</td>";
+			  }else if(obj_JSON.file=='player_leave'){
+				  _table_html+="<td>类别：玩家离开</td>";
+				  
+			  }else if(obj_JSON.file=='mon_dead'){
+				  _table_html+="<td>类别：怪物死亡</td>";
+// 					 if("name" in obj_JSON){
+// 						 _table_html+="<td>名称：";
+// 							_table_html+=obj_JSON.name;
+// 						_table_html+="</td>";
+// 					 }
+			  }else if(obj_JSON.file=='player_dead'){
+				  _table_html+="<td>类别：玩家死亡</td>";
+				  if("kill_by" in obj_JSON){
+						 _table_html+="<td>击杀者ID：";
+							_table_html+=obj_JSON.kill_by;
+						_table_html+="</td>";
+					}
+					 if("killer_name" in obj_JSON){
+						 _table_html+="<td>杀人者名称：";
+							_table_html+=obj_JSON.killer_name;
+						_table_html+="</td>";
+					 }
+			  }
+
+			 if("name" in obj_JSON){
+				 _table_html+="<td>名称：";
+					_table_html+=obj_JSON.name;
+				_table_html+="</td>";
+			 }
+			 if("uuid" in obj_JSON){
+				 _table_html+="<td>id：";
+					_table_html+=obj_JSON.uuid;
+				_table_html+="</td>";
+			 }
+			
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		
+		//------------------BUFF处理效果-----------------------
+		if(obj_JSON.file=='add_buf'||obj_JSON.file=='del_buf'||obj_JSON.file=='buf_expire'){
+			 if(obj_JSON.file=='add_buf'){
+				        //添加/撤销/删除
+					_table_html+="<td>类别：添加</td>";
+					 if("target_name" in obj_JSON){
+						 _table_html+="<td>目标名称：";
+							_table_html+=obj_JSON.target_name;
+						_table_html+="</td>";
+					 }
+			  }
+			 if(obj_JSON.file=='del_buf'){
+				_table_html+="<td>类别：删除</td>";
+		       }
+			 if(obj_JSON.file=='buf_expire'){
+					_table_html+="<td>类别：Buf过期删除</td>";
+			   }
+			 if("name" in obj_JSON){
+				 _table_html+="<td>name：";
+					_table_html+=obj_JSON.name;
+				_table_html+="</td>";
+			 }
+			 //数组 opports			 
+			 if("buff_all_json" in obj_JSON)
+			 {
+				var  buff_allArrs= obj_JSON.buff_all_json;
+				if(buff_allArrs!=null&&buff_allArrs!="")
+				{
+				  for(var i=0;i<buff_allArrs.length;i++)
+				  {
+				    _table_html+="<td>BUFFid：";
+						_table_html+=buff_allArrs[i].value;
+					_table_html+="</td>";
+					//
+					 _table_html+="<td>BUFFid名称：";
+						_table_html+=buff_allArrs[i].name;
+					_table_html+="</td>";
+					//
+					_table_html+="<td>监听ID：";
+						_table_html+=buff_allArrs[i].remake;
+					_table_html+="</td>";
+					}
+				 }
+			 }
+			 
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//------------------属性变更-----------------------
+		if(obj_JSON.file=='attrs_diff'){
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>名称：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 
+			 //伤
+			 if("attrs_dif_v2" in obj_JSON){
+				 _table_html+="<td>变更属性：";
+					_table_html+=obj_JSON.attrs_dif_v2;
+				_table_html+="</td>";
+			 }
+			 _table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		//------------------召唤物出生	-----------------------
+		if(obj_JSON.file=='partner_spawn'){
+			 if("inherit_type" in obj_JSON){
+				 _table_html+="<td>继承类型：";
+					_table_html+=obj_JSON.inherit_type;
+				_table_html+="</td>";
+			 }
+			 if(obj_JSON.hasOwnProperty("name")){
+					_table_html+="<td>角色名字：";
+						_table_html+=obj_JSON.name;
+					_table_html+="</td>";
+			  }
+			 if("actor_type" in obj_JSON){
+					_table_html+="<td>角色类型：";
+					var v_actory_type=obj_JSON.actor_type;
+					if(obj_JSON.actor_type=="human"){
+						v_actory_type="玩家";
+					}
+					if(obj_JSON.actor_type=="mon"){
+						v_actory_type="怪物";
+					}
+					if(obj_JSON.actor_type=="partner"){
+						v_actory_type="人物的招唤物";
+					}
+					_table_html+=v_actory_type;
+					_table_html+="</td>";
+			  }	
+			 if(obj_JSON.hasOwnProperty("actor_id")){
+					_table_html+="<td>角色ID：";
+						_table_html+=obj_JSON.actor_id;
+					_table_html+="</td>";
+			  }	
+			 _table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+		}
+		
+//	 			alert(JSON.stringify(obj_JSON));
+		 if(obj_JSON.hasOwnProperty("name")){
+				_table_html+="<td>角色名字：";
+					_table_html+=obj_JSON.name;
+				_table_html+="</td>";
+		  }
+		 if(obj_JSON.hasOwnProperty("actor_id")){
+				_table_html+="<td>角色ID：";
+					_table_html+=obj_JSON.actor_id;
+				_table_html+="</td>";
+		  }	
+		 if("dungeon_id" in obj_JSON){
+			 _table_html+="<td>副本ID：";
+				_table_html+=obj_JSON.dungeon_id;
+			_table_html+="</td>";
+		 }
+		 
+		 if("race" in obj_JSON){
+			 _table_html+="<td>角色种族：";
+				_table_html+=obj_JSON.race;
+			_table_html+="</td>";
+		 }
+		 
+		 if("hp" in obj_JSON){
+			 _table_html+="<td>血量：";
+				_table_html+=obj_JSON.hp;
+			_table_html+="</td>";
+		 }
+		 
+		 
+		 if("en" in obj_JSON){
+			 _table_html+="<td>蓝量：";
+				_table_html+=obj_JSON.en;
+			_table_html+="</td>";
+		 }
+		 
+		 //6
+		_table_html+="</tr><tr>";
+		 if("buffs" in obj_JSON){
+			 _table_html+="<td>buff列表：";
+				_table_html+=obj_JSON.buffs;
+			_table_html+="</td>";
+		 }
+		 
+		 if("status" in obj_JSON){
+			 _table_html+="<td>特殊状态列表：";
+				_table_html+=obj_JSON.status;
+			_table_html+="</td>";
+		 }
+		  
+		 if("skill_id" in obj_JSON){
+			 _table_html+="<td>技能ID：";
+				_table_html+=obj_JSON.skill_id;
+			_table_html+="</td>";
+		 }
+		 
+		 if("target" in obj_JSON){
+			 _table_html+="<td>目标ID：";
+				_table_html+=obj_JSON.target;
+			_table_html+="</td>";
+		 }
+		 
+		 if("actor_type" in obj_JSON){
+				_table_html+="<td>角色类型：";
+				var v_actory_type=obj_JSON.actor_type;
+				if(obj_JSON.actor_type=="human"){
+					v_actory_type="玩家";
+				}
+				if(obj_JSON.actor_type=="mon"){
+					v_actory_type="怪物";
+				}
+				if(obj_JSON.actor_type=="partner"){
+					v_actory_type="人物的招唤物";
+				}
+				_table_html+=v_actory_type;
+				_table_html+="</td>";
+		  }	
+			_table_html+="<td></td>";
+			//
+		_table_html+="</tr><tr>";
+		
+		 if("kill_by" in obj_JSON){
+			 _table_html+="<td> 杀人者ID：";
+				_table_html+=obj_JSON.kill_by;
+			_table_html+="</td>";
+		 }
+
+		 if("add_bufs" in obj_JSON){
+			 _table_html+="<td>buff列表：";
+				_table_html+=obj_JSON.add_bufs;
+			_table_html+="</td>";
+		 }
+		 if("adder" in obj_JSON){
+			 _table_html+="<td>添加者ID：";
+				_table_html+=obj_JSON.adder;
+			_table_html+="</td>";
+		 }
+		 if("del_buff_ids" in obj_JSON){
+			 _table_html+="<td> 删除BuffID列表：";
+				_table_html+=obj_JSON.del_buff_ids;
+			_table_html+="</td>";
+		 } 
+		 
+		 
+		 if("effect_id" in obj_JSON){
+			 _table_html+="<td> 效果ID：";
+				_table_html+=obj_JSON.effect_id;
+			_table_html+="</td>";
+		 } 
+		 if("effect_ids" in obj_JSON){
+			 _table_html+="<td> 效果ID列表：";
+				_table_html+=obj_JSON.effect_ids;
+			_table_html+="</td>";
+		 }
+		 
+		 
+		 if("effect_type" in obj_JSON){
+			 _table_html+="<td>效果类型：";
+				_table_html+=obj_JSON.effect_type;
+			_table_html+="</td>";
+		 } 
+		 if("effect_ids" in obj_JSON){
+			 _table_html+="<td>效果ID列表：";
+				_table_html+=obj_JSON.effect_ids;
+			_table_html+="</td>";
+		 } 
+		 if("add_hp" in obj_JSON){
+			 _table_html+="<td>加血量：";
+				_table_html+=obj_JSON.add_hp;
+			_table_html+="</td>";
+		 } 
+		 if("final_hp" in obj_JSON){
+			 _table_html+="<td>加血后的血量：";
+				_table_html+=obj_JSON.final_hp;
+			_table_html+="</td>";
+		 } 
+		 
+
+		 if("sub_hp" in obj_JSON){
+			 _table_html+="<td>扣血：";
+				_table_html+=obj_JSON.sub_hp;
+			_table_html+="</td>";
+		 } 
+		 if("final_hp" in obj_JSON){
+			 _table_html+="<td>扣血后的血量：";
+				_table_html+=obj_JSON.final_hp;
+			_table_html+="</td>";
+		 } 
+		 if("event" in obj_JSON){
+			 _table_html+="<td>触发监听的事件类型：";
+				_table_html+=obj_JSON.event;
+			_table_html+="</td>";
+		 } 
+
+		 if("target_id" in obj_JSON){
+			 _table_html+="<td> 目标ID：";
+				_table_html+=obj_JSON.target_id;
+			_table_html+="</td>";
+		 } 
+		 if("target_name" in obj_JSON){
+			 _table_html+="<td>目标名字：";
+				_table_html+=obj_JSON.target_name;
+			_table_html+="</td>";
+		 } 
+
+		 if("hurt" in obj_JSON){
+			 _table_html+="<td>伤害值：";
+				_table_html+=obj_JSON.hurt;
+			_table_html+="</td>";
+		 } 
+		 if("hit_type" in obj_JSON){
+			 _table_html+="<td>伤害类型：";
+			 var hit_v=obj_JSON.hit_type;
+			 if(hit_v=="1"){
+				 hit_v="招架"; 
+			 }
+			 if(hit_v=="2"){
+				 hit_v="暴击"; 
+			 }
+			 if(hit_v=="4"){
+				 hit_v="闪避"; 
+			 }
+			 if(hit_v=="8"){
+				 hit_v="生命偷取"; 
+			 }
+			 if(hit_v=="16"){
+				 hit_v="能量偷取"; 
+			 }
+			 if(hit_v=="32"){
+				 hit_v="伤害反弹"; 
+			 }
+			 if(hit_v=="64"){
+				 hit_v="伤害吸收"; 
+			 }
+			_table_html+=hit_v;
+			_table_html+="</td>";
+		 } 
+		 
+		 if("rehurt" in obj_JSON){
+			 _table_html+="<td>反伤：";
+				_table_html+=obj_JSON.rehurt;
+			_table_html+="</td>";
+		 } 
+		 if("hp_steal" in obj_JSON){
+			 _table_html+="<td>偷取HP：";
+				_table_html+=obj_JSON.hp_steal;
+			_table_html+="</td>";
+		 } 
+		 if("en_steal" in obj_JSON){
+			 _table_html+="<td>偷取EN：";
+				_table_html+=obj_JSON.en_steal;
+			_table_html+="</td>";
+		 }
+		 
+		 
+		 
+			_table_html+="</tr>";
+			_table_html+="</table>";
+			return _table_html;
+	}
+	
+	//构建小表格
+	function getTableDetail(cont){
+	 var obj_JSON =  JSON.parse(cont);
+	var _table_html="<table class='table-bordered'>";
+		_table_html+="<tr>"
+// 			alert(JSON.stringify(obj_JSON));
+	 if(obj_JSON.hasOwnProperty("name")){
+			_table_html+="<td>角色名字：";
+				_table_html+=obj_JSON.name;
+			_table_html+="</td>";
+	  }
+	 if(obj_JSON.hasOwnProperty("actor_id")){
+			_table_html+="<td>角色ID：";
+				_table_html+=obj_JSON.actor_id;
+			_table_html+="</td>";
+	  }	
+	 if("dungeon_id" in obj_JSON){
+		 _table_html+="<td>副本ID：";
+			_table_html+=obj_JSON.dungeon_id;
+		_table_html+="</td>";
+	 }
+	 
+	 if("race" in obj_JSON){
+		 _table_html+="<td>角色种族：";
+			_table_html+=obj_JSON.race;
+		_table_html+="</td>";
+	 }
+	 
+	 if("hp" in obj_JSON){
+		 _table_html+="<td>血量：";
+			_table_html+=obj_JSON.hp;
+		_table_html+="</td>";
+	 }
+	 
+	 
+	 if("en" in obj_JSON){
+		 _table_html+="<td>蓝量：";
+			_table_html+=obj_JSON.en;
+		_table_html+="</td>";
+	 }
+	 
+	 //6
+	_table_html+="</tr><tr>";
+
+	 if("buffs" in obj_JSON){
+		 _table_html+="<td>buff列表：";
+			_table_html+=obj_JSON.buffs;
+		_table_html+="</td>";
+	 }
+	 
+	 if("status" in obj_JSON){
+		 _table_html+="<td>特殊状态列表：";
+			_table_html+=obj_JSON.status;
+		_table_html+="</td>";
+	 }
+	  
+	 if("skill_id" in obj_JSON){
+		 _table_html+="<td>技能ID：";
+			_table_html+=obj_JSON.skill_id;
+		_table_html+="</td>";
+	 }
+	 
+	 if("target" in obj_JSON){
+		 _table_html+="<td>目标ID：";
+			_table_html+=obj_JSON.target;
+		_table_html+="</td>";
+	 }
+	 
+	 if("actor_type" in obj_JSON){
+			_table_html+="<td>角色类型：";
+			var v_actory_type=obj_JSON.actor_type;
+			if(obj_JSON.actor_type=="human"){
+				v_actory_type="玩家";
+			}
+			if(obj_JSON.actor_type=="mon"){
+				v_actory_type="怪物";
+			}
+			if(obj_JSON.actor_type=="partner"){
+				v_actory_type="人物的招唤物";
+			}
+			_table_html+=v_actory_type;
+			_table_html+="</td>";
+	  }	
+		_table_html+="<td></td>";
+		//
+	_table_html+="</tr><tr>";
+	
+	 if("kill_by" in obj_JSON){
+		 _table_html+="<td> 杀人者ID：";
+			_table_html+=obj_JSON.kill_by;
+		_table_html+="</td>";
+	 }
+	 if("add_bufs" in obj_JSON){
+		 _table_html+="<td>buff列表：";
+			_table_html+=obj_JSON.add_bufs;
+		_table_html+="</td>";
+	 }
+	 if("adder" in obj_JSON){
+		 _table_html+="<td>添加者ID：";
+			_table_html+=obj_JSON.adder;
+		_table_html+="</td>";
+	 }
+	 if("del_buff_ids" in obj_JSON){
+		 _table_html+="<td> 删除BuffID列表：";
+			_table_html+=obj_JSON.del_buff_ids;
+		_table_html+="</td>";
+	 } 
+	 
+	 
+	 if("effect_id" in obj_JSON){
+		 _table_html+="<td> 效果ID：";
+			_table_html+=obj_JSON.effect_id;
+		_table_html+="</td>";
+	 } 
+	 if("effect_ids" in obj_JSON){
+		 _table_html+="<td> 效果ID列表：";
+			_table_html+=obj_JSON.effect_ids;
+		_table_html+="</td>";
+	 }
+	 
+	 
+	 if("effect_type" in obj_JSON){
+		 _table_html+="<td>效果类型：";
+			_table_html+=obj_JSON.effect_type;
+		_table_html+="</td>";
+	 } 
+	 if("effect_ids" in obj_JSON){
+		 _table_html+="<td>效果ID列表：";
+			_table_html+=obj_JSON.effect_ids;
+		_table_html+="</td>";
+	 } 
+	 if("add_hp" in obj_JSON){
+		 _table_html+="<td>加血量：";
+			_table_html+=obj_JSON.add_hp;
+		_table_html+="</td>";
+	 } 
+	 if("final_hp" in obj_JSON){
+		 _table_html+="<td>加血后的血量：";
+			_table_html+=obj_JSON.final_hp;
+		_table_html+="</td>";
+	 } 
+	 
+
+	 if("sub_hp" in obj_JSON){
+		 _table_html+="<td>扣血：";
+			_table_html+=obj_JSON.sub_hp;
+		_table_html+="</td>";
+	 } 
+	 if("final_hp" in obj_JSON){
+		 _table_html+="<td>扣血后的血量：";
+			_table_html+=obj_JSON.final_hp;
+		_table_html+="</td>";
+	 } 
+	 if("event" in obj_JSON){
+		 _table_html+="<td>触发监听的事件类型：";
+			_table_html+=obj_JSON.event;
+		_table_html+="</td>";
+	 } 
+
+	 if("target_id" in obj_JSON){
+		 _table_html+="<td> 目标ID：";
+			_table_html+=obj_JSON.target_id;
+		_table_html+="</td>";
+	 } 
+	 if("target_name" in obj_JSON){
+		 _table_html+="<td>目标名字：";
+			_table_html+=obj_JSON.target_name;
+		_table_html+="</td>";
+	 } 
+
+	 if("hurt" in obj_JSON){
+		 _table_html+="<td>伤害值：";
+			_table_html+=obj_JSON.hurt;
+		_table_html+="</td>";
+	 } 
+	 if("hit_type" in obj_JSON){
+		 _table_html+="<td>伤害类型：";
+		 var hit_v=obj_JSON.hit_type;
+		 if(hit_v=="1"){
+			 hit_v="招架"; 
+		 }
+		 if(hit_v=="2"){
+			 hit_v="暴击"; 
+		 }
+		 if(hit_v=="4"){
+			 hit_v="闪避"; 
+		 }
+		 if(hit_v=="8"){
+			 hit_v="生命偷取"; 
+		 }
+		 if(hit_v=="16"){
+			 hit_v="能量偷取"; 
+		 }
+		 if(hit_v=="32"){
+			 hit_v="伤害反弹"; 
+		 }
+		 if(hit_v=="64"){
+			 hit_v="伤害吸收"; 
+		 }
+		_table_html+=hit_v;
+		_table_html+="</td>";
+	 } 
+	 
+	 if("rehurt" in obj_JSON){
+		 _table_html+="<td>反伤：";
+			_table_html+=obj_JSON.rehurt;
+		_table_html+="</td>";
+	 } 
+	 if("hp_steal" in obj_JSON){
+		 _table_html+="<td>偷取HP：";
+			_table_html+=obj_JSON.hp_steal;
+		_table_html+="</td>";
+	 } 
+	 if("en_steal" in obj_JSON){
+		 _table_html+="<td>偷取EN：";
+			_table_html+=obj_JSON.en_steal;
+		_table_html+="</td>";
+	 }
+		_table_html+="</tr>";
+		_table_html+="</table>";
+		return _table_html;
+	}
+	
+	
+	$(function(){
+		//初始服务器
+		initDictByType('servers_type',"_type_servers");
+		//初始文件类型
+		initDictByType('_file_types',"_file_types");
+		//初始监听对像
+		initJianTingType();
+		//初始副本
+		initCopyIDsType();
+
+	})
+	
+	
+	
+
+	
+	/**
+	*请求监听对象
+	*/
+function initJianTingType(){
+	
+// 	$("#"+selectId).empty();
+
+//获取服务器  
+var server_id=$("#_type_servers").val();
+	
+	$.ajax({
+		url : getContextPath()+"/combat/log/getUuids",
+		type : "GET",
+//		contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		cache:false,
+		//data :{productVoJson:JSON.stringify(objVo)},
+		data :{"severId":server_id},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+				var data=returnData.data;
+				if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+				{
+					for(var i=0;i<data.length;i++)
+					{
+						var dict=data[i];
+						
+						var html="";
+						html+="<option value='"+dict.value+"' ";
+						//(typeof type_value)!="undefined"&&type_value!=null&&type_value!=""&&
+// 						if(type_value==dict.value)
+// 						{
+// 							html+=" selected='selected' ";
+// 						}
+						
+						html+=">";
+						html+= dict.name+"</option>";
+						
+						$("#_objetc_types").append(html);
+						
+					}
+				}
+				return returnData.data;
+			}
+		},
+		error : function() {
+			alert("请求异常！");
+		}
+	});
+}
+
+function initCopyIDsType(){
+		$.ajax({
+			url : getContextPath()+"/combat/log/getCopyids",
+			type : "GET",
+			dataType : "json",
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+					var data=returnData.data;
+					if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
+					{
+						for(var i=0;i<data.length;i++)
+						{
+							var dict=data[i];
+							var html="";
+							html+="<option value='"+dict.value+"' ";
+							html+=">";
+							html+= dict.value+"</option>";
+							$("#_copy_types").append(html);
+						}
+					}
+					return returnData.data;
+				}
+			},
+			error : function() {
+				alert("请求异常！");
+			}
+		});
+}
+
+//禁用 启用
+$("#_objetc_types").change(function(){
+	var t_v= $(this).val();
+	if(t_v=="-2"){
+		$("#_object_sd_id").removeAttr("disabled");
+	}else{
+		$("#_object_sd_id").val("");
+		$("#_object_sd_id").attr("disabled","disabled");
+	}
+});
+
+//禁用 启用
+$("#_copy_types").change(function(){
+	var t_v= $(this).val();
+	if(t_v=="-2"){
+		$("#_copy_sd_types").removeAttr("disabled");
+	}else{
+		$("#_copy_sd_types").val("");
+		$("#_copy_sd_types").attr("disabled","disabled");
+	}
+});
+
+
+//弹出层
+ $('#exampleModal').on('show.bs.modal', function (event) {  
+        var button = $(event.relatedTarget) // 触发事件的按钮  
+        var id = button.data('whatever') // 解析出data-whatever内容  
+        var modal = $(this)  
+   	if(id==null||id==""){
+   		alert("id无效");
+   	}
+        
+    $.ajax({
+    	url : getContextPath()+"/combat/log/getDetail",
+    	type : "GET",
+    	dataType : "json",
+    	data :{"id":id},
+    	success : function(returnData,status,XMLHttpRequest)
+    	{	
+//     		$("#_cont").html(returnData);
+            $('.log-detail-div').html(returnData)  
+    	},
+    	error : function() {
+    		alert("异常！");
+    	}
+    });
+        
+    })  
+   
+	function detali(id){
+		location.href=getContextPath() + "/combat/log/getDetail?id="+id;
+	}
+	</script>
+
+
+
+
+
+</body>
+</html>
+
+

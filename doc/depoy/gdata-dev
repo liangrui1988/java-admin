@@ -1,0 +1,17 @@
+if [ -f "gdata-release.lock" ]
+then
+echo "lock by another user"
+exit
+fi
+
+touch gdata-release.lock
+
+cd /home/web_admin/pro/gdata/java-admin
+git pull
+git checkout  dev-xdata
+git pull
+./gradlew clean deploy
+
+rsync -rtvzP --delete build/deploy/ /home/web_admin/pro/server/gdata/lib/
+cd ..
+rm -rf gdata-release.lock

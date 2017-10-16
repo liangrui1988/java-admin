@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户管理</title>
+<link href="../../../common/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="../../../common/style/pager.css"	rel="stylesheet">
+<script src="../../../common/jquery/jquery-1.12.3.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script>
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/sys.js"></script>
+<script src="../../../common/util/common.js"></script>
+
+</script>
+</head>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+        
+        <form action="" class="breadcrumb form-search " id="_search_form">
+             &nbsp;类型: <input class="input-xlarge" name="type"  id="_type" type="text" />
+			 &nbsp;<input id="_search_submit" class="btn btn-primary" type="button" value="查询"/>
+		</form>
+		
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="dictlist.html">字典列表</a>
+		</li>
+		<li>
+			<a href="dictAdd.html">新增字典</a>
+		</li>
+	</ul>
+	
+		
+
+	<div class="panel panel-default">
+		<table id="_dict_table" class="table table-striped">
+			<thead>
+				<tr>
+<!-- 					<th width="10%">id</th> -->
+					<th width="10%">类型</th>
+					<th width="20%">名称</th>
+					<th width="20%">值</th>
+				    <th width="10%">状态</th>
+				    <th width="20%">备注</th>
+					<th width="20%">操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				
+			</tbody>
+
+		</table>
+
+    <div class="pagination" id="_pagination">
+    
+</div>
+	
+	
+	
+<script type="text/javascript">
+
+//初始化
+$(function() {
+	var param=new Object();	
+	    param.status="0";
+	//初始化数据	
+	pageFn(getContextPath()+"/sys/gamedict/list",param,"get");
+})
+
+
+/**分页回调处理**/
+function callbak_page(returnDatas)
+{
+	//alert(JSON.stringify(returnDatas));
+	
+	var tableHTML = "";
+	var trContext = $("#_dict_table");
+	//$("#_user_table tbody tr").eq(0).nextAll().remove();
+	$("#_dict_table tbody tr").remove();
+	var returnData = returnDatas.data.items;
+	
+	if(returnData==null){
+	  return;
+	}
+	for (var i = 0; i < returnData.length; i++) {
+	var j=i;
+	//状态处理
+	//var sta=returnData[i].status;
+	var staName="";
+	//<a href="#">查看</a>
+	var operation=''
+				   +'&nbsp;&nbsp;<a href="dictUpdate.html?id='+returnData[i].id+'">修改</a>'
+				   +'&nbsp;&nbsp;<a href="#" onclick="delDict(this,'+returnData[i].id+')">删除</a>';
+				   
+	tableHTML += "<tr>" + "<td>"
+// 				+ returnData[i].id
+// 				+ "</td>"
+// 				+ "<td>"
+				+ returnData[i].type
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].name
+				+ "</td>"	
+				+ "<td>"
+				+ returnData[i].value
+				+ "</td>"										
+				+ "<td>"
+				+ returnData[i].status
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].remake
+				+ "</td>"						
+				+ "<td>"
+				+operation									
+				+"</td>" 
+				+ "</tr>"
+	
+	}
+	trContext.append(tableHTML);
+
+}
+
+//查询
+$("#_search_submit").click(
+	function(){
+	 var param=getParam();
+	 sendPageRequst(getContextPath()+"/sys/gamedict/list",param);
+	   
+	  // sendGetReq(getContextPath()+"/sys/user/list",param,"");
+});
+
+//获取参数处理
+function getParam()
+{				
+	 var param=new Object();	
+	
+	 var _type=$("#_type").val();
+	 if(_type!=""){
+		 param.type=_type;
+	 }
+	 
+	return param;			 
+}
+
+//删除用户
+function delDict(obj,id)
+{
+	
+	var result=confirm("确定要删除字典吗？");
+
+	if(!result){
+		return;
+	}
+	
+	if(id==""){
+		alert("参数错误");
+		return;
+	}
+	$.ajax({
+		url : getContextPath()+"/sys/gamedict/del",
+		type : "POST",
+		//contentType: "application/json; charset=utf-8",
+		dataType : "json",
+		//data :{productVoJson:JSON.stringify(objVo)},
+		data :{"id":id},
+		success : function(returnData,status,XMLHttpRequest)
+		{	
+			if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+				$this=$(obj);
+				var delTr=$this.parent().parent();
+				$(delTr).remove();
+			}
+		},
+		error : function() {
+			alert("异常！");
+		}
+	});
+}
+
+
+</script>
+
+</body>
+</html>

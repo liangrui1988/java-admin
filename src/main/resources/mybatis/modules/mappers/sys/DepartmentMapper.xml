@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rui.pro1.modules.sys.mapper.DepartmentMapper">
+<mapper namespace="com.huiwan.gdata.modules.sys.mapper.DepartmentMapper">
 
 	<!--=========================查询数据返回集合 配置====================================================== -->
-	<resultMap type="com.rui.pro1.modules.sys.entity.Department" id="resultMapId">
+	<resultMap type="com.huiwan.gdata.modules.sys.entity.Department" id="resultMapId">
 		  <id column="id" property="id" jdbcType="INTEGER" />
 	    <result column="name" property="name" jdbcType="VARCHAR" />
 	    <result column="sort" property="sort" jdbcType="INTEGER" />
@@ -29,7 +29,7 @@
 		</where>
 	</sql>
 <!--=========================查询搜索 ============================================================================= -->
-	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"	resultMap="resultMapId">
+	<select id="queryPages" parameterType="com.huiwan.gdata.common.bean.page.Query"	resultMap="resultMapId">
 	select * from sys_department
 	<include refid="searchField" />
 	order by id desc
@@ -38,14 +38,14 @@
 	</select>
 
 	
-	<select id="getCount" resultType="long" parameterType="com.rui.pro1.common.bean.page.Query">
+	<select id="getCount" resultType="long" parameterType="com.huiwan.gdata.common.bean.page.Query">
 		select	count(*) from sys_department
 		<include refid="searchField" />
 	</select>
 	
 	
 	<!--=========================添加 ============================================================================= -->
-<insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Department"  useGeneratedKeys="true" keyProperty="id">
+<insert id="insert" parameterType="com.huiwan.gdata.modules.sys.entity.Department"  useGeneratedKeys="true" keyProperty="id">
     insert into sys_department (id, name, sort, 
       parent_id, parent_ids, status, 
       create_time, update_time, create_by_id, 
@@ -55,7 +55,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createById,jdbcType=INTEGER}, 
       #{updateById,jdbcType=INTEGER}, #{remake,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.Department" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.huiwan.gdata.modules.sys.entity.Department" useGeneratedKeys="true" keyProperty="id">
     insert into sys_department
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -137,7 +137,7 @@
 	
   <!--=========================修改 ============================================================================= -->
 	
-	<update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.Department" >
+	<update id="updateByPrimaryKeySelective" parameterType="com.huiwan.gdata.modules.sys.entity.Department" >
     update sys_department
     <set >
       <if test="name != null" >
@@ -173,7 +173,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.Department" >
+  <update id="updateByPrimaryKey" parameterType="com.huiwan.gdata.modules.sys.entity.Department" >
     update sys_department
     set name = #{name,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},

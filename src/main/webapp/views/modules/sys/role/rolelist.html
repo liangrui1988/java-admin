@@ -3,8 +3,15 @@
 <head>
 <title>角色管理</title>
 
-<link href="../../../common/all.css" rel="stylesheet">
-<script type="text/javascript" src="../../../common/all.js"></script>
+<link href="../../../common/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="../../../common/style/pager.css"	rel="stylesheet">
+<script src="../../../common/jquery/jquery-1.12.3.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.js"></script>
+<script src="../../../common/jquery/jquery.validate/jquery.validate.method.js"></script>
+<script src="../../../common/bootstrap/js/bootstrap.js"></script>
+<script src="../../../common/sys.js"></script>
+<script src="../../../common/util/common.js"></script>
 
 </head>
 
@@ -33,7 +40,8 @@
 					<td width="10%">序号</td>
 					<td width="10%">id</td>
 					<td width="20%">角色名称</td>
-					<td width="20%">状态</td>
+					<td width="10%">角色组</td>
+					<td width="10%">状态</td>
 					<td width="20%">创建时间</td>
 					<td width="20%">操作</td>
 				</tr>
@@ -92,7 +100,10 @@ function callbak_page(returnDatas)
 				+ "</td>"
 				+ "<td>"
 				+ returnData[i].name
-				+ "</td>"										
+				+ "</td>"
+				+ "<td>"
+				+ returnData[i].groupId
+				+ "</td>"	
 				+ "<td>"
 				+ returnData[i].status
 				+ "</td>"

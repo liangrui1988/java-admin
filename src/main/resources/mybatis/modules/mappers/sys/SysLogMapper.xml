@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rui.pro1.modules.sys.mapper.SysLogMapper">
-  <resultMap id="BaseResultMap" type="com.rui.pro1.modules.sys.entity.SysLog">
+<mapper namespace="com.huiwan.gdata.modules.sys.mapper.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.huiwan.gdata.modules.sys.entity.SysLog">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type" jdbcType="CHAR" property="type" />
@@ -32,7 +32,7 @@
 		</where>
 	</sql>
 	<!--=========================查询搜索 ============================================================================= -->
-	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"
+	<select id="queryPages" parameterType="com.huiwan.gdata.common.bean.page.Query"
 		resultMap="BaseResultMap">
 		select * from sys_log
 		<include refid="searchField" />
@@ -43,7 +43,7 @@
 
 
 	<select id="getCount" resultType="long"
-		parameterType="com.rui.pro1.common.bean.page.Query">
+		parameterType="com.huiwan.gdata.common.bean.page.Query">
 		select count(*) from sys_log
 		<include refid="searchField" />
 	</select>
@@ -58,7 +58,7 @@
     delete from sys_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+  <insert id="insert" parameterType="com.huiwan.gdata.modules.sys.entity.SysLog">
     insert into sys_log (id, title, type, 
       ip, method, uri,parameters, agent, 
       create_by_id, create_time, remake, 
@@ -68,7 +68,7 @@
       #{createById,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{remake,jdbcType=VARCHAR}, 
       #{endTime,jdbcType=TIMESTAMP}, #{result,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+  <insert id="insertSelective" parameterType="com.huiwan.gdata.modules.sys.entity.SysLog">
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -153,7 +153,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+  <update id="updateByPrimaryKeySelective" parameterType="com.huiwan.gdata.modules.sys.entity.SysLog">
     update sys_log
     <set>
       <if test="title != null">
@@ -192,7 +192,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.SysLog">
+  <update id="updateByPrimaryKey" parameterType="com.huiwan.gdata.modules.sys.entity.SysLog">
     update sys_log
     set title = #{title,jdbcType=VARCHAR},
       type = #{type,jdbcType=CHAR},

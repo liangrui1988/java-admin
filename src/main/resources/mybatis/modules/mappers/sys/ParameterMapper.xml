@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rui.pro1.modules.sys.mapper.ParameterMapper" >
-  <resultMap id="BaseResultMap" type="com.rui.pro1.modules.sys.entity.Parameter" >
+<mapper namespace="com.huiwan.gdata.modules.sys.mapper.ParameterMapper" >
+  <resultMap id="BaseResultMap" type="com.huiwan.gdata.modules.sys.entity.Parameter" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="keyx" property="keyx" jdbcType="VARCHAR" />
     <result column="value" property="value" jdbcType="VARCHAR" />
@@ -26,7 +26,7 @@
 		</where>
 	</sql>
 	<!--=========================查询搜索 ============================================================================= -->
-	<select id="queryPages" parameterType="com.rui.pro1.common.bean.page.Query"
+	<select id="queryPages" parameterType="com.huiwan.gdata.common.bean.page.Query"
 		resultMap="BaseResultMap">
 		select * from sys_parameter
 		<include refid="searchField" />
@@ -35,7 +35,7 @@
 		#{startRow},#{pageSize}
 	</select>
 	<select id="getCount" resultType="long"
-		parameterType="com.rui.pro1.common.bean.page.Query">
+		parameterType="com.huiwan.gdata.common.bean.page.Query">
 		select count(*) from sys_parameter
 		<include refid="searchField" />
 	</select>
@@ -62,7 +62,7 @@
     delete from sys_parameter
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.rui.pro1.modules.sys.entity.Parameter" >
+  <insert id="insert" parameterType="com.huiwan.gdata.modules.sys.entity.Parameter" >
     insert into sys_parameter (id, keyx, value, 
       sort, status, create_time, 
       update_time, create_by_id, update_by_id, 
@@ -72,7 +72,7 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{createById,jdbcType=INTEGER}, #{updateById,jdbcType=INTEGER}, 
       #{remake,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.rui.pro1.modules.sys.entity.Parameter" >
+  <insert id="insertSelective" parameterType="com.huiwan.gdata.modules.sys.entity.Parameter" >
     insert into sys_parameter
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -139,7 +139,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.rui.pro1.modules.sys.entity.Parameter" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.huiwan.gdata.modules.sys.entity.Parameter" >
     update sys_parameter
     <set >
       <if test="keyx != null" >
@@ -172,7 +172,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.rui.pro1.modules.sys.entity.Parameter" >
+  <update id="updateByPrimaryKey" parameterType="com.huiwan.gdata.modules.sys.entity.Parameter" >
     update sys_parameter
     set keyx = #{keyx,jdbcType=VARCHAR},
       value = #{value,jdbcType=VARCHAR},

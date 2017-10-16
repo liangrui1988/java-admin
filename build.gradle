@@ -11,7 +11,8 @@ apply plugin: 'war'
 // gradle 自已用的
 buildscript {
         repositories {
-		   // maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+	        // maven { url "http://192.168.20.243:8081/nexus/content/groups/public/" }
+	         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
              mavenCentral()
         }
         dependencies {
@@ -20,11 +21,12 @@ buildscript {
 }
 
 // JVM 版本号要求
-sourceCompatibility = 1.7
-targetCompatibility = 1.7  
+sourceCompatibility = 1.8
+targetCompatibility = 1.8  
 
 repositories {
-   // maven { url "http://192.168.1.13:8081/nexus/content/groups/public/" }
+	//maven { url "http://192.168.20.243:8081/nexus/content/groups/public/" }
+     maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
     mavenCentral()
 }
 
@@ -38,8 +40,11 @@ configurations {
 }
 	
 //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
-archivesBaseName = "gradle-test-6.6.6.jar"
-	
+archivesBaseName = "gdata-1.0.0"
+
+//正式环境要去掉
+//jar.exclude 'logback-test.xml'
+
 dependencies { 
         testCompile group: 'junit', name: 'junit', version: '4.+'    
        //compile fileTree( dir: "lib", include: '*.jar' )
@@ -71,7 +76,7 @@ dependencies {
         compile 'com.dyuproject.protostuff:protostuff-runtime:1.0.8'
         compile 'com.dyuproject.protostuff:protostuff-core:1.0.8'
         compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.2'
-        compile 'com.alibaba:druid:1.0.9'
+        compile 'com.alibaba:druid:1.1.0'
 		compile 'org.aspectj:aspectjweaver:1.7.3'
 		compile 'org.aspectj:aspectjrt:1.7.3'
         compile 'junit:junit:4.11'        
@@ -94,7 +99,14 @@ dependencies {
         compile "org.apache.shiro:shiro-quartz:${ShiroVersion}"
 		compile "org.apache.shiro:shiro-spring:${ShiroVersion}"
 		compile 'org.sitemesh:sitemesh:3.0.1'
-		compile group: 'com.octo.captcha', name: 'jcaptcha-all', version: '1.0-RC6'		
+		compile ('com.octo.captcha:jcaptcha:1.0')	
+		{
+		exclude group: 'javax.servlet', module: 'servlet-api'
+		}	
+		//compile ('com.octo.captcha:jcaptcha-all:1.0-RC6')	
+		//{ exclude group: 'org.springframework', module: 'spring'
+		//exclude group: ' net.sf.ehcache ', module: 'ehcache'
+		//}	
 		compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.3.0.Alpha1'
 		compile group: 'cglib', name: 'cglib-nodep', version: '3.2.4'
         compile group: 'org.javassist', name: 'javassist', version: '3.20.0-GA'
@@ -107,9 +119,10 @@ dependencies {
 	    //compile 'net.sf.ehcache:ehcache:2.10.1'
 		//compile group: 'com.octo.captcha', name: 'jcaptcha', version: '1.0'
 	    //compile group: 'javax.enterprise', name: 'cdi-api', version: '2.0-EDR1'
-		
-
-
+		compile group: 'org.postgresql', name: 'postgresql', version: '42.0.0'
+        compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.19.3'
+		//compile group: 'org.elasticsearch.client', name: 'rest', version: '5.5.0'
+		//compile group: 'org.elasticsearch.client', name: 'sniffer', version: '5.5.0'
 		
 }
 

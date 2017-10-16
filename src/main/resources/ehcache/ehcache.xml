@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache name="es">
 
-    <diskStore path="java.io.tmpdir"/>
-<!-- <diskStore path="../temp/prosys/ehcache" /> -->
+<!--     <diskStore path="java.io.tmpdir"/> -->
+<diskStore path="../temp/prosys/ehcache" />
 
 
 <!-- maxEntriesLocalHeap:堆内存中最大缓存对象数，0没有限制 -->
@@ -75,5 +75,15 @@
            overflowToDisk="false"
            statistics="true">
     </cache>
+
+  <cache name="selectCount"
+           maxEntriesLocalHeap="5000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
 
 </ehcache>
