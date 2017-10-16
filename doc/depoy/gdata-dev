@@ -10,9 +10,6 @@ cd /home/web_admin/pro/gdata/java-admin
 git pull
 git checkout  dev-xdata
 git pull
-#del proper copy properites
-#cp ../etc/pro1.properties build/resources/main/pro1.properties
-#cp ../etc/pro1.properties src/main/resources
 ./gradlew clean deploy
 
 rsync -rtvzP --delete build/deploy/ /home/web_admin/pro/server/gdata/lib/
