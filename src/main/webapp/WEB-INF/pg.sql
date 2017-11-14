@@ -7,7 +7,7 @@ select nextval('seq_zl_log_info_main_id');
 CREATE TABLE "zl_log_info_main" (
 "id" int8 DEFAULT nextval('seq_zl_log_info_main_id'::regclass) NOT NULL,
 "server_id" int4,
-"cont" json,
+"cont" jsonb,
 "time" timestamp(6),
 "file" varchar(150) COLLATE "default",
 "time_log" int8 DEFAULT 0 NOT NULL,
@@ -148,3 +148,9 @@ SELECT * FROM "public"."zl_log_info_main" where time>='2017-09-10' and   time<='
 
 EXPLAIN
 SELECT * FROM "public"."zl_log_info_main" where time_log>=1505001600
+
+
+-- json索引
+CREATE INDEX settings_index ON zl_log_info_main USING gin (info);
+CREATE INDEX twitter_settings_index ON zl_log_info_main ((info->>'github'));
+
