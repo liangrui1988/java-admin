@@ -20,7 +20,7 @@ gradle初始项目demo,jetty简单main运行项目 mysql 脚本在WEB-INF/change
 -2：在根目录下执行 gradlew eclipse 会自动初始gradle环境，并下载相关jar
 -3：修改配置初始化等级为0(pro1.properties文件 initLevel=0)，会自动扫描系统注解菜单，并初始化用户admin admin和角色数据，并写入到数据库
 -4:运行SimpleMain mian方法启动项目 
--5:打开localhost:9808/zdata   输入admin admin即可登陆，所有菜单 角色数据已有
+-5:打开localhost:9899/zdata   输入admin admin即可登陆，所有菜单 角色数据已有
 -6：第二次启动时要把(pro1.properties文件 initLevel=0)改为2，或其它，根据需求修改，详情请看说明。
 </pre>
 
