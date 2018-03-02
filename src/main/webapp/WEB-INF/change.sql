@@ -194,7 +194,7 @@ create table sys_role
    update_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
    create_by_id         int comment '创建者',
    update_by_id         int comment '更新者',
-   group_id            int comment '角色组',
+   group_id             int NULL DEFAULT 1 COMMENT '角色组' ,
    remake               varchar(200) comment '备注',
    primary key (id)
 );
