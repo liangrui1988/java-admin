@@ -27,6 +27,8 @@ import com.huiwan.gdata.modules.sys.service.IUserService;
 public class UserUtils {
 	
 	public static final String ROLE_MARK="role_mark";
+	public static final String OS_MARK="os_mark";
+	
 
 	// @Autowired(required=false)
 	// private UserMapper userMapper;

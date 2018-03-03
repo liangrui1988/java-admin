@@ -80,21 +80,38 @@
 <!-- 									class="form-control" name="top-search" id="top-search"> -->
 <!-- 							</div> -->
 <!-- 						</form> -->
-
-	                       <div class="form-group">
+							<div class="form-group">
 								<h2>&nbsp;&nbsp;你好:<label id="userNameLabel"></label>欢迎使用后台管理系统！</h2>
 							</div>
-<!--                             <div style="margin-left: 600px;width: 600px;"> -->
-<!--                             <h2>你好:<label id="userNameLabel"></label>欢迎使用后台管理系统！</h2> -->
-<!-- 					      </div> -->
 					</div>
-					
 		
 					<!-- 右边 -->
 					 <ul class="nav navbar-top-links navbar-right">
 					    <li class="dropdown">
-					     <select class="col-sm-1 control-label" name="types" id="role_type" style="width: 180px">
-				          </select>
+						 <!-- Split button 平台 -->
+						<div class="btn-group">
+						    <button id="_os_bt" type="button" class="btn btn-info dropdown-toggle btn-sm" 
+						            data-toggle="dropdown">
+						        全部 <span class="caret"></span>
+						    </button>
+						    <ul class="dropdown-menu" role="menu" id="_os_type_ul">
+<!-- 						        <li><a href="javascript:change_os('1','安卓')">安卓</a></li> -->
+<!-- 						        	<li class="divider"></li> -->
+<!-- 						        <li><a href="javascript:change_os('2','ios')">ios</a></li> -->
+						    </ul>
+						</div>
+						
+						 <!-- Split button 角色组 -->
+						<div class="btn-group">
+						    <button type="button" class="btn btn-info dropdown-toggle btn-sm" 
+						            data-toggle="dropdown" id="_role_bt">
+						        平台 <span class="caret"></span>
+						    </button>
+						    <ul class="dropdown-menu" role="menu" id="role_type_ul">
+						    </ul>
+						</div>
+<!-- 					     <select class="col-sm-1 control-label" name="types" id="role_type" style="width: 180px"> -->
+<!-- 				          </select> -->
 				        </li> 
 				                  
                         <li class="dropdown">
@@ -102,62 +119,167 @@
                         </li>
                     </ul>
                     
-                    <script type="text/javascript">
-					//初始化
-					$(function() {
-						var param=new Object();	
-						    param.status="0";
-						    param.groupId="2";
-						//初始化数据	
-						pageFn(getContextPath()+"/sys/role/indexRoleMark",param,"get");
-					})
-					
-					/**分页回调处理**/
-					function callbak_page(returnDatas)
+<script type="text/javascript">
+
+	//初始化
+	$(function() {
+		var param=new Object();	
+		    param.status="0";
+		    param.groupId="2";
+		//初始化数据	
+		pageFn(getContextPath()+"/sys/role/indexRoleMark",param,"get");
+		//初始os
+		initOS();
+	})
+	
+	/**分页回调处理**/
+	function callbak_page(returnDatas)
+	{
+		//$("#_role_table tbody tr").remove();
+		var returnData = returnDatas.data.items;
+		if(returnData==null){
+		  return;
+		}
+		//当前角色标识 
+		var message=returnDatas.message;
+		for(var i=0;i<returnData.length;i++)
+		{
+			var dict=returnData[i];
+			var html="";
+//				html+="<option value='"+dict.types+"' ";
+//				if(message==dict.types)
+//				{
+//					html+=" selected='selected' ";
+//				}
+//				html+=">";
+//				html+= dict.name+"</option>";
+//				$("#role_type").append(html);
+            $("_role_bt").html();
+			html+="<li><a href='javascript:change_role(\""+dict.types+"\",\""+dict.name+"\")'>"+dict.name+"</a></li>  ";
+			if(message==dict.types)
+			{
+				$("#_role_bt").html(dict.name+"<span class='caret'></span>");
+			}
+			$("#role_type_ul").append(html);
+			
+			
+		}
+	}
+	//初始 平台
+	function initOS(){
+		$.ajax({
+			url : getContextPath()+"/sys/dict/getByType",
+			type : "GET",
+			dataType : "json",
+			data :{"type":'game_os'},
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				if(handleAjaxRequest(returnData,status,XMLHttpRequest)){
+					var data=returnData.data;
+					if(data!=null&&data!=""&&(typeof data)!='undefined'&&data.length>0)
 					{
-						//$("#_role_table tbody tr").remove();
-						var returnData = returnDatas.data.items;
-						if(returnData==null){
-						  return;
-						}
-						//当前角色标识 
-						var message=returnDatas.message;
-						for(var i=0;i<returnData.length;i++)
+						//当前os标识 
+                        var cur_os=get_cur_os();
+						for(var i=0;i<data.length;i++)
 						{
-							var dict=returnData[i];
+							var dict=data[i];
 							var html="";
-							html+="<option value='"+dict.types+"' ";
-							if(message==dict.types)
+							$("_os_bt").html();
+							html+="<li><a href='javascript:change_os(\""+dict.value+"\",\""+dict.name+"\")'>"+dict.name+"</a></li>  ";
+							if(cur_os==dict.value)
 							{
-								html+=" selected='selected' ";
+								$("#_os_bt").html(dict.name+"<span class='caret'></span>");
 							}
-							html+=">";
-							html+= dict.name+"</option>";
-							$("#role_type").append(html);
+							$("#_os_type_ul").append(html);
+							
 						}
 					}
-					
-					
-					$("#role_type").change(function(){
-						var role_type=$("#role_type").val();
-// 						location.href=getContextPath()+"/sys/role/indexUpdateRoleMark?roleType="+role_type;
-						$.ajax({
-							url : getContextPath()+"/sys/role/indexUpdateRoleMark",
-							type : "POST",
-							dataType : "json",
-							data :"roleType="+role_type,
-							success : function(returnData,status,XMLHttpRequest)
-							{	
-								location.href=getContextPath();
+					return returnData.data;
+				}
+			},
+			error : function() {
+				alert("字典请求异常！");
+			}
+		});
+	}
+	
+    //废弃			
+	$("#role_type").change(function(){
+		var role_type=$("#role_type").val();
+		//location.href=getContextPath()+"/sys/role/indexUpdateRoleMark?roleType="+role_type;
+		$.ajax({
+			url : getContextPath()+"/sys/role/indexUpdateRoleMark",
+			type : "POST",
+			dataType : "json",
+			data :"roleType="+role_type,
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				location.href=getContextPath();
 
-							},
-							error : function() {
-								alert("切换当前角色标识异常");
-							}
-						});
-					});
+			},
+			error : function() {
+				alert("切换当前角色标识异常");
+			}
+		});
+	});
+	
+	function change_role(role_type,role_name){
+		//改变显示
+		$("#_role_bt").html(role_name+"<span class='caret'></span>");
+		$.ajax({
+			url : getContextPath()+"/sys/role/indexUpdateRoleMark",
+			type : "POST",
+			dataType : "json",
+			data :"roleType="+role_type,
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				location.href=getContextPath();
+			},
+			error : function() {
+				alert("切换当前角色标识异常");
+			}
+		});
+	}
+	//os切换
+	function change_os(os_id,os_name){
+		$("#_bt_os").html(os_name+"<span class='caret'></span>");
+		$.ajax({
+			url : getContextPath()+"/sys/role/indexUpdateOs",
+			type : "POST",
+			dataType : "json",
+			data :"os="+os_id,
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				location.href=getContextPath();
+			},
+			error : function() {
+				alert("切换os标识异常");
+			}
+		});
+	}
+	
+	function get_cur_os(){
+		var c_os="-1";
+		$.ajax({
+			url : getContextPath()+"/sys/role/getOsMark",
+			type : "POST",
+			dataType : "json",
+			data :"",
+			async:false,
+			success : function(returnData,status,XMLHttpRequest)
+			{	
+				c_os=returnData.data;
+				return c_os;
+			},
+			error : function() {
+				alert("切换当前角色标识异常");
+			}
+		});
+		return c_os;
+	}
+	
 					
-					</script>
+</script>
 					
 				</nav>
 			</div>

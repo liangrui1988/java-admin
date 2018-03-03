@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,44 @@ public class RoleController extends SysBaseController {
 	public ResultBean getRoleMark() {
 		ResultBean rb = new ResultBean();
 		rb.setData(userUtils.getCurrentMark());
+		return rb;
+	}
+	
+	/**
+	 * 更新os
+	 * 
+	 * @param os
+	 * @return
+	 */
+	@RequestMapping(value = "indexUpdateOs")
+	@ResponseBody
+	public ResultBean v(String os) {
+		ResultBean rb = new ResultBean();
+		// 验证 略...
+		// RoleVo roleVo=new RoleVo();
+		// roleVo.setGroupId(2);
+		// QueryResult<Role> result = roleService.getRoleList(1, 20,
+		// roleVo);
+		// List<Role> list=result.getItems();
+		// 改变角色类型-标识
+		userUtils.getSession().setAttribute(UserUtils.OS_MARK, os);
+		return rb;
+	}
+
+	/**
+	 * 获取os
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "getOsMark")
+	@ResponseBody
+	public ResultBean getOSMark() {
+		ResultBean rb = new ResultBean();
+		Object os = userUtils.getSession().getAttribute(UserUtils.OS_MARK);
+		if (os == null || StringUtils.isBlank(os.toString())) {
+			os = "-1";
+		}
+		rb.setData(os);
 		return rb;
 	}
 
