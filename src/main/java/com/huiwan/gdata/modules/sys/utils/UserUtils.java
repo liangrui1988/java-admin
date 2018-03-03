@@ -161,6 +161,7 @@ public class UserUtils {
 		return role_mark.toString();
 	}
 
+
 	/**
 	 * 获取当前session 中用户选 择的角色标识
 	 * <p>
@@ -176,7 +177,21 @@ public class UserUtils {
 		}
 		return role_mark.toString();
 	}
-
+	
+	/**
+	 * 获取当前session 中用户选 择的OS标识
+	 *
+	 * @return
+	 */
+	public static String getCurrentOS() {
+		Subject subject = SecurityUtils.getSubject();
+		Object os = subject.getSession().getAttribute(OS_MARK);
+		if (os==null||StringUtils.isBlank(os.toString())) {
+			os = "-1";
+		}
+		return os.toString();
+	}
+	
 	// --------------------------------------------------------------------------
 	// ------------------只做个示例如何获取，可直接使用SecurityUtils相关方法 end--------------
 	// --------------------------------------------------------------------------
